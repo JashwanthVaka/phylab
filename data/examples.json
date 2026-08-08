@@ -1,0 +1,23 @@
+[
+  {
+    "topic": "Kinematics",
+    "title": "Finding acceleration",
+    "question": "A car changes velocity from 10 m/s to 30 m/s in 5 seconds. Find acceleration.",
+    "working": "a = (v-u)/t",
+    "answer": "a = (30-10)/5 = 4 m/s²"
+  },
+  {
+    "topic": "Forces",
+    "title": "Calculating force",
+    "question": "A 6 kg object accelerates at 3 m/s². Find the force.",
+    "working": "F = ma",
+    "answer": "F = 6 × 3 = 18 N"
+  },
+  {
+    "topic": "Electricity",
+    "title": "Finding current",
+    "question": "A circuit has 12 V and 4 Ω resistance. Find current.",
+    "working": "I = V/R",
+    "answer": "I = 12/4 = 3 A"
+  }
+]

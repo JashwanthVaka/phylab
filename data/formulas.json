@@ -1,0 +1,96 @@
+[
+  {
+    "topic": "Kinematics",
+    "name": "Velocity equation",
+    "formula": "v = u + at",
+    "symbols": {
+      "v": "final velocity (m/s)",
+      "u": "initial velocity (m/s)",
+      "a": "acceleration (m/s²)",
+      "t": "time (s)"
+    }
+  },
+  {
+    "topic": "Kinematics",
+    "name": "Displacement equation",
+    "formula": "s = ut + ½at²",
+    "symbols": {
+      "s": "displacement (m)",
+      "u": "initial velocity (m/s)",
+      "a": "acceleration (m/s²)",
+      "t": "time (s)"
+    }
+  },
+  {
+    "topic": "Forces",
+    "name": "Newton's Second Law",
+    "formula": "F = ma",
+    "symbols": {
+      "F": "force (N)",
+      "m": "mass (kg)",
+      "a": "acceleration (m/s²)"
+    }
+  },
+  {
+    "topic": "Momentum",
+    "name": "Momentum",
+    "formula": "p = mv",
+    "symbols": {
+      "p": "momentum (kg m/s)",
+      "m": "mass (kg)",
+      "v": "velocity (m/s)"
+    }
+  },
+  {
+    "topic": "Energy",
+    "name": "Kinetic Energy",
+    "formula": "KE = ½mv²",
+    "symbols": {
+      "KE": "kinetic energy (J)",
+      "m": "mass (kg)",
+      "v": "velocity (m/s)"
+    }
+  },
+  {
+    "topic": "Waves",
+    "name": "Wave Equation",
+    "formula": "v = fλ",
+    "symbols": {
+      "v": "wave speed (m/s)",
+      "f": "frequency (Hz)",
+      "λ": "wavelength (m)"
+    }
+  },
+  {
+    "topic": "Electricity",
+    "name": "Ohm's Law",
+    "formula": "V = IR",
+    "symbols": {
+      "V": "voltage (V)",
+      "I": "current (A)",
+      "R": "resistance (Ω)"
+    }
+  },
+  {
+    "topic": "Fields",
+    "name": "Gravitational Force",
+    "formula": "F = GMm/r²",
+    "symbols": {
+      "F": "gravitational force (N)",
+      "G": "gravitational constant",
+      "M": "mass of object 1",
+      "m": "mass of object 2",
+      "r": "distance between centres (m)"
+    }
+  },
+  {
+    "topic": "Quantum Physics",
+    "name": "Mass Energy Equivalence",
+    "formula": "E = mc²",
+    "symbols": {
+      "E": "energy (J)",
+      "m": "mass (kg)",
+      "c": "speed of light (m/s)"
+    }
+  }
+]

@@ -1,0 +1,355 @@
+{
+  "title": "D.3 Electromagnetic Waves",
+  "subject": "IBDP Physics",
+  "level": "SL and HL",
+
+  "introduction": "Electromagnetic waves are waves made of oscillating electric and magnetic fields that transfer energy through space. They do not require a medium and can travel through a vacuum. The electromagnetic spectrum includes radio waves, microwaves, infrared, visible light, ultraviolet, X-rays and gamma rays.",
+
+  "learning_objectives": [
+    "Understand electromagnetic waves.",
+    "Describe the electromagnetic spectrum.",
+    "Compare different electromagnetic waves.",
+    "Understand wave properties of electromagnetic radiation.",
+    "Explain applications of electromagnetic waves.",
+    "Analyse risks and benefits of electromagnetic radiation."
+  ],
+
+  "definitions": [
+    {
+      "term": "Electromagnetic Wave",
+      "meaning": "A transverse wave consisting of oscillating electric and magnetic fields that are perpendicular to each other and the direction of travel."
+    },
+    {
+      "term": "Electromagnetic Spectrum",
+      "meaning": "The complete range of electromagnetic radiation arranged by wavelength or frequency."
+    },
+    {
+      "term": "Photon",
+      "meaning": "A particle of electromagnetic radiation that carries a specific amount of energy."
+    },
+    {
+      "term": "Wavelength",
+      "meaning": "The distance between two identical points on consecutive waves."
+    },
+    {
+      "term": "Frequency",
+      "meaning": "The number of wave cycles passing a point each second."
+    },
+    {
+      "term": "Wave Speed",
+      "meaning": "The speed at which electromagnetic radiation travels through space."
+    }
+  ],
+
+  "core_concepts": [
+    {
+      "heading": "Nature of Electromagnetic Waves",
+      "explanation": "Electromagnetic waves consist of changing electric and magnetic fields. These fields continuously produce each other and allow the wave to travel through space."
+    },
+    {
+      "heading": "Transverse Nature",
+      "explanation": "The electric and magnetic fields oscillate perpendicular to the direction of energy transfer. This allows electromagnetic waves to be polarised."
+    },
+    {
+      "heading": "Speed of Electromagnetic Waves",
+      "explanation": "All electromagnetic waves travel at the same speed in vacuum. Their speed is approximately 3.00 × 10⁸ m/s."
+    },
+    {
+      "heading": "Energy Transfer",
+      "explanation": "Electromagnetic waves transfer energy through oscillating electric and magnetic fields. Higher frequency waves carry more energy."
+    }
+  ]
+,
+
+"electromagnetic_spectrum": [
+  {
+    "region": "Radio Waves",
+    "order": "Lowest frequency, longest wavelength",
+    "properties": "Carry the least energy in the electromagnetic spectrum.",
+    "applications": [
+      "Radio communication",
+      "Television broadcasting",
+      "Satellite communication"
+    ]
+  },
+  {
+    "region": "Microwaves",
+    "order": "Higher frequency than radio waves",
+    "properties": "Can transfer energy to water molecules and heat materials.",
+    "applications": [
+      "Microwave ovens",
+      "Radar systems",
+      "Mobile communication"
+    ]
+  },
+  {
+    "region": "Infrared",
+    "order": "Between microwaves and visible light",
+    "properties": "Associated with thermal radiation and heat transfer.",
+    "applications": [
+      "Thermal imaging",
+      "Remote controls",
+      "Heat sensors"
+    ]
+  },
+  {
+    "region": "Visible Light",
+    "order": "Middle region of electromagnetic spectrum",
+    "properties": "The only electromagnetic radiation detected by the human eye.",
+    "applications": [
+      "Vision",
+      "Photography",
+      "Optical instruments"
+    ]
+  },
+  {
+    "region": "Ultraviolet",
+    "order": "Higher frequency than visible light",
+    "properties": "Has enough energy to cause chemical changes in materials.",
+    "applications": [
+      "Sterilisation",
+      "Security marking",
+      "Medical treatments"
+    ]
+  },
+  {
+    "region": "X-rays",
+    "order": "Very high frequency",
+    "properties": "Highly penetrating electromagnetic radiation.",
+    "applications": [
+      "Medical imaging",
+      "Security scanners",
+      "Material analysis"
+    ]
+  },
+  {
+    "region": "Gamma Rays",
+    "order": "Highest frequency, shortest wavelength",
+    "properties": "Carry the greatest energy and have strong penetrating ability.",
+    "applications": [
+      "Cancer treatment",
+      "Nuclear processes",
+      "Sterilising equipment"
+    ]
+  }
+],
+
+"wave_relationships": [
+  {
+    "name": "Wave Equation",
+    "formula": "c = fλ",
+    "variables": {
+      "c": "speed of electromagnetic waves (3.00 × 10⁸ m/s)",
+      "f": "frequency (Hz)",
+      "λ": "wavelength (m)"
+    },
+    "explanation": "Frequency and wavelength are inversely related when wave speed remains constant."
+  },
+  {
+    "name": "Photon Energy",
+    "formula": "E = hf",
+    "variables": {
+      "E": "photon energy (J)",
+      "h": "Planck constant",
+      "f": "frequency (Hz)"
+    },
+    "explanation": "Higher frequency electromagnetic waves contain photons with greater energy."
+  }
+],
+
+"electromagnetic_properties": [
+  {
+    "property": "Speed",
+    "explanation": "All electromagnetic waves travel at the same speed in vacuum."
+  },
+  {
+    "property": "Wavelength",
+    "explanation": "Different electromagnetic waves have different wavelengths. Shorter wavelengths correspond to higher frequencies."
+  },
+  {
+    "property": "Energy",
+    "explanation": "Energy increases as frequency increases. Gamma rays carry more energy than radio waves."
+  },
+  {
+    "property": "Polarisation",
+    "explanation": "Electromagnetic waves are transverse waves and can be polarised."
+  }
+],
+
+"worked_examples": [
+  {
+    "question": "An electromagnetic wave has a frequency of 6 × 10¹⁴ Hz. Calculate its wavelength.",
+    "solution": [
+      "Use c = fλ",
+      "λ = c/f",
+      "λ = (3 × 10⁸)/(6 × 10¹⁴)",
+      "λ = 5 × 10⁻⁷ m"
+    ],
+    "answer": "5 × 10⁻⁷ m"
+  },
+  {
+    "question": "A photon has a frequency of 5 × 10¹⁴ Hz. Explain how its energy changes if frequency increases.",
+    "solution": [
+      "Use E = hf",
+      "Energy is directly proportional to frequency."
+    ],
+    "answer": "Photon energy increases when frequency increases."
+  }
+],
+
+"radiation_interactions": [
+  {
+    "topic": "Absorption",
+    "explanation": "When electromagnetic radiation enters a material, some of the energy can be absorbed by atoms and molecules. Absorbed energy often increases internal energy and temperature."
+  },
+  {
+    "topic": "Transmission",
+    "explanation": "Transmission occurs when electromagnetic waves pass through a material without being absorbed completely."
+  },
+  {
+    "topic": "Reflection",
+    "explanation": "Electromagnetic waves can reflect from surfaces. The angle of incidence equals the angle of reflection."
+  },
+  {
+    "topic": "Scattering",
+    "explanation": "Scattering occurs when electromagnetic waves change direction due to interaction with particles in a material or atmosphere."
+  }
+],
+
+"radiation_safety": [
+  {
+    "radiation": "Ultraviolet Radiation",
+    "risks": [
+      "Skin damage",
+      "DNA mutations",
+      "Increased risk of skin cancer"
+    ],
+    "protection": [
+      "Sunscreen",
+      "Protective clothing",
+      "Reducing exposure time"
+    ]
+  },
+  {
+    "radiation": "X-rays",
+    "risks": [
+      "Cell damage",
+      "DNA changes at high exposure levels"
+    ],
+    "protection": [
+      "Lead shielding",
+      "Controlled exposure times"
+    ]
+  },
+  {
+    "radiation": "Gamma Rays",
+    "risks": [
+      "Deep tissue damage",
+      "Cell mutations"
+    ],
+    "protection": [
+      "Dense shielding materials",
+      "Distance from source",
+      "Limited exposure"
+    ]
+  }
+],
+
+"doppler_effect_em_waves": [
+  {
+    "topic": "Doppler Effect in Light",
+    "explanation": "The Doppler effect occurs when there is relative motion between a source of electromagnetic radiation and an observer. The observed frequency changes."
+  },
+  {
+    "case": "Red Shift",
+    "explanation": "When a source moves away from an observer, wavelengths increase and light shifts towards the red end of the spectrum."
+  },
+  {
+    "case": "Blue Shift",
+    "explanation": "When a source moves towards an observer, wavelengths decrease and light shifts towards the blue end of the spectrum."
+  },
+  {
+    "application": "Astronomy",
+    "explanation": "Scientists use red shift and blue shift to determine the motion of stars and galaxies."
+  }
+],
+
+"energy_and_frequency": [
+  {
+    "relationship": "Higher Frequency",
+    "effects": [
+      "Shorter wavelength",
+      "Higher photon energy",
+      "Greater ability to cause changes in matter"
+    ]
+  },
+  {
+    "relationship": "Lower Frequency",
+    "effects": [
+      "Longer wavelength",
+      "Lower photon energy",
+      "Less interaction with matter"
+    ]
+  }
+],
+
+"common_mistakes": [
+  "Thinking electromagnetic waves require a medium.",
+  "Confusing wavelength and frequency relationships.",
+  "Forgetting that all electromagnetic waves travel at the same speed in vacuum.",
+  "Mixing photon energy with wave speed.",
+  "Assuming visible light is the only electromagnetic radiation.",
+  "Ignoring safety risks of high energy radiation."
+],
+
+"ib_exam_tips": [
+  "Remember the electromagnetic spectrum order from radio waves to gamma rays.",
+  "Explain energy using frequency relationships.",
+  "Use c = fλ for wavelength calculations.",
+  "Use E = hf for photon energy questions.",
+  "State safety precautions for ionising radiation.",
+  "Explain applications using properties of each radiation type."
+],
+
+"hl_extension": [
+  {
+    "topic": "Photoelectric Effect",
+    "explanation": "The photoelectric effect shows that electromagnetic radiation behaves as particles called photons. Electrons are emitted when photon energy exceeds the work function of a material.",
+    "formula": "E = hf - φ",
+    "variables": {
+      "E": "maximum kinetic energy of emitted electrons",
+      "h": "Planck constant",
+      "f": "frequency",
+      "φ": "work function"
+    }
+  },
+  {
+    "topic": "Electromagnetic Wave Production",
+    "explanation": "Electromagnetic waves are produced by accelerating charges. Changing electric fields create changing magnetic fields, allowing energy to propagate."
+  },
+  {
+    "topic": "Wave Particle Duality",
+    "explanation": "Electromagnetic radiation shows both wave properties and particle properties depending on the experiment."
+  }
+],
+
+"practice_questions": [
+  {
+    "level": "Easy",
+    "question": "Which electromagnetic wave has the highest frequency?",
+    "answer": "Gamma rays."
+  },
+  {
+    "level": "Medium",
+    "question": "Explain why gamma rays are more dangerous than visible light.",
+    "answer": "Gamma rays have higher frequency and photon energy, allowing them to cause more damage to cells."
+  },
+  {
+    "level": "HL",
+    "question": "Explain red shift.",
+    "answer": "Red shift occurs when a source moves away, causing observed wavelength to increase and frequency to decrease."
+  }
+],
+
+"summary": "Electromagnetic waves transfer energy through oscillating electric and magnetic fields. The electromagnetic spectrum contains waves with different wavelengths, frequencies and energies. Their properties allow applications in communication, medicine, astronomy and technology while requiring safety controls for high energy radiation."
+}

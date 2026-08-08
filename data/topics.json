@@ -1,0 +1,47 @@
+[
+  {
+    "id": "A",
+    "name": "Space, Time and Motion",
+    "topics": [
+      "Kinematics",
+      "Forces and Momentum",
+      "Work, Energy and Power"
+    ]
+  },
+  {
+    "id": "B",
+    "name": "The Particulate Nature of Matter",
+    "topics": [
+      "Thermal Physics",
+      "Gas Laws",
+      "Thermodynamics"
+    ]
+  },
+  {
+    "id": "C",
+    "name": "Wave Behaviour",
+    "topics": [
+      "Simple Harmonic Motion",
+      "Wave Properties",
+      "Interference"
+    ]
+  },
+  {
+    "id": "D",
+    "name": "Fields",
+    "topics": [
+      "Gravitational Fields",
+      "Electric Fields",
+      "Magnetic Fields"
+    ]
+  },
+  {
+    "id": "E",
+    "name": "Nuclear and Quantum Physics",
+    "topics": [
+      "Atomic Structure",
+      "Quantum Physics",
+      "Radioactivity"
+    ]
+  }
+]

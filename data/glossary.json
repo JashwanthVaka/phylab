@@ -1,0 +1,51 @@
+[
+  {
+    "term": "Acceleration",
+    "topic": "Kinematics",
+    "definition": "The rate of change of velocity with time.",
+    "formula": "a = Δv / Δt",
+    "unit": "m/s²"
+  },
+  {
+    "term": "Force",
+    "topic": "Mechanics",
+    "definition": "An interaction that changes the motion of an object.",
+    "formula": "F = ma",
+    "unit": "Newton (N)"
+  },
+  {
+    "term": "Momentum",
+    "topic": "Mechanics",
+    "definition": "The quantity of motion possessed by an object.",
+    "formula": "p = mv",
+    "unit": "kg m/s"
+  },
+  {
+    "term": "Energy",
+    "topic": "Mechanics",
+    "definition": "The ability of a system to transfer energy or perform work.",
+    "formula": "KE = ½mv²",
+    "unit": "Joule (J)"
+  },
+  {
+    "term": "Frequency",
+    "topic": "Waves",
+    "definition": "The number of oscillations or waves produced per second.",
+    "formula": "f = 1/T",
+    "unit": "Hertz (Hz)"
+  },
+  {
+    "term": "Electric Field",
+    "topic": "Fields",
+    "definition": "A region where a charged particle experiences an electric force.",
+    "formula": "E = F/q",
+    "unit": "N/C"
+  },
+  {
+    "term": "Half-life",
+    "topic": "Nuclear Physics",
+    "definition": "The time required for half of the unstable nuclei in a sample to decay.",
+    "formula": "N = N₀(1/2)^(t/T½)",
+    "unit": "seconds (s)"
+  }
+]

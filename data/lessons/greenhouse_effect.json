@@ -1,0 +1,250 @@
+{
+  "title": "B.2 Greenhouse Effect",
+  "subject": "IBDP Physics",
+  "level": "SL and HL",
+
+  "introduction": "The greenhouse effect describes how certain gases in Earth's atmosphere absorb and re-emit infrared radiation, causing the planet's surface temperature to increase. This natural process allows Earth to maintain a temperature suitable for life. Human activities have increased greenhouse gas concentrations, strengthening the effect and contributing to global climate change.",
+
+  "learning_objectives": [
+    "Understand the natural greenhouse effect.",
+    "Explain how electromagnetic radiation interacts with the atmosphere.",
+    "Identify greenhouse gases and their roles.",
+    "Explain the enhanced greenhouse effect.",
+    "Analyse energy balance in Earth's climate system.",
+    "Understand climate feedback mechanisms."
+  ],
+
+  "definitions": [
+    {
+      "term": "Greenhouse Effect",
+      "meaning": "The warming of Earth's surface and lower atmosphere caused by greenhouse gases absorbing and re-emitting infrared radiation."
+    },
+    {
+      "term": "Greenhouse Gas",
+      "meaning": "A gas that absorbs infrared radiation and contributes to warming of the atmosphere."
+    },
+    {
+      "term": "Infrared Radiation",
+      "meaning": "Electromagnetic radiation with wavelengths longer than visible light, associated with thermal energy."
+    },
+    {
+      "term": "Albedo",
+      "meaning": "The fraction of incoming radiation reflected by a surface."
+    },
+    {
+      "term": "Climate Feedback",
+      "meaning": "A process that amplifies or reduces changes in the climate system."
+    },
+    {
+      "term": "Enhanced Greenhouse Effect",
+      "meaning": "The additional warming caused by increased greenhouse gas concentrations due to human activities."
+    }
+  ],
+
+  "core_concepts": [
+    {
+      "heading": "Energy Balance of Earth",
+      "explanation": "Earth receives energy from the Sun mainly as short wavelength radiation. The surface absorbs some of this energy and releases it as longer wavelength infrared radiation. Greenhouse gases absorb some of this infrared radiation and re-emit it, warming the atmosphere."
+    },
+    {
+      "heading": "Natural Greenhouse Effect",
+      "explanation": "The natural greenhouse effect maintains Earth's average temperature by preventing too much heat from escaping into space. Without it, Earth would be much colder and less suitable for life."
+    },
+    {
+      "heading": "Electromagnetic Radiation",
+      "explanation": "Different types of electromagnetic radiation have different wavelengths and energies. The Sun emits mainly visible and short wavelength radiation, while Earth emits mainly infrared radiation."
+    },
+    {
+      "heading": "Infrared Absorption",
+      "explanation": "Greenhouse gases absorb infrared radiation because their molecules can vibrate and rotate when they interact with infrared energy."
+    }
+  ]
+,
+
+"greenhouse_gases": [
+  {
+    "gas": "Carbon Dioxide (CO₂)",
+    "source": "Burning fossil fuels, deforestation and industrial processes.",
+    "role": "CO₂ absorbs infrared radiation and contributes strongly to the enhanced greenhouse effect."
+  },
+  {
+    "gas": "Methane (CH₄)",
+    "source": "Agriculture, landfills and natural gas production.",
+    "role": "Methane is a greenhouse gas that absorbs infrared radiation efficiently."
+  },
+  {
+    "gas": "Water Vapour (H₂O)",
+    "source": "Evaporation from oceans, lakes and other water sources.",
+    "role": "Water vapour is the most abundant greenhouse gas and acts mainly as a climate feedback."
+  },
+  {
+    "gas": "Nitrous Oxide (N₂O)",
+    "source": "Agricultural activities and industrial processes.",
+    "role": "Nitrous oxide contributes to atmospheric warming."
+  }
+],
+
+"radiation_process": [
+  {
+    "stage": "Incoming Solar Radiation",
+    "explanation": "The Sun emits short wavelength electromagnetic radiation. A portion is reflected by clouds, ice and Earth's surface, while the rest is absorbed."
+  },
+  {
+    "stage": "Surface Heating",
+    "explanation": "Earth's surface absorbs solar radiation and increases in temperature."
+  },
+  {
+    "stage": "Infrared Emission",
+    "explanation": "The warmed surface emits infrared radiation back towards the atmosphere."
+  },
+  {
+    "stage": "Atmospheric Absorption",
+    "explanation": "Greenhouse gases absorb some infrared radiation and re-emit it in different directions, including back towards Earth's surface."
+  }
+],
+
+"climate_feedback": [
+  {
+    "type": "Positive Feedback",
+    "example": "Ice melting reduces Earth's albedo. Less sunlight is reflected, causing more warming and further ice melting."
+  },
+  {
+    "type": "Positive Feedback",
+    "example": "Higher temperatures increase evaporation. More water vapour increases greenhouse warming."
+  },
+  {
+    "type": "Negative Feedback",
+    "example": "Some natural processes remove carbon dioxide from the atmosphere and reduce warming effects."
+  }
+],
+
+"energy_balance": [
+  {
+    "concept": "Radiation Balance",
+    "explanation": "Earth's temperature depends on the balance between incoming solar radiation and outgoing infrared radiation."
+  },
+  {
+    "concept": "Temperature Stability",
+    "explanation": "A stable climate occurs when incoming and outgoing energy are approximately equal."
+  },
+  {
+    "concept": "Enhanced Warming",
+    "explanation": "Increasing greenhouse gas concentrations reduce the amount of infrared radiation escaping to space, causing atmospheric warming."
+  }
+],
+
+"worked_examples": [
+  {
+    "question": "Explain why greenhouse gases increase Earth's temperature.",
+    "solution": [
+      "Earth absorbs solar radiation.",
+      "The surface emits infrared radiation.",
+      "Greenhouse gases absorb infrared radiation.",
+      "Energy is re-emitted back towards Earth, increasing warming."
+    ],
+    "answer": "Greenhouse gases reduce infrared energy loss from Earth, increasing atmospheric temperature."
+  },
+  {
+    "question": "Explain why ice melting can increase global warming.",
+    "solution": [
+      "Ice has a high albedo and reflects sunlight.",
+      "When ice melts, darker surfaces absorb more radiation.",
+      "More absorption increases warming."
+    ],
+    "answer": "Melting ice reduces reflection and increases energy absorption."
+  }
+],
+
+"climate_models": [
+  {
+    "topic": "Climate Modelling",
+    "explanation": "Climate models use mathematical equations and computer simulations to predict how Earth's climate system changes over time. They consider factors such as greenhouse gases, solar radiation, oceans and atmospheric processes."
+  },
+  {
+    "topic": "Radiative Forcing",
+    "explanation": "Radiative forcing describes the change in Earth's energy balance caused by factors that affect incoming or outgoing radiation. Positive forcing causes warming, while negative forcing causes cooling."
+  }
+],
+
+"human_impact": [
+  {
+    "activity": "Burning Fossil Fuels",
+    "explanation": "Coal, oil and natural gas combustion releases carbon dioxide into the atmosphere, increasing greenhouse gas concentration."
+  },
+  {
+    "activity": "Deforestation",
+    "explanation": "Removing forests reduces the amount of carbon dioxide absorbed by plants, increasing atmospheric carbon dioxide levels."
+  },
+  {
+    "activity": "Agriculture",
+    "explanation": "Agricultural activities release methane and nitrous oxide, which contribute to warming."
+  }
+],
+
+"common_mistakes": [
+  "Thinking the greenhouse effect is completely harmful. The natural greenhouse effect is necessary for life.",
+  "Confusing weather with climate.",
+  "Saying greenhouse gases create heat instead of explaining infrared absorption.",
+  "Forgetting that energy transfer involves electromagnetic radiation.",
+  "Assuming only carbon dioxide affects climate.",
+  "Ignoring feedback mechanisms in climate systems."
+],
+
+"ib_exam_tips": [
+  "Explain the difference between incoming solar radiation and outgoing infrared radiation.",
+  "Mention wavelength differences between solar and terrestrial radiation.",
+  "Use the terms absorption and re-emission correctly.",
+  "Explain greenhouse gases using molecular vibrations.",
+  "Include examples of greenhouse gases.",
+  "Use energy balance diagrams when required."
+],
+
+"hl_extension": [
+  {
+    "topic": "Molecular Absorption",
+    "explanation": "Greenhouse gases absorb infrared radiation because their bonds can vibrate at frequencies matching infrared wavelengths."
+  },
+  {
+    "topic": "Black Body Radiation",
+    "explanation": "Earth and the Sun can be approximated as black bodies that emit radiation depending on their temperature."
+  },
+  {
+    "topic": "Wien's Displacement Law",
+    "explanation": "The peak wavelength of emitted radiation depends on temperature.",
+    "formula": "λmaxT = constant"
+  },
+  {
+    "topic": "Stefan-Boltzmann Law",
+    "explanation": "The total power emitted by a black body depends on its temperature.",
+    "formula": "P = σAT⁴"
+  }
+],
+
+"real_world_applications": [
+  "Climate scientists use greenhouse models to predict future climate changes.",
+  "Satellite systems measure infrared radiation from Earth.",
+  "Energy efficient buildings use knowledge of heat transfer.",
+  "Renewable energy planning considers climate conditions.",
+  "Environmental policies use greenhouse gas measurements."
+],
+
+"practice_questions": [
+  {
+    "level": "Easy",
+    "question": "What type of radiation does Earth emit after absorbing energy from the Sun?",
+    "answer": "Infrared radiation."
+  },
+  {
+    "level": "Medium",
+    "question": "Explain why increasing carbon dioxide concentration causes warming.",
+    "answer": "More carbon dioxide absorbs and re-emits infrared radiation, reducing energy loss from Earth."
+  },
+  {
+    "level": "HL",
+    "question": "Explain why water vapour acts as a positive feedback in climate change.",
+    "answer": "Higher temperatures increase evaporation, increasing water vapour which absorbs more infrared radiation and causes further warming."
+  }
+],
+
+"summary": "The greenhouse effect explains how Earth's atmosphere maintains temperature through infrared absorption and re-emission. The natural greenhouse effect supports life, while increased greenhouse gas concentrations strengthen warming. Understanding radiation, energy balance and climate feedback helps explain modern climate changes."
+}

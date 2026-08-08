@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Projectile Motion Simulator",
+    "topic": "Mechanics",
+    "description": "Explore how velocity and angle affect projectile motion.",
+    "variables": [
+      "Initial velocity",
+      "Launch angle",
+      "Gravity"
+    ]
+  },
+  {
+    "name": "Wave Simulator",
+    "topic": "Waves",
+    "description": "Change frequency and amplitude to observe wave behaviour.",
+    "variables": [
+      "Frequency",
+      "Amplitude",
+      "Wavelength"
+    ]
+  },
+  {
+    "name": "Orbital Motion Simulator",
+    "topic": "Fields",
+    "description": "Study gravitational attraction and circular motion.",
+    "variables": [
+      "Orbital radius",
+      "Mass",
+      "Velocity"
+    ]
+  },
+  {
+    "name": "Circuit Simulator",
+    "topic": "Electricity",
+    "description": "Test voltage, current and resistance relationships.",
+    "variables": [
+      "Voltage",
+      "Current",
+      "Resistance"
+    ]
+  }
+]

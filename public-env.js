@@ -1,0 +1,1 @@
+window.PHYLAB_ENV = window.PHYLAB_ENV || { SUPABASE_URL: '', SUPABASE_ANON_KEY: '' };

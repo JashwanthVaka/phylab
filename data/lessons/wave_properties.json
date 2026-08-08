@@ -1,0 +1,313 @@
+{
+  "title": "C.2 Wave Properties",
+  "subject": "IBDP Physics",
+  "level": "SL and HL",
+
+  "introduction": "Wave properties describe how energy is transferred through oscillations. Waves transfer energy from one location to another without transferring matter permanently. Understanding wave behaviour is essential for studying sound, light, communication systems and many physical phenomena.",
+
+  "learning_objectives": [
+    "Understand the characteristics of waves.",
+    "Differentiate between transverse and longitudinal waves.",
+    "Define wavelength, frequency, amplitude and wave speed.",
+    "Apply the wave equation.",
+    "Analyse wave behaviour and interactions.",
+    "Understand superposition and interference."
+  ],
+
+  "definitions": [
+    {
+      "term": "Wave",
+      "meaning": "A travelling disturbance that transfers energy from one place to another without transferring matter permanently."
+    },
+    {
+      "term": "Amplitude",
+      "meaning": "The maximum displacement of a particle from its equilibrium position."
+    },
+    {
+      "term": "Wavelength",
+      "meaning": "The distance between two consecutive points in the same phase of a wave."
+    },
+    {
+      "term": "Frequency",
+      "meaning": "The number of complete waves passing a point per second, measured in hertz (Hz)."
+    },
+    {
+      "term": "Period",
+      "meaning": "The time taken for one complete wave cycle."
+    },
+    {
+      "term": "Phase",
+      "meaning": "The position of a point in a wave cycle relative to another point."
+    },
+    {
+      "term": "Wave Speed",
+      "meaning": "The speed at which a wave disturbance travels through a medium."
+    }
+  ],
+
+  "core_concepts": [
+    {
+      "heading": "Energy Transfer by Waves",
+      "explanation": "Waves transfer energy through oscillations of particles or fields. The particles themselves do not travel with the wave over long distances."
+    },
+    {
+      "heading": "Transverse Waves",
+      "explanation": "In transverse waves, particles vibrate perpendicular to the direction of wave travel. Examples include electromagnetic waves and waves on strings."
+    },
+    {
+      "heading": "Longitudinal Waves",
+      "explanation": "In longitudinal waves, particles vibrate parallel to the direction of wave travel. Sound waves are a common example."
+    },
+    {
+      "heading": "Wave Characteristics",
+      "explanation": "The behaviour of waves is described using amplitude, wavelength, frequency, period and speed."
+    }
+  ]
+,
+
+"formulas": [
+  {
+    "name": "Wave Equation",
+    "formula": "v = fλ",
+    "variables": {
+      "v": "wave speed (m/s)",
+      "f": "frequency (Hz)",
+      "λ": "wavelength (m)"
+    },
+    "explanation": "The wave equation connects speed, frequency and wavelength. If frequency increases while speed remains constant, wavelength decreases."
+  },
+  {
+    "name": "Period and Frequency",
+    "formula": "T = 1/f",
+    "variables": {
+      "T": "period (s)",
+      "f": "frequency (Hz)"
+    },
+    "explanation": "Frequency and period are inversely related. A higher frequency means a shorter period."
+  }
+],
+
+"wave_behaviour": [
+  {
+    "topic": "Reflection",
+    "explanation": "Reflection occurs when a wave reaches a boundary and returns into the original medium. The angle of incidence equals the angle of reflection.",
+    "laws": [
+      "Angle of incidence equals angle of reflection.",
+      "Incident wave, reflected wave and normal lie in the same plane."
+    ]
+  },
+  {
+    "topic": "Refraction",
+    "explanation": "Refraction occurs when a wave changes direction because its speed changes when entering a different medium.",
+    "important_points": [
+      "Frequency remains constant.",
+      "Speed changes.",
+      "Wavelength changes."
+    ]
+  },
+  {
+    "topic": "Diffraction",
+    "explanation": "Diffraction is the spreading of waves when they pass through a gap or around an obstacle.",
+    "important_points": [
+      "Diffraction increases when wavelength is similar to gap size.",
+      "Longer wavelengths diffract more."
+    ]
+  },
+  {
+    "topic": "Superposition",
+    "explanation": "When waves overlap, the resultant displacement is the sum of the individual displacements."
+  }
+],
+
+"interference": [
+  {
+    "type": "Constructive Interference",
+    "explanation": "Constructive interference occurs when two waves meet in phase. Their amplitudes combine to produce a larger wave."
+  },
+  {
+    "type": "Destructive Interference",
+    "explanation": "Destructive interference occurs when two waves meet out of phase. Their amplitudes reduce or cancel each other."
+  },
+  {
+    "topic": "Coherence",
+    "explanation": "Coherent waves have a constant phase difference and the same frequency. They produce stable interference patterns."
+  }
+],
+
+"worked_examples": [
+  {
+    "question": "A wave has a frequency of 50 Hz and wavelength of 2 m. Calculate wave speed.",
+    "solution": [
+      "Use v = fλ",
+      "v = 50 × 2",
+      "v = 100 m/s"
+    ],
+    "answer": "100 m/s"
+  },
+  {
+    "question": "A wave has a frequency of 200 Hz. Calculate its period.",
+    "solution": [
+      "Use T = 1/f",
+      "T = 1/200",
+      "T = 0.005 s"
+    ],
+    "answer": "0.005 s"
+  }
+],
+
+"standing_waves": [
+  {
+    "topic": "Formation of Standing Waves",
+    "explanation": "Standing waves form when two identical waves travel in opposite directions and interfere with each other. The result is a pattern of fixed points called nodes and antinodes.",
+    "features": [
+      "No net energy transfer along the wave.",
+      "Nodes remain stationary.",
+      "Antinodes have maximum displacement."
+    ]
+  },
+  {
+    "topic": "Nodes and Antinodes",
+    "explanation": "Nodes are points where displacement is always zero. Antinodes are points where displacement is maximum.",
+    "relationship": "Distance between adjacent nodes or antinodes is half a wavelength."
+  }
+],
+
+"standing_wave_formulas": [
+  {
+    "name": "String Fixed at Both Ends",
+    "formula": "L = nλ/2",
+    "variables": {
+      "L": "length of string (m)",
+      "n": "harmonic number",
+      "λ": "wavelength (m)"
+    },
+    "explanation": "The length of a vibrating string determines which wavelengths are possible."
+  },
+  {
+    "name": "Open Pipe Harmonics",
+    "formula": "L = nλ/2",
+    "variables": {
+      "L": "length of pipe (m)",
+      "n": "harmonic number"
+    },
+    "explanation": "Open pipes allow displacement antinodes at both ends."
+  },
+  {
+    "name": "Closed Pipe Harmonics",
+    "formula": "L = nλ/4",
+    "variables": {
+      "L": "length of pipe (m)",
+      "n": "odd harmonic number"
+    },
+    "explanation": "Closed pipes have a node at the closed end and an antinode at the open end."
+  }
+],
+
+"polarisation": [
+  {
+    "concept": "Polarisation",
+    "explanation": "Polarisation is the restriction of transverse wave oscillations to one direction. It proves that light behaves as a transverse wave."
+  },
+  {
+    "concept": "Transverse Wave Requirement",
+    "explanation": "Only transverse waves can be polarised because their oscillations occur perpendicular to the direction of travel."
+  },
+  {
+    "concept": "Applications",
+    "examples": [
+      "Polarised sunglasses reduce reflected glare.",
+      "LCD screens use polarisation.",
+      "Stress analysis uses polarised light."
+    ]
+  }
+],
+
+"doppler_effect": [
+  {
+    "topic": "Doppler Effect",
+    "explanation": "The Doppler effect is the apparent change in frequency caused by relative motion between a wave source and an observer."
+  },
+  {
+    "case": "Source Approaching Observer",
+    "explanation": "The observed frequency increases because wavefronts become closer together."
+  },
+  {
+    "case": "Source Moving Away",
+    "explanation": "The observed frequency decreases because wavefronts become further apart."
+  }
+],
+
+"applications": [
+  {
+    "field": "Communication",
+    "explanation": "Radio, television and mobile communication systems use wave properties to transmit information."
+  },
+  {
+    "field": "Medical Imaging",
+    "explanation": "Ultrasound uses reflection and wave behaviour to create images of internal structures."
+  },
+  {
+    "field": "Astronomy",
+    "explanation": "The Doppler effect helps measure the motion of stars and galaxies."
+  },
+  {
+    "field": "Engineering",
+    "explanation": "Engineers analyse vibrations and resonance in machines and structures."
+  }
+],
+
+"common_mistakes": [
+  "Thinking waves transfer matter permanently.",
+  "Confusing amplitude with wavelength.",
+  "Forgetting that frequency remains constant during refraction.",
+  "Using degrees instead of radians in wave calculations.",
+  "Assuming all waves can be polarised.",
+  "Confusing standing waves with travelling waves."
+],
+
+"ib_exam_tips": [
+  "Always identify the type of wave before applying concepts.",
+  "Use v = fλ carefully with correct units.",
+  "Draw clear wave diagrams with nodes and antinodes.",
+  "Explain refraction using changes in speed and wavelength.",
+  "Mention that frequency remains constant during refraction.",
+  "Use phase difference when explaining interference."
+],
+
+"hl_extension": [
+  {
+    "topic": "Wave Equation Derivation",
+    "explanation": "The wave equation can be derived by considering the distance travelled by one wavelength during one period.",
+    "formula": "v = λ/T"
+  },
+  {
+    "topic": "Intensity of Waves",
+    "explanation": "Wave intensity describes the power transferred per unit area and depends on amplitude.",
+    "formula": "I = P/A"
+  },
+  {
+    "topic": "Interference Patterns",
+    "explanation": "Double slit experiments demonstrate wave interference and provide evidence for wave behaviour of light."
+  }
+],
+
+"practice_questions": [
+  {
+    "level": "Easy",
+    "question": "What happens to wavelength when wave speed decreases and frequency remains constant?",
+    "answer": "Wavelength decreases."
+  },
+  {
+    "level": "Medium",
+    "question": "Explain why only transverse waves can be polarised.",
+    "answer": "Their oscillations can be restricted to one direction perpendicular to wave travel."
+  },
+  {
+    "level": "HL",
+    "question": "Explain the formation of a standing wave.",
+    "answer": "A standing wave forms when two identical waves travelling in opposite directions interfere."
+  }
+],
+
+"summary": "Wave properties explain how waves transfer energy and interact with their surroundings. Understanding reflection, refraction, diffraction, interference, standing waves and the Doppler effect allows analysis of sound, light and modern communication technologies."
+}

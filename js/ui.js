@@ -1,0 +1,55 @@
+import { card, emptyState, formula, skeleton } from './renderer.js';
+import { searchResults } from './search.js';
+import { bindQuiz } from './quiz.js';
+import { completeLesson, debounce, escapeHTML, getProgress } from './utils.js';
+import { bindCalculator, renderCalculator } from './calculatorEngine.js';
+import { bindFlashcards } from './flashcards.js';
+import { bindGraphs, graphFor, renderGraph } from './graphEngine.js';
+
+export const renderLoading = message => `<section class="page"><p class="eyebrow">PHYLAB</p><h1>${escapeHTML(message)}</h1>${skeleton(6)}</section>`;
+export const renderNotFound = () => `<section class="page error-state"><p class="eyebrow">404</p><h1>That learning path does not exist.</h1><a class="button" href="/" data-route>Back to PHYLAB</a></section>`;
+
+export function renderHome(index, progress) {
+  const completed = progress.completedLessons.length;
+  return `<section class="hero page-hero"><div class="hero-copy"><p class="eyebrow">THE PHYSICS STUDIO FOR IB</p><h1>Learn the laws.<br><em>See them move.</em></h1><p class="lead">A focused learning environment for IBDP Physics SL and HL—concepts, simulations, practice and feedback in one workspace.</p><div class="actions"><a href="/lesson/${index.lessonIndex[0]?.slug || ''}" class="button" data-route>Start learning <b>→</b></a><a href="/simulations" class="text-button" data-route>Explore the lab <span>↗</span></a></div></div><div class="orbital-scene" aria-label="Illustration of an atom"><div class="glow"></div><div class="atom"><span class="nucleus">+</span><i class="ring r1"><b></b></i><i class="ring r2"><b></b></i><i class="ring r3"><b></b></i></div><div class="measure m1">E = mc²</div><div class="measure m2">Δx · Δp ≥ ℏ/2</div></div></section>
+  <section class="stats"><div><strong>${index.lessonIndex.length}</strong><span>available<br>lessons</span></div><div><strong>${index.questions.length}</strong><span>practice<br>questions</span></div><div><strong>${index.simulations.length}</strong><span>lab<br>foundations</span></div><div><strong>${completed}</strong><span>lessons<br>completed</span></div></section>
+  <section class="page section intro"><div><p class="eyebrow">YOUR COURSE LIBRARY</p><h2>Everything you need to think like a physicist.</h2></div><p>Find a topic, open a lesson, practise a method, or use PHY when you need a well-framed next step.</p></section>
+  <section class="page course-library"><div class="section-head"><div><p class="eyebrow">SYLLABUS LIBRARY</p><h2>Navigate the course.</h2></div><label class="search"><span>⌕</span><input id="globalSearch" autocomplete="off" placeholder="Search topics, formulae, definitions…"></label></div><div class="module-grid">${index.lessonIndex.map(lesson => `<a class="module-card" href="/lesson/${lesson.slug}" data-route><span class="module-num">${escapeHTML(lesson.level || 'SL + HL')}</span><span class="unit">${escapeHTML(lesson.topicLabel)}</span><h3>${escapeHTML(lesson.title)}</h3><p>${escapeHTML(lesson.summary || 'Open this lesson to begin learning.')}</p><span class="open-module">Open lesson <b>→</b></span></a>`).join('')}</div></section>
+  <section class="page toolkit"><div><p class="eyebrow">ACTIVE TOOLKIT</p><h2>Don’t just read it.<br><em>Model it.</em></h2></div><div class="method-card"><h3>Five-step physics method</h3><ol><li><b>01</b> Define the system.</li><li><b>02</b> Model with a diagram or graph.</li><li><b>03</b> Apply a principle.</li><li><b>04</b> Calculate in SI units.</li><li><b>05</b> Evaluate the result.</li></ol></div><div class="progress-card"><p class="eyebrow">YOUR PROGRESS</p><div class="progress-ring"><b>${Math.round(completed / Math.max(index.lessonIndex.length, 1) * 100)}%</b></div><p>${completed} of ${index.lessonIndex.length} lessons completed</p><a class="text-button" href="/progress" data-route>View progress →</a></div></section>`;
+}
+
+export const renderFormulaLibrary = (formulas, selectedSlug) => {
+  const selected = formulas.find(item => item.name && item.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') === selectedSlug);
+  if (selected) return `<section class="page formula-center"><a class="back-link" href="/formulas" data-route>← Formula centre</a><p class="eyebrow">PHYSICS FORMULA ENGINE</p><h1>${escapeHTML(selected.name)}</h1><div class="formula-hero"><code>${escapeHTML(selected.formula)}</code><p>${escapeHTML(selected.explanation || selected.topic || 'Use the variable table and calculator to interpret this relationship.')}</p></div><div class="formula-center-grid">${card('Variables, units and dimensions', Object.keys(selected.symbols || {}).length ? `<div class="table-wrap"><table><thead><tr><th>Variable</th><th>Meaning</th><th>SI unit</th><th>Dimension</th></tr></thead><tbody>${Object.entries(selected.symbols).map(([key,value]) => `<tr><td>${escapeHTML(key)}</td><td>${escapeHTML(value)}</td><td>Not recorded</td><td>Not recorded</td></tr>`).join('')}</tbody></table></div>` : '<p>Variable metadata has not yet been recorded for this formula.</p>')}${card('Derivation and physical meaning', `<p>${escapeHTML(selected.derivation || 'A derivation has not yet been supplied in the source lesson. Use the related lesson to connect this expression to its governing principle.')}</p>`)}</div>${renderGraph(graphFor({ title:selected.topic || selected.name, topicLabel:selected.topic || '' }))}${renderCalculator()}<section class="lesson-section"><p class="eyebrow">COMMON MISTAKES & EXAM TECHNIQUE</p><div class="card-grid">${card('Common mistake', '<p>Check units, direction/sign conventions, and whether the model assumptions apply before substituting values.</p>')}${card('Exam tip', '<p>State the governing equation, substitute with SI units, and report an answer with an appropriate unit and significant figures.</p>')}</div></section></section>`;
+  return `<section class="page"><p class="eyebrow">FORMULA CENTRE</p><h1>Know what every symbol means.</h1><p class="page-lead">Select a formula to see its variables, physical meaning, calculator, graph, and exam guidance.</p><div class="formula-grid">${formulas.map(item => `<a class="formula-block" href="/formulas/${item.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}" data-route><code>${escapeHTML(item.formula)}</code><h3>${escapeHTML(item.name)}</h3><p>${escapeHTML(item.topic || '')}</p></a>`).join('')}</div></section>`;
+};
+export const renderProgress = (index, progress) => `<section class="page"><p class="eyebrow">YOUR WORKSPACE</p><h1>Progress with purpose.</h1><div class="dash-grid"><article class="current"><span class="tag">LESSONS COMPLETE</span><h2>${progress.completedLessons.length} / ${index.lessonIndex.length}</h2><p>Your lesson completion is stored privately in this browser until account sync is introduced.</p></article>${card('Practice activity', `<p>${progress.attempts.length} solution${progress.attempts.length === 1 ? '' : 's'} revealed.</p>`)}${card('Next step', `<a class="button" href="/lesson/${index.lessonIndex.find(item => !progress.completedLessons.includes(item.slug))?.slug || index.lessonIndex[0]?.slug || ''}" data-route>Continue learning →</a>`)}</div></section>`;
+export const renderSearch = (results, query) => `<section class="page"><p class="eyebrow">GLOBAL SEARCH</p><h1>Search PHYLAB.</h1><label class="search large-search"><span>⌕</span><input id="searchPageInput" value="${escapeHTML(query)}" autofocus placeholder="Search lessons, definitions, formulae, questions…"></label><p class="page-lead">${query ? `${results.length} result${results.length === 1 ? '' : 's'} for “${escapeHTML(query)}”` : 'Start typing to search the entire learning catalogue.'}</p>${query ? searchResults(results) : emptyState('What are you looking for?', 'Try “momentum”, “Coulomb”, or “interference”.')}</section>`;
+
+export function showTutor() {
+  const root = document.querySelector('#modalRoot');
+  root.innerHTML = `<div class="modal show" role="dialog" aria-modal="true" aria-labelledby="tutorTitle"><div class="modal-card"><button class="modal-close" data-close-modal aria-label="Close PHY tutor">×</button><p class="eyebrow">PHY, YOUR AI STUDY PARTNER</p><h2 id="tutorTitle">Ask a better physics question.</h2><div id="chatLog" class="chat"><p><b>PHY:</b> Tell me what you are working on and what part feels uncertain.</p></div><form id="chatForm" class="chat-form"><label class="visually-hidden" for="chatInput">Message PHY</label><input id="chatInput" required maxlength="6000" placeholder="Ask about a concept, calculation, or method…"><button class="button">Send</button></form></div></div>`;
+  document.querySelector('#chatInput').focus();
+  document.querySelector('#chatForm').addEventListener('submit', async event => {
+    event.preventDefault(); const input = document.querySelector('#chatInput'); const message = input.value.trim(); if (!message) return;
+    const log = document.querySelector('#chatLog'); log.insertAdjacentHTML('beforeend', `<p><b>You:</b> ${escapeHTML(message)}</p><p class="chat-loading">PHY is thinking…</p>`); input.value = '';
+    try { const response = await fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message }) }); const data = await response.json(); document.querySelector('.chat-loading')?.remove(); log.insertAdjacentHTML('beforeend', `<p><b>PHY:</b> ${escapeHTML(data.answer || data.error || 'PHY is unavailable right now.')}</p>`); }
+    catch { document.querySelector('.chat-loading')?.remove(); log.insertAdjacentHTML('beforeend', '<p><b>PHY:</b> I am temporarily unavailable. Please try again shortly.</p>'); }
+    log.scrollTop = log.scrollHeight;
+  });
+}
+
+export function bindUI({ loader, router, searchIndex, render }) {
+  const search = document.querySelector('#globalSearch');
+  search?.addEventListener('input', debounce(event => router.go(`/search?q=${encodeURIComponent(event.target.value)}`), 220));
+  document.querySelector('#searchPageInput')?.addEventListener('input', debounce(event => router.go(`/search?q=${encodeURIComponent(event.target.value)}`), 180));
+  document.querySelectorAll('[data-complete-lesson]').forEach(button => button.addEventListener('click', () => { completeLesson(button.dataset.completeLesson); button.textContent = 'Lesson completed ✓'; button.disabled = true; }));
+  document.querySelectorAll('[data-open-tutor]').forEach(button => button.addEventListener('click', () => showTutor()));
+  document.querySelectorAll('[data-quiz-topic]').forEach(button => button.addEventListener('click', () => router.go('/quiz')));
+  document.querySelector('[data-close-modal]')?.addEventListener('click', () => { document.querySelector('#modalRoot').innerHTML = ''; document.querySelector('#tutorButton').focus(); });
+  bindQuiz();
+  bindGraphs();
+  bindFlashcards();
+  const bindCalculatorView = () => bindCalculator(value => { const holder = document.querySelector('.calculator-card'); if (holder) { holder.outerHTML = renderCalculator(value); bindCalculatorView(); } });
+  bindCalculatorView();
+}

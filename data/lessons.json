@@ -1,0 +1,82 @@
+[
+  {
+    "id": "A1",
+    "topic": "Kinematics",
+    "title": "Motion and Graphs",
+    "level": "SL",
+    "content": {
+      "definition": "Kinematics is the study of motion without considering the forces causing the motion.",
+      "concepts": [
+        "Distance and displacement",
+        "Speed and velocity",
+        "Acceleration",
+        "Motion graphs"
+      ],
+      "learning_goal": "Understand how objects move and represent motion using equations and graphs."
+    }
+  },
+  {
+    "id": "A2",
+    "topic": "Forces",
+    "title": "Newton's Laws of Motion",
+    "level": "SL",
+    "content": {
+      "definition": "Forces describe interactions that change the motion of objects.",
+      "concepts": [
+        "Newton's First Law",
+        "Newton's Second Law",
+        "Newton's Third Law",
+        "Free body diagrams"
+      ],
+      "learning_goal": "Apply force models to solve mechanics problems."
+    }
+  },
+  {
+    "id": "A3",
+    "topic": "Energy",
+    "title": "Work, Energy and Power",
+    "level": "SL",
+    "content": {
+      "definition": "Energy is the ability of a system to do work.",
+      "concepts": [
+        "Kinetic energy",
+        "Potential energy",
+        "Energy conservation",
+        "Power and efficiency"
+      ],
+      "learning_goal": "Analyse energy transfers in physical systems."
+    }
+  },
+  {
+    "id": "C1",
+    "topic": "Waves",
+    "title": "Wave Behaviour",
+    "level": "SL",
+    "content": {
+      "definition": "Waves transfer energy without transferring matter permanently.",
+      "concepts": [
+        "Amplitude",
+        "Frequency",
+        "Wavelength",
+        "Superposition"
+      ],
+      "learning_goal": "Use wave equations and explain wave phenomena."
+    }
+  },
+  {
+    "id": "D1",
+    "topic": "Fields",
+    "title": "Electric and Gravitational Fields",
+    "level": "HL",
+    "content": {
+      "definition": "A field is a region where an object experiences a force.",
+      "concepts": [
+        "Field strength",
+        "Potential",
+        "Field lines",
+        "Force interactions"
+      ],
+      "learning_goal": "Understand how fields influence objects at a distance."
+    }
+  }
+]

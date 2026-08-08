@@ -1,0 +1,56 @@
+[
+  {
+    "id": 1,
+    "topic": "Kinematics",
+    "level": "SL",
+    "type": "Calculation",
+    "question": "A car starts from rest and accelerates at 5 m/s² for 4 seconds. Find the final velocity.",
+    "answer": "20 m/s",
+    "solution": "Use v = u + at. v = 0 + (5 × 4). v = 20 m/s."
+  },
+  {
+    "id": 2,
+    "topic": "Forces",
+    "level": "SL",
+    "type": "Calculation",
+    "question": "A 10 kg object accelerates at 3 m/s². Calculate the resultant force.",
+    "answer": "30 N",
+    "solution": "Use F = ma. F = 10 × 3. F = 30 N."
+  },
+  {
+    "id": 3,
+    "topic": "Momentum",
+    "level": "HL",
+    "type": "Calculation",
+    "question": "A 2 kg object moves at 6 m/s. Calculate its momentum.",
+    "answer": "12 kg m/s",
+    "solution": "Use p = mv. p = 2 × 6. p = 12 kg m/s."
+  },
+  {
+    "id": 4,
+    "topic": "Energy",
+    "level": "SL",
+    "type": "Calculation",
+    "question": "A 4 kg object moves at 5 m/s. Find its kinetic energy.",
+    "answer": "50 J",
+    "solution": "Use KE = ½mv². KE = 0.5 × 4 × 25. KE = 50 J."
+  },
+  {
+    "id": 5,
+    "topic": "Waves",
+    "level": "SL",
+    "type": "Calculation",
+    "question": "A wave has frequency 10 Hz and wavelength 2 m. Find wave speed.",
+    "answer": "20 m/s",
+    "solution": "Use v = fλ. v = 10 × 2. v = 20 m/s."
+  },
+  {
+    "id": 6,
+    "topic": "Electricity",
+    "level": "SL",
+    "type": "Calculation",
+    "question": "A circuit has voltage 12 V and resistance 4 Ω. Find current.",
+    "answer": "3 A",
+    "solution": "Use V = IR. I = V/R. I = 12/4. I = 3 A."
+  }
+]

@@ -1,0 +1,1 @@
+export const contextManager={fromRoute(){const p=location.pathname.split('/').filter(Boolean);return {route:location.pathname,lesson_slug:p[0]==='lesson'?p[1]:null,formula_slug:p[0]==='formulas'?p[1]:null,quiz:p[0]==='quiz',simulation:p[0]==='simulations'}},merge(...items){return Object.assign({},...items.filter(Boolean))}};

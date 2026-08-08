@@ -1,0 +1,285 @@
+{
+  "title": "B.1 Thermal Physics",
+  "subject": "IBDP Physics",
+  "level": "SL and HL",
+
+  "introduction": "Thermal physics studies the behaviour of matter by analysing temperature, internal energy, heat transfer and the movement of particles. This topic connects the microscopic behaviour of atoms and molecules with macroscopic properties such as pressure, volume and temperature. Understanding thermal physics helps explain engines, climate systems, materials and energy transfer.",
+
+  "learning_objectives": [
+    "Understand the particle model of matter.",
+    "Explain temperature and internal energy.",
+    "Describe heat transfer methods.",
+    "Understand changes of state.",
+    "Apply specific heat capacity calculations.",
+    "Analyse thermal energy transfer."
+  ],
+
+  "definitions": [
+    {
+      "term": "Temperature",
+      "meaning": "A measure of the average kinetic energy of particles in a substance."
+    },
+    {
+      "term": "Internal Energy",
+      "meaning": "The total energy stored inside a system due to the random kinetic energy and potential energy of particles."
+    },
+    {
+      "term": "Heat",
+      "meaning": "Energy transferred between objects because of a temperature difference."
+    },
+    {
+      "term": "Thermal Equilibrium",
+      "meaning": "A state where objects in contact have the same temperature and no net heat transfer occurs."
+    },
+    {
+      "term": "Specific Heat Capacity",
+      "meaning": "The energy required to increase the temperature of 1 kg of a substance by 1°C."
+    },
+    {
+      "term": "Specific Latent Heat",
+      "meaning": "The energy required to change the state of 1 kg of a substance without changing its temperature."
+    }
+  ],
+
+  "core_concepts": [
+    {
+      "heading": "Particle Model of Matter",
+      "explanation": "All matter is made of particles that are in constant random motion. The arrangement and movement of particles determine whether a substance is a solid, liquid or gas."
+    },
+    {
+      "heading": "Temperature and Particle Motion",
+      "explanation": "Temperature represents the average kinetic energy of particles. When temperature increases, particles move faster on average."
+    },
+    {
+      "heading": "Internal Energy",
+      "explanation": "Internal energy includes the microscopic kinetic energy of particles and the potential energy stored due to interactions between particles."
+    },
+    {
+      "heading": "Heat Transfer",
+      "explanation": "Thermal energy moves from regions of higher temperature to regions of lower temperature until thermal equilibrium is reached."
+    }
+  ]
+,
+
+"states_of_matter": [
+  {
+    "state": "Solid",
+    "explanation": "In solids, particles are arranged in fixed positions and vibrate around these positions. Solids have a fixed shape and fixed volume because strong forces hold particles together."
+  },
+  {
+    "state": "Liquid",
+    "explanation": "In liquids, particles are close together but can move around each other. Liquids have a fixed volume but take the shape of their container."
+  },
+  {
+    "state": "Gas",
+    "explanation": "In gases, particles are widely separated and move randomly at high speeds. Gases have no fixed shape or volume and expand to fill their container."
+  }
+],
+
+"kinetic_theory": [
+  {
+    "concept": "Particle Motion",
+    "explanation": "The kinetic theory explains that matter is made of tiny particles that are always moving. The movement of these particles depends on temperature."
+  },
+  {
+    "concept": "Temperature Relationship",
+    "explanation": "When temperature increases, the average kinetic energy of particles increases. Faster particles create more frequent and energetic collisions."
+  },
+  {
+    "concept": "Gas Pressure",
+    "explanation": "Gas pressure is caused by particles colliding with the walls of a container. Higher particle speed or more frequent collisions increase pressure."
+  }
+],
+
+"thermal_formulas": [
+  {
+    "name": "Specific Heat Capacity",
+    "formula": "Q = mcΔT",
+    "variables": {
+      "Q": "thermal energy transferred (J)",
+      "m": "mass (kg)",
+      "c": "specific heat capacity (J/kg K)",
+      "ΔT": "change in temperature (K or °C)"
+    },
+    "explanation": "This equation calculates the energy needed to change the temperature of a substance."
+  },
+  {
+    "name": "Specific Latent Heat",
+    "formula": "Q = mL",
+    "variables": {
+      "Q": "energy transferred (J)",
+      "m": "mass (kg)",
+      "L": "specific latent heat (J/kg)"
+    },
+    "explanation": "This equation calculates the energy needed for a change of state without a temperature change."
+  }
+],
+
+"heat_transfer": [
+  {
+    "method": "Conduction",
+    "explanation": "Conduction transfers thermal energy through a material by particle collisions. Metals conduct heat well because they contain free electrons that transfer energy quickly."
+  },
+  {
+    "method": "Convection",
+    "explanation": "Convection occurs in fluids when warmer regions become less dense and rise while cooler regions sink."
+  },
+  {
+    "method": "Radiation",
+    "explanation": "Radiation transfers energy using electromagnetic waves. Unlike conduction and convection, radiation does not require a medium."
+  }
+],
+
+"worked_examples": [
+  {
+    "question": "Calculate the energy needed to heat 2 kg of water by 10°C. The specific heat capacity of water is 4200 J/kg K.",
+    "solution": [
+      "Q = mcΔT",
+      "Q = 2 × 4200 × 10",
+      "Q = 84000 J"
+    ],
+    "answer": "84000 J"
+  },
+  {
+    "question": "A 0.5 kg substance melts with a latent heat of 300000 J/kg. Calculate the energy required.",
+    "solution": [
+      "Q = mL",
+      "Q = 0.5 × 300000",
+      "Q = 150000 J"
+    ],
+    "answer": "150000 J"
+  }
+],
+
+"gas_laws": [
+  {
+    "law": "Boyle's Law",
+    "explanation": "For a fixed amount of gas at constant temperature, pressure is inversely proportional to volume. When volume decreases, particles collide with the container walls more often, increasing pressure.",
+    "formula": "PV = constant",
+    "conditions": "Temperature and amount of gas remain constant."
+  },
+  {
+    "law": "Charles's Law",
+    "explanation": "For a fixed amount of gas at constant pressure, volume is directly proportional to absolute temperature. Increasing temperature causes particles to move faster and occupy more volume.",
+    "formula": "V/T = constant",
+    "conditions": "Pressure and amount of gas remain constant."
+  },
+  {
+    "law": "Pressure Law",
+    "explanation": "For a fixed amount of gas at constant volume, pressure is directly proportional to absolute temperature.",
+    "formula": "P/T = constant",
+    "conditions": "Volume and amount of gas remain constant."
+  },
+  {
+    "law": "Ideal Gas Law",
+    "explanation": "The ideal gas law connects pressure, volume, temperature and amount of gas.",
+    "formula": "PV = nRT",
+    "variables": {
+      "P": "pressure (Pa)",
+      "V": "volume (m³)",
+      "n": "amount of substance (mol)",
+      "R": "gas constant",
+      "T": "temperature (K)"
+    }
+  }
+],
+
+"thermal_graphs": [
+  {
+    "graph": "Heating Curve",
+    "explanation": "A heating curve shows how temperature changes as energy is added to a substance.",
+    "important_points": [
+      "Temperature increases when particles gain kinetic energy.",
+      "Temperature remains constant during changes of state.",
+      "Energy during a phase change increases potential energy."
+    ]
+  },
+  {
+    "graph": "Pressure-Volume Graph",
+    "explanation": "A pressure-volume graph shows the inverse relationship between pressure and volume for a fixed temperature."
+  }
+],
+
+"worked_examples_gas_laws": [
+  {
+    "question": "A gas has a volume of 2 m³ at a pressure of 100 kPa. The volume changes to 1 m³ at constant temperature. Find the new pressure.",
+    "solution": [
+      "Use Boyle's Law: P₁V₁ = P₂V₂",
+      "100 × 2 = P₂ × 1",
+      "P₂ = 200 kPa"
+    ],
+    "answer": "200 kPa"
+  },
+  {
+    "question": "Explain why gas pressure increases when temperature increases at constant volume.",
+    "solution": [
+      "Higher temperature increases particle kinetic energy.",
+      "Particles move faster.",
+      "Collisions with container walls become more frequent and stronger."
+    ],
+    "answer": "Pressure increases because particle collisions become more energetic."
+  }
+],
+
+"common_mistakes": [
+  "Using Celsius instead of Kelvin in gas equations.",
+  "Confusing heat with temperature.",
+  "Forgetting that latent heat changes the state, not the temperature.",
+  "Using the wrong gas law conditions.",
+  "Mixing units such as kPa and Pa.",
+  "Assuming all substances have the same specific heat capacity."
+],
+
+"ib_exam_tips": [
+  "Always convert temperature to Kelvin for gas calculations.",
+  "State the conditions when using gas laws.",
+  "Explain particle behaviour in thermal questions.",
+  "Use energy transfer language when explaining heating.",
+  "Remember that temperature measures average kinetic energy.",
+  "Include units in all calculations."
+],
+
+"hl_extension": [
+  {
+    "topic": "Boltzmann Constant",
+    "explanation": "The Boltzmann constant connects the microscopic energy of particles with temperature.",
+    "formula": "E = 3/2 kT"
+  },
+  {
+    "topic": "Molecular Motion",
+    "explanation": "At higher temperatures, molecules have a greater range of speeds. The distribution of molecular speeds changes with temperature."
+  },
+  {
+    "topic": "Thermodynamic Systems",
+    "explanation": "A system is analysed by considering energy transfer, work done and changes in internal energy."
+  }
+],
+
+"real_world_applications": [
+  "Car engines use thermal energy conversion to produce mechanical work.",
+  "Refrigerators use heat transfer principles to move thermal energy.",
+  "Weather systems depend on convection and gas behaviour.",
+  "Building insulation reduces unwanted thermal energy transfer.",
+  "Industrial machines use thermodynamics to improve efficiency."
+],
+
+"practice_questions": [
+  {
+    "level": "Easy",
+    "question": "What happens to particle kinetic energy when temperature increases?",
+    "answer": "Average particle kinetic energy increases."
+  },
+  {
+    "level": "Medium",
+    "question": "A gas is compressed at constant temperature. Explain what happens to pressure.",
+    "answer": "Pressure increases because particles collide with the container walls more frequently."
+  },
+  {
+    "level": "HL",
+    "question": "Explain why temperature remains constant during melting.",
+    "answer": "Energy is used to increase potential energy by breaking intermolecular bonds rather than increasing kinetic energy."
+  }
+],
+
+"summary": "Thermal physics explains how particles behave and how energy transfers between systems. Understanding temperature, internal energy, heat transfer and gas laws allows physicists to analyse materials, machines and natural processes. These concepts are essential for thermodynamics and many real-world technologies."
+}

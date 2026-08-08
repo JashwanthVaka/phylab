@@ -1,0 +1,225 @@
+{
+  "title": "A.5 Relativity",
+  "subject": "IBDP Physics",
+  "level": "SL and HL",
+
+  "introduction": "Relativity explains how measurements of space, time and motion depend on the observer's reference frame. Developed by Albert Einstein, relativity changed the understanding of gravity, energy and the relationship between space and time. This topic introduces special relativity, which deals with objects moving at constant velocity, and connects mass, energy and the speed of light.",
+
+  "learning_objectives": [
+    "Understand the need for relativity in physics.",
+    "Explain reference frames and observers.",
+    "Understand the postulates of special relativity.",
+    "Explain time dilation and length contraction.",
+    "Apply the mass-energy relationship.",
+    "Understand relativistic effects at high speeds."
+  ],
+
+  "definitions": [
+    {
+      "term": "Reference Frame",
+      "meaning": "A coordinate system used by an observer to measure position, time and motion."
+    },
+    {
+      "term": "Inertial Reference Frame",
+      "meaning": "A reference frame moving at constant velocity where Newton's laws apply."
+    },
+    {
+      "term": "Special Relativity",
+      "meaning": "A theory describing objects moving at constant velocity, especially at speeds close to the speed of light."
+    },
+    {
+      "term": "Speed of Light",
+      "meaning": "The maximum speed at which information and energy can travel in vacuum, approximately 3.00 × 10⁸ m/s."
+    },
+    {
+      "term": "Proper Time",
+      "meaning": "The time interval measured by an observer who sees events occurring at the same location."
+    },
+    {
+      "term": "Proper Length",
+      "meaning": "The length measured in the rest frame of the object."
+    }
+  ],
+
+  "core_concepts": [
+    {
+      "heading": "Why Relativity is Needed",
+      "explanation": "Classical physics accurately describes everyday motion but fails when objects move at speeds close to the speed of light. Relativity provides a framework for understanding these extreme conditions."
+    },
+    {
+      "heading": "Principle of Relativity",
+      "explanation": "The laws of physics are the same in all inertial reference frames. No inertial observer has a preferred frame of reference."
+    },
+    {
+      "heading": "Speed of Light is Constant",
+      "explanation": "The speed of light in vacuum remains constant for all observers, regardless of the motion of the source or observer."
+    },
+    {
+      "heading": "Space and Time",
+      "explanation": "Relativity shows that measurements of space and time depend on the observer's motion. Space and time are connected as spacetime."
+    }
+  ]
+,
+
+"formulas": [
+  {
+    "name": "Lorentz Factor",
+    "formula": "γ = 1 / √(1 - v²/c²)",
+    "variables": {
+      "γ": "Lorentz factor",
+      "v": "velocity of object (m/s)",
+      "c": "speed of light (3.00 × 10⁸ m/s)"
+    },
+    "explanation": "The Lorentz factor describes how strongly relativistic effects occur. When velocity is much smaller than the speed of light, the Lorentz factor is close to 1."
+  },
+  {
+    "name": "Time Dilation",
+    "formula": "Δt = γΔt₀",
+    "variables": {
+      "Δt": "time measured by stationary observer",
+      "Δt₀": "proper time measured by moving observer",
+      "γ": "Lorentz factor"
+    },
+    "explanation": "Time dilation describes how a moving clock appears to run slower when observed from a stationary reference frame."
+  },
+  {
+    "name": "Length Contraction",
+    "formula": "L = L₀/γ",
+    "variables": {
+      "L": "measured length",
+      "L₀": "proper length",
+      "γ": "Lorentz factor"
+    },
+    "explanation": "Objects moving close to the speed of light appear shorter in the direction of motion."
+  },
+  {
+    "name": "Mass Energy Equivalence",
+    "formula": "E = mc²",
+    "variables": {
+      "E": "energy (J)",
+      "m": "mass (kg)",
+      "c": "speed of light (m/s)"
+    },
+    "explanation": "Mass and energy are related. A small amount of mass can represent a large amount of energy because the speed of light is extremely large."
+  }
+],
+
+"relativistic_effects": [
+  {
+    "topic": "Time Dilation",
+    "explanation": "A clock moving at a high velocity relative to an observer appears to run slower. This effect becomes significant when speeds approach the speed of light.",
+    "example": "Astronauts travelling at extremely high speeds would experience less elapsed time compared with people on Earth."
+  },
+  {
+    "topic": "Length Contraction",
+    "explanation": "An object moving close to the speed of light appears shorter along the direction of motion to a stationary observer."
+  },
+  {
+    "topic": "Relativistic Energy",
+    "explanation": "As an object's speed increases, more energy is required to continue accelerating it. Reaching the speed of light would require infinite energy for objects with mass."
+  }
+],
+
+"worked_examples": [
+  {
+    "question": "A spacecraft travels at 0.8c. Calculate the Lorentz factor.",
+    "solution": [
+      "γ = 1 / √(1 - v²/c²)",
+      "v = 0.8c",
+      "γ = 1 / √(1 - 0.8²)",
+      "γ = 1.67"
+    ],
+    "answer": "γ = 1.67"
+  },
+  {
+    "question": "A spacecraft clock measures 5 years of proper time. If γ = 2, calculate Earth observer time.",
+    "solution": [
+      "Δt = γΔt₀",
+      "Δt = 2 × 5",
+      "Δt = 10 years"
+    ],
+    "answer": "10 years"
+  }
+],
+
+"evidence_and_applications": [
+  {
+    "topic": "Muon Decay",
+    "explanation": "Muons are particles created high in Earth's atmosphere. Their lifetime is short, but many reach Earth's surface because their high velocity causes time dilation. This provides experimental evidence for special relativity."
+  },
+  {
+    "topic": "Particle Accelerators",
+    "explanation": "Particle accelerators use electric fields to increase particle speeds close to the speed of light. Relativistic equations are required to calculate their energy and motion."
+  },
+  {
+    "topic": "GPS Technology",
+    "explanation": "GPS satellites require corrections from both special and general relativity because their clocks experience different rates due to their speed and gravitational field."
+  },
+  {
+    "topic": "Nuclear Energy",
+    "explanation": "Nuclear reactions release energy because a small amount of mass is converted into energy according to the mass-energy relationship."
+  }
+],
+
+"common_mistakes": [
+  "Thinking time dilation means time stops completely.",
+  "Using classical equations when objects move close to the speed of light.",
+  "Confusing proper time with observed time.",
+  "Forgetting that relativistic effects become significant only at very high speeds.",
+  "Assuming mass disappears during nuclear reactions instead of converting into energy.",
+  "Using incorrect units for velocity."
+],
+
+"ib_exam_tips": [
+  "State the reference frame when explaining relativity.",
+  "Identify proper measurements before applying equations.",
+  "Remember that c represents the speed of light.",
+  "Explain the physical meaning of equations, not only calculations.",
+  "Use diagrams to compare different observers.",
+  "Mention relativistic effects when discussing high-speed motion."
+],
+
+"hl_extension": [
+  {
+    "topic": "General Relativity",
+    "explanation": "General relativity extends special relativity by explaining gravity as the curvature of spacetime caused by mass and energy."
+  },
+  {
+    "topic": "Spacetime",
+    "explanation": "Space and time are connected into a four-dimensional structure called spacetime. Events are described using both position and time."
+  },
+  {
+    "topic": "Relativistic Momentum",
+    "explanation": "At high speeds, momentum must include relativistic corrections because classical momentum equations become inaccurate.",
+    "formula": "p = γmv"
+  }
+],
+
+"real_world_applications": [
+  "GPS navigation systems use relativity corrections for accurate positioning.",
+  "Particle physics experiments rely on relativistic calculations.",
+  "Space missions use relativistic concepts when analysing high-speed travel.",
+  "Nuclear power plants use mass-energy conversion principles.",
+  "Medical technologies such as PET scanners use particle physics concepts."
+],
+
+"practice_questions": [
+  {
+    "level": "Easy",
+    "question": "Why does relativity become important at speeds close to the speed of light?",
+    "answer": "Because classical physics no longer accurately describes changes in time, length and energy."
+  },
+  {
+    "level": "Medium",
+    "question": "Explain time dilation.",
+    "answer": "A moving clock appears to run slower compared with a stationary observer when travelling at high velocity."
+  },
+  {
+    "level": "HL",
+    "question": "Explain why particles in accelerators require relativistic equations.",
+    "answer": "At speeds close to light speed, classical equations do not correctly describe energy and momentum."
+  }
+],
+
+"summary": "Relativity changes the way physicists understand space, time and energy. Special relativity explains how measurements depend on motion, while the mass-energy relationship shows the connection between matter and energy. These concepts are essential for modern physics, astronomy, particle physics and advanced technology."
+}

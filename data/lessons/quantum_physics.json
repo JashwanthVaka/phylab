@@ -1,0 +1,290 @@
+{
+  "title": "D.4 Quantum Physics",
+  "subject": "IBDP Physics",
+  "level": "SL and HL",
+
+  "introduction": "Quantum physics studies the behaviour of matter and radiation at atomic and subatomic scales. At these scales, particles show both wave-like and particle-like properties. Quantum theory explains phenomena such as the photoelectric effect, atomic spectra, electron behaviour and modern technologies including lasers and semiconductors.",
+
+  "learning_objectives": [
+    "Understand the quantum nature of light.",
+    "Explain photons and energy quantisation.",
+    "Understand the photoelectric effect.",
+    "Explain wave-particle duality.",
+    "Understand atomic energy levels.",
+    "Apply quantum physics equations."
+  ],
+
+  "definitions": [
+    {
+      "term": "Quantum",
+      "meaning": "A discrete packet of energy or matter that exists in specific amounts."
+    },
+    {
+      "term": "Photon",
+      "meaning": "A particle of electromagnetic radiation carrying a fixed amount of energy."
+    },
+    {
+      "term": "Energy Level",
+      "meaning": "A fixed energy state that an electron can occupy inside an atom."
+    },
+    {
+      "term": "Electron Transition",
+      "meaning": "The movement of an electron between different energy levels by absorbing or emitting energy."
+    },
+    {
+      "term": "Wave-Particle Duality",
+      "meaning": "The idea that particles and radiation can show both wave and particle properties."
+    },
+    {
+      "term": "Work Function",
+      "meaning": "The minimum energy required to remove an electron from a material surface."
+    }
+  ],
+
+  "core_concepts": [
+    {
+      "heading": "Quantisation of Energy",
+      "explanation": "Quantum physics shows that energy is not continuous at atomic scales. Energy exists in specific packets called quanta."
+    },
+    {
+      "heading": "Photon Energy",
+      "explanation": "Electromagnetic radiation consists of photons. The energy of each photon depends on its frequency."
+    },
+    {
+      "heading": "Atomic Energy Levels",
+      "explanation": "Electrons in atoms can only exist at specific energy levels. They absorb or emit photons when moving between these levels."
+    },
+    {
+      "heading": "Wave Particle Duality",
+      "explanation": "Experiments show that light behaves as both a wave and a particle depending on how it is measured."
+    }
+  ]
+,
+
+"formulas": [
+  {
+    "name": "Photon Energy",
+    "formula": "E = hf",
+    "variables": {
+      "E": "photon energy (J)",
+      "h": "Planck constant (6.63 × 10⁻³⁴ Js)",
+      "f": "frequency (Hz)"
+    },
+    "explanation": "Photon energy is directly proportional to frequency. Higher frequency radiation contains higher energy photons."
+  },
+  {
+    "name": "Photon Energy Using Wavelength",
+    "formula": "E = hc/λ",
+    "variables": {
+      "E": "energy (J)",
+      "h": "Planck constant",
+      "c": "speed of light (m/s)",
+      "λ": "wavelength (m)"
+    },
+    "explanation": "This equation connects photon energy with wavelength. Shorter wavelength radiation has higher energy."
+  },
+  {
+    "name": "Photoelectric Equation",
+    "formula": "hf = φ + Ek",
+    "variables": {
+      "hf": "photon energy",
+      "φ": "work function",
+      "Ek": "maximum kinetic energy of emitted electron"
+    },
+    "explanation": "Photon energy is used to overcome the work function and provide kinetic energy to emitted electrons."
+  }
+],
+
+"photoelectric_effect": [
+  {
+    "topic": "Photoelectric Effect",
+    "explanation": "The photoelectric effect occurs when electrons are emitted from a metal surface after absorbing electromagnetic radiation with enough energy."
+  },
+  {
+    "observations": [
+      "Electrons are emitted only when frequency is above a threshold frequency.",
+      "Increasing intensity increases the number of emitted electrons.",
+      "Increasing frequency increases the kinetic energy of emitted electrons.",
+      "Emission occurs almost instantly when the threshold is exceeded."
+    ]
+  },
+  {
+    "topic": "Threshold Frequency",
+    "explanation": "The threshold frequency is the minimum frequency required for photons to remove electrons from a material."
+  }
+],
+
+"atomic_spectra": [
+  {
+    "topic": "Line Spectra",
+    "explanation": "Atoms produce specific wavelengths of light because electrons can only occupy specific energy levels."
+  },
+  {
+    "topic": "Emission Spectrum",
+    "explanation": "An emission spectrum is produced when electrons fall from higher energy levels to lower energy levels and release photons."
+  },
+  {
+    "topic": "Absorption Spectrum",
+    "explanation": "An absorption spectrum is produced when electrons absorb specific photon energies and move to higher energy levels."
+  }
+],
+
+"electron_transitions": [
+  {
+    "process": "Absorption",
+    "explanation": "An electron absorbs a photon and moves to a higher energy level when the photon energy matches the energy difference."
+  },
+  {
+    "process": "Emission",
+    "explanation": "An electron releases a photon when it moves from a higher energy level to a lower energy level."
+  },
+  {
+    "formula": "ΔE = hf",
+    "explanation": "The energy difference between two atomic levels equals the energy of the emitted or absorbed photon."
+  }
+],
+
+"worked_examples": [
+  {
+    "question": "Calculate the energy of a photon with frequency 5 × 10¹⁴ Hz.",
+    "solution": [
+      "Use E = hf",
+      "E = 6.63 × 10⁻³⁴ × 5 × 10¹⁴",
+      "E = 3.32 × 10⁻¹⁹ J"
+    ],
+    "answer": "3.32 × 10⁻¹⁹ J"
+  },
+  {
+    "question": "A metal has a work function of 2 eV. Explain what happens when a photon with energy 3 eV hits the surface.",
+    "solution": [
+      "Photon energy is greater than the work function.",
+      "The extra energy becomes kinetic energy of the electron."
+    ],
+    "answer": "An electron is emitted with 1 eV kinetic energy."
+  }
+],
+
+"matter_waves": [
+  {
+    "topic": "de Broglie Hypothesis",
+    "explanation": "Louis de Broglie proposed that particles such as electrons also have wave properties. This means matter can show both particle and wave behaviour."
+  },
+  {
+    "name": "de Broglie Wavelength",
+    "formula": "λ = h/p",
+    "variables": {
+      "λ": "wavelength (m)",
+      "h": "Planck constant (Js)",
+      "p": "momentum (kg m/s)"
+    },
+    "explanation": "The wavelength of a particle decreases as its momentum increases. Small particles such as electrons show noticeable wave behaviour."
+  },
+  {
+    "topic": "Electron Diffraction",
+    "explanation": "Electron diffraction experiments show that electrons produce interference patterns, proving their wave nature."
+  }
+],
+
+"uncertainty_principle": [
+  {
+    "topic": "Heisenberg Uncertainty Principle",
+    "explanation": "It is impossible to know the exact position and momentum of a particle at the same time. Greater accuracy in one quantity causes greater uncertainty in the other."
+  },
+  {
+    "formula": "ΔxΔp ≥ h/4π",
+    "variables": {
+      "Δx": "uncertainty in position (m)",
+      "Δp": "uncertainty in momentum (kg m/s)",
+      "h": "Planck constant"
+    },
+    "explanation": "The uncertainty principle becomes important at atomic and subatomic scales."
+  }
+],
+
+"quantum_applications": [
+  {
+    "application": "Lasers",
+    "explanation": "Lasers use stimulated emission, where atoms release photons with the same frequency and phase."
+  },
+  {
+    "application": "Semiconductors",
+    "explanation": "Quantum behaviour of electrons allows the operation of transistors, computer chips and electronic devices."
+  },
+  {
+    "application": "Electron Microscopes",
+    "explanation": "Electron microscopes use the short wavelength of electrons to create highly detailed images."
+  },
+  {
+    "application": "Solar Cells",
+    "explanation": "Solar cells use the photoelectric effect to convert photon energy into electrical energy."
+  }
+],
+
+"quantum_models": [
+  {
+    "topic": "Particle Model",
+    "explanation": "The particle model explains photons as packets of energy and particles as objects with measurable properties."
+  },
+  {
+    "topic": "Wave Model",
+    "explanation": "The wave model explains interference, diffraction and other wave behaviours."
+  },
+  {
+    "topic": "Quantum Model",
+    "explanation": "The quantum model combines wave and particle behaviour to describe matter and radiation at small scales."
+  }
+],
+
+"common_mistakes": [
+  "Thinking photons have no energy because they have no rest mass.",
+  "Confusing intensity with photon energy.",
+  "Forgetting that photon energy depends on frequency.",
+  "Assuming electrons are only particles.",
+  "Mixing work function and kinetic energy.",
+  "Using wavelength instead of frequency in photon equations."
+],
+
+"ib_exam_tips": [
+  "Remember E = hf for photon energy calculations.",
+  "Explain the photoelectric effect using photons.",
+  "State that energy levels in atoms are quantised.",
+  "Use conservation of energy in electron transition questions.",
+  "Explain wave-particle duality using experimental evidence.",
+  "Include units in quantum calculations."
+],
+
+"hl_extension": [
+  {
+    "topic": "Quantum Tunnelling",
+    "explanation": "Particles have a probability of passing through energy barriers even when classical physics predicts they cannot."
+  },
+  {
+    "topic": "Probability Wave",
+    "explanation": "Quantum mechanics describes particles using probability distributions rather than exact paths."
+  },
+  {
+    "topic": "Stimulated Emission",
+    "explanation": "A photon causes an excited atom to emit another identical photon, allowing laser production."
+  }
+],
+
+"practice_questions": [
+  {
+    "level": "Easy",
+    "question": "What is a photon?",
+    "answer": "A photon is a packet of electromagnetic energy."
+  },
+  {
+    "level": "Medium",
+    "question": "Why does increasing frequency increase photon energy?",
+    "answer": "Photon energy is directly proportional to frequency according to E = hf."
+  },
+  {
+    "level": "HL",
+    "question": "Explain wave-particle duality.",
+    "answer": "Matter and radiation show both wave and particle properties depending on the experiment."
+  }
+],
+
+"summary": "Quantum physics explains the behaviour of matter and radiation at atomic scales. Concepts such as photons, energy quantisation, the photoelectric effect and wave-particle duality explain modern technologies including lasers, electronics and medical equipment."
+}

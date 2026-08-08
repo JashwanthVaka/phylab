@@ -1,0 +1,8 @@
+{
+  "name": "phylab",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Interactive IBDP Physics learning platform",
+  "scripts": { "start": "node server.js" },
+  "engines": { "node": ">=18" }
+}
