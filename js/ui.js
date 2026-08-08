@@ -28,15 +28,8 @@ export const renderSearch = (results, query) => `<section class="page"><p class=
 
 export function showTutor() {
   const root = document.querySelector('#modalRoot');
-  root.innerHTML = `<div class="modal show" role="dialog" aria-modal="true" aria-labelledby="tutorTitle"><div class="modal-card"><button class="modal-close" data-close-modal aria-label="Close PHY tutor">×</button><p class="eyebrow">PHY, YOUR AI STUDY PARTNER</p><h2 id="tutorTitle">Ask a better physics question.</h2><div id="chatLog" class="chat"><p><b>PHY:</b> Tell me what you are working on and what part feels uncertain.</p></div><form id="chatForm" class="chat-form"><label class="visually-hidden" for="chatInput">Message PHY</label><input id="chatInput" required maxlength="6000" placeholder="Ask about a concept, calculation, or method…"><button class="button">Send</button></form></div></div>`;
-  document.querySelector('#chatInput').focus();
-  document.querySelector('#chatForm').addEventListener('submit', async event => {
-    event.preventDefault(); const input = document.querySelector('#chatInput'); const message = input.value.trim(); if (!message) return;
-    const log = document.querySelector('#chatLog'); log.insertAdjacentHTML('beforeend', `<p><b>You:</b> ${escapeHTML(message)}</p><p class="chat-loading">PHY is thinking…</p>`); input.value = '';
-    try { const response = await fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message }) }); const data = await response.json(); document.querySelector('.chat-loading')?.remove(); log.insertAdjacentHTML('beforeend', `<p><b>PHY:</b> ${escapeHTML(data.answer || data.error || 'PHY is unavailable right now.')}</p>`); }
-    catch { document.querySelector('.chat-loading')?.remove(); log.insertAdjacentHTML('beforeend', '<p><b>PHY:</b> I am temporarily unavailable. Please try again shortly.</p>'); }
-    log.scrollTop = log.scrollHeight;
-  });
+  root.innerHTML = `<div class="modal show" role="dialog" aria-modal="true" aria-labelledby="tutorTitle"><div class="modal-card"><button class="modal-close" data-close-modal aria-label="Close PHY tutor">×</button><p class="eyebrow">PHY, YOUR AI STUDY PARTNER</p><h2 id="tutorTitle">Ask a better physics question.</h2><p>Open the dedicated PHY workspace for teaching modes, source-aware answers, saved conversations, images, and streamed explanations.</p><a class="button" href="/ai" data-route>Open PHY workspace →</a></div></div>`;
+  document.querySelector('.modal-close')?.focus();
 }
 
 export function bindUI({ loader, router, searchIndex, render }) {

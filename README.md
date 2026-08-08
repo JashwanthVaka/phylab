@@ -26,13 +26,15 @@ npm start
 
 ## Keep it online 24/7
 
-For actual 24/7 availability, deploy the Node application to a host such as Render, Railway, Fly.io, Vercel, or a VPS. Add `OPENAI_API_KEY` in the provider’s Environment Variables and use this start command:
+PHYLAB is container-ready for an always-on Render deployment. The included `render.yaml` deliberately uses Render's paid Starter plan: free web services sleep after inactivity and do not meet a 24/7 requirement.
 
-```bash
-npm start
-```
+1. Push this repository to GitHub.
+2. In [Render](https://render.com), select **New → Blueprint** and connect `JashwanthVaka/phylab`.
+3. Render will detect `render.yaml`; approve the `phylab` service.
+4. In the service environment settings, add `OPENAI_API_KEY` only if you later enable PHY AI. Leave it absent for the rest of PHYLAB to work without AI.
+5. Deploy. Render provides a permanent HTTPS URL and automatically redeploys when you push changes to GitHub.
 
-Your own computer can also run it continuously, but it must remain powered on and connected to the internet. Configure a usage alert and rate limits before sharing the site publicly.
+The service listens on the host-provided `PORT`, exposes `/api/health` for health checks, and binds externally only in production. Your computer does not need to remain on after deployment.
 
 The practice bank contains original PHYLAB questions. Do not publicly upload or redistribute copyrighted IB past papers or markschemes; instead, link signed-in students to school-licensed materials held in a private storage bucket.
 
