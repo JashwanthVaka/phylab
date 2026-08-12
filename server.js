@@ -6,6 +6,21 @@ const crypto = require('node:crypto');
 const { createRetrievalEngine } = require('./server/retrievalEngine.cjs');
 
 const ROOT = __dirname;
+
+/** Loads .env for local development without a dependency. Hosted platforms inject real variables instead. */
+function loadEnvFile() {
+  try {
+    const raw = require('node:fs').readFileSync(path.join(__dirname, '.env'), 'utf8');
+    raw.split(/\r?\n/).forEach(line => {
+      const match = line.match(/^\s*(?:export\s+)?([A-Z0-9_]+)\s*=\s*(.*)$/i);
+      if (!match || line.trim().startsWith('#')) return;
+      const value = match[2].trim().replace(/^(['"])(.*)\1$/s, '$2');
+      if (process.env[match[1]] === undefined) process.env[match[1]] = value;
+    });
+  } catch { /* No .env file is a normal production setup. */ }
+}
+loadEnvFile();
+
 const PORT = Number(process.env.PORT || 3000);
 const HOST = process.env.HOST || (process.env.NODE_ENV === 'production' ? '0.0.0.0' : '127.0.0.1');
 const REQUESTS = new Map();
@@ -67,7 +82,79 @@ function tutorInstructions({ mode, context, sources }) {
   return `${TUTOR_CONTEXT}\n\nTeaching mode: ${mode}.\nCurrent PHYLAB route and learner context: ${JSON.stringify(context)}\n\nRetrieved PHYLAB content (use this before other knowledge):\n${retrieved}\n\nRespond in concise Markdown. When relevant, use these headings: Explanation, Formula, Variables and units, Worked example, Common mistakes, IB tip, and Next in PHYLAB. In Numerical Solver mode always show Known values, Unknown, Equation, Substitution, Answer with units and significant figures, and Reasonableness check. In IB Examiner mode label feedback as PHYLAB practice marking, identify correct points, missing points, an estimated mark, a model answer, and improvement advice. For Question Generator mode, produce original questions only, identify SL/HL, marks, command term, answer, and mark points. For Revision Coach mode, recommend a realistic next study action from the retrieved topics. Never reveal hidden reasoning or claim an official IB mark.`;
 }
 
-async function streamOpenAI(response, res) {
+/**
+ * PHYLAB talks to several providers so a learner is never blocked by one vendor.
+ * Every key is read from the server environment and never reaches the browser.
+ */
+const PROVIDERS = {
+  openai: {
+    label: 'OpenAI', envKey: 'OPENAI_API_KEY', modelKey: 'OPENAI_MODEL', defaultModel: 'gpt-5.6-sol',
+    build: ({ model, instructions, history, message, image }) => ({
+      url: 'https://api.openai.com/v1/responses',
+      headers: { Authorization: `Bearer ${process.env.OPENAI_API_KEY}` },
+      body: {
+        model, instructions, stream: true, store: false, reasoning: { effort: 'high' }, text: { verbosity: 'medium' },
+        input: [...history.map(item => ({ role: item.role, content: [{ type: item.role === 'assistant' ? 'output_text' : 'input_text', text: item.content }] })),
+          { role: 'user', content: [{ type: 'input_text', text: message }, ...(image ? [{ type: 'input_image', image_url: image }] : [])] }]
+      }
+    }),
+    parse: event => (event.type === 'response.output_text.delta' ? event.delta : '')
+  },
+  groq: {
+    label: 'Groq', envKey: 'GROQ_API_KEY', modelKey: 'GROQ_MODEL', defaultModel: 'llama-3.3-70b-versatile',
+    build: ({ model, instructions, history, message, image }) => ({
+      url: 'https://api.groq.com/openai/v1/chat/completions',
+      headers: { Authorization: `Bearer ${process.env.GROQ_API_KEY}` },
+      body: {
+        model, stream: true,
+        messages: [{ role: 'system', content: instructions }, ...history,
+          { role: 'user', content: image ? [{ type: 'text', text: message }, { type: 'image_url', image_url: { url: image } }] : message }]
+      }
+    }),
+    parse: event => event.choices?.[0]?.delta?.content || ''
+  },
+  anthropic: {
+    label: 'Anthropic', envKey: 'ANTHROPIC_API_KEY', modelKey: 'ANTHROPIC_MODEL', defaultModel: 'claude-sonnet-5',
+    build: ({ model, instructions, history, message, image }) => {
+      const parts = [{ type: 'text', text: message }];
+      const media = image && image.match(/^data:(image\/[a-z]+);base64,(.+)$/i);
+      if (media) parts.unshift({ type: 'image', source: { type: 'base64', media_type: media[1], data: media[2] } });
+      return {
+        url: 'https://api.anthropic.com/v1/messages',
+        headers: { 'x-api-key': process.env.ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01' },
+        body: { model, system: instructions, max_tokens: 4096, stream: true, messages: [...history, { role: 'user', content: parts }] }
+      };
+    },
+    parse: event => (event.type === 'content_block_delta' ? event.delta?.text || '' : '')
+  },
+  gemini: {
+    label: 'Google Gemini', envKey: 'GEMINI_API_KEY', modelKey: 'GEMINI_MODEL', defaultModel: 'gemini-2.5-flash',
+    build: ({ model, instructions, history, message, image }) => {
+      const parts = [{ text: message }];
+      const media = image && image.match(/^data:(image\/[a-z]+);base64,(.+)$/i);
+      if (media) parts.push({ inlineData: { mimeType: media[1], data: media[2] } });
+      return {
+        url: `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:streamGenerateContent?alt=sse`,
+        headers: { 'x-goog-api-key': process.env.GEMINI_API_KEY },
+        body: {
+          systemInstruction: { parts: [{ text: instructions }] },
+          contents: [...history.map(item => ({ role: item.role === 'assistant' ? 'model' : 'user', parts: [{ text: item.content }] })), { role: 'user', parts }]
+        }
+      };
+    },
+    parse: event => (event.candidates?.[0]?.content?.parts || []).map(part => part.text || '').join('')
+  }
+};
+
+const providerConfigured = id => Boolean(process.env[PROVIDERS[id].envKey]);
+const availableProviders = () => Object.keys(PROVIDERS).filter(providerConfigured);
+/** Honours an explicit request or AI_PROVIDER, then falls back to whichever key is present. */
+function resolveProvider(requested) {
+  const preferred = [requested, process.env.AI_PROVIDER].map(value => String(value || '').toLowerCase()).find(value => PROVIDERS[value] && providerConfigured(value));
+  return preferred || availableProviders()[0] || null;
+}
+
+async function streamProvider(response, res, parse) {
   const reader = response.body?.getReader();
   if (!reader) throw new Error('The AI response did not include a stream.');
   const decoder = new TextDecoder();
@@ -82,9 +169,10 @@ async function streamOpenAI(response, res) {
       if (!payload || payload === '[DONE]') continue;
       try {
         const event = JSON.parse(payload);
-        if (event.type === 'response.output_text.delta' && event.delta) sse(res, 'delta', { delta: event.delta });
-        if (event.type === 'response.completed') sse(res, 'meta', { requestId: response.headers.get('x-request-id'), usage: event.response?.usage || null });
-        if (event.type === 'error') sse(res, 'error', { error: 'PHY could not complete that request. Please retry.' });
+        const delta = parse(event) || '';
+        if (delta) sse(res, 'delta', { delta });
+        if (event.type === 'response.completed') sse(res, 'meta', { usage: event.response?.usage || null });
+        if (event.type === 'error' || event.error) sse(res, 'error', { error: 'PHY could not complete that request. Please retry.' });
       } catch { /* Ignore incomplete upstream SSE packets. */ }
     }
   }
@@ -92,9 +180,12 @@ async function streamOpenAI(response, res) {
 
 async function tutor(req, res) {
   if (rateLimited(req)) return send(res, 429, { error: 'Too many requests. Please wait a few minutes and try again.' });
-  if (!process.env.OPENAI_API_KEY) return send(res, 503, { error: 'PHY is ready, but OPENAI_API_KEY has not been configured.' });
+  let providerId;
   try {
     const body = await readJSON(req);
+    providerId = resolveProvider(body.provider);
+    if (!providerId) return send(res, 503, { error: 'PHY is ready, but no AI key has been configured on the server. Add GROQ_API_KEY, OPENAI_API_KEY, ANTHROPIC_API_KEY, or GEMINI_API_KEY to your environment.' });
+    const provider = PROVIDERS[providerId];
     const message = cleanText(body.message);
     if (!message) return send(res, 400, { error: 'Please write a question for PHY.' });
     const mode = MODES.has(body.mode) ? body.mode : 'Physics Teacher';
@@ -102,19 +193,24 @@ async function tutor(req, res) {
     const sources = await retrievalEngine.retrieve(message, context, 8);
     const history = Array.isArray(body.history) ? body.history.slice(-8).filter(item => item && ['user', 'assistant'].includes(item.role)).map(item => ({ role: item.role, content: cleanText(item.content, 3500) })).filter(item => item.content) : [];
     const image = validImage(body.image) ? body.image : null;
-    const userContent = [{ type: 'input_text', text: message }];
-    if (image) userContent.push({ type: 'input_image', image_url: image });
+    const model = process.env[provider.modelKey] || provider.defaultModel;
+    const request = provider.build({ model, instructions: tutorInstructions({ mode, context, sources }), history, message, image });
     const controller = new AbortController();
     req.on('aborted', () => controller.abort());
-    const response = await fetch('https://api.openai.com/v1/responses', {
+    const response = await fetch(request.url, {
       method: 'POST', signal: controller.signal,
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.OPENAI_API_KEY}`, 'X-Client-Request-Id': crypto.randomUUID() },
-      body: JSON.stringify({ model: process.env.OPENAI_MODEL || 'gpt-5.6-sol', instructions: tutorInstructions({ mode, context, sources }), input: [...history, { role: 'user', content: userContent }], reasoning: { effort: 'high' }, text: { verbosity: 'medium' }, stream: true, store: false, safety_identifier: `phylab-${crypto.createHash('sha256').update(req.socket.remoteAddress || 'anonymous').digest('hex').slice(0, 24)}` })
+      headers: { 'Content-Type': 'application/json', 'X-Client-Request-Id': crypto.randomUUID(), ...request.headers },
+      body: JSON.stringify(request.body)
     });
-    if (!response.ok) { const data = await response.json().catch(() => ({})); return send(res, response.status, { error: data?.error?.message || 'PHY could not complete that request.' }); }
+    if (!response.ok) {
+      const data = await response.json().catch(() => ({}));
+      const detail = data?.error?.message || data?.error?.[0]?.message || data?.message;
+      return send(res, response.status, { error: `${provider.label}: ${detail || 'PHY could not complete that request.'}` });
+    }
     res.writeHead(200, { 'Content-Type': 'text/event-stream; charset=utf-8', 'Cache-Control': 'no-cache, no-transform', Connection: 'keep-alive', 'X-Accel-Buffering': 'no' });
     sse(res, 'sources', { sources: sources.map(({ type, title, href, metadata }) => ({ type, title, href, metadata })) });
-    await streamOpenAI(response, res);
+    sse(res, 'meta', { provider: providerId, providerLabel: provider.label, model });
+    await streamProvider(response, res, provider.parse);
     sse(res, 'done', {}); res.end();
   } catch (error) {
     if (error.name === 'AbortError') return;
@@ -125,15 +221,19 @@ async function tutor(req, res) {
 }
 async function serveAsset(res, pathname, headOnly) {
   let target = pathname === '/' ? 'index.html' : pathname.replace(/^\//, '');
-  const appRoute = /^\/(lesson\/[^/]+|formulas(?:\/[^/]+)?|quiz(?:\/topic\/[^/]+)?|exam|results\/[^/]+|simulations(?:\/[^/]+)?|progress|mastery|activity|bookmarks|revision|ai|account|login|signup|onboarding|search)$/.test(pathname);
-  if (appRoute) target = 'index.html';
+  // Any path without a file extension is a client route, so the SPA renders it (including its own 404 page).
+  if (!/\.[a-z0-9]+$/i.test(target) && !target.startsWith('api/')) target = 'index.html';
   if (!(/^(index\.html|styles\.css|app\.js|public-env\.js|js\/[a-zA-Z0-9_\/-]+\.js)$/.test(target))) return send(res, 404, { error: 'Not found' });
   const file = path.resolve(ROOT, target); if (!file.startsWith(`${ROOT}${path.sep}`)) return send(res, 403, { error: 'Forbidden' });
   try { const data = await fs.readFile(file); res.writeHead(200, { 'Content-Type': MIME[path.extname(file)] || 'application/octet-stream', 'Cache-Control': target.includes('.') && target !== 'index.html' ? 'public, max-age=3600' : 'no-cache', 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'strict-origin-when-cross-origin', 'X-Frame-Options': 'DENY' }); if (!headOnly) res.end(data); else res.end(); } catch { send(res, 404, { error: 'Not found' }); }
 }
 http.createServer(async (req, res) => {
   const url = new URL(req.url, `http://${req.headers.host || 'localhost'}`); const pathname = decodeURIComponent(url.pathname);
-  if (req.method === 'GET' && pathname === '/api/health') return send(res, 200, { status: 'ok', tutorConfigured: Boolean(process.env.OPENAI_API_KEY) });
+  if (req.method === 'GET' && pathname === '/api/health') return send(res, 200, { status: 'ok', tutorConfigured: availableProviders().length > 0, providers: availableProviders() });
+  if (req.method === 'GET' && pathname === '/api/ai/providers') return send(res, 200, {
+    active: resolveProvider(),
+    providers: Object.entries(PROVIDERS).map(([id, provider]) => ({ id, label: provider.label, configured: providerConfigured(id), envKey: provider.envKey, model: providerConfigured(id) ? process.env[provider.modelKey] || provider.defaultModel : null }))
+  });
   if (req.method === 'GET' && pathname === '/api/content/index') { try { return send(res, 200, await contentIndex(), { 'Cache-Control': 'public, max-age=300' }); } catch (error) { return send(res, 500, { error: `Content catalogue error: ${error.message}` }); } }
   const lessonMatch = pathname.match(/^\/api\/content\/lessons\/([a-z0-9-]+)$/); if (req.method === 'GET' && lessonMatch) { try { const files = await lessonFiles(); const file = files.find(candidate => slugify(path.basename(candidate, '.json')) === lessonMatch[1]); if (!file) return send(res, 404, { error: 'Lesson not found.' }); return send(res, 200, normalizeLesson(await readLesson(file), file, files), { 'Cache-Control': 'public, max-age=300' }); } catch (error) { return send(res, 500, { error: `Lesson error: ${error.message}` }); } }
   if (req.method === 'POST' && pathname === '/api/chat') return tutor(req, res);

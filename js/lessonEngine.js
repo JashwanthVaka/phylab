@@ -1,5 +1,5 @@
 import { card, definition, emptyState, example, formula, list, section, table } from './renderer.js';
-import { escapeHTML, slugify } from './utils.js';
+import { escapeHTML } from './utils.js';
 import { diagramFor } from './diagramEngine.js';
 import { graphFor, renderGraph } from './graphEngine.js';
 import { lessonFlashcards, renderFlashcards } from './flashcards.js';
@@ -34,7 +34,7 @@ export function renderLesson(lesson, index = { lessonIndex: [] }) {
     ${section('Practical, IA and TOK connections', `<div class="card-grid">${card('Practical investigation', `<p>${escapeHTML(lesson.practical_experiment || 'Use this topic to design a controlled measurement, identify uncertainties, and evaluate evidence.')}</p>`)}${card('Internal assessment connection', `<p>${escapeHTML(lesson.ia_connection || 'Connect a measurable independent variable to a justified physical model and uncertainty treatment.')}</p>`)}${card('TOK connection', `<p>${escapeHTML(lesson.tok_connection || 'Consider how models, assumptions, and measurement limits shape what physics can claim.')}</p>`)}</div>`, { eyebrow: 'CONNECT THE KNOWLEDGE' })}
     ${section('Summary', `<div class="summary-card"><p>${escapeHTML(lesson.summary || 'Summary not yet supplied.')}</p></div>`, { id: 'summary', eyebrow: 'TAKEAWAY' })}
     ${section('Flashcards', renderFlashcards(lessonFlashcards(lesson)), { eyebrow: 'SPACED REVISION' })}
-    ${section('Knowledge pathways', `<div class="pathway-grid">${graph.previous ? `<a href="/lesson/${graph.previous.slug}" data-route>← Previous<br><b>${escapeHTML(graph.previous.title)}</b></a>` : '<span></span>'}${graph.next ? `<a href="/lesson/${graph.next.slug}" data-route>Next →<br><b>${escapeHTML(graph.next.title)}</b></a>` : '<span></span>'}</div>${graph.related.length ? `<div class="related-links">${graph.related.map(item => `<a href="/lesson/${slugify(item)}" data-route>${escapeHTML(item)}</a>`).join('')}</div>` : ''}${graph.advanced.length ? `<p><b>Advanced:</b> ${escapeHTML(graph.advanced.join(' · '))}</p>` : ''}`, { eyebrow: 'CONTINUE LEARNING' })}
+    ${section('Knowledge pathways', `<div class="pathway-grid">${graph.previous ? `<a href="/lesson/${graph.previous.slug}" data-route>← Previous<br><b>${escapeHTML(graph.previous.title)}</b></a>` : '<span></span>'}${graph.next ? `<a href="/lesson/${graph.next.slug}" data-route>Next →<br><b>${escapeHTML(graph.next.title)}</b></a>` : '<span></span>'}</div>${graph.related.length ? `<div class="related-links">${graph.related.map(item => `<a href="/lesson/${escapeHTML(item.slug)}" data-route>${escapeHTML(item.title)}</a>`).join('')}</div>` : ''}${graph.advanced.length ? `<p><b>Advanced:</b> ${escapeHTML(graph.advanced.join(' · '))}</p>` : ''}`, { eyebrow: 'CONTINUE LEARNING' })}
     <div class="lesson-actions"><button class="button" data-complete-lesson="${escapeHTML(lesson.slug)}">Mark lesson complete</button><a class="outline" href="/quiz" data-route>Practise now</a><button class="outline" data-open-tutor>Ask PHY about this lesson</button></div>
   </article>`;
 }
