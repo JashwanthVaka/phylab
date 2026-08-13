@@ -14,6 +14,7 @@ import { SearchIndex } from './js/search.js';
 import { getProgress } from './js/utils.js';
 import { authPage, accountPage, onboardingPage, bindAccount } from './js/accountUI.js';
 import { profileService } from './js/services/profileService.js';
+import { progressService } from './js/services/progressService.js';
 import { bookmarkService } from './js/services/bookmarkService.js';
 import { offlineSyncService } from './js/services/offlineSyncService.js';
 import { dashboardService } from './js/services/dashboardService.js';
@@ -131,6 +132,12 @@ async function transition(work, message = 'Loading page…') {
   }
 }
 
+/** Gathers everything the progress dashboard needs so it never has to invent a metric. */
+async function dashboardContext() {
+  const [summary, index, state] = await Promise.all([dashboardService.summary(), loader.getIndex(), progressService.list()]);
+  return [summary, { lessons: index.lessonIndex, units: index.units, completed: state.completed }];
+}
+
 function bookmarkPage(rows) {
   const cards = rows.map(row => `<article class="search-result"><span class="tag">${row.content_type}</span><h3>${row.content_key}</h3><p>${row.note || ''}</p></article>`).join('');
   return `<section class="page"><p class="eyebrow">BOOKMARKS</p><h1>Saved learning.</h1>${cards ? `<div class="search-results">${cards}</div>` : '<div class="empty-state"><h3>No bookmarks yet</h3><p>Save a lesson, formula, graph, or question to find it here.</p></div>'}</section>`;
@@ -172,9 +179,37 @@ const router = new Router({
     const studio = await loadPageModule('./js/simulationStudio.js');
     return { view: studio.detail(slug), mount: () => studio.bindStudio() };
   }, 'Opening physics lab…'),
-  '/progress': () => transition(async () => ({ view: dashboardView(await dashboardService.summary()) }), 'Loading progress…'),
+  '/library': () => transition(async () => {
+    const [index, library, state] = await Promise.all([loader.getIndex(), loadPageModule('./js/libraryUI.js'), progressService.list()]);
+    return { view: library.libraryPage(index, state), mount: () => library.bindLibrary() };
+  }, 'Opening the course library…'),
+  '/toolkit': () => transition(async () => {
+    const [index, toolkit] = await Promise.all([loader.getIndex(), loadPageModule('./js/toolkitUI.js')]);
+    return { view: toolkit.toolkitPage(index) };
+  }, 'Opening the active toolkit…'),
+  '/cases': () => transition(async () => {
+    const [index, cases] = await Promise.all([loader.getIndex(), loadPageModule('./js/casesUI.js')]);
+    return { view: cases.casesPage(index), mount: () => cases.bindCases() };
+  }, 'Loading case practice…'),
+  '/cases/:slug': ({ slug }) => transition(async () => {
+    const [index, cases] = await Promise.all([loader.getIndex(), loadPageModule('./js/casesUI.js')]);
+    return { view: cases.casePage(index, slug), mount: () => cases.bindCases() };
+  }, 'Opening case…'),
+  '/patterns': () => transition(async () => {
+    const [index, patterns] = await Promise.all([loader.getIndex(), loadPageModule('./js/patternsUI.js')]);
+    return { view: patterns.patternsPage(index), mount: () => patterns.bindPatterns() };
+  }, 'Loading question patterns…'),
+  '/exam-prep': () => transition(async () => {
+    const [index, examPrep] = await Promise.all([loader.getIndex(), loadPageModule('./js/examPrepUI.js')]);
+    return { view: examPrep.examPrepPage(index) };
+  }, 'Opening exam preparation…'),
+  '/resources': () => transition(async () => {
+    const [index, resources] = await Promise.all([loader.getIndex(), loadPageModule('./js/resourcesUI.js')]);
+    return { view: resources.resourcesPage(index) };
+  }, 'Loading the source library…'),
+  '/progress': () => transition(async () => ({ view: dashboardView(...(await dashboardContext())) }), 'Loading progress…'),
   '/mastery': () => transition(async () => ({ view: masteryView(await dashboardService.summary()) }), 'Loading mastery…'),
-  '/activity': () => transition(async () => ({ view: dashboardView(await dashboardService.summary()) }), 'Loading activity…'),
+  '/activity': () => transition(async () => ({ view: dashboardView(...(await dashboardContext())) }), 'Loading activity…'),
   '/login': () => transition(async () => ({ view: authPage('login') }), 'Opening sign in…'),
   '/signup': () => transition(async () => ({ view: authPage('signup') }), 'Opening sign up…'),
   '/onboarding': () => transition(async () => ({ view: onboardingPage() }), 'Preparing onboarding…'),

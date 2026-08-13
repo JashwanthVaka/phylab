@@ -1,6 +1,22 @@
 # PHYLAB
 
-A self-contained, interactive IBDP Physics learning platform. It includes the complete syllabus map requested in the project brief, a topic/lesson experience, formula reference, student dashboard, an OpenAI-powered AI tutor, original exam practice bank and three live canvas simulations.
+A self-contained, interactive IBDP Physics learning platform built with vanilla HTML, CSS
+and ES modules on a dependency-free Node server.
+
+- **Course library** — all 19 lessons in syllabus order, grouped into the four IB units
+  (A Space, Time and Motion · B The Particulate Nature of Matter · C Wave Behaviour · D Fields),
+  with search, unit filters, per-lesson completion and an overall progress ring.
+- **Simulation studio** — 10 labs driven by the real equations, each with sliders and number
+  inputs, live answers in SI units, an animated graph marker that advances physical time, and
+  play/pause/reset.
+- **Case practice** — 19 real-world contexts with the physics involved, worked short questions,
+  an exam-style prompt and common mistakes.
+- **Question patterns** — how to answer 15 IB command terms, each with a method, mistakes and
+  a model answer.
+- **Active toolkit** — five reusable methods for numerical, graph, data, practical and
+  extended-response questions.
+- **Exam preparation hub**, **source library**, **formula centre**, **quiz engine** with
+  deterministic marking, and **PHY**, an AI tutor that answers from PHYLAB content first.
 
 ## Run locally
 
@@ -51,7 +67,7 @@ PHYLAB is container-ready for an always-on Render deployment. The included `rend
 1. Push this repository to GitHub.
 2. In [Render](https://render.com), select **New → Blueprint** and connect `JashwanthVaka/phylab`.
 3. Render will detect `render.yaml`; approve the `phylab` service.
-4. In the service environment settings, add `OPENAI_API_KEY` only if you later enable PHY AI. Leave it absent for the rest of PHYLAB to work without AI.
+4. In the service environment settings, add one of `GROQ_API_KEY`, `OPENAI_API_KEY`, `ANTHROPIC_API_KEY` or `GEMINI_API_KEY` only if you want PHY AI. Leave them absent for the rest of PHYLAB to work without AI.
 5. Deploy. Render provides a permanent HTTPS URL and automatically redeploys when you push changes to GitHub.
 
 The service listens on the host-provided `PORT`, exposes `/api/health` for health checks, and binds externally only in production. Your computer does not need to remain on after deployment.

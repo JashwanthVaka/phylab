@@ -5,18 +5,80 @@ import { completeLesson, debounce, escapeHTML, getProgress, orderLessons } from 
 import { bindCalculator, renderCalculator } from './calculatorEngine.js';
 import { bindFlashcards } from './flashcards.js';
 import { bindGraphs, graphFor, renderGraph } from './graphEngine.js';
+import { bindHeroScene, heroScene } from './heroScene.js';
 
 export const renderLoading = message => `<section class="page"><p class="eyebrow">PHYLAB</p><h1>${escapeHTML(message)}</h1>${skeleton(6)}</section>`;
 export const renderNotFound = () => `<section class="page error-state"><p class="eyebrow">404</p><h1>That learning path does not exist.</h1><a class="button" href="/" data-route>Back to PHYLAB</a></section>`;
 
 export function renderHome(index, progress) {
   const lessons = orderLessons(index.lessonIndex);
-  const completed = progress.completedLessons.length;
-  return `<section class="hero page-hero"><div class="hero-copy"><p class="eyebrow">THE PHYSICS STUDIO FOR IB</p><h1>Learn the laws.<br><em>See them move.</em></h1><p class="lead">A focused learning environment for IBDP Physics SL and HL—concepts, simulations, practice and feedback in one workspace.</p><div class="actions"><a href="/lesson/${lessons[0]?.slug || ''}" class="button" data-route>Start learning <b>→</b></a><a href="/simulations" class="text-button" data-route>Explore the lab <span>↗</span></a></div></div><div class="orbital-scene" aria-label="Illustration of an atom"><div class="glow"></div><div class="atom"><span class="nucleus">+</span><i class="ring r1"><b></b></i><i class="ring r2"><b></b></i><i class="ring r3"><b></b></i></div><div class="measure m1">E = mc²</div><div class="measure m2">Δx · Δp ≥ ℏ/2</div></div></section>
-  <section class="stats"><div><strong>${lessons.length}</strong><span>available<br>lessons</span></div><div><strong>${index.questions.length}</strong><span>practice<br>questions</span></div><div><strong>${index.simulations.length}</strong><span>lab<br>foundations</span></div><div><strong>${completed}</strong><span>lessons<br>completed</span></div></section>
-  <section class="page section intro"><div><p class="eyebrow">YOUR COURSE LIBRARY</p><h2>Everything you need to think like a physicist.</h2></div><p>Find a topic, open a lesson, practise a method, or use PHY when you need a well-framed next step.</p></section>
-  <section class="page course-library"><div class="section-head"><div><p class="eyebrow">SYLLABUS LIBRARY</p><h2>Navigate the course.</h2></div><label class="search"><span>⌕</span><input id="globalSearch" autocomplete="off" placeholder="Search topics, formulae, definitions…"></label></div><div class="module-grid">${lessons.map(lesson => `<a class="module-card" href="/lesson/${lesson.slug}" data-route><span class="module-num">${escapeHTML(lesson.level || 'SL + HL')}</span><span class="unit">${escapeHTML(lesson.topicLabel)}</span><h3>${escapeHTML(lesson.title)}</h3><p>${escapeHTML(lesson.summary || 'Open this lesson to begin learning.')}</p><span class="open-module">Open lesson <b>→</b></span></a>`).join('')}</div></section>
-  <section class="page toolkit"><div><p class="eyebrow">ACTIVE TOOLKIT</p><h2>Don’t just read it.<br><em>Model it.</em></h2></div><div class="method-card"><h3>Five-step physics method</h3><ol><li><b>01</b> Define the system.</li><li><b>02</b> Model with a diagram or graph.</li><li><b>03</b> Apply a principle.</li><li><b>04</b> Calculate in SI units.</li><li><b>05</b> Evaluate the result.</li></ol></div><div class="progress-card"><p class="eyebrow">YOUR PROGRESS</p><div class="progress-ring"><b>${Math.round(completed / Math.max(index.lessonIndex.length, 1) * 100)}%</b></div><p>${completed} of ${index.lessonIndex.length} lessons completed</p><a class="text-button" href="/progress" data-route>View progress →</a></div></section>`;
+  const completed = progress.completedLessons.filter(slug => lessons.some(lesson => lesson.slug === slug)).length;
+  const percentage = Math.round(completed / Math.max(lessons.length, 1) * 100);
+  const next = lessons.find(lesson => !progress.completedLessons.includes(lesson.slug)) || lessons[0];
+  const units = index.units || [];
+  const firstMethod = (index.toolkit || [])[0];
+
+  return `<section class="hero page-hero">
+    <div class="hero-copy">
+      <p class="eyebrow">THE PHYSICS STUDIO FOR IB</p>
+      <h1>Master IBDP Physics.<br><em>See every law move.</em></h1>
+      <p class="lead">Lessons in syllabus order, a formula centre that explains every symbol, graphs and simulations driven by the real equations, practice with transparent marking, and an AI tutor that answers from PHYLAB’s own content first.</p>
+      <div class="actions">
+        <a href="/lesson/${escapeHTML(next?.slug || '')}" class="button" data-route>Start learning <b>→</b></a>
+        <a href="/exam-prep" class="outline" data-route>Test your knowledge</a>
+      </div>
+      <p class="hero-note">Everything except the AI tutor works with no account and no API key.</p>
+    </div>
+    ${heroScene()}
+  </section>
+  <section class="stats">
+    <div><strong>${lessons.length}</strong><span>syllabus<br>lessons</span></div>
+    <div><strong>${(index.formulas || []).length}</strong><span>formulae<br>explained</span></div>
+    <div><strong>${(index.simulations || []).length}</strong><span>interactive<br>simulations</span></div>
+    <div><strong>${(index.questions || []).length}</strong><span>practice<br>questions</span></div>
+    <div><strong>${(index.cases || []).length}</strong><span>applied<br>cases</span></div>
+  </section>
+
+  <section class="page section intro"><div><p class="eyebrow">YOUR LEARNING JOURNEY</p><h2>Everything you need to think like a physicist.</h2></div><p>Work through the course, apply it to real contexts, learn the shape each exam answer should take, then practise under time.</p></section>
+
+  <section class="page journey">
+    <ol class="journey-grid">
+      <li><span class="journey-num">01</span><h3>Learn the course</h3><p>All ${lessons.length} lessons grouped into the four IB units, with progress you can track.</p><a class="text-button" href="/library" data-route>Course library →</a></li>
+      <li><span class="journey-num">02</span><h3>Model it</h3><p>Ten simulations and every lesson graph run from real equations, not stored curves.</p><a class="text-button" href="/simulations" data-route>Simulation studio →</a></li>
+      <li><span class="journey-num">03</span><h3>Apply it</h3><p>${(index.cases || []).length} real-world cases from car safety to carbon dating.</p><a class="text-button" href="/cases" data-route>Case practice →</a></li>
+      <li><span class="journey-num">04</span><h3>Learn the method</h3><p>Five study procedures and every IB command term explained.</p><a class="text-button" href="/toolkit" data-route>Active toolkit →</a></li>
+      <li><span class="journey-num">05</span><h3>Practise</h3><p>Eight practice formats with time, marks and level shown up front.</p><a class="text-button" href="/exam-prep" data-route>Exam preparation →</a></li>
+    </ol>
+  </section>
+
+  <section class="page course-library">
+    <div class="section-head"><div><p class="eyebrow">SYLLABUS LIBRARY</p><h2>Navigate the course.</h2></div><label class="search"><span>⌕</span><input id="globalSearch" autocomplete="off" placeholder="Search topics, formulae, definitions…"></label></div>
+    ${units.map(unit => {
+      const unitLessons = lessons.filter(lesson => (lesson.unit || String(lesson.title).charAt(0)) === unit.id);
+      if (!unitLessons.length) return '';
+      const unitDone = unitLessons.filter(lesson => progress.completedLessons.includes(lesson.slug)).length;
+      return `<div class="home-unit">
+        <div class="home-unit__head"><h3><span>${escapeHTML(unit.id)}</span> ${escapeHTML(unit.title)}</h3><span class="home-unit__count">${unitDone}/${unitLessons.length} complete</span></div>
+        <div class="module-grid">${unitLessons.map(lesson => `<a class="module-card ${progress.completedLessons.includes(lesson.slug) ? 'is-complete' : ''}" href="/lesson/${escapeHTML(lesson.slug)}" data-route><span class="module-num">${escapeHTML(lesson.level || 'SL + HL')}</span><span class="unit">${escapeHTML(lesson.topicLabel)}</span><h3>${escapeHTML(lesson.title)}</h3><p>${escapeHTML(lesson.summary || 'Open this lesson to begin learning.')}</p><span class="open-module">${progress.completedLessons.includes(lesson.slug) ? 'Revisit lesson' : 'Open lesson'} <b>→</b></span></a>`).join('')}</div>
+      </div>`;
+    }).join('')}
+    <p class="home-library-more"><a class="button" href="/library" data-route>Open the full library with filters →</a></p>
+  </section>
+
+  <section class="page toolkit">
+    <div><p class="eyebrow">ACTIVE TOOLKIT</p><h2>Don’t just read it.<br><em>Work with it.</em></h2></div>
+    <div class="method-card">
+      <h3>${escapeHTML(firstMethod?.title || 'Five-step numerical problem method')}</h3>
+      <ol>${(firstMethod?.steps || []).map((step, position) => `<li><b>0${position + 1}</b> ${escapeHTML(step.heading)}.</li>`).join('') || '<li><b>01</b> Define the system.</li>'}</ol>
+      <a class="text-button" href="/toolkit" data-route>All five methods →</a>
+    </div>
+    <div class="progress-card">
+      <p class="eyebrow">YOUR PROGRESS</p>
+      <div class="progress-ring"><b>${percentage}%</b></div>
+      <p>${completed} of ${lessons.length} lessons completed</p>
+      <a class="text-button" href="/progress" data-route>View progress →</a>
+    </div>
+  </section>`;
 }
 
 export const renderFormulaLibrary = (formulas, selectedSlug) => {
@@ -44,6 +106,7 @@ export function bindUI({ loader, router, searchIndex, render }) {
   bindQuiz();
   bindGraphs();
   bindFlashcards();
+  bindHeroScene();
   const bindCalculatorView = () => bindCalculator(value => { const holder = document.querySelector('.calculator-card'); if (holder) { holder.outerHTML = renderCalculator(value); bindCalculatorView(); } });
   bindCalculatorView();
 }

@@ -58,17 +58,30 @@ function normalizeLesson(raw, file, all) {
   const studyMinutes = raw.estimatedStudyTime || Math.max(20, Math.min(75, 12 + (raw.definitions?.length || 0) * 3 + (raw.worked_examples?.length || 0) * 8));
   return { ...raw, slug, topicLabel, difficulty: raw.difficulty || (String(raw.level).includes('HL') ? 'SL + HL' : 'SL'), estimatedStudyTime: studyMinutes, prerequisites: raw.prerequisites || [], constants: raw.constants || [], derivations: raw.derivations || [], practical_experiment: raw.practical_experiment || '', ia_connection: raw.ia_connection || '', tok_connection: raw.tok_connection || '', relatedTopics: raw.relatedTopics || all.filter(item => item !== file).slice(0, 3).map(item => ({ slug: slugify(path.basename(item, '.json')), title: path.basename(item, '.json').replace(/_/g, ' ') })), formulas: raw.formulas || [], summary: raw.summary || '' };
 }
+const INDEX_FILES = ['topics.json', 'formulas.json', 'questions.json', 'glossary.json', 'simulations.json', 'examples.json', 'lessons.json', 'units.json', 'toolkit.json', 'cases.json', 'questionPatterns.json', 'resources.json'];
+const INDEX_NAMES = ['topics', 'formulas', 'questions', 'glossary', 'simulations', 'examples', 'legacy lessons', 'units', 'toolkit', 'cases', 'question patterns', 'resources'];
+
 async function contentIndex({ includeLessons = false } = {}) {
-  const [topics, formulas, questions, glossary, simulations, examples, legacyLessons, files] = await Promise.all(['topics.json', 'formulas.json', 'questions.json', 'glossary.json', 'simulations.json', 'examples.json', 'lessons.json'].map(readData).concat(lessonFiles()));
+  const [topics, formulas, questions, glossary, simulations, examples, legacyLessons, units, toolkit, cases, questionPatterns, resources, files] = await Promise.all(INDEX_FILES.map(readData).concat(lessonFiles()));
   const records = await Promise.all(files.map(async file => normalizeLesson(await readLesson(file), file, files)));
-  [topics, formulas, questions, glossary, simulations, examples, legacyLessons].forEach((value, index) => validateCollection(value, ['topics', 'formulas', 'questions', 'glossary', 'simulations', 'examples', 'legacy lessons'][index]));
+  [topics, formulas, questions, glossary, simulations, examples, legacyLessons, units, toolkit, cases, questionPatterns, resources].forEach((value, index) => validateCollection(value, INDEX_NAMES[index]));
+  cases.forEach(item => { if (!item.slug || !item.unit || !item.title) throw new Error('Each case needs a slug, unit and title.'); });
+  questionPatterns.forEach(item => { if (!item.slug || !item.command) throw new Error('Each question pattern needs a slug and command term.'); });
   const allFormulas = [...formulas, ...records.flatMap(record => record.formulas.map(item => ({ ...item, topic: record.topicLabel })))];
   const searchIndex = records.flatMap(record => [
     ...record.definitions.map(item => ({ type: 'Definition', title: item.term, text: `${item.term} ${item.meaning || ''} ${record.title}`, href: `/lesson/${record.slug}` })),
     ...record.formulas.map(item => ({ type: 'Formula', title: item.name, text: `${item.name} ${item.formula} ${item.explanation || ''}`, href: `/lesson/${record.slug}` })),
     ...record.worked_examples.map(item => ({ type: 'Worked example', title: record.title, text: `${item.question} ${item.answer}`, href: `/lesson/${record.slug}` }))
   ]);
-  return { topics, formulas: allFormulas, questions, glossary, simulations, examples, legacyLessons, searchIndex, lessonIndex: records.map(({ slug, title, topicLabel, level, summary, learning_objectives }) => ({ slug, title, topicLabel, level, summary, learning_objectives })), ...(includeLessons ? { lessons: records } : {}) };
+  return {
+    topics, formulas: allFormulas, questions, glossary, simulations, examples, legacyLessons, units, toolkit, cases, questionPatterns, resources, searchIndex,
+    lessonIndex: records.map(({ slug, title, topicLabel, level, summary, learning_objectives, estimatedStudyTime, difficulty, definitions, formulas: lessonFormulas }) => ({
+      slug, title, topicLabel, level, summary, learning_objectives, estimatedStudyTime, difficulty,
+      unit: (String(title).match(/^\s*([A-Z])\./) || [])[1] || '',
+      tags: [...new Set([...(definitions || []).slice(0, 3).map(item => item.term), ...(lessonFormulas || []).slice(0, 2).map(item => item.name)])].filter(Boolean).slice(0, 4)
+    })),
+    ...(includeLessons ? { lessons: records } : {})
+  };
 }
 const retrievalEngine = createRetrievalEngine(() => contentIndex({ includeLessons: true }));
 const MODES = new Set(['Physics Teacher', 'Numerical Solver', 'Formula Explainer', 'Derivation Tutor', 'IB Examiner', 'Revision Coach', 'Lab Assistant', 'Graph Analyzer', 'TOK Discussion', 'IA Mentor', 'Question Generator', 'Challenge Me', 'Concept Check', 'Explain', 'Teach', 'Step-by-step', 'Hint', 'Revision', 'Socratic Tutor', 'Quick Answer']);

@@ -1,0 +1,43 @@
+[
+  {
+    "category": "PHYLAB reference",
+    "description": "Material generated from PHYLAB's own content, always available offline once the page has loaded.",
+    "items": [
+      { "title": "Formula centre", "detail": "Every formula drawn from the lesson files, each with its variables, meaning, calculator and graph.", "route": "/formulas", "kind": "internal" },
+      { "title": "Glossary", "detail": "Definitions collected from all 19 lessons, searchable from the global search box.", "route": "/search?q=definition", "kind": "internal" },
+      { "title": "Physical constants", "detail": "Constants used by the simulation engine: g, c, h, the Coulomb constant and the molar gas constant.", "route": "/simulations", "kind": "internal" },
+      { "title": "Lesson notes", "detail": "All lessons in curriculum order with objectives, definitions, derivations, worked examples and exam tips.", "route": "/library", "kind": "internal" }
+    ]
+  },
+  {
+    "category": "Interactive tools",
+    "description": "Tools that compute from real equations rather than stored answers.",
+    "items": [
+      { "title": "Simulation studio", "detail": "Ten labs covering projectile motion, Newton's second law, energy, SHM, fields, gas laws, photons, decay and relativity.", "route": "/simulations", "kind": "internal" },
+      { "title": "Graph tools", "detail": "Every graph panel supports play, pause, replay, zoom, pan, high-contrast mode and SVG or PNG export.", "route": "/simulations/shm", "kind": "internal" },
+      { "title": "Calculator", "detail": "Formula calculator embedded in each lesson and in the formula centre.", "route": "/formulas", "kind": "internal" },
+      { "title": "Flashcards", "detail": "Spaced-revision cards generated from each lesson's definitions.", "route": "/library", "kind": "internal" }
+    ]
+  },
+  {
+    "category": "Practice and assessment",
+    "description": "PHYLAB practice material. Marking is PHYLAB's own and is not official IB marking.",
+    "items": [
+      { "title": "Exam preparation hub", "detail": "Practice formats by paper style, skill and time, each with marks and level shown before you start.", "route": "/exam-prep", "kind": "internal" },
+      { "title": "Question patterns", "detail": "How to answer each IB command term, with method, mistakes and a worked model answer.", "route": "/patterns", "kind": "internal" },
+      { "title": "Case practice", "detail": "Real-world contexts organised by unit, each with concepts, questions and an exam-style prompt.", "route": "/cases", "kind": "internal" },
+      { "title": "Active toolkit", "detail": "Five reusable methods for numerical, graph, data, practical and extended-response questions.", "route": "/toolkit", "kind": "internal" }
+    ]
+  },
+  {
+    "category": "Official and external references",
+    "description": "Links only. PHYLAB does not host or redistribute copyrighted material — use your school's licensed copies for past papers, mark schemes and coursebooks.",
+    "items": [
+      { "title": "IB Physics subject page", "detail": "Official subject information and the current syllabus outline from the IB.", "url": "https://www.ibo.org/programmes/diploma-programme/curriculum/sciences/", "kind": "external" },
+      { "title": "IB physics data booklet", "detail": "Provided in your examinations. Obtain your copy through your school's IB coordinator or the IB programme resource centre — it is copyrighted and is not reproduced here.", "kind": "note" },
+      { "title": "Your coursebook", "detail": "Use the edition your school has licensed. PHYLAB deliberately does not host coursebook PDFs; uploading one would breach copyright.", "kind": "note" },
+      { "title": "NIST fundamental constants", "detail": "Authoritative reference values for physical constants, freely published.", "url": "https://physics.nist.gov/cuu/Constants/", "kind": "external" },
+      { "title": "PhET interactive simulations", "detail": "Free, open-licensed physics simulations from the University of Colorado Boulder.", "url": "https://phet.colorado.edu/en/simulations/filter?subjects=physics", "kind": "external" }
+    ]
+  }
+]

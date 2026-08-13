@@ -3,6 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "description": "Interactive IBDP Physics learning platform",
-  "scripts": { "start": "node server.js", "test": "node tests/physicsEngine.test.mjs && node tests/guestConversation.test.mjs && node tests/retrievalEngine.test.cjs" },
+  "scripts": { "start": "node server.js", "test": "node tests/physicsEngine.test.mjs && node tests/guestConversation.test.mjs && node tests/retrievalEngine.test.cjs && node tests/content.test.mjs" },
   "engines": { "node": ">=18" }
 }
