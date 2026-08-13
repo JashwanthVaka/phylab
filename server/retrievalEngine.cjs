@@ -45,14 +45,16 @@ function score(record, queryTerms, context) {
   return value;
 }
 
-function createRetrievalEngine(getCatalogue, { ttl = 300000, queryTtl = 60000 } = {}) {
+function createRetrievalEngine(getCatalogue, { ttl = 300000, queryTtl = 60000, getExtraRecords = null } = {}) {
   let index = [];
   let indexedAt = 0;
   const resultCache = new Map();
   async function ensureIndex() {
     if (Date.now() - indexedAt < ttl && index.length) return index;
     const catalogue = await getCatalogue();
-    index = buildRecords(catalogue);
+    // Extra records come from the learner's own private library and are additive only.
+    const extra = getExtraRecords ? await getExtraRecords() : [];
+    index = [...buildRecords(catalogue), ...extra];
     indexedAt = Date.now();
     resultCache.clear();
     return index;

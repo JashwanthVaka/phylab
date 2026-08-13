@@ -8,3 +8,6 @@ __pycache__/
 *.pyc
 .env.save
 .env.save
+
+# Personal study sources. Never commit copyrighted books or their extracted text.
+private/

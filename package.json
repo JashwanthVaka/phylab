@@ -5,8 +5,9 @@
   "description": "Interactive IBDP Physics learning platform",
   "scripts": {
     "start": "node server.js",
-    "test": "node tests/physicsEngine.test.mjs && node tests/guestConversation.test.mjs && node tests/retrievalEngine.test.cjs && node tests/content.test.mjs",
-    "build": "node tools/build-static.mjs"
+    "test": "node tests/physicsEngine.test.mjs && node tests/guestConversation.test.mjs && node tests/retrievalEngine.test.cjs && node tests/content.test.mjs && node tests/privacy.test.mjs",
+    "build": "node tools/build-static.mjs",
+    "ingest": "node tools/ingest-book.mjs"
   },
   "engines": {
     "node": ">=18"

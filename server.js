@@ -4,6 +4,7 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 const crypto = require('node:crypto');
 const { createRetrievalEngine } = require('./server/retrievalEngine.cjs');
+const { loadPrivateRecords, privateSummary } = require('./server/privateLibrary.cjs');
 
 const ROOT = __dirname;
 
@@ -83,7 +84,7 @@ async function contentIndex({ includeLessons = false } = {}) {
     ...(includeLessons ? { lessons: records } : {})
   };
 }
-const retrievalEngine = createRetrievalEngine(() => contentIndex({ includeLessons: true }));
+const retrievalEngine = createRetrievalEngine(() => contentIndex({ includeLessons: true }), { getExtraRecords: loadPrivateRecords });
 const MODES = new Set(['Physics Teacher', 'Numerical Solver', 'Formula Explainer', 'Derivation Tutor', 'IB Examiner', 'Revision Coach', 'Lab Assistant', 'Graph Analyzer', 'TOK Discussion', 'IA Mentor', 'Question Generator', 'Challenge Me', 'Concept Check', 'Explain', 'Teach', 'Step-by-step', 'Hint', 'Revision', 'Socratic Tutor', 'Quick Answer']);
 const cleanText = (value, maximum = 6000) => typeof value === 'string' ? value.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, '').trim().slice(0, maximum) : '';
 const cleanContext = context => context && typeof context === 'object' ? Object.fromEntries(Object.entries(context).slice(0, 20).map(([key, value]) => [cleanText(key, 50), cleanText(typeof value === 'string' ? value : JSON.stringify(value), 500)])) : {};
@@ -92,7 +93,7 @@ const sse = (res, event, data) => res.write(`event: ${event}\ndata: ${JSON.strin
 
 function tutorInstructions({ mode, context, sources }) {
   const retrieved = sources.map(source => `[${source.type}] ${source.title}\n${source.body}`).join('\n\n') || 'No direct KINETIQ match was found. Say this clearly, then give a careful general explanation.';
-  return `${TUTOR_CONTEXT}\n\nTeaching mode: ${mode}.\nCurrent KINETIQ route and learner context: ${JSON.stringify(context)}\n\nRetrieved KINETIQ content (use this before other knowledge):\n${retrieved}\n\nRespond in concise Markdown. When relevant, use these headings: Explanation, Formula, Variables and units, Worked example, Common mistakes, IB tip, and Next in KINETIQ. In Numerical Solver mode always show Known values, Unknown, Equation, Substitution, Answer with units and significant figures, and Reasonableness check. In IB Examiner mode label feedback as KINETIQ practice marking, identify correct points, missing points, an estimated mark, a model answer, and improvement advice. For Question Generator mode, produce original questions only, identify SL/HL, marks, command term, answer, and mark points. For Revision Coach mode, recommend a realistic next study action from the retrieved topics. Never reveal hidden reasoning or claim an official IB mark.`;
+  return `${TUTOR_CONTEXT}\n\nTeaching mode: ${mode}.\nCurrent KINETIQ route and learner context: ${JSON.stringify(context)}\n\nRetrieved KINETIQ content (use this before other knowledge):\n${retrieved}\n\nRespond in concise Markdown. When relevant, use these headings: Explanation, Formula, Variables and units, Worked example, Common mistakes, IB tip, and Next in KINETIQ. In Numerical Solver mode always show Known values, Unknown, Equation, Substitution, Answer with units and significant figures, and Reasonableness check. In IB Examiner mode label feedback as KINETIQ practice marking, identify correct points, missing points, an estimated mark, a model answer, and improvement advice. For Question Generator mode, produce original questions only, identify SL/HL, marks, command term, answer, and mark points. For Revision Coach mode, recommend a realistic next study action from the retrieved topics. Never reveal hidden reasoning or claim an official IB mark. Passages labelled [Your source] come from a book the learner owns and has indexed privately: answer from them when they are relevant, cite them by title and page, and explain the physics in your own words rather than quoting long extracts.`;
 }
 
 /**
@@ -242,7 +243,7 @@ async function serveAsset(res, pathname, headOnly) {
 }
 http.createServer(async (req, res) => {
   const url = new URL(req.url, `http://${req.headers.host || 'localhost'}`); const pathname = decodeURIComponent(url.pathname);
-  if (req.method === 'GET' && pathname === '/api/health') return send(res, 200, { status: 'ok', tutorConfigured: availableProviders().length > 0, providers: availableProviders() });
+  if (req.method === 'GET' && pathname === '/api/health') return send(res, 200, { status: 'ok', tutorConfigured: availableProviders().length > 0, providers: availableProviders(), privateSources: privateSummary() });
   if (req.method === 'GET' && pathname === '/api/ai/providers') return send(res, 200, {
     active: resolveProvider(),
     providers: Object.entries(PROVIDERS).map(([id, provider]) => ({ id, label: provider.label, configured: providerConfigured(id), envKey: provider.envKey, model: providerConfigured(id) ? process.env[provider.modelKey] || provider.defaultModel : null }))

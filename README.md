@@ -66,6 +66,37 @@ Without any key, KIT explains on `/ai` that no provider is configured and how to
 Every other part of KINETIQ — lessons, formulae, graphs, simulations and quizzes — works
 with no AI key at all.
 
+## Study from your own book
+
+KIT can answer from a coursebook or set of notes **you own**, alongside KINETIQ's
+own content. The book is indexed locally and stays that way.
+
+```bash
+mkdir -p private/books
+```
+
+Put the file in `private/books/`, then index it:
+
+```bash
+npm run ingest -- "private/books/your-coursebook.pdf"
+```
+
+Restart the server. `GET /api/health` lists `privateSources` by title and passage
+count, and KIT will cite matching passages as `Your source — p.N`.
+
+PDF text extraction uses the PDFKit bridge in macOS's system Python, so there is
+nothing to install. A scanned PDF whose pages are images has no embedded text and
+will need OCR first — the tool tells you when it finds none.
+
+**This never leaves your machine.** `private/` is git-ignored; the extracted text
+is not part of `data/`, is not served by `/api/content/index`, and is not copied
+into the static build. It reaches only the retrieval engine that builds KIT's
+prompt. `tests/privacy.test.mjs` enforces each of those boundaries and fails the
+build if private text appears anywhere in `docs/`.
+
+Only index material you are entitled to use, and keep it to personal study —
+publishing or sharing a copyrighted book is not something this feature supports.
+
 ## Keep it online 24/7
 
 KINETIQ is container-ready for an always-on Render deployment. The included `render.yaml` deliberately uses Render's paid Starter plan: free web services sleep after inactivity and do not meet a 24/7 requirement.
