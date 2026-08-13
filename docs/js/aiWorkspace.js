@@ -18,7 +18,7 @@ const conversationHTML = (conversation, selected) => `<div class="ai-conversatio
 /** Reports which server-side AI providers are usable so the page can explain itself before a learner types. */
 async function providerStatus() {
   try {
-    const response = await fetch('/api/ai/providers');
+    const response = await fetch('./api/ai/providers.json');
     if (!response.ok) throw new Error('unavailable');
     return await response.json();
   } catch {
