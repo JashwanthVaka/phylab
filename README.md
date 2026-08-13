@@ -18,6 +18,12 @@ and ES modules on a dependency-free Node server.
 - **Exam preparation hub**, **source library**, **formula centre**, **quiz engine** with
   deterministic marking, and **KIT**, an AI tutor that answers from KINETIQ content first.
 
+## Live site
+
+The static build is published at **https://jashwanthvaka.github.io/phylab/** from `docs/`
+on the default branch. Everything works there except the AI tutor, which needs the Node
+server and an API key. Rebuild it with `npm run build` and push.
+
 ## Run locally
 
 ```bash
