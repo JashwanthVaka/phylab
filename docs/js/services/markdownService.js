@@ -1,0 +1,2 @@
+import {escapeHTML} from '../utils.js';
+export const markdownService={render(input){let s=escapeHTML(input);s=s.replace(/```([\s\S]*?)```/g,'<pre><code>$1</code></pre>').replace(/^### (.*)$/gm,'<h3>$1</h3>').replace(/^## (.*)$/gm,'<h2>$1</h2>').replace(/^# (.*)$/gm,'<h1>$1</h1>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/`([^`]+)`/g,'<code>$1</code>').replace(/^> (.*)$/gm,'<blockquote>$1</blockquote>').replace(/\n/g,'<br>');return s}};

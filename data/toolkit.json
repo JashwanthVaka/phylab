@@ -1,0 +1,67 @@
+[
+  {
+    "slug": "numerical-problem-method",
+    "title": "Five-step numerical problem method",
+    "purpose": "Use this on any question that asks you to calculate, determine or find a value.",
+    "steps": [
+      { "heading": "List known values", "detail": "Write every given quantity with its symbol and unit. Convert to SI now — grams to kilograms, centimetres to metres, Celsius to kelvin — so you never convert mid-calculation." },
+      { "heading": "Identify the unknown", "detail": "State exactly what you are solving for and its expected unit. This tells you which equation you need." },
+      { "heading": "Select the equation", "detail": "Choose a relationship that links your knowns to your unknown. Quote it from the data booklet before substituting, because the equation itself often earns a mark." },
+      { "heading": "Substitute with SI units", "detail": "Put numbers in with units attached, then rearrange. Rearranging after substitution makes slips easier for an examiner to follow and for you to spot." },
+      { "heading": "Check significant figures and reasonableness", "detail": "Match the significant figures of the least precise datum, attach the correct unit, and ask whether the size and sign make physical sense." }
+    ],
+    "example": "A 1200 kg car decelerates from 25 m s⁻¹ to rest in 40 m. Knowns: m = 1200 kg, u = 25 m s⁻¹, v = 0, s = 40 m. Unknown: braking force F. Equation: v² = u² + 2as, then F = ma. a = −7.8 m s⁻², so F = −9.4 kN — negative because it opposes motion, and a few kilonewtons is a sensible braking force."
+  },
+  {
+    "slug": "graph-interpretation-method",
+    "title": "Graph interpretation method",
+    "purpose": "Use this whenever a question shows you a graph or asks you to sketch or analyse one.",
+    "steps": [
+      { "heading": "Read the axes and units", "detail": "Name both quantities and their units before anything else. A velocity–time graph and a displacement–time graph look identical until you read the axis." },
+      { "heading": "Identify the trend", "detail": "Is it linear, curved, periodic, asymptotic? Does it pass through the origin? Where does it change direction or cross zero?" },
+      { "heading": "Calculate gradient or area if needed", "detail": "Gradient and area both carry physical meaning. Use a large triangle spanning most of the data, and give the answer a unit derived from the axes." },
+      { "heading": "State the physics meaning", "detail": "Translate the mathematics back into physics: the gradient of velocity–time is acceleration, the area under force–extension is work done, the gradient of ln N against t is −λ." },
+      { "heading": "Check it is physically realistic", "detail": "Should the line pass through the origin? Can the quantity be negative? Does the intercept correspond to something real, such as a systematic error or a threshold frequency?" }
+    ],
+    "example": "On a photoelectric graph of maximum kinetic energy against frequency, the gradient is the Planck constant, the x-intercept is the threshold frequency, and the negative y-intercept is the work function. A line that missed the negative intercept would be physically wrong."
+  },
+  {
+    "slug": "data-analysis-method",
+    "title": "Data-analysis method",
+    "purpose": "Use this for questions built on a table of experimental measurements.",
+    "steps": [
+      { "heading": "Identify the variables", "detail": "Name the independent, dependent and controlled variables. Say which one the experimenter chose and which one they measured." },
+      { "heading": "Use the data correctly", "detail": "Process before you plot. If the expected relationship is not linear, linearise it — plot T² against l rather than T against l — so the gradient means something." },
+      { "heading": "Calculate uncertainty where needed", "detail": "Combine absolute uncertainties when adding or subtracting, and fractional uncertainties when multiplying or dividing. Use the steepest and shallowest acceptable lines to get the uncertainty in a gradient." },
+      { "heading": "Explain the relationship", "detail": "State the relationship in words and in symbols, supported by the gradient and intercept. \"Proportional\" requires a straight line through the origin; otherwise say \"linear\"." },
+      { "heading": "Evaluate limitations", "detail": "Distinguish random scatter from systematic offset, identify the largest source of uncertainty, and propose one specific, testable improvement rather than \"be more careful\"." }
+    ],
+    "example": "Timing 20 oscillations rather than one reduces the fractional uncertainty in the period by a factor of 20, because the reaction-time uncertainty is fixed but the measured interval is much longer."
+  },
+  {
+    "slug": "practical-ia-method",
+    "title": "Practical and IA method",
+    "purpose": "Use this to structure an investigation or a scientific investigation for internal assessment.",
+    "steps": [
+      { "heading": "Research question", "detail": "Make it specific and measurable: name the independent variable, the dependent variable, and the range you will cover. \"How does the length of a pendulum (0.20–1.00 m) affect its period?\" beats \"What affects a pendulum?\"" },
+      { "heading": "Variables", "detail": "State the independent variable and its range, the dependent variable and how you will measure it, and each controlled variable with how you will hold it constant." },
+      { "heading": "Method", "detail": "Give enough detail to be repeated exactly: apparatus with precision, at least five values of the independent variable, repeat readings, and a labelled diagram. Include a relevant safety and ethical consideration." },
+      { "heading": "Data handling", "detail": "Tabulate raw data with consistent decimal places and uncertainties. Process it, plot a linearised graph with error bars, and extract a gradient with its uncertainty." },
+      { "heading": "Evaluation and improvements", "detail": "Compare with the accepted value, decide whether errors are random or systematic, and give improvements that target your largest identified weakness." }
+    ],
+    "example": "If your measured g is 9.2 m s⁻² with an uncertainty of ±0.4 m s⁻², the accepted 9.81 m s⁻² lies outside your range — that points to a systematic error such as an unaccounted length to the centre of mass, not to random scatter."
+  },
+  {
+    "slug": "extended-response-method",
+    "title": "Extended-response method",
+    "purpose": "Use this on discuss, evaluate and explain questions worth several marks.",
+    "steps": [
+      { "heading": "Define the concept", "detail": "Open with a precise definition of the central quantity or principle. Definitions are cheap marks and they anchor everything that follows." },
+      { "heading": "State the relevant principle", "detail": "Name the law or relationship you are applying — conservation of momentum, Lenz's law, the first law of thermodynamics — and quote it." },
+      { "heading": "Apply it to the context", "detail": "Connect the principle to the specific situation in the question. Use the question's own nouns; a generic answer scores generically." },
+      { "heading": "Show working or a diagram", "detail": "Support the argument with a calculation, a labelled force diagram, or a sketch graph. One clear diagram often replaces a paragraph." },
+      { "heading": "Reach a clear conclusion", "detail": "Answer the question actually asked, in one sentence, with a justification. If asked to evaluate, commit to a judgement rather than listing both sides and stopping." }
+    ],
+    "example": "Asked why a satellite in a lower orbit moves faster, define orbital speed, state that gravitational force provides the centripetal force, equate GMm/r² = mv²/r to get v = √(GM/r), and conclude that smaller r gives larger v."
+  }
+]

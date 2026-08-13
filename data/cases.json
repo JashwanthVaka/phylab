@@ -1,0 +1,727 @@
+[
+  {
+    "slug": "car-safety-stopping-distance",
+    "unit": "A",
+    "title": "Car safety and stopping distance",
+    "tags": ["Kinematics", "Forces", "Energy"],
+    "context": "A car's total stopping distance is the thinking distance travelled during the driver's reaction time plus the braking distance travelled while decelerating. Thinking distance grows linearly with speed, but braking distance grows with the square of speed, which is why a modest speed increase produces a large increase in total stopping distance. Crumple zones and airbags do not reduce the momentum change in a collision; they extend the time over which it happens, reducing the peak force on the occupants.",
+    "concepts": ["Uniform acceleration", "Work done by friction", "Impulse and momentum", "Coefficient of friction"],
+    "formulas": [
+      { "name": "Braking distance", "formula": "v² = u² + 2as", "meaning": "With v = 0, braking distance s = u²/(2|a|), so it is proportional to the square of the initial speed." },
+      { "name": "Impulse", "formula": "FΔt = Δp", "meaning": "For a fixed momentum change, a longer collision time gives a smaller average force." },
+      { "name": "Work–energy", "formula": "½mu² = F_friction × s", "meaning": "All the kinetic energy is dissipated by the friction force over the braking distance." }
+    ],
+    "graph": "motion",
+    "simulation": "newton",
+    "lessons": ["kinematics", "forces", "energy"],
+    "questions": [
+      { "prompt": "A car travels at 20 m s⁻¹ with a reaction time of 0.70 s. Calculate the thinking distance.", "answer": "s = ut = 20 × 0.70 = 14 m." },
+      { "prompt": "The same car decelerates at 6.5 m s⁻². Calculate the braking distance.", "answer": "s = u²/(2a) = 400/13 = 31 m, giving a total stopping distance of 45 m." },
+      { "prompt": "The speed doubles to 40 m s⁻¹. By what factor does the braking distance change?", "answer": "Braking distance is proportional to u², so it increases by a factor of 4 to about 123 m." }
+    ],
+    "examQuestion": {
+      "command": "Explain",
+      "marks": 4,
+      "prompt": "Explain why a crumple zone reduces the force on a passenger during a collision, even though the car's change in momentum is unchanged.",
+      "markPoints": [
+        "The change in momentum Δp is fixed by the initial and final velocities and the mass",
+        "Impulse FΔt equals this change in momentum",
+        "A crumple zone deforms, extending the time Δt over which the car comes to rest",
+        "Since Δp is constant, a larger Δt gives a smaller average force F on the passenger"
+      ]
+    },
+    "mistakes": [
+      "Saying a crumple zone \"absorbs the momentum\" — momentum change is fixed; it is the time that changes.",
+      "Assuming stopping distance doubles when speed doubles, forgetting the squared dependence of the braking term.",
+      "Forgetting that thinking distance is at constant velocity, so no acceleration equation applies to it."
+    ]
+  },
+  {
+    "slug": "rocket-launch-projectile-motion",
+    "unit": "A",
+    "title": "Rocket launch and projectile motion",
+    "tags": ["Kinematics", "Momentum", "Forces"],
+    "context": "A rocket accelerates by ejecting exhaust gas backwards; by conservation of momentum the rocket gains forward momentum. Its mass falls as fuel burns, so even a constant thrust produces increasing acceleration. Once the engines cut off and air resistance is negligible, the vehicle becomes a projectile: horizontal velocity stays constant while vertical velocity changes uniformly under gravity, tracing a parabola.",
+    "concepts": ["Conservation of linear momentum", "Newton's third law", "Independence of horizontal and vertical motion", "Variable mass"],
+    "formulas": [
+      { "name": "Momentum conservation", "formula": "m_rocket Δv = −m_gas v_gas", "meaning": "Momentum given to the exhaust equals the momentum gained by the rocket in the opposite direction." },
+      { "name": "Projectile components", "formula": "vₓ = v cos θ; vᵧ = v sin θ − gt", "meaning": "Horizontal velocity is unchanged; only the vertical component responds to gravity." },
+      { "name": "Range", "formula": "R = vₓ t_flight", "meaning": "Range follows once the total flight time is found from the vertical motion." }
+    ],
+    "graph": "motion",
+    "simulation": "projectile",
+    "lessons": ["kinematics", "forces"],
+    "questions": [
+      { "prompt": "A projectile is launched at 30 m s⁻¹ at 40° above the horizontal from ground level. Calculate its time of flight.", "answer": "vᵧ = 30 sin 40° = 19.3 m s⁻¹, so t = 2vᵧ/g = 2 × 19.3/9.81 = 3.9 s." },
+      { "prompt": "Calculate its horizontal range.", "answer": "vₓ = 30 cos 40° = 23.0 m s⁻¹, so R = 23.0 × 3.9 = 90 m." },
+      { "prompt": "Why does the rocket's acceleration increase while thrust stays constant?", "answer": "a = F/m, and the mass decreases as fuel is burned, so a constant F gives a rising a." }
+    ],
+    "examQuestion": {
+      "command": "Determine",
+      "marks": 5,
+      "prompt": "A projectile is launched at 25 m s⁻¹ at 55° to the horizontal from the top of a 40 m cliff. Determine the horizontal distance from the base of the cliff at which it lands. Ignore air resistance.",
+      "markPoints": [
+        "Resolves components: vₓ = 25 cos 55° = 14.3 m s⁻¹, vᵧ = 25 sin 55° = 20.5 m s⁻¹",
+        "Applies −40 = 20.5t − 4.905t² taking upward as positive",
+        "Solves the quadratic for the positive root t = 5.6 s",
+        "Range = vₓ × t = 14.3 × 5.6",
+        "Answer ≈ 80 m with correct unit"
+      ]
+    },
+    "mistakes": [
+      "Using the launch speed instead of the horizontal component when finding range.",
+      "Applying the symmetric time-of-flight formula when the launch and landing heights differ.",
+      "Taking the negative root of the quadratic, which corresponds to a time before launch."
+    ]
+  },
+  {
+    "slug": "roller-coaster-energy-transfer",
+    "unit": "A",
+    "title": "Roller coaster energy transfer",
+    "tags": ["Energy", "Forces", "Circular motion"],
+    "context": "A roller coaster is a controlled exchange between gravitational potential energy and kinetic energy. A chain lift does work to raise the train, and from that point on the ride is powered by gravity. Because friction and air resistance dissipate energy as thermal energy, every subsequent peak must be lower than the first. At the top of a vertical loop the minimum safe speed occurs when gravity alone supplies the centripetal force.",
+    "concepts": ["Conservation of mechanical energy", "Work done against friction", "Centripetal force", "Apparent weight"],
+    "formulas": [
+      { "name": "Energy conservation", "formula": "½mv² + mgh = constant", "meaning": "In the absence of dissipation, the sum of kinetic and gravitational potential energy is unchanged." },
+      { "name": "Centripetal force", "formula": "F_c = mv²/r", "meaning": "A net inward force is required to follow a curved path." },
+      { "name": "Minimum loop speed", "formula": "v_min = √(gr)", "meaning": "At the top of the loop, the track force falls to zero and weight alone provides the centripetal force." }
+    ],
+    "graph": "motion",
+    "simulation": "energy",
+    "lessons": ["energy", "forces", "fields"],
+    "questions": [
+      { "prompt": "A train starts from rest at 45 m and reaches 28 m s⁻¹ at ground level. Is energy conserved?", "answer": "Ideally v = √(2gh) = √(2 × 9.81 × 45) = 29.7 m s⁻¹. The measured 28 m s⁻¹ is lower, so about 11% of the energy has been dissipated by friction and air resistance." },
+      { "prompt": "Calculate the minimum speed at the top of a 12 m radius loop.", "answer": "v_min = √(gr) = √(9.81 × 12) = 10.8 m s⁻¹." },
+      { "prompt": "Why must each successive hill be lower than the one before?", "answer": "Some mechanical energy is dissipated as thermal energy each stage, so the remaining energy cannot lift the train as high." }
+    ],
+    "examQuestion": {
+      "command": "Explain",
+      "marks": 4,
+      "prompt": "Explain, in terms of forces, why a passenger feels heaviest at the bottom of a dip on a roller coaster.",
+      "markPoints": [
+        "At the bottom of the dip the passenger travels in a circular arc, so there is a net upward centripetal force",
+        "The forces on the passenger are the upward normal contact force N and the downward weight mg",
+        "N − mg = mv²/r, so N = mg + mv²/r",
+        "Apparent weight is the normal force, which exceeds mg, so the passenger feels heavier"
+      ]
+    },
+    "mistakes": [
+      "Treating centripetal force as an extra force rather than the resultant of the real forces.",
+      "Claiming energy is \"lost\" — it is transferred to thermal energy and sound, not destroyed.",
+      "Using the loop diameter instead of the radius in v² / r."
+    ]
+  },
+  {
+    "slug": "satellite-motion",
+    "unit": "A",
+    "title": "Satellite motion",
+    "tags": ["Fields", "Circular motion", "Energy"],
+    "context": "A satellite in a circular orbit is in continuous free fall: gravity provides exactly the centripetal force needed to curve its path around the Earth. The orbital speed depends only on the central mass and the orbital radius, not on the satellite's own mass. A geostationary satellite has a period of exactly one sidereal day and must orbit above the equator, which fixes its radius at about 4.2 × 10⁷ m from the Earth's centre.",
+    "concepts": ["Newton's law of gravitation", "Circular motion", "Orbital energy", "Geostationary orbits"],
+    "formulas": [
+      { "name": "Orbital speed", "formula": "v = √(GM/r)", "meaning": "Equating GMm/r² to mv²/r removes the satellite mass, so speed depends only on M and r." },
+      { "name": "Orbital period", "formula": "T² = 4π²r³/(GM)", "meaning": "Kepler's third law: the square of the period is proportional to the cube of the radius." },
+      { "name": "Total orbital energy", "formula": "E = −GMm/(2r)", "meaning": "Bound orbits have negative total energy; a smaller radius means a more negative total energy." }
+    ],
+    "graph": "field",
+    "simulation": "electric-field",
+    "lessons": ["fields", "energy"],
+    "questions": [
+      { "prompt": "Show that orbital speed is independent of the satellite's mass.", "answer": "GMm/r² = mv²/r. The satellite mass m cancels, leaving v = √(GM/r)." },
+      { "prompt": "Calculate the speed of a satellite at r = 7.0 × 10⁶ m around Earth (GM = 3.99 × 10¹⁴ m³ s⁻²).", "answer": "v = √(3.99 × 10¹⁴ / 7.0 × 10⁶) = 7.6 × 10³ m s⁻¹." },
+      { "prompt": "Why must a geostationary satellite orbit above the equator?", "answer": "The orbital plane must contain the Earth's centre. Only an equatorial orbit keeps the satellite above a fixed point as the Earth rotates." }
+    ],
+    "examQuestion": {
+      "command": "Deduce",
+      "marks": 5,
+      "prompt": "A satellite is moved from a low orbit to a higher orbit. Deduce how its kinetic energy, gravitational potential energy and total energy each change.",
+      "markPoints": [
+        "Kinetic energy Eₖ = GMm/(2r) decreases because r increases",
+        "Gravitational potential energy Eₚ = −GMm/r becomes less negative, so it increases",
+        "Total energy E = −GMm/(2r) becomes less negative, so it increases",
+        "The increase in potential energy is twice the decrease in kinetic energy",
+        "Net energy must therefore be supplied to raise the orbit"
+      ]
+    },
+    "mistakes": [
+      "Assuming a heavier satellite needs a greater orbital speed at the same radius.",
+      "Using the altitude above the surface instead of the distance from the Earth's centre.",
+      "Saying a satellite in orbit has \"no gravity\" — gravity is precisely what keeps it in orbit."
+    ]
+  },
+  {
+    "slug": "wind-turbine-rotational-motion",
+    "unit": "A",
+    "title": "Wind turbine rotational motion",
+    "tags": ["Rigid body mechanics", "Energy", "Power"],
+    "context": "A wind turbine converts the kinetic energy of moving air into rotational kinetic energy and then into electrical energy. The power available in the wind is proportional to the cube of the wind speed and to the swept area, so doubling the wind speed makes eight times the power available. No turbine can extract all of it: the Betz limit caps the theoretical fraction at about 59%, because the air must keep moving to leave the blades.",
+    "concepts": ["Rotational kinetic energy", "Torque and angular acceleration", "Moment of inertia", "Power and efficiency"],
+    "formulas": [
+      { "name": "Wind power", "formula": "P = ½ρAv³", "meaning": "Available power scales with air density, swept area and the cube of wind speed." },
+      { "name": "Rotational kinetic energy", "formula": "E_rot = ½Iω²", "meaning": "The rotational analogue of ½mv², with moment of inertia in place of mass." },
+      { "name": "Torque", "formula": "Γ = Iα", "meaning": "The rotational form of Newton's second law." }
+    ],
+    "graph": "motion",
+    "simulation": "newton",
+    "lessons": ["rigid-body-mechanics", "energy", "thermodynamics"],
+    "questions": [
+      { "prompt": "Blades of length 35 m turn in air of density 1.2 kg m⁻³ at a wind speed of 12 m s⁻¹. Calculate the available power.", "answer": "A = πr² = π(35)² = 3.85 × 10³ m². P = ½ × 1.2 × 3850 × 12³ = 4.0 × 10⁶ W." },
+      { "prompt": "The turbine actually delivers 1.6 MW. Calculate its efficiency.", "answer": "η = 1.6/4.0 = 0.40, or 40%." },
+      { "prompt": "Wind speed falls from 12 to 9 m s⁻¹. By what factor does available power change?", "answer": "(9/12)³ = 0.42, so power falls to about 42% of its previous value." }
+    ],
+    "examQuestion": {
+      "command": "Discuss",
+      "marks": 6,
+      "prompt": "Discuss why the electrical power output of a wind turbine cannot equal the power available in the wind.",
+      "markPoints": [
+        "If all kinetic energy were extracted the air would stop and could not leave the blades",
+        "Air must retain some kinetic energy to maintain flow through the swept area",
+        "The Betz limit caps the extractable fraction at about 59%",
+        "Further losses occur through friction in bearings and the gearbox",
+        "Resistive heating occurs in the generator windings and transmission",
+        "Overall efficiency is therefore typically 35–45% in practice"
+      ]
+    },
+    "mistakes": [
+      "Using the blade length as the swept area rather than calculating πr².",
+      "Treating the power–wind speed relationship as linear or square rather than cubic.",
+      "Claiming 100% efficiency is possible with better engineering — it is forbidden by the physics of the flow."
+    ]
+  },
+  {
+    "slug": "greenhouse-effect-case",
+    "unit": "B",
+    "title": "The greenhouse effect",
+    "tags": ["Thermal physics", "Radiation", "Energy balance"],
+    "context": "The Sun's surface is hot, so it emits mainly short-wavelength radiation that passes through the atmosphere. The Earth's surface is far cooler, so it re-radiates in the infrared. Greenhouse gases — carbon dioxide, methane, water vapour, nitrous oxide — have molecular vibration and rotation modes with natural frequencies in the infrared, so they resonate with and absorb this outgoing radiation, then re-emit it in all directions. The result is a warmer surface than radiative balance alone would predict.",
+    "concepts": ["Black-body radiation", "Wien's displacement law", "Stefan–Boltzmann law", "Resonance and molecular absorption", "Albedo"],
+    "formulas": [
+      { "name": "Stefan–Boltzmann", "formula": "P = eσAT⁴", "meaning": "Radiated power rises with the fourth power of absolute temperature." },
+      { "name": "Wien's displacement law", "formula": "λ_max = 2.90 × 10⁻³ / T", "meaning": "Hotter bodies peak at shorter wavelengths, which is why solar and terrestrial radiation occupy different bands." },
+      { "name": "Intensity", "formula": "I = P/A", "meaning": "The solar constant is the incoming intensity at the top of the atmosphere, about 1360 W m⁻²." }
+    ],
+    "graph": "thermal",
+    "simulation": "gas-law",
+    "lessons": ["greenhouse-effect", "thermal-physics", "electromagnetic-waves"],
+    "questions": [
+      { "prompt": "The Sun's surface is about 5800 K. Calculate its peak emission wavelength.", "answer": "λ_max = 2.90 × 10⁻³ / 5800 = 5.0 × 10⁻⁷ m, in the visible range." },
+      { "prompt": "The Earth's surface is about 288 K. Calculate its peak wavelength.", "answer": "λ_max = 2.90 × 10⁻³ / 288 = 1.0 × 10⁻⁵ m, in the infrared." },
+      { "prompt": "Why does this difference matter for the greenhouse effect?", "answer": "The atmosphere is largely transparent to incoming visible radiation but absorbs strongly in the infrared, so energy enters more easily than it leaves." }
+    ],
+    "examQuestion": {
+      "command": "Explain",
+      "marks": 5,
+      "prompt": "Explain, in terms of the wavelengths involved and the properties of greenhouse gas molecules, how the greenhouse effect raises the mean surface temperature of the Earth.",
+      "markPoints": [
+        "The Sun is much hotter, so it emits predominantly short-wavelength visible radiation",
+        "This radiation passes largely unabsorbed through the atmosphere to the surface",
+        "The cooler Earth re-radiates in the infrared, as given by Wien's law",
+        "Greenhouse gas molecules have vibrational and rotational modes with natural frequencies in the infrared, so they resonate and absorb strongly",
+        "They re-emit in all directions, returning some energy to the surface and raising its equilibrium temperature"
+      ]
+    },
+    "mistakes": [
+      "Confusing the greenhouse effect with ozone depletion — these are different mechanisms and different wavelengths.",
+      "Saying greenhouse gases \"trap heat\" without naming absorption and re-emission of infrared radiation.",
+      "Forgetting that the natural greenhouse effect is essential; the concern is its enhancement."
+    ]
+  },
+  {
+    "slug": "refrigerators-heat-pumps",
+    "unit": "B",
+    "title": "Refrigerators and heat pumps",
+    "tags": ["Thermodynamics", "Energy transfer", "Entropy"],
+    "context": "A refrigerator moves thermal energy from a cold interior to a warmer room, which does not happen spontaneously. The second law of thermodynamics requires work input to drive this transfer. A refrigerant is compressed and condenses outside the cabinet, releasing latent heat to the room; it then expands and evaporates inside, absorbing latent heat from the food. A heat pump is the same machine used for its warm side rather than its cold side.",
+    "concepts": ["First law of thermodynamics", "Second law and entropy", "Latent heat", "Coefficient of performance"],
+    "formulas": [
+      { "name": "First law", "formula": "ΔU = Q + W", "meaning": "The internal energy change equals thermal energy supplied plus work done on the gas." },
+      { "name": "Energy balance", "formula": "Q_hot = Q_cold + W", "meaning": "The energy released to the room exceeds the energy removed from the interior by the work input." },
+      { "name": "Latent heat", "formula": "Q = mL", "meaning": "Energy transferred during a phase change at constant temperature." }
+    ],
+    "graph": "thermal",
+    "simulation": "gas-law",
+    "lessons": ["thermodynamics", "thermal-physics"],
+    "questions": [
+      { "prompt": "A fridge removes 300 J from its interior using 100 J of electrical work. How much energy is delivered to the room?", "answer": "Q_hot = 300 + 100 = 400 J." },
+      { "prompt": "Why does leaving the fridge door open warm the kitchen?", "answer": "The fridge delivers more energy to the room than it removes from the interior, because the work input is also released as thermal energy. The net effect on a closed kitchen is heating." },
+      { "prompt": "State the second law statement that makes a work input necessary.", "answer": "Thermal energy cannot spontaneously flow from a colder body to a hotter body; work must be done to reverse the natural direction." }
+    ],
+    "examQuestion": {
+      "command": "Explain",
+      "marks": 5,
+      "prompt": "Explain, with reference to the second law of thermodynamics, why a refrigerator requires an energy input to operate.",
+      "markPoints": [
+        "Thermal energy flows spontaneously only from hotter to colder regions",
+        "A refrigerator transfers energy from a cold interior to a warmer room, the reverse direction",
+        "This decreases the entropy of the transferred energy locally",
+        "The second law requires that total entropy of the system and surroundings does not decrease",
+        "Work input generates enough additional entropy in the surroundings to satisfy the second law overall"
+      ]
+    },
+    "mistakes": [
+      "Saying a fridge \"produces cold\" — it removes thermal energy rather than creating a substance called cold.",
+      "Forgetting that the work input is also delivered to the room, so Q_hot > Q_cold.",
+      "Confusing the temperature change during a phase change — temperature is constant while latent heat is transferred."
+    ]
+  },
+  {
+    "slug": "gas-pressure-in-tyres",
+    "unit": "B",
+    "title": "Gas pressure in tyres",
+    "tags": ["Gas laws", "Kinetic theory", "Temperature"],
+    "context": "Tyre pressure is set when the tyre is cold, because driving heats the air inside through flexing of the rubber and friction with the road. The volume is nearly fixed, so the rise in temperature raises the pressure. The kinetic model explains why: raising the absolute temperature raises the mean kinetic energy of the molecules, so they strike the walls both harder and more often, increasing the average force per unit area.",
+    "concepts": ["Ideal gas law", "Kinetic model of gases", "Absolute temperature", "Pressure as momentum transfer"],
+    "formulas": [
+      { "name": "Ideal gas law", "formula": "pV = nRT", "meaning": "Relates pressure, volume, amount and absolute temperature for an ideal gas." },
+      { "name": "Constant volume", "formula": "p₁/T₁ = p₂/T₂", "meaning": "At fixed volume and amount, pressure is proportional to absolute temperature." },
+      { "name": "Kinetic model", "formula": "pV = ⅓Nm⟨c²⟩", "meaning": "Pressure arises from the momentum transferred by molecular collisions with the walls." }
+    ],
+    "graph": "thermal",
+    "simulation": "gas-law",
+    "lessons": ["gas-laws", "thermal-physics"],
+    "questions": [
+      { "prompt": "A tyre is inflated to 220 kPa at 15 °C. After driving it reaches 45 °C. Calculate the new pressure at constant volume.", "answer": "T₁ = 288 K, T₂ = 318 K. p₂ = 220 × 318/288 = 243 kPa." },
+      { "prompt": "Why must temperatures be in kelvin?", "answer": "The gas laws relate pressure to absolute temperature. Using Celsius would imply zero pressure at 0 °C, which is false." },
+      { "prompt": "Explain the pressure rise using the kinetic model.", "answer": "Higher temperature means greater mean molecular kinetic energy, so molecules hit the walls more frequently and transfer more momentum per collision, raising the average force per unit area." }
+    ],
+    "examQuestion": {
+      "command": "Explain",
+      "marks": 4,
+      "prompt": "Using the kinetic model of an ideal gas, explain why the pressure of a fixed mass of gas at constant volume increases when its temperature is raised.",
+      "markPoints": [
+        "Absolute temperature is proportional to the mean kinetic energy of the molecules",
+        "Raising the temperature therefore raises the mean molecular speed",
+        "Faster molecules collide with the container walls more frequently",
+        "Each collision transfers a greater change of momentum, so the mean force per unit area — the pressure — increases"
+      ]
+    },
+    "mistakes": [
+      "Substituting Celsius temperatures into pV = nRT or p₁/T₁ = p₂/T₂.",
+      "Saying molecules \"expand\" when heated — the molecules do not change size, their speeds change.",
+      "Assuming tyre volume is exactly constant; it increases slightly, so the real pressure rise is a little smaller."
+    ]
+  },
+  {
+    "slug": "energy-efficiency-in-buildings",
+    "unit": "B",
+    "title": "Energy efficiency in buildings",
+    "tags": ["Thermal physics", "Conduction", "Energy transfer"],
+    "context": "A building loses thermal energy by conduction through walls, windows and roof, by convection in draughts and air gaps, and by radiation from warm surfaces. Insulation targets conduction by adding material of low thermal conductivity, while double glazing traps a thin layer of low-conductivity gas and suppresses convection by keeping the gap narrow. Low-emissivity coatings reduce radiative loss by reflecting infrared back inside.",
+    "concepts": ["Thermal conduction", "Convection and radiation", "Specific heat capacity", "Emissivity"],
+    "formulas": [
+      { "name": "Specific heat capacity", "formula": "Q = mcΔT", "meaning": "Energy needed to change the temperature of a mass of material." },
+      { "name": "Radiated power", "formula": "P = eσAT⁴", "meaning": "Surfaces with low emissivity radiate less at the same temperature." },
+      { "name": "Heating power", "formula": "P = Q/t", "meaning": "In steady state the heater power must equal the total rate of energy loss." }
+    ],
+    "graph": "thermal",
+    "simulation": "gas-law",
+    "lessons": ["thermal-physics", "thermodynamics", "greenhouse-effect"],
+    "questions": [
+      { "prompt": "A room loses 2.4 kW. How much energy escapes in 8 hours?", "answer": "E = Pt = 2400 × 8 × 3600 = 6.9 × 10⁷ J, about 19 kWh." },
+      { "prompt": "Heating 60 kg of air by 5 K needs how much energy (c ≈ 1000 J kg⁻¹ K⁻¹)?", "answer": "Q = mcΔT = 60 × 1000 × 5 = 3.0 × 10⁵ J." },
+      { "prompt": "Why is the gas gap in double glazing kept narrow?", "answer": "A narrow gap suppresses convection currents. A wide gap would allow circulation that transfers energy across it much faster than conduction alone." }
+    ],
+    "examQuestion": {
+      "command": "Evaluate",
+      "marks": 6,
+      "prompt": "Evaluate the effectiveness of double glazing compared with cavity wall insulation for reducing thermal energy loss from a house.",
+      "markPoints": [
+        "Both reduce conduction by introducing material of low thermal conductivity",
+        "Double glazing additionally suppresses convection by keeping the gas gap narrow",
+        "Walls have a far larger surface area than windows in a typical house",
+        "So cavity wall insulation usually reduces total energy loss by more",
+        "Double glazing also reduces draughts and can carry low-emissivity coatings to cut radiative loss",
+        "A justified conclusion comparing energy saved per unit cost for the specific building"
+      ]
+    },
+    "mistakes": [
+      "Describing insulation as \"keeping cold out\" rather than reducing the rate of energy transfer outwards.",
+      "Ignoring surface area when comparing windows with walls.",
+      "Confusing thermal conductivity with specific heat capacity."
+    ]
+  },
+  {
+    "slug": "noise-cancelling-headphones",
+    "unit": "C",
+    "title": "Noise-cancelling headphones",
+    "tags": ["Wave properties", "Superposition", "Interference"],
+    "context": "Active noise cancellation uses a microphone to sample incoming sound, then generates a second wave of equal amplitude and frequency but shifted by half a wavelength — a phase difference of π. Where the two superpose, destructive interference reduces the resultant amplitude. It works best on steady low-frequency noise such as engine hum, because long wavelengths make the required timing and positioning far less critical than for high-frequency sound.",
+    "concepts": ["Principle of superposition", "Path and phase difference", "Destructive interference", "Coherence"],
+    "formulas": [
+      { "name": "Destructive condition", "formula": "path difference = (n + ½)λ", "meaning": "An odd number of half-wavelengths produces a phase difference of π and cancellation." },
+      { "name": "Wave speed", "formula": "v = fλ", "meaning": "Links frequency and wavelength for a given medium." },
+      { "name": "Intensity", "formula": "I ∝ A²", "meaning": "Halving the resultant amplitude reduces intensity to a quarter." }
+    ],
+    "graph": "wave",
+    "simulation": "shm",
+    "lessons": ["wave-properties", "wave-phenomena", "simple-harmonic-motion"],
+    "questions": [
+      { "prompt": "Sound of frequency 100 Hz travels at 340 m s⁻¹. Calculate the wavelength.", "answer": "λ = v/f = 340/100 = 3.4 m." },
+      { "prompt": "What path difference gives complete cancellation for this wave?", "answer": "Half a wavelength, 1.7 m, or any odd multiple of it." },
+      { "prompt": "Why is cancelling a 5 kHz sound much harder?", "answer": "λ = 340/5000 = 0.068 m, so the required half-wavelength accuracy is about 3 cm. Small changes in head or speaker position destroy the cancellation." }
+    ],
+    "examQuestion": {
+      "command": "Explain",
+      "marks": 5,
+      "prompt": "Explain how noise-cancelling headphones reduce the loudness of a steady low-frequency sound, and why they are less effective at high frequencies.",
+      "markPoints": [
+        "A microphone detects the incoming sound wave",
+        "The headphones generate a wave of the same frequency and amplitude but π out of phase",
+        "By the principle of superposition the resultant displacement is close to zero, so intensity falls",
+        "The waves must remain coherent with a stable phase relationship for cancellation to persist",
+        "At high frequencies the wavelength is short, so small changes in position or timing destroy the required phase relationship"
+      ]
+    },
+    "mistakes": [
+      "Saying the waves \"destroy energy\" — energy is redistributed, not destroyed.",
+      "Confusing destructive interference with absorption or damping by padding.",
+      "Forgetting that coherence is required, not merely equal amplitude."
+    ]
+  },
+  {
+    "slug": "medical-ultrasound",
+    "unit": "C",
+    "title": "Medical ultrasound",
+    "tags": ["Wave phenomena", "Reflection", "Resolution"],
+    "context": "Ultrasound imaging sends pulses of high-frequency longitudinal sound waves into the body and times the echoes returning from boundaries between tissues of different acoustic impedance. Depth follows from the speed of sound in tissue and the round-trip time. Higher frequencies give better resolution because resolution is limited by wavelength, but they are absorbed more strongly and so cannot penetrate as deeply — a direct trade-off the operator must manage.",
+    "concepts": ["Longitudinal waves", "Reflection at boundaries", "Acoustic impedance", "Resolution and attenuation"],
+    "formulas": [
+      { "name": "Depth from echo time", "formula": "d = vt/2", "meaning": "The pulse travels to the boundary and back, so the one-way distance is half the total path." },
+      { "name": "Wave equation", "formula": "v = fλ", "meaning": "At fixed speed in tissue, higher frequency means shorter wavelength." },
+      { "name": "Acoustic impedance", "formula": "Z = ρv", "meaning": "A large impedance mismatch at a boundary gives a strong reflection." }
+    ],
+    "graph": "wave",
+    "simulation": "shm",
+    "lessons": ["wave-phenomena", "wave-properties"],
+    "questions": [
+      { "prompt": "An echo returns after 60 μs. The speed of sound in tissue is 1540 m s⁻¹. Calculate the depth.", "answer": "d = vt/2 = 1540 × 60 × 10⁻⁶ / 2 = 0.046 m, about 4.6 cm." },
+      { "prompt": "Calculate the wavelength of a 5.0 MHz ultrasound pulse in tissue.", "answer": "λ = v/f = 1540 / 5.0 × 10⁶ = 3.1 × 10⁻⁴ m." },
+      { "prompt": "Why is coupling gel used?", "answer": "Air between the probe and skin has a very different acoustic impedance, so almost all the ultrasound would reflect at that boundary. Gel matches the impedance and lets the pulse enter the body." }
+    ],
+    "examQuestion": {
+      "command": "Discuss",
+      "marks": 5,
+      "prompt": "Discuss the trade-off involved in choosing the frequency of ultrasound used for a medical scan.",
+      "markPoints": [
+        "Resolution is limited by wavelength; detail smaller than about one wavelength cannot be resolved",
+        "Since v = fλ and v is fixed by the tissue, higher frequency gives shorter wavelength and better resolution",
+        "However attenuation increases with frequency, so higher-frequency waves penetrate less deeply",
+        "Deep structures therefore require a lower frequency and accept poorer resolution",
+        "The operator selects the highest frequency that still reaches the required depth"
+      ]
+    },
+    "mistakes": [
+      "Forgetting the factor of 2 for the return journey when calculating depth.",
+      "Describing ultrasound as a transverse or electromagnetic wave — it is a longitudinal mechanical wave.",
+      "Claiming higher frequency is simply better, without addressing the loss of penetration."
+    ]
+  },
+  {
+    "slug": "mobile-communication",
+    "unit": "C",
+    "title": "Mobile communication",
+    "tags": ["Electromagnetic waves", "Diffraction", "Inverse square law"],
+    "context": "Mobile phones communicate using microwaves, typically between about 0.7 and 3.5 GHz. These travel at the speed of light and are unpolarised by the environment but can be polarised by antenna design. Lower frequencies diffract more around buildings and hills, so they give better coverage in built-up or rural terrain; higher frequencies carry more data but need many more base stations. Signal intensity falls with the inverse square of distance from the transmitter.",
+    "concepts": ["Electromagnetic spectrum", "Diffraction", "Inverse square law", "Polarisation"],
+    "formulas": [
+      { "name": "Wave equation", "formula": "c = fλ", "meaning": "With c = 3.00 × 10⁸ m s⁻¹, frequency fixes the wavelength." },
+      { "name": "Inverse square law", "formula": "I = P/(4πr²)", "meaning": "Intensity from a point source falls with the square of distance." },
+      { "name": "Diffraction condition", "formula": "λ ≈ gap width", "meaning": "Significant diffraction occurs when the wavelength is comparable to the size of the obstacle or gap." }
+    ],
+    "graph": "field",
+    "simulation": "photon-energy",
+    "lessons": ["electromagnetic-waves", "wave-phenomena"],
+    "questions": [
+      { "prompt": "Calculate the wavelength of a 900 MHz signal.", "answer": "λ = c/f = 3.00 × 10⁸ / 9.00 × 10⁸ = 0.33 m." },
+      { "prompt": "Calculate the wavelength of a 3.5 GHz signal.", "answer": "λ = 3.00 × 10⁸ / 3.5 × 10⁹ = 0.086 m." },
+      { "prompt": "Which of these gives better coverage behind a hill, and why?", "answer": "The 900 MHz signal. Its wavelength is nearly four times longer, so it diffracts more around obstacles of this size." },
+      { "prompt": "Signal intensity at 100 m is 4.0 × 10⁻⁶ W m⁻². Find it at 300 m.", "answer": "Intensity falls as 1/r², so it drops by a factor of 9 to 4.4 × 10⁻⁷ W m⁻²." }
+    ],
+    "examQuestion": {
+      "command": "Explain",
+      "marks": 4,
+      "prompt": "Explain why a mobile network operating at 3.5 GHz requires more base stations than one operating at 900 MHz to cover the same area.",
+      "markPoints": [
+        "The 3.5 GHz signal has a much shorter wavelength, about 8.6 cm compared with 33 cm",
+        "Diffraction is significant only when the wavelength is comparable to the obstacle size",
+        "The shorter wavelength therefore diffracts far less around buildings and terrain",
+        "Coverage gaps in the shadow of obstacles must be filled by additional, more closely spaced base stations"
+      ]
+    },
+    "mistakes": [
+      "Confusing microwaves with ionising radiation — microwave photon energies are far too low to ionise.",
+      "Assuming intensity falls linearly with distance instead of with the inverse square.",
+      "Saying higher frequency always gives worse coverage without explaining diffraction."
+    ]
+  },
+  {
+    "slug": "musical-instruments",
+    "unit": "C",
+    "title": "Musical instruments",
+    "tags": ["Standing waves", "Resonance", "Harmonics"],
+    "context": "A musical instrument produces a note by setting up standing waves at its resonant frequencies. A string fixed at both ends, and a pipe open at both ends, both support a full harmonic series. A pipe closed at one end has a node at the closed end and an antinode at the open end, so it supports only odd harmonics and sounds an octave lower than an open pipe of the same length. The mix of harmonics present gives each instrument its timbre.",
+    "concepts": ["Standing waves", "Nodes and antinodes", "Harmonic series", "Resonance"],
+    "formulas": [
+      { "name": "String or open pipe", "formula": "fₙ = nv/(2L)", "meaning": "All integer harmonics n = 1, 2, 3 … are possible." },
+      { "name": "Closed pipe", "formula": "fₙ = nv/(4L), n odd", "meaning": "Only odd harmonics exist, and the fundamental is half that of an open pipe of equal length." },
+      { "name": "String speed", "formula": "v = √(T/μ)", "meaning": "Tightening a string or using a lighter one raises the wave speed and so the pitch." }
+    ],
+    "graph": "wave",
+    "simulation": "shm",
+    "lessons": ["wave-phenomena", "wave-properties", "simple-harmonic-motion"],
+    "questions": [
+      { "prompt": "A pipe open at both ends is 0.60 m long. Find its fundamental frequency (v = 340 m s⁻¹).", "answer": "f₁ = v/(2L) = 340/1.20 = 283 Hz." },
+      { "prompt": "The same pipe is closed at one end. Find the new fundamental.", "answer": "f₁ = v/(4L) = 340/2.40 = 142 Hz, one octave lower." },
+      { "prompt": "List the first three harmonics of the closed pipe.", "answer": "142 Hz, 425 Hz and 708 Hz — the odd multiples 1, 3 and 5 of the fundamental." }
+    ],
+    "examQuestion": {
+      "command": "Explain",
+      "marks": 5,
+      "prompt": "Explain, in terms of nodes and antinodes, why a pipe closed at one end produces only odd harmonics.",
+      "markPoints": [
+        "A standing wave forms from superposition of the incident and reflected waves",
+        "The closed end must be a displacement node because air cannot move there",
+        "The open end must be a displacement antinode",
+        "The shortest fitting pattern is a quarter wavelength, so L = λ/4",
+        "Each successive mode adds a further half wavelength, giving L = 3λ/4, 5λ/4 …, so only odd multiples of the fundamental are possible"
+      ]
+    },
+    "mistakes": [
+      "Placing an antinode at a closed end or a node at an open end.",
+      "Using the string formula for a closed pipe.",
+      "Confusing the wavelength of the standing wave with the length of the pipe."
+    ]
+  },
+  {
+    "slug": "electromagnetic-induction-generators",
+    "unit": "C",
+    "title": "Electromagnetic induction in generators",
+    "tags": ["Induction", "Faraday's law", "Lenz's law"],
+    "context": "A generator rotates a coil in a magnetic field, so the flux linkage through the coil changes continuously and an emf is induced. Faraday's law gives the magnitude from the rate of change of flux linkage, and Lenz's law fixes the direction: the induced current opposes the change producing it. That opposition is why a generator becomes physically harder to turn as more current is drawn — the electrical energy is paid for with mechanical work.",
+    "concepts": ["Magnetic flux and flux linkage", "Faraday's law", "Lenz's law", "Alternating emf"],
+    "formulas": [
+      { "name": "Magnetic flux", "formula": "Φ = BA cos θ", "meaning": "Flux depends on the field, the area and the angle between the field and the normal to the coil." },
+      { "name": "Faraday's law", "formula": "ε = −N dΦ/dt", "meaning": "The induced emf equals the rate of change of flux linkage; the minus sign is Lenz's law." },
+      { "name": "Peak emf", "formula": "ε₀ = NBAω", "meaning": "Peak emf rises with the number of turns, field strength, coil area and angular speed." }
+    ],
+    "graph": "wave",
+    "simulation": "magnetic-force",
+    "lessons": ["electromagnetic-induction", "magnetic-fields", "fields"],
+    "questions": [
+      { "prompt": "A 200-turn coil of area 0.015 m² rotates at 50 rad s⁻¹ in a 0.30 T field. Calculate the peak emf.", "answer": "ε₀ = NBAω = 200 × 0.30 × 0.015 × 50 = 45 V." },
+      { "prompt": "At what coil orientation is the induced emf greatest?", "answer": "When the coil plane is parallel to the field, so the flux is momentarily zero but its rate of change is maximum." },
+      { "prompt": "Why does the generator get harder to turn when more lamps are switched on?", "answer": "A larger current creates a stronger opposing magnetic effect by Lenz's law, so more mechanical work must be done to maintain rotation." }
+    ],
+    "examQuestion": {
+      "command": "Explain",
+      "marks": 5,
+      "prompt": "Explain, using Faraday's and Lenz's laws, why increasing the electrical load on a generator increases the mechanical power needed to turn it.",
+      "markPoints": [
+        "Rotating the coil changes the flux linkage, inducing an emf given by Faraday's law",
+        "A greater load draws a larger induced current",
+        "By Lenz's law the induced current opposes the change that produced it",
+        "This creates a larger opposing torque on the rotating coil",
+        "More mechanical work per unit time must therefore be done to maintain the rotation, conserving energy overall"
+      ]
+    },
+    "mistakes": [
+      "Saying emf is largest when flux is largest — it is largest when the rate of change of flux is largest.",
+      "Omitting the minus sign or failing to explain what Lenz's law means physically.",
+      "Confusing flux Φ with flux linkage NΦ."
+    ]
+  },
+  {
+    "slug": "mri-scanners",
+    "unit": "D",
+    "title": "MRI scanners",
+    "tags": ["Magnetic fields", "Resonance", "Superconductivity"],
+    "context": "Magnetic resonance imaging places the body in a very strong, uniform magnetic field produced by superconducting coils. Hydrogen nuclei in water and fat precess about that field at a frequency proportional to the field strength. A radio-frequency pulse at exactly that frequency is absorbed resonantly; as the nuclei relax, they re-emit radio waves whose timing differs between tissue types. Gradient coils vary the field slightly with position so each signal can be located.",
+    "concepts": ["Magnetic flux density", "Resonance", "Superconductivity", "Non-ionising radiation"],
+    "formulas": [
+      { "name": "Force on a moving charge", "formula": "F = qvB sin θ", "meaning": "The basis of charged-particle behaviour in the scanner's fields." },
+      { "name": "Photon energy", "formula": "E = hf", "meaning": "Radio photons have very low energy, far below ionisation thresholds." },
+      { "name": "Field of a solenoid", "formula": "B ∝ nI", "meaning": "A large current in many turns produces the required strong uniform field." }
+    ],
+    "graph": "field",
+    "simulation": "magnetic-force",
+    "lessons": ["magnetic-fields", "electromagnetic-waves", "quantum-physics"],
+    "questions": [
+      { "prompt": "An MRI uses radio waves at 64 MHz. Calculate the photon energy.", "answer": "E = hf = 6.63 × 10⁻³⁴ × 6.4 × 10⁷ = 4.2 × 10⁻²⁶ J." },
+      { "prompt": "Compare this with a typical ionisation energy of about 2 × 10⁻¹⁸ J.", "answer": "The radio photon is about 10⁸ times smaller, so it cannot ionise atoms. MRI is non-ionising." },
+      { "prompt": "Why are superconducting coils used?", "answer": "They carry very large currents with zero resistance, producing the strong uniform field without resistive heating or continuous energy loss." }
+    ],
+    "examQuestion": {
+      "command": "Compare",
+      "marks": 5,
+      "prompt": "Compare the risks to a patient of an MRI scan and an X-ray scan, with reference to photon energy.",
+      "markPoints": [
+        "MRI uses radio-frequency photons with energy of order 10⁻²⁶ J",
+        "X-rays have photon energies of order 10⁻¹⁵ J, some 10¹¹ times greater",
+        "X-ray photons exceed typical ionisation energies and so can ionise atoms and damage DNA",
+        "Radio photons are far below the ionisation threshold and cannot ionise, whatever the intensity",
+        "MRI risks are therefore mechanical rather than radiological — chiefly the strong field attracting ferromagnetic objects"
+      ]
+    },
+    "mistakes": [
+      "Calling MRI radiation \"dangerous radiation\" without distinguishing ionising from non-ionising.",
+      "Assuming higher intensity can compensate for low photon energy in causing ionisation — it cannot.",
+      "Confusing superconductivity with simply having very low resistance."
+    ]
+  },
+  {
+    "slug": "particle-accelerators",
+    "unit": "D",
+    "title": "Particle accelerators",
+    "tags": ["Electric fields", "Magnetic fields", "Relativity"],
+    "context": "An accelerator uses electric fields to do work on charged particles and magnetic fields to steer them. Because the magnetic force is always perpendicular to the velocity, it changes direction without changing speed, which is exactly what a circular machine needs. At high speeds relativistic effects dominate: the Lorentz factor grows without limit, so the particle's energy rises steeply while its speed creeps ever closer to c but never reaches it.",
+    "concepts": ["Work done by an electric field", "Circular motion in a magnetic field", "Relativistic energy", "Electronvolt"],
+    "formulas": [
+      { "name": "Energy gained", "formula": "E = qV", "meaning": "A charge accelerated through a potential difference gains this kinetic energy." },
+      { "name": "Radius of curvature", "formula": "r = mv/(qB)", "meaning": "Faster or heavier particles curve less; a stronger field curves them more." },
+      { "name": "Lorentz factor", "formula": "γ = 1/√(1 − v²/c²)", "meaning": "Relativistic energy is γmc², which diverges as v approaches c." }
+    ],
+    "graph": "field",
+    "simulation": "lorentz-factor",
+    "lessons": ["electric-fields", "magnetic-fields", "relativity"],
+    "questions": [
+      { "prompt": "An electron is accelerated through 5.0 kV. Calculate its kinetic energy in joules.", "answer": "E = qV = 1.60 × 10⁻¹⁹ × 5000 = 8.0 × 10⁻¹⁶ J, or 5.0 keV." },
+      { "prompt": "A proton of momentum 2.0 × 10⁻¹⁹ kg m s⁻¹ moves in a 0.50 T field. Calculate the radius.", "answer": "r = p/(qB) = 2.0 × 10⁻¹⁹ / (1.60 × 10⁻¹⁹ × 0.50) = 2.5 m." },
+      { "prompt": "Why does a magnetic field not change a particle's speed?", "answer": "The force qv × B is always perpendicular to the velocity, so it does no work. Only the direction changes." }
+    ],
+    "examQuestion": {
+      "command": "Explain",
+      "marks": 5,
+      "prompt": "Explain why a charged particle in an accelerator can approach but never reach the speed of light.",
+      "markPoints": [
+        "Relativistic energy is E = γmc² with γ = 1/√(1 − v²/c²)",
+        "As v approaches c, the denominator approaches zero and γ increases without limit",
+        "The energy required therefore tends to infinity as v tends to c",
+        "An infinite amount of work cannot be supplied by any accelerator",
+        "So the speed increases ever more slowly towards c as a limit but never attains it"
+      ]
+    },
+    "mistakes": [
+      "Saying a magnetic field accelerates the particle in the everyday sense — it changes direction, not speed.",
+      "Using the non-relativistic ½mv² for particles near the speed of light.",
+      "Confusing the electronvolt, a unit of energy, with a unit of potential difference."
+    ]
+  },
+  {
+    "slug": "solar-cells-photoelectric-effect",
+    "unit": "D",
+    "title": "Solar cells and the photoelectric effect",
+    "tags": ["Quantum physics", "Photons", "Energy"],
+    "context": "The photoelectric effect is the direct evidence that light is quantised. A single photon either has enough energy to liberate an electron or it does not, and no amount of extra intensity changes that. This explains the threshold frequency, which the wave model cannot. Solar cells rely on the same quantisation: photons with energy above the band gap promote electrons across it, generating a current. Photons below the band gap pass through unused.",
+    "concepts": ["Photon energy", "Work function and threshold frequency", "Stopping potential", "Band gap"],
+    "formulas": [
+      { "name": "Photon energy", "formula": "E = hf = hc/λ", "meaning": "Energy is carried in discrete quanta set by frequency, not intensity." },
+      { "name": "Photoelectric equation", "formula": "E_max = hf − φ", "meaning": "Maximum electron kinetic energy is the photon energy minus the work function." },
+      { "name": "Threshold frequency", "formula": "f₀ = φ/h", "meaning": "Below this frequency no electrons are emitted, whatever the intensity." }
+    ],
+    "graph": "field",
+    "simulation": "photon-energy",
+    "lessons": ["quantum-physics", "electromagnetic-waves"],
+    "questions": [
+      { "prompt": "A metal has work function 2.3 eV. Calculate its threshold frequency.", "answer": "φ = 2.3 × 1.60 × 10⁻¹⁹ = 3.68 × 10⁻¹⁹ J. f₀ = φ/h = 3.68 × 10⁻¹⁹ / 6.63 × 10⁻³⁴ = 5.6 × 10¹⁴ Hz." },
+      { "prompt": "Light of 6.0 × 10¹⁴ Hz strikes it. Find the maximum kinetic energy of emitted electrons.", "answer": "E_max = hf − φ = (6.63 × 10⁻³⁴ × 6.0 × 10¹⁴) − 3.68 × 10⁻¹⁹ = 2.8 × 10⁻²⁰ J." },
+      { "prompt": "Why does increasing intensity below the threshold frequency still emit nothing?", "answer": "Each electron absorbs a single photon. If one photon carries less than the work function, no electron escapes; more photons per second simply means more insufficient interactions." }
+    ],
+    "examQuestion": {
+      "command": "Explain",
+      "marks": 6,
+      "prompt": "Explain how the existence of a threshold frequency supports the photon model of light and cannot be explained by the wave model.",
+      "markPoints": [
+        "In the wave model energy is delivered continuously and spread over the wavefront",
+        "The wave model therefore predicts that any frequency would eventually eject electrons if given enough time or intensity",
+        "Experimentally no emission occurs below the threshold frequency, however intense or prolonged the illumination",
+        "In the photon model light arrives as discrete quanta of energy hf",
+        "One electron absorbs one photon, so emission requires hf ≥ φ for a single photon",
+        "This predicts a sharp threshold at f₀ = φ/h, matching observation"
+      ]
+    },
+    "mistakes": [
+      "Saying brighter light gives electrons more energy — it gives more electrons, each with the same maximum energy.",
+      "Mixing electronvolts and joules within one calculation.",
+      "Describing E_max as the energy of every emitted electron rather than the maximum."
+    ]
+  },
+  {
+    "slug": "nuclear-medicine",
+    "unit": "D",
+    "title": "Nuclear medicine",
+    "tags": ["Nuclear physics", "Radioactivity", "Half-life"],
+    "context": "Diagnostic nuclear medicine introduces a radioactive tracer that concentrates in a target organ and emits gamma radiation detectable from outside the body. The isotope choice is a balance: the half-life must be long enough to complete the scan but short enough that the patient's exposure ends quickly. Gamma emitters are preferred for imaging because gamma radiation is penetrating enough to escape the body, whereas alpha emitters would deposit all their energy in nearby tissue.",
+    "concepts": ["Radioactive decay", "Half-life and activity", "Ionising radiation types", "Absorbed dose"],
+    "formulas": [
+      { "name": "Decay law", "formula": "N = N₀e^(−λt)", "meaning": "The number of undecayed nuclei falls exponentially with time." },
+      { "name": "Decay constant", "formula": "λ = ln 2 / T½", "meaning": "Links the decay constant to the half-life." },
+      { "name": "Activity", "formula": "A = λN", "meaning": "Activity is proportional to the number of undecayed nuclei remaining." }
+    ],
+    "graph": "decay",
+    "simulation": "radioactive-decay",
+    "lessons": ["nuclear-physics", "quantum-physics"],
+    "questions": [
+      { "prompt": "Technetium-99m has a half-life of 6.0 hours. What fraction remains after 18 hours?", "answer": "18 hours is 3 half-lives, so (½)³ = 1/8 = 12.5% remains." },
+      { "prompt": "Calculate its decay constant.", "answer": "λ = ln 2 / T½ = 0.693 / (6.0 × 3600) = 3.2 × 10⁻⁵ s⁻¹." },
+      { "prompt": "Why is an alpha emitter unsuitable as a diagnostic tracer?", "answer": "Alpha particles are highly ionising but travel only a few centimetres in tissue, so they would not escape the body to be detected while delivering a large local dose." }
+    ],
+    "examQuestion": {
+      "command": "Discuss",
+      "marks": 6,
+      "prompt": "Discuss the factors that determine a suitable choice of radioactive isotope for medical imaging.",
+      "markPoints": [
+        "A gamma emitter is required so the radiation is penetrating enough to leave the body and be detected",
+        "Alpha and beta emitters would deposit their energy in surrounding tissue, increasing dose without producing an image",
+        "The half-life must be long enough for the tracer to reach the organ and the scan to be completed",
+        "The half-life must be short enough that activity falls quickly after the procedure, limiting total dose",
+        "The isotope must have suitable chemistry to be taken up by the target organ",
+        "The benefit of accurate diagnosis is weighed against the small increased risk from the radiation dose"
+      ]
+    },
+    "mistakes": [
+      "Saying half the activity is lost each hour rather than each half-life.",
+      "Adding half-lives together instead of halving repeatedly.",
+      "Assuming a shorter half-life is always safer, ignoring whether the scan can be completed."
+    ]
+  },
+  {
+    "slug": "radioactive-decay-carbon-dating",
+    "unit": "D",
+    "title": "Radioactive decay and carbon dating",
+    "tags": ["Nuclear physics", "Exponential decay", "Data analysis"],
+    "context": "Living organisms exchange carbon with their environment, holding a roughly constant proportion of radioactive carbon-14. Once the organism dies, exchange stops and the carbon-14 decays with a half-life of about 5730 years. Comparing the remaining activity per gram with that of living material dates the sample. The method is reliable to roughly 50 000 years, beyond which too little carbon-14 remains to measure the activity above background.",
+    "concepts": ["Exponential decay", "Half-life", "Logarithmic linearisation", "Background radiation"],
+    "formulas": [
+      { "name": "Decay law", "formula": "A = A₀e^(−λt)", "meaning": "Activity falls exponentially from its initial value." },
+      { "name": "Linearised form", "formula": "ln A = ln A₀ − λt", "meaning": "Plotting ln A against t gives a straight line of gradient −λ." },
+      { "name": "Age", "formula": "t = (1/λ) ln(A₀/A)", "meaning": "Rearranging the decay law gives the elapsed time since death." }
+    ],
+    "graph": "decay",
+    "simulation": "radioactive-decay",
+    "lessons": ["nuclear-physics"],
+    "questions": [
+      { "prompt": "A sample shows 25% of the living carbon-14 activity. How old is it?", "answer": "25% is two half-lives, so t = 2 × 5730 = 11 460 years." },
+      { "prompt": "Calculate the decay constant of carbon-14 in years⁻¹.", "answer": "λ = ln 2 / 5730 = 1.21 × 10⁻⁴ yr⁻¹." },
+      { "prompt": "A sample has 12.0 counts per minute per gram; living material gives 15.3. Find the age.", "answer": "t = (1/λ) ln(15.3/12.0) = (1/1.21 × 10⁻⁴) × 0.243 = 2.0 × 10³ years." },
+      { "prompt": "Why must background count rate be subtracted first?", "answer": "The detector registers radiation from sources other than the sample. Without subtracting it the measured activity is too high and the calculated age too young." }
+    ],
+    "examQuestion": {
+      "command": "Analyse",
+      "marks": 6,
+      "prompt": "A student measures the activity of a decaying source over time and plots ln A against t. Analyse how this graph can be used to determine the half-life, and explain why the linearised plot is preferred to a plot of A against t.",
+      "markPoints": [
+        "Starting from A = A₀e^(−λt), taking natural logarithms gives ln A = ln A₀ − λt",
+        "This is the equation of a straight line with gradient −λ and intercept ln A₀",
+        "The decay constant is therefore the negative of the measured gradient",
+        "Half-life follows from T½ = ln 2 / λ",
+        "A straight line makes it far easier to judge whether the data genuinely fit an exponential model",
+        "Anomalous points and the uncertainty in the gradient are much easier to identify on a linear plot than on a curve"
+      ]
+    },
+    "mistakes": [
+      "Forgetting to subtract background count rate before processing the data.",
+      "Reading the gradient as λ rather than −λ.",
+      "Using carbon dating on non-organic samples or on material far older than about 50 000 years."
+    ]
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "id": "A",
+    "title": "Space, Time and Motion",
+    "summary": "Describing and predicting motion, the forces that cause it, and the conservation laws that constrain it — from everyday kinematics to relativistic limits.",
+    "skills": ["Motion graphs", "Vector resolution", "Conservation of momentum and energy", "Rotational dynamics"]
+  },
+  {
+    "id": "B",
+    "title": "The Particulate Nature of Matter",
+    "summary": "Modelling matter as particles: internal energy, temperature, the behaviour of gases, energy transfer, and the limits thermodynamics places on what is possible.",
+    "skills": ["Specific heat and latent heat", "Kinetic model of gases", "Energy transfer pathways", "Entropy and efficiency"]
+  },
+  {
+    "id": "C",
+    "title": "Wave Behaviour",
+    "summary": "Oscillations and waves: how they are described, how they superpose, refract, diffract and resonate, and how a changing field induces motion.",
+    "skills": ["SHM analysis", "Superposition and interference", "Standing waves", "Induced emf"]
+  },
+  {
+    "id": "D",
+    "title": "Fields",
+    "summary": "Action at a distance: electric, magnetic and gravitational fields, the electromagnetic spectrum, and the quantum and nuclear behaviour that classical fields cannot explain.",
+    "skills": ["Field and potential", "Motion of charges in fields", "Photon interactions", "Nuclear stability and decay"]
+  }
+]

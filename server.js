@@ -1,4 +1,4 @@
-/** PHYLAB's single Node service: public assets, content catalogue, and PHY chat. */
+/** KINETIQ's single Node service: public assets, content catalogue, and KIT chat. */
 const http = require('node:http');
 const fs = require('node:fs/promises');
 const path = require('node:path');
@@ -25,7 +25,7 @@ const PORT = Number(process.env.PORT || 3000);
 const HOST = process.env.HOST || (process.env.NODE_ENV === 'production' ? '0.0.0.0' : '127.0.0.1');
 const REQUESTS = new Map();
 const MIME = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'application/javascript; charset=utf-8', '.svg': 'image/svg+xml' };
-const TUTOR_CONTEXT = `You are PHY, the experienced IBDP Physics teacher inside PHYLAB. Treat PHYLAB retrieval as the primary source of truth. Use general physics knowledge only to explain or connect retrieved PHYLAB material, and clearly state when the requested detail is not in PHYLAB. Teach accurately at SL or HL as requested, use SI units, and avoid claiming official IB marking. Do not reproduce unsupplied copyrighted examination material.`;
+const TUTOR_CONTEXT = `You are KIT, the experienced IBDP Physics teacher inside KINETIQ. Treat KINETIQ retrieval as the primary source of truth. Use general physics knowledge only to explain or connect retrieved KINETIQ material, and clearly state when the requested detail is not in KINETIQ. Teach accurately at SL or HL as requested, use SI units, and avoid claiming official IB marking. Do not reproduce unsupplied copyrighted examination material.`;
 
 const send = (res, status, body, headers = {}) => { res.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', ...headers }); res.end(JSON.stringify(body)); };
 const readJSON = req => new Promise((resolve, reject) => { let raw = ''; req.on('data', chunk => { raw += chunk; if (raw.length > 3000000) { reject(new Error('Request is too large.')); req.destroy(); } }); req.on('end', () => { try { resolve(JSON.parse(raw || '{}')); } catch { reject(new Error('Invalid JSON request body.')); } }); req.on('error', reject); });
@@ -58,17 +58,30 @@ function normalizeLesson(raw, file, all) {
   const studyMinutes = raw.estimatedStudyTime || Math.max(20, Math.min(75, 12 + (raw.definitions?.length || 0) * 3 + (raw.worked_examples?.length || 0) * 8));
   return { ...raw, slug, topicLabel, difficulty: raw.difficulty || (String(raw.level).includes('HL') ? 'SL + HL' : 'SL'), estimatedStudyTime: studyMinutes, prerequisites: raw.prerequisites || [], constants: raw.constants || [], derivations: raw.derivations || [], practical_experiment: raw.practical_experiment || '', ia_connection: raw.ia_connection || '', tok_connection: raw.tok_connection || '', relatedTopics: raw.relatedTopics || all.filter(item => item !== file).slice(0, 3).map(item => ({ slug: slugify(path.basename(item, '.json')), title: path.basename(item, '.json').replace(/_/g, ' ') })), formulas: raw.formulas || [], summary: raw.summary || '' };
 }
+const INDEX_FILES = ['topics.json', 'formulas.json', 'questions.json', 'glossary.json', 'simulations.json', 'examples.json', 'lessons.json', 'units.json', 'toolkit.json', 'cases.json', 'questionPatterns.json', 'resources.json'];
+const INDEX_NAMES = ['topics', 'formulas', 'questions', 'glossary', 'simulations', 'examples', 'legacy lessons', 'units', 'toolkit', 'cases', 'question patterns', 'resources'];
+
 async function contentIndex({ includeLessons = false } = {}) {
-  const [topics, formulas, questions, glossary, simulations, examples, legacyLessons, files] = await Promise.all(['topics.json', 'formulas.json', 'questions.json', 'glossary.json', 'simulations.json', 'examples.json', 'lessons.json'].map(readData).concat(lessonFiles()));
+  const [topics, formulas, questions, glossary, simulations, examples, legacyLessons, units, toolkit, cases, questionPatterns, resources, files] = await Promise.all(INDEX_FILES.map(readData).concat(lessonFiles()));
   const records = await Promise.all(files.map(async file => normalizeLesson(await readLesson(file), file, files)));
-  [topics, formulas, questions, glossary, simulations, examples, legacyLessons].forEach((value, index) => validateCollection(value, ['topics', 'formulas', 'questions', 'glossary', 'simulations', 'examples', 'legacy lessons'][index]));
+  [topics, formulas, questions, glossary, simulations, examples, legacyLessons, units, toolkit, cases, questionPatterns, resources].forEach((value, index) => validateCollection(value, INDEX_NAMES[index]));
+  cases.forEach(item => { if (!item.slug || !item.unit || !item.title) throw new Error('Each case needs a slug, unit and title.'); });
+  questionPatterns.forEach(item => { if (!item.slug || !item.command) throw new Error('Each question pattern needs a slug and command term.'); });
   const allFormulas = [...formulas, ...records.flatMap(record => record.formulas.map(item => ({ ...item, topic: record.topicLabel })))];
   const searchIndex = records.flatMap(record => [
     ...record.definitions.map(item => ({ type: 'Definition', title: item.term, text: `${item.term} ${item.meaning || ''} ${record.title}`, href: `/lesson/${record.slug}` })),
     ...record.formulas.map(item => ({ type: 'Formula', title: item.name, text: `${item.name} ${item.formula} ${item.explanation || ''}`, href: `/lesson/${record.slug}` })),
     ...record.worked_examples.map(item => ({ type: 'Worked example', title: record.title, text: `${item.question} ${item.answer}`, href: `/lesson/${record.slug}` }))
   ]);
-  return { topics, formulas: allFormulas, questions, glossary, simulations, examples, legacyLessons, searchIndex, lessonIndex: records.map(({ slug, title, topicLabel, level, summary, learning_objectives }) => ({ slug, title, topicLabel, level, summary, learning_objectives })), ...(includeLessons ? { lessons: records } : {}) };
+  return {
+    topics, formulas: allFormulas, questions, glossary, simulations, examples, legacyLessons, units, toolkit, cases, questionPatterns, resources, searchIndex,
+    lessonIndex: records.map(({ slug, title, topicLabel, level, summary, learning_objectives, estimatedStudyTime, difficulty, definitions, formulas: lessonFormulas }) => ({
+      slug, title, topicLabel, level, summary, learning_objectives, estimatedStudyTime, difficulty,
+      unit: (String(title).match(/^\s*([A-Z])\./) || [])[1] || '',
+      tags: [...new Set([...(definitions || []).slice(0, 3).map(item => item.term), ...(lessonFormulas || []).slice(0, 2).map(item => item.name)])].filter(Boolean).slice(0, 4)
+    })),
+    ...(includeLessons ? { lessons: records } : {})
+  };
 }
 const retrievalEngine = createRetrievalEngine(() => contentIndex({ includeLessons: true }));
 const MODES = new Set(['Physics Teacher', 'Numerical Solver', 'Formula Explainer', 'Derivation Tutor', 'IB Examiner', 'Revision Coach', 'Lab Assistant', 'Graph Analyzer', 'TOK Discussion', 'IA Mentor', 'Question Generator', 'Challenge Me', 'Concept Check', 'Explain', 'Teach', 'Step-by-step', 'Hint', 'Revision', 'Socratic Tutor', 'Quick Answer']);
@@ -78,12 +91,12 @@ const validImage = value => typeof value === 'string' && /^data:image\/(?:png|jp
 const sse = (res, event, data) => res.write(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
 
 function tutorInstructions({ mode, context, sources }) {
-  const retrieved = sources.map(source => `[${source.type}] ${source.title}\n${source.body}`).join('\n\n') || 'No direct PHYLAB match was found. Say this clearly, then give a careful general explanation.';
-  return `${TUTOR_CONTEXT}\n\nTeaching mode: ${mode}.\nCurrent PHYLAB route and learner context: ${JSON.stringify(context)}\n\nRetrieved PHYLAB content (use this before other knowledge):\n${retrieved}\n\nRespond in concise Markdown. When relevant, use these headings: Explanation, Formula, Variables and units, Worked example, Common mistakes, IB tip, and Next in PHYLAB. In Numerical Solver mode always show Known values, Unknown, Equation, Substitution, Answer with units and significant figures, and Reasonableness check. In IB Examiner mode label feedback as PHYLAB practice marking, identify correct points, missing points, an estimated mark, a model answer, and improvement advice. For Question Generator mode, produce original questions only, identify SL/HL, marks, command term, answer, and mark points. For Revision Coach mode, recommend a realistic next study action from the retrieved topics. Never reveal hidden reasoning or claim an official IB mark.`;
+  const retrieved = sources.map(source => `[${source.type}] ${source.title}\n${source.body}`).join('\n\n') || 'No direct KINETIQ match was found. Say this clearly, then give a careful general explanation.';
+  return `${TUTOR_CONTEXT}\n\nTeaching mode: ${mode}.\nCurrent KINETIQ route and learner context: ${JSON.stringify(context)}\n\nRetrieved KINETIQ content (use this before other knowledge):\n${retrieved}\n\nRespond in concise Markdown. When relevant, use these headings: Explanation, Formula, Variables and units, Worked example, Common mistakes, IB tip, and Next in KINETIQ. In Numerical Solver mode always show Known values, Unknown, Equation, Substitution, Answer with units and significant figures, and Reasonableness check. In IB Examiner mode label feedback as KINETIQ practice marking, identify correct points, missing points, an estimated mark, a model answer, and improvement advice. For Question Generator mode, produce original questions only, identify SL/HL, marks, command term, answer, and mark points. For Revision Coach mode, recommend a realistic next study action from the retrieved topics. Never reveal hidden reasoning or claim an official IB mark.`;
 }
 
 /**
- * PHYLAB talks to several providers so a learner is never blocked by one vendor.
+ * KINETIQ talks to several providers so a learner is never blocked by one vendor.
  * Every key is read from the server environment and never reaches the browser.
  */
 const PROVIDERS = {
@@ -172,7 +185,7 @@ async function streamProvider(response, res, parse) {
         const delta = parse(event) || '';
         if (delta) sse(res, 'delta', { delta });
         if (event.type === 'response.completed') sse(res, 'meta', { usage: event.response?.usage || null });
-        if (event.type === 'error' || event.error) sse(res, 'error', { error: 'PHY could not complete that request. Please retry.' });
+        if (event.type === 'error' || event.error) sse(res, 'error', { error: 'KIT could not complete that request. Please retry.' });
       } catch { /* Ignore incomplete upstream SSE packets. */ }
     }
   }
@@ -184,10 +197,10 @@ async function tutor(req, res) {
   try {
     const body = await readJSON(req);
     providerId = resolveProvider(body.provider);
-    if (!providerId) return send(res, 503, { error: 'PHY is ready, but no AI key has been configured on the server. Add GROQ_API_KEY, OPENAI_API_KEY, ANTHROPIC_API_KEY, or GEMINI_API_KEY to your environment.' });
+    if (!providerId) return send(res, 503, { error: 'KIT is ready, but no AI key has been configured on the server. Add GROQ_API_KEY, OPENAI_API_KEY, ANTHROPIC_API_KEY, or GEMINI_API_KEY to your environment.' });
     const provider = PROVIDERS[providerId];
     const message = cleanText(body.message);
-    if (!message) return send(res, 400, { error: 'Please write a question for PHY.' });
+    if (!message) return send(res, 400, { error: 'Please write a question for KIT.' });
     const mode = MODES.has(body.mode) ? body.mode : 'Physics Teacher';
     const context = cleanContext(body.context);
     const sources = await retrievalEngine.retrieve(message, context, 8);
@@ -205,7 +218,7 @@ async function tutor(req, res) {
     if (!response.ok) {
       const data = await response.json().catch(() => ({}));
       const detail = data?.error?.message || data?.error?.[0]?.message || data?.message;
-      return send(res, response.status, { error: `${provider.label}: ${detail || 'PHY could not complete that request.'}` });
+      return send(res, response.status, { error: `${provider.label}: ${detail || 'KIT could not complete that request.'}` });
     }
     res.writeHead(200, { 'Content-Type': 'text/event-stream; charset=utf-8', 'Cache-Control': 'no-cache, no-transform', Connection: 'keep-alive', 'X-Accel-Buffering': 'no' });
     sse(res, 'sources', { sources: sources.map(({ type, title, href, metadata }) => ({ type, title, href, metadata })) });
@@ -214,9 +227,9 @@ async function tutor(req, res) {
     sse(res, 'done', {}); res.end();
   } catch (error) {
     if (error.name === 'AbortError') return;
-    console.error('PHY request failed:', error.message);
-    if (!res.headersSent) send(res, 500, { error: 'PHY is temporarily unavailable. Please try again shortly.' });
-    else { sse(res, 'error', { error: 'PHY is temporarily unavailable. Please retry.' }); res.end(); }
+    console.error('KIT request failed:', error.message);
+    if (!res.headersSent) send(res, 500, { error: 'KIT is temporarily unavailable. Please try again shortly.' });
+    else { sse(res, 'error', { error: 'KIT is temporarily unavailable. Please retry.' }); res.end(); }
   }
 }
 async function serveAsset(res, pathname, headOnly) {
@@ -225,7 +238,7 @@ async function serveAsset(res, pathname, headOnly) {
   if (!/\.[a-z0-9]+$/i.test(target) && !target.startsWith('api/')) target = 'index.html';
   if (!(/^(index\.html|styles\.css|app\.js|public-env\.js|js\/[a-zA-Z0-9_\/-]+\.js)$/.test(target))) return send(res, 404, { error: 'Not found' });
   const file = path.resolve(ROOT, target); if (!file.startsWith(`${ROOT}${path.sep}`)) return send(res, 403, { error: 'Forbidden' });
-  try { const data = await fs.readFile(file); res.writeHead(200, { 'Content-Type': MIME[path.extname(file)] || 'application/octet-stream', 'Cache-Control': target.includes('.') && target !== 'index.html' ? 'public, max-age=3600' : 'no-cache', 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'strict-origin-when-cross-origin', 'X-Frame-Options': 'DENY' }); if (!headOnly) res.end(data); else res.end(); } catch { send(res, 404, { error: 'Not found' }); }
+  try { const data = await fs.readFile(file); res.writeHead(200, { 'Content-Type': MIME[path.extname(file)] || 'application/octet-stream', 'Cache-Control': process.env.NODE_ENV === 'production' && target !== 'index.html' ? 'public, max-age=3600' : 'no-cache', 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'strict-origin-when-cross-origin', 'X-Frame-Options': 'DENY' }); if (!headOnly) res.end(data); else res.end(); } catch { send(res, 404, { error: 'Not found' }); }
 }
 http.createServer(async (req, res) => {
   const url = new URL(req.url, `http://${req.headers.host || 'localhost'}`); const pathname = decodeURIComponent(url.pathname);
@@ -239,4 +252,4 @@ http.createServer(async (req, res) => {
   if (req.method === 'POST' && pathname === '/api/chat') return tutor(req, res);
   if (!['GET', 'HEAD'].includes(req.method)) return send(res, 405, { error: 'Method not allowed' });
   return serveAsset(res, pathname, req.method === 'HEAD');
-}).listen(PORT, HOST, () => console.log(`PHYLAB running at http://${HOST}:${PORT}`));
+}).listen(PORT, HOST, () => console.log(`KINETIQ running at http://${HOST}:${PORT}`));

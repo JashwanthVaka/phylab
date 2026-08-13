@@ -14,6 +14,7 @@ import { SearchIndex } from './js/search.js';
 import { getProgress } from './js/utils.js';
 import { authPage, accountPage, onboardingPage, bindAccount } from './js/accountUI.js';
 import { profileService } from './js/services/profileService.js';
+import { progressService } from './js/services/progressService.js';
 import { bookmarkService } from './js/services/bookmarkService.js';
 import { offlineSyncService } from './js/services/offlineSyncService.js';
 import { dashboardService } from './js/services/dashboardService.js';
@@ -38,7 +39,7 @@ function loadPageModule(path) {
 /** Runs registered page clean-up callbacks before a new route mounts. */
 function cleanupPage() {
   pageCleanups.forEach(cleanup => {
-    try { cleanup(); } catch (error) { console.warn('PHYLAB page cleanup failed.', error); }
+    try { cleanup(); } catch (error) { console.warn('KINETIQ page cleanup failed.', error); }
   });
   pageCleanups.clear();
 }
@@ -57,12 +58,12 @@ function ensureOverlay() {
   overlay.setAttribute('role', 'status');
   overlay.setAttribute('aria-live', 'polite');
   overlay.setAttribute('aria-hidden', 'true');
-  overlay.innerHTML = '<div class="phylab-loading-overlay__card"><span class="phylab-loading-overlay__spinner" aria-hidden="true"></span><span data-loading-message>Loading PHYLAB…</span></div>';
+  overlay.innerHTML = '<div class="phylab-loading-overlay__card"><span class="phylab-loading-overlay__spinner" aria-hidden="true"></span><span data-loading-message>Loading KINETIQ…</span></div>';
   document.body.append(overlay);
   return overlay;
 }
 
-function setLoading(isLoading, message = 'Loading PHYLAB…') {
+function setLoading(isLoading, message = 'Loading KINETIQ…') {
   const overlay = ensureOverlay();
   overlay.querySelector('[data-loading-message]').textContent = message;
   overlay.hidden = !isLoading;
@@ -107,7 +108,7 @@ function render(view) {
 }
 
 function renderRouteError(error) {
-  console.error('PHYLAB route failed to initialise.', error);
+  console.error('KINETIQ route failed to initialise.', error);
   render('<section class="page error-state" role="alert"><p class="eyebrow">SOMETHING WENT WRONG</p><h1>This page could not load.</h1><p>Please try again. Your saved learning data is safe.</p><button class="button" type="button" data-retry>Try again</button></section>');
   notify('We could not load that page. Please try again.', 'error');
 }
@@ -129,6 +130,12 @@ async function transition(work, message = 'Loading page…') {
   } finally {
     if (version === routeVersion) setLoading(false);
   }
+}
+
+/** Gathers everything the progress dashboard needs so it never has to invent a metric. */
+async function dashboardContext() {
+  const [summary, index, state] = await Promise.all([dashboardService.summary(), loader.getIndex(), progressService.list()]);
+  return [summary, { lessons: index.lessonIndex, units: index.units, completed: state.completed }];
 }
 
 function bookmarkPage(rows) {
@@ -172,9 +179,37 @@ const router = new Router({
     const studio = await loadPageModule('./js/simulationStudio.js');
     return { view: studio.detail(slug), mount: () => studio.bindStudio() };
   }, 'Opening physics lab…'),
-  '/progress': () => transition(async () => ({ view: dashboardView(await dashboardService.summary()) }), 'Loading progress…'),
+  '/library': () => transition(async () => {
+    const [index, library, state] = await Promise.all([loader.getIndex(), loadPageModule('./js/libraryUI.js'), progressService.list()]);
+    return { view: library.libraryPage(index, state), mount: () => library.bindLibrary() };
+  }, 'Opening the course library…'),
+  '/toolkit': () => transition(async () => {
+    const [index, toolkit] = await Promise.all([loader.getIndex(), loadPageModule('./js/toolkitUI.js')]);
+    return { view: toolkit.toolkitPage(index) };
+  }, 'Opening the active toolkit…'),
+  '/cases': () => transition(async () => {
+    const [index, cases] = await Promise.all([loader.getIndex(), loadPageModule('./js/casesUI.js')]);
+    return { view: cases.casesPage(index), mount: () => cases.bindCases() };
+  }, 'Loading case practice…'),
+  '/cases/:slug': ({ slug }) => transition(async () => {
+    const [index, cases] = await Promise.all([loader.getIndex(), loadPageModule('./js/casesUI.js')]);
+    return { view: cases.casePage(index, slug), mount: () => cases.bindCases() };
+  }, 'Opening case…'),
+  '/patterns': () => transition(async () => {
+    const [index, patterns] = await Promise.all([loader.getIndex(), loadPageModule('./js/patternsUI.js')]);
+    return { view: patterns.patternsPage(index), mount: () => patterns.bindPatterns() };
+  }, 'Loading question patterns…'),
+  '/exam-prep': () => transition(async () => {
+    const [index, examPrep] = await Promise.all([loader.getIndex(), loadPageModule('./js/examPrepUI.js')]);
+    return { view: examPrep.examPrepPage(index) };
+  }, 'Opening exam preparation…'),
+  '/resources': () => transition(async () => {
+    const [index, resources] = await Promise.all([loader.getIndex(), loadPageModule('./js/resourcesUI.js')]);
+    return { view: resources.resourcesPage(index) };
+  }, 'Loading the source library…'),
+  '/progress': () => transition(async () => ({ view: dashboardView(...(await dashboardContext())) }), 'Loading progress…'),
   '/mastery': () => transition(async () => ({ view: masteryView(await dashboardService.summary()) }), 'Loading mastery…'),
-  '/activity': () => transition(async () => ({ view: dashboardView(await dashboardService.summary()) }), 'Loading activity…'),
+  '/activity': () => transition(async () => ({ view: dashboardView(...(await dashboardContext())) }), 'Loading activity…'),
   '/login': () => transition(async () => ({ view: authPage('login') }), 'Opening sign in…'),
   '/signup': () => transition(async () => ({ view: authPage('signup') }), 'Opening sign up…'),
   '/onboarding': () => transition(async () => ({ view: onboardingPage() }), 'Preparing onboarding…'),
@@ -185,7 +220,7 @@ const router = new Router({
     const workspace = await loadPageModule('./js/aiWorkspace.js');
     return { view: await workspace.aiWorkspace(), mount: () => workspace.bindAI() };
   }, 'Opening AI workspace…'),
-  '/search': ({ query }) => transition(async () => ({ view: renderSearch(searchIndex.search(query || ''), query || '') }), 'Searching PHYLAB…'),
+  '/search': ({ query }) => transition(async () => ({ view: renderSearch(searchIndex.search(query || ''), query || '') }), 'Searching KINETIQ…'),
   '*': () => transition(async () => ({ view: renderNotFound() }), 'Finding page…')
 });
 
@@ -201,7 +236,7 @@ async function boot() {
       await router.handle();
     }
   } catch (error) {
-    console.error('PHYLAB failed to load its content index.', error);
+    console.error('KINETIQ failed to load its content index.', error);
     renderRouteError(error);
   } finally {
     setLoading(false);
@@ -233,7 +268,7 @@ document.addEventListener('keydown', handleKeyboardNavigation, { signal: globalL
 window.addEventListener('online', async () => {
   document.body.dataset.offline = 'false';
   notify('You are back online. Syncing saved learning…', 'success');
-  try { await offlineSyncService.flush({ bookmark: bookmarkService.add }); } catch (error) { console.warn('PHYLAB offline sync could not finish.', error); }
+  try { await offlineSyncService.flush({ bookmark: bookmarkService.add }); } catch (error) { console.warn('KINETIQ offline sync could not finish.', error); }
 }, { signal: globalListeners.signal });
 window.addEventListener('offline', () => {
   document.body.dataset.offline = 'true';

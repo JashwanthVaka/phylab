@@ -1,0 +1,320 @@
+[
+  {
+    "slug": "define",
+    "command": "Define",
+    "group": "Recall",
+    "marks": "1–2",
+    "meaning": "Give the precise meaning of a word, phrase, concept or physical quantity.",
+    "method": [
+      "State the quantity in words, not as a formula alone.",
+      "Name what it depends on and, where relevant, its unit.",
+      "Keep it to one sentence — extra material cannot earn extra marks here."
+    ],
+    "mistakes": [
+      "Giving an example instead of a definition.",
+      "Writing only the equation when the words are what is being marked.",
+      "Using the word itself inside its own definition."
+    ],
+    "example": "Define gravitational field strength. [1]",
+    "answer": "Gravitational field strength is the gravitational force per unit mass acting on a small test mass placed at that point, measured in N kg⁻¹.",
+    "lessons": ["fields", "kinematics"]
+  },
+  {
+    "slug": "state",
+    "command": "State",
+    "group": "Recall",
+    "marks": "1–2",
+    "meaning": "Give a specific name, value or other brief answer with no supporting argument.",
+    "method": [
+      "Answer directly in one short sentence.",
+      "Include a unit if the answer is a quantity.",
+      "Do not justify — justification is not required and wastes time."
+    ],
+    "mistakes": [
+      "Writing a paragraph when one line is asked for.",
+      "Omitting the unit on a numerical answer.",
+      "Hedging with several possible answers, which can cancel the mark."
+    ],
+    "example": "State the direction of the force on a positive charge placed in a uniform electric field. [1]",
+    "answer": "In the same direction as the electric field.",
+    "lessons": ["electric-fields"]
+  },
+  {
+    "slug": "describe",
+    "command": "Describe",
+    "group": "Understanding",
+    "marks": "2–4",
+    "meaning": "Give a detailed account of a situation, process or graph without needing to justify it.",
+    "method": [
+      "Say what happens, in order, from start to finish.",
+      "Use physics vocabulary rather than everyday words.",
+      "Quote specific features — values, turning points, directions — rather than generalities.",
+      "Do not explain why unless the question also asks."
+    ],
+    "mistakes": [
+      "Explaining the cause when only a description is required, and running short of time later.",
+      "Saying \"it goes up\" instead of naming the quantity and how it changes.",
+      "Missing a stage of the process."
+    ],
+    "example": "Describe the motion shown by a velocity–time graph that rises linearly, stays constant, then falls linearly to zero. [3]",
+    "answer": "The object accelerates uniformly from rest, then travels at constant velocity with zero acceleration, then decelerates uniformly until it comes to rest.",
+    "lessons": ["kinematics"]
+  },
+  {
+    "slug": "explain",
+    "command": "Explain",
+    "group": "Understanding",
+    "marks": "3–6",
+    "meaning": "Give a detailed account including reasons or causes.",
+    "method": [
+      "Name the physical principle or law you are applying.",
+      "Link cause to effect explicitly — use \"because\", \"so\", \"therefore\".",
+      "Refer to the specific context in the question, not a generic case.",
+      "Aim for roughly one distinct linked statement per mark."
+    ],
+    "mistakes": [
+      "Describing what happens without saying why.",
+      "Listing facts that are individually true but not connected into a chain of reasoning.",
+      "Leaving the key step implicit — examiners cannot award what is not written."
+    ],
+    "example": "Explain why the acceleration of an object in simple harmonic motion is always directed towards the equilibrium position. [3]",
+    "answer": "In SHM the resultant force obeys F = −kx, so the force is proportional to displacement and opposite in sign. By Newton's second law a = F/m, so the acceleration is also opposite in sign to displacement. Whenever the object is displaced, the acceleration therefore points back towards equilibrium.",
+    "lessons": ["simple-harmonic-motion", "forces"]
+  },
+  {
+    "slug": "calculate",
+    "command": "Calculate",
+    "group": "Quantitative",
+    "marks": "2–4",
+    "meaning": "Obtain a numerical answer, showing the relevant working.",
+    "method": [
+      "Quote the equation before substituting — this often carries a mark on its own.",
+      "Substitute values in SI units, with the substitution visible.",
+      "Give the final answer with a unit and appropriate significant figures.",
+      "Show intermediate steps so method marks survive an arithmetic slip."
+    ],
+    "mistakes": [
+      "Giving a bare answer with no working, so nothing can be credited if it is wrong.",
+      "Forgetting the unit.",
+      "Rounding intermediate values and carrying the error into the final answer."
+    ],
+    "example": "A 0.50 kg mass on a spring of stiffness 20 N m⁻¹ oscillates in SHM. Calculate the period. [2]",
+    "answer": "T = 2π√(m/k) = 2π√(0.50/20) = 2π√0.025 = 0.99 s.",
+    "lessons": ["simple-harmonic-motion"]
+  },
+  {
+    "slug": "determine",
+    "command": "Determine",
+    "group": "Quantitative",
+    "marks": "3–5",
+    "meaning": "Obtain the only possible answer, usually requiring more than one step or a value read from data.",
+    "method": [
+      "Identify what intermediate quantity you need before you can reach the answer.",
+      "Extract any required values from the graph, table or stem.",
+      "Work through in clear stages, each with its equation.",
+      "State the final answer with unit and a reasonableness check."
+    ],
+    "mistakes": [
+      "Attempting a single-step solution when an intermediate quantity is needed.",
+      "Misreading a scale or ignoring a graph's units or prefixes.",
+      "Not stating which data were used."
+    ],
+    "example": "A ball is thrown vertically upwards at 12 m s⁻¹ from a 25 m balcony. Determine the total time before it hits the ground. [4]",
+    "answer": "Taking upward as positive: −25 = 12t − 4.905t². Rearranging gives 4.905t² − 12t − 25 = 0. Solving, t = (12 + √(144 + 490.5))/9.81 = 4.0 s, taking the positive root.",
+    "lessons": ["kinematics"]
+  },
+  {
+    "slug": "deduce",
+    "command": "Deduce",
+    "group": "Reasoning",
+    "marks": "3–5",
+    "meaning": "Reach a conclusion from the information given, stating the reasoning used.",
+    "method": [
+      "State the principle or relationship that connects the given information to the conclusion.",
+      "Apply it to the data explicitly.",
+      "State the conclusion clearly and say what it follows from.",
+      "The reasoning is marked as heavily as the conclusion."
+    ],
+    "mistakes": [
+      "Giving the conclusion with no reasoning shown.",
+      "Introducing information not given and not derivable.",
+      "Stopping at the mathematics without interpreting what it means physically."
+    ],
+    "example": "The graph of force against extension for a spring is a straight line through the origin. Deduce how the elastic potential energy stored changes when the extension is doubled. [3]",
+    "answer": "The line through the origin shows F = kx, so the spring obeys Hooke's law. Stored energy is the area under the graph, ½kx². Doubling x multiplies x² by four, so the stored elastic potential energy increases by a factor of four.",
+    "lessons": ["energy", "forces"]
+  },
+  {
+    "slug": "compare",
+    "command": "Compare",
+    "group": "Reasoning",
+    "marks": "3–5",
+    "meaning": "Give an account of similarities and differences between two or more situations.",
+    "method": [
+      "Address both items in every point you make — never describe one then the other separately.",
+      "Use comparative language: larger, smaller, whereas, in contrast.",
+      "Cover both similarities and differences unless told otherwise.",
+      "Choose points that are physically significant, not incidental."
+    ],
+    "mistakes": [
+      "Writing two separate descriptions and leaving the comparison to the reader.",
+      "Listing only differences when similarities are also credited.",
+      "Comparing on irrelevant grounds."
+    ],
+    "example": "Compare the electric field and gravitational field produced by a point object. [4]",
+    "answer": "Both are inverse-square fields and both are radial, so field strength falls as 1/r² in each case. However gravitational fields act on mass and are always attractive, whereas electric fields act on charge and can be attractive or repulsive. The electric force is far stronger than the gravitational force for the same pair of subatomic particles.",
+    "lessons": ["fields", "electric-fields"]
+  },
+  {
+    "slug": "sketch-a-graph",
+    "command": "Sketch a graph",
+    "group": "Representation",
+    "marks": "2–4",
+    "meaning": "Draw the shape of a relationship, showing the key features but not necessarily to scale.",
+    "method": [
+      "Label both axes with quantity and unit.",
+      "Get the shape right — linear, curved, asymptotic, periodic.",
+      "Mark intercepts, maxima, minima and asymptotes.",
+      "Show whether the line passes through the origin, since that is often the marked point."
+    ],
+    "mistakes": [
+      "Unlabelled axes, which usually loses a mark immediately.",
+      "Drawing a straight line through the origin for a relationship with a non-zero intercept.",
+      "Ignoring the stated range of the variable."
+    ],
+    "example": "Sketch a graph of the gravitational field strength against distance from the centre of a planet, from the centre outwards. [3]",
+    "answer": "Axes labelled g (N kg⁻¹) against r (m). Inside the planet the line rises linearly from zero at the centre to a maximum at the surface, since g ∝ r there. Outside the surface it falls as an inverse-square curve, approaching but never reaching zero.",
+    "lessons": ["fields"]
+  },
+  {
+    "slug": "draw-a-diagram",
+    "command": "Draw a diagram",
+    "group": "Representation",
+    "marks": "2–4",
+    "meaning": "Represent a situation with a labelled diagram, drawn accurately where instructed.",
+    "method": [
+      "Draw forces as arrows starting from the point of application, with lengths reflecting relative magnitude.",
+      "Label every arrow with the name of the force, not just a symbol.",
+      "Use a ruler for straight lines and keep field lines evenly spaced where the field is uniform.",
+      "Include arrowheads showing direction on field lines and rays."
+    ],
+    "mistakes": [
+      "Drawing forces that do not act on the chosen body, such as the force it exerts on something else.",
+      "Field lines that cross, touch or start nowhere.",
+      "Missing arrowheads or labels."
+    ],
+    "example": "Draw a free-body diagram for a block sliding down a rough inclined plane. [3]",
+    "answer": "Three arrows from the block: weight vertically downwards, normal contact force perpendicular to the inclined surface, and friction directed up the slope opposing motion. Weight is the longest arrow, and all three are labelled.",
+    "lessons": ["forces"]
+  },
+  {
+    "slug": "analyse-data",
+    "command": "Analyse",
+    "group": "Practical",
+    "marks": "4–6",
+    "meaning": "Break down data or a situation to identify the relationship and draw out its essential features.",
+    "method": [
+      "Identify the variables and the expected relationship.",
+      "Linearise if needed so the gradient carries physical meaning.",
+      "Calculate the gradient from a large triangle and attach its unit.",
+      "State what the gradient and intercept represent physically.",
+      "Comment on how well the data support the proposed relationship."
+    ],
+    "mistakes": [
+      "Reading a gradient from two adjacent data points instead of the line of best fit.",
+      "Giving a gradient with no unit or no physical interpretation.",
+      "Claiming proportionality when the line does not pass through the origin."
+    ],
+    "example": "A student plots T² against l for a simple pendulum and obtains a straight line through the origin with gradient 4.1 s² m⁻¹. Analyse the result. [4]",
+    "answer": "Since T = 2π√(l/g), squaring gives T² = (4π²/g)l, so a straight line through the origin confirms T² ∝ l. The gradient equals 4π²/g, so g = 4π²/4.1 = 9.6 m s⁻². This is close to the accepted 9.81 m s⁻², suggesting a small systematic error such as a mismeasured pendulum length.",
+    "lessons": ["simple-harmonic-motion"]
+  },
+  {
+    "slug": "evaluate-an-experiment",
+    "command": "Evaluate",
+    "group": "Practical",
+    "marks": "4–6",
+    "meaning": "Make an appraisal by weighing up strengths and limitations, and reach a judgement.",
+    "method": [
+      "Identify the largest source of uncertainty and say why it dominates.",
+      "Distinguish random scatter from systematic offset, using the evidence.",
+      "Judge whether the conclusion is supported within the uncertainty.",
+      "Propose specific improvements that target the weakness you identified.",
+      "Finish with an explicit overall judgement."
+    ],
+    "mistakes": [
+      "Suggesting \"be more careful\" or \"use better equipment\" without saying what and why.",
+      "Listing strengths and weaknesses without reaching a judgement.",
+      "Calling every discrepancy \"human error\"."
+    ],
+    "example": "A student measures g as 9.2 ± 0.4 m s⁻² using a pendulum. Evaluate this result. [4]",
+    "answer": "The accepted value 9.81 m s⁻² lies outside the range 8.8–9.6 m s⁻², so the discrepancy is not explained by random uncertainty alone and a systematic error is indicated. A likely cause is measuring the pendulum length to the top of the bob rather than to its centre of mass, which underestimates l and so underestimates g. Timing 20 oscillations and measuring to the centre of mass would address both the largest random and the systematic contributions.",
+    "lessons": ["simple-harmonic-motion"]
+  },
+  {
+    "slug": "discuss",
+    "command": "Discuss",
+    "group": "Extended",
+    "marks": "5–8",
+    "meaning": "Give a balanced review that includes a range of arguments, factors or hypotheses.",
+    "method": [
+      "Identify the factors or positions that are genuinely relevant.",
+      "Present each with supporting physics, not assertion.",
+      "Give the counter-considerations as well.",
+      "Weigh them against each other explicitly.",
+      "Reach a conclusion that answers the question asked."
+    ],
+    "mistakes": [
+      "Presenting only one side.",
+      "Listing points without weighing them.",
+      "Ending without a conclusion."
+    ],
+    "example": "Discuss the advantages and disadvantages of using nuclear fission for electricity generation. [6]",
+    "answer": "Fission releases roughly a million times more energy per kilogram than chemical fuels and produces no carbon dioxide during operation, so it addresses both energy density and emissions. Against this, the products are radioactive with half-lives of thousands of years, requiring long-term containment, and the risk of a containment failure has severe consequences even if the probability is low. Construction and decommissioning costs are high and lead times long. On balance, fission offers reliable low-carbon baseload power, and whether that outweighs the waste and risk burden depends on the alternatives available in a given country.",
+    "lessons": ["nuclear-physics", "thermodynamics"]
+  },
+  {
+    "slug": "extended-response",
+    "command": "Extended response",
+    "group": "Extended",
+    "marks": "6–10",
+    "meaning": "Construct a sustained argument that applies several ideas to an unfamiliar situation.",
+    "method": [
+      "Define the central quantities before using them.",
+      "State each principle you invoke.",
+      "Apply them to the specific context, using the question's own details.",
+      "Support the argument with a calculation, diagram or sketch graph.",
+      "Conclude by answering the question directly."
+    ],
+    "mistakes": [
+      "Writing everything known about the topic instead of answering the question.",
+      "Omitting supporting working or a diagram that would carry marks.",
+      "Never reaching an explicit conclusion."
+    ],
+    "example": "A spacecraft transfers from a low Earth orbit to a geostationary orbit. Explain the energy changes involved and determine whether energy must be supplied. [7]",
+    "answer": "Orbital speed is v = √(GM/r) and total orbital energy is E = −GMm/2r. Moving to a larger r decreases kinetic energy, since Eₖ = GMm/2r, but increases gravitational potential energy Eₚ = −GMm/r by twice as much. The total energy therefore becomes less negative, so energy must be supplied by the engines. A sketch of Eₖ, Eₚ and total energy against r shows all three rising towards zero as r increases.",
+    "lessons": ["fields", "energy"]
+  },
+  {
+    "slug": "practical-investigation",
+    "command": "Practical investigation",
+    "group": "Practical",
+    "marks": "6–12",
+    "meaning": "Design or critique an investigation, covering variables, method, data and evaluation.",
+    "method": [
+      "State a specific, measurable research question with a range.",
+      "Identify independent, dependent and controlled variables with how each is handled.",
+      "Give a method detailed enough to repeat, with at least five values and repeats.",
+      "Say how the data will be processed and what graph will be plotted.",
+      "Include uncertainty treatment and one safety consideration."
+    ],
+    "mistakes": [
+      "A research question too vague to be measurable.",
+      "Listing controlled variables without saying how they are controlled.",
+      "No plan for uncertainty or for how many data points will be taken."
+    ],
+    "example": "Design an investigation to determine the resistivity of a wire. [8]",
+    "answer": "Research question: how does the length of a nichrome wire (0.20–1.00 m) affect its resistance? Independent variable: length, measured with a metre rule to ±1 mm. Dependent variable: resistance, from V and I using R = V/I. Controlled: wire material, diameter measured with a micrometer at three points, and temperature, kept constant by using low currents and switching off between readings. Take readings at six lengths with three repeats each. Plot R against L; the gradient equals ρ/A, so ρ = gradient × A. Safety: the wire heats, so limit the current and allow cooling before handling.",
+    "lessons": ["electric-fields"]
+  }
+]

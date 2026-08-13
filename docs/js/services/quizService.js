@@ -1,0 +1,1 @@
+import {getSupabase} from './supabaseClient.js'; export const quizService={async recordAttempt(record){const s=await getSupabase();if(!s)return {offline:true};const {data:{user}}=await s.auth.getUser();if(!user)return {guest:true};return s.from('question_attempts').insert({...record,user_id:user.id})}};

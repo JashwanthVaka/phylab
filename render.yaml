@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: phylab
+    name: kinetiq
     runtime: docker
     plan: starter
     healthCheckPath: /api/health

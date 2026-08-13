@@ -13,21 +13,21 @@ function readSSE(chunk, buffer, onEvent) {
 }
 
 export const aiService = {
-  stream(message, { mode = 'Physics Teacher', context = contextManager.fromRoute(), history = [], image = null, onDelta, onSources, onMeta, onError, onDone } = {}) {
+  stream(message, { mode = 'Physics Teacher', provider, context = contextManager.fromRoute(), history = [], image = null, onDelta, onSources, onMeta, onError, onDone } = {}) {
     const controller = new AbortController();
     const done = (async () => {
       try {
         const response = await fetch('/api/chat', {
           method: 'POST', signal: controller.signal,
           headers: { 'Content-Type': 'application/json', Accept: 'text/event-stream' },
-          body: JSON.stringify({ message, mode, context, history, image })
+          body: JSON.stringify({ message, mode, provider, context, history, image })
         });
         if (!response.ok) {
           const body = await response.json().catch(() => ({}));
-          throw new Error(body.error || 'PHY is unavailable.');
+          throw new Error(body.error || 'KIT is unavailable.');
         }
         const reader = response.body?.getReader();
-        if (!reader) throw new Error('PHY could not open a response stream.');
+        if (!reader) throw new Error('KIT could not open a response stream.');
         const decoder = new TextDecoder();
         let buffer = '';
         while (true) {
@@ -37,12 +37,12 @@ export const aiService = {
             if (event === 'delta') onDelta?.(payload.delta || '');
             if (event === 'sources') onSources?.(payload.sources || []);
             if (event === 'meta') onMeta?.(payload);
-            if (event === 'error') onError?.(payload.error || 'PHY could not complete that request.');
+            if (event === 'error') onError?.(payload.error || 'KIT could not complete that request.');
             if (event === 'done') onDone?.();
           });
         }
       } catch (error) {
-        if (error.name !== 'AbortError') onError?.(error.message || 'PHY could not complete that request.');
+        if (error.name !== 'AbortError') onError?.(error.message || 'KIT could not complete that request.');
       }
     })();
     return { abort: () => controller.abort(), done };
