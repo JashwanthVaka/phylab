@@ -13,16 +13,36 @@ Then visit `http://localhost:3000`.
 
 ## Enable PHY AI
 
-1. Create an OpenAI API key.
-2. Copy `.env.example` to a secure environment-variable configuration (or export the variable before starting locally).
-3. Set `OPENAI_API_KEY` in your host’s Environment Variables; do not put it in `app.js`, `index.html`, or a public `.env` file.
+PHY works with any one of four providers. Configure at least one; PHYLAB uses the first
+configured provider, and if several are configured the learner can switch between them
+from a selector in the AI workspace.
 
-The server sends chat requests to the Responses API using `gpt-5.6-sol` with high reasoning effort by default. PHY is physics-aware, preserves short conversation history, can answer general off-topic questions, keeps keys server-side, rate limits requests, and does not store chat requests in the OpenAI request.
+| Provider | Key | Default model | Override |
+| --- | --- | --- | --- |
+| Groq | `GROQ_API_KEY` | `llama-3.3-70b-versatile` | `GROQ_MODEL` |
+| OpenAI | `OPENAI_API_KEY` | `gpt-5.6-sol` | `OPENAI_MODEL` |
+| Anthropic | `ANTHROPIC_API_KEY` | `claude-sonnet-5` | `ANTHROPIC_MODEL` |
+| Google Gemini | `GEMINI_API_KEY` | `gemini-2.5-flash` | `GEMINI_MODEL` |
+
+1. Copy `.env.example` to `.env` (already git-ignored) and fill in the key you have.
+2. Restart the server. `GET /api/ai/providers` reports which providers are usable — it
+   returns variable *names* and configured/not-configured flags, never key values.
+3. Set `AI_PROVIDER` to force one provider regardless of which keys are present.
 
 ```bash
-export OPENAI_API_KEY="your_key_here"
+cp .env.example .env
+# edit .env, then:
 npm start
 ```
+
+Keys are read from the server environment only. They are never sent to the browser, never
+written into `app.js`, `index.html`, or `public-env.js`, and `.env` is git-ignored. On a
+host such as Render, set the variables in the service's Environment settings instead of
+committing a file.
+
+Without any key, PHY explains on `/ai` that no provider is configured and how to add one.
+Every other part of PHYLAB — lessons, formulae, graphs, simulations and quizzes — works
+with no AI key at all.
 
 ## Keep it online 24/7
 

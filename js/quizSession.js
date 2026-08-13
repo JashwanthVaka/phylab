@@ -169,6 +169,7 @@ function sessionView(session) {
 }
 
 export const resultView = report => `<section class="page"><p class="eyebrow">PRACTICE RESULTS</p><h1>${report.marksEarned}/${report.maxMarks} marks</h1><p class="page-lead">${report.analytics.percentage}% overall · ${report.analytics.accuracy}% question accuracy · ${formatTime(report.elapsedSeconds)} used</p>
+  <p class="practice-note"><b>PHYLAB practice marking.</b> Marks are awarded by PHYLAB’s own deterministic marker against the recorded answer, tolerance and unit. This is study feedback, not an official IB mark or an IB mark scheme.</p>
   <div class="card-grid"><article class="content-card"><h3>Strongest topics</h3><p>${report.analytics.strongTopics.map(topic => `${escapeHTML(topic.label)} (${topic.percentage}%)`).join('<br>') || 'Complete more questions to identify a strength.'}</p></article><article class="content-card"><h3>Review next</h3><p>${report.analytics.weakTopics.map(topic => `${escapeHTML(topic.label)} (${topic.percentage}%)`).join('<br>') || 'Complete more questions to identify a review target.'}</p></article></div>
   <section class="lesson-section"><h2>Question review</h2>${report.review.map((item, index) => `<article class="content-card"><span class="tag">QUESTION ${index + 1} · ${escapeHTML(item.q.topic)} · ${item.r.marks}/${item.q.marks} MARKS</span><h3>${escapeHTML(item.q.question)}</h3><p><b>Your answer:</b> ${escapeHTML(item.a || 'No answer')}</p><p><b>Model answer:</b> ${escapeHTML(item.q.correct_answer)}</p><p>${escapeHTML(item.r.reason || '')}</p>${item.q.solution ? `<details><summary>View worked solution</summary><p>${escapeHTML(item.q.solution)}</p></details>` : ''}${item.q.lessonReferences?.[0] ? `<a href="/lesson/${encodeURIComponent(item.q.lessonReferences[0])}" data-route>Review lesson →</a>` : ''}</article>`).join('')}</section><a class="button" href="/quiz" data-route>Practise again</a></section>`;
 
@@ -198,6 +199,7 @@ export function bindQuizSession(data, initialOptions = {}) {
     session = create(pick.questions, settings);
     save(session);
     renderSession();
+    if (pick.questions.length < settings.count) root.insertAdjacentHTML('afterbegin', `<p class="practice-note">This selection has ${pick.questions.length} matching question${pick.questions.length === 1 ? '' : 's'} in the PHYLAB bank rather than the ${settings.count} this mode usually uses. Every question shown is a real one — none are generated to pad the set.</p>`);
     clearTimer();
     interval = window.setInterval(() => {
       if (!session || session.submitted) return clearTimer();

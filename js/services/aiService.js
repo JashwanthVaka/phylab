@@ -13,14 +13,14 @@ function readSSE(chunk, buffer, onEvent) {
 }
 
 export const aiService = {
-  stream(message, { mode = 'Physics Teacher', context = contextManager.fromRoute(), history = [], image = null, onDelta, onSources, onMeta, onError, onDone } = {}) {
+  stream(message, { mode = 'Physics Teacher', provider, context = contextManager.fromRoute(), history = [], image = null, onDelta, onSources, onMeta, onError, onDone } = {}) {
     const controller = new AbortController();
     const done = (async () => {
       try {
         const response = await fetch('/api/chat', {
           method: 'POST', signal: controller.signal,
           headers: { 'Content-Type': 'application/json', Accept: 'text/event-stream' },
-          body: JSON.stringify({ message, mode, context, history, image })
+          body: JSON.stringify({ message, mode, provider, context, history, image })
         });
         if (!response.ok) {
           const body = await response.json().catch(() => ({}));

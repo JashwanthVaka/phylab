@@ -196,7 +196,7 @@ export const detail = slug => {
   const controls = sim.fields.map(([key, label, unit, value, min, max]) => `<div class="sim-control"><label for="sim-${key}">${escapeHTML(label)} <span class="sim-unit">(${escapeHTML(unit)})</span></label><div class="sim-control-row"><input type="range" name="${key}" id="sim-${key}" min="${min}" max="${max}" step="any" value="${value}"><input type="number" data-number="${key}" min="${min}" max="${max}" step="any" value="${value}" aria-label="${escapeHTML(label)} in ${escapeHTML(unit)}"></div><p class="sim-range muted">Accepted range: ${min} to ${max} ${escapeHTML(unit)}</p></div>`).join('');
   return `<section class="page simulation-page"><a class="back-link" href="/simulations" data-route>← Simulation Studio</a><p class="eyebrow">${escapeHTML(sim.topic)} · SL + HL</p><h1>${escapeHTML(sim.title)}</h1><p class="page-lead">Change a value and PHYLAB recalculates the answer, redraws the graph, and replays the motion from the same equation.</p>
   <div class="sim-grid">
-    <section class="content-card"><h2>Controls</h2><form id="simForm" data-sim="${slug}" novalidate>${controls}<p class="sim-validation" data-sim-validation role="alert" hidden></p><div class="sim-buttons"><button class="button" type="button" data-play>Play</button><button class="outline" type="button" data-pause>Pause</button><button class="outline" type="button" data-reset>Reset</button><button class="outline" type="button" data-csv>Export CSV</button></div></form><div class="sim-presets"><span class="tag">PRESETS</span>${Object.keys(presets).map(name => `<button class="text-button" type="button" data-preset="${name}">${name}</button>`).join('')}</div></section>
+    <section class="content-card"><h2>Controls</h2><form id="simForm" data-sim="${slug}" novalidate>${controls}<p class="sim-validation" data-sim-validation role="alert" hidden></p><div class="sim-buttons"><button class="button" type="button" data-play>Play</button><button class="outline" type="button" data-pause>Pause</button><button class="outline" type="button" data-sim-reset>Reset</button><button class="outline" type="button" data-csv>Export CSV</button></div></form><div class="sim-presets"><span class="tag">PRESETS</span>${Object.keys(presets).map(name => `<button class="text-button" type="button" data-preset="${name}">${name}</button>`).join('')}</div></section>
     <section class="content-card"><h2>Live answer</h2><div id="simOutput" aria-live="polite"></div></section>
     <section class="content-card"><h2>Playback state</h2><div id="simState" aria-live="off"></div></section>
   </div>
@@ -295,7 +295,7 @@ export function bindStudio() {
     offset = (performance.now() - startedAt) / 1000 + offset;
     stopPlayback();
   });
-  form.querySelector('[data-reset]').addEventListener('click', () => {
+  form.querySelector('[data-sim-reset]').addEventListener('click', () => {
     stopPlayback();
     offset = 0;
     sim.fields.forEach(([key]) => { form.querySelector(`[name="${key}"]`).value = String(defaults[key]); form.querySelector(`[data-number="${key}"]`).value = String(defaults[key]); });
