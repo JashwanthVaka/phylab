@@ -1,7 +1,7 @@
 [
   {
-    "category": "PHYLAB reference",
-    "description": "Material generated from PHYLAB's own content, always available offline once the page has loaded.",
+    "category": "KINETIQ reference",
+    "description": "Material generated from KINETIQ's own content, always available offline once the page has loaded.",
     "items": [
       { "title": "Formula centre", "detail": "Every formula drawn from the lesson files, each with its variables, meaning, calculator and graph.", "route": "/formulas", "kind": "internal" },
       { "title": "Glossary", "detail": "Definitions collected from all 19 lessons, searchable from the global search box.", "route": "/search?q=definition", "kind": "internal" },
@@ -21,7 +21,7 @@
   },
   {
     "category": "Practice and assessment",
-    "description": "PHYLAB practice material. Marking is PHYLAB's own and is not official IB marking.",
+    "description": "KINETIQ practice material. Marking is KINETIQ's own and is not official IB marking.",
     "items": [
       { "title": "Exam preparation hub", "detail": "Practice formats by paper style, skill and time, each with marks and level shown before you start.", "route": "/exam-prep", "kind": "internal" },
       { "title": "Question patterns", "detail": "How to answer each IB command term, with method, mistakes and a worked model answer.", "route": "/patterns", "kind": "internal" },
@@ -31,11 +31,11 @@
   },
   {
     "category": "Official and external references",
-    "description": "Links only. PHYLAB does not host or redistribute copyrighted material — use your school's licensed copies for past papers, mark schemes and coursebooks.",
+    "description": "Links only. KINETIQ does not host or redistribute copyrighted material — use your school's licensed copies for past papers, mark schemes and coursebooks.",
     "items": [
       { "title": "IB Physics subject page", "detail": "Official subject information and the current syllabus outline from the IB.", "url": "https://www.ibo.org/programmes/diploma-programme/curriculum/sciences/", "kind": "external" },
       { "title": "IB physics data booklet", "detail": "Provided in your examinations. Obtain your copy through your school's IB coordinator or the IB programme resource centre — it is copyrighted and is not reproduced here.", "kind": "note" },
-      { "title": "Your coursebook", "detail": "Use the edition your school has licensed. PHYLAB deliberately does not host coursebook PDFs; uploading one would breach copyright.", "kind": "note" },
+      { "title": "Your coursebook", "detail": "Use the edition your school has licensed. KINETIQ deliberately does not host coursebook PDFs; uploading one would breach copyright.", "kind": "note" },
       { "title": "NIST fundamental constants", "detail": "Authoritative reference values for physical constants, freely published.", "url": "https://physics.nist.gov/cuu/Constants/", "kind": "external" },
       { "title": "PhET interactive simulations", "detail": "Free, open-licensed physics simulations from the University of Colorado Boulder.", "url": "https://phet.colorado.edu/en/simulations/filter?subjects=physics", "kind": "external" }
     ]

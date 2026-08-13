@@ -1,4 +1,4 @@
-/** PHYLAB's single Node service: public assets, content catalogue, and PHY chat. */
+/** KINETIQ's single Node service: public assets, content catalogue, and KIT chat. */
 const http = require('node:http');
 const fs = require('node:fs/promises');
 const path = require('node:path');
@@ -25,7 +25,7 @@ const PORT = Number(process.env.PORT || 3000);
 const HOST = process.env.HOST || (process.env.NODE_ENV === 'production' ? '0.0.0.0' : '127.0.0.1');
 const REQUESTS = new Map();
 const MIME = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'application/javascript; charset=utf-8', '.svg': 'image/svg+xml' };
-const TUTOR_CONTEXT = `You are PHY, the experienced IBDP Physics teacher inside PHYLAB. Treat PHYLAB retrieval as the primary source of truth. Use general physics knowledge only to explain or connect retrieved PHYLAB material, and clearly state when the requested detail is not in PHYLAB. Teach accurately at SL or HL as requested, use SI units, and avoid claiming official IB marking. Do not reproduce unsupplied copyrighted examination material.`;
+const TUTOR_CONTEXT = `You are KIT, the experienced IBDP Physics teacher inside KINETIQ. Treat KINETIQ retrieval as the primary source of truth. Use general physics knowledge only to explain or connect retrieved KINETIQ material, and clearly state when the requested detail is not in KINETIQ. Teach accurately at SL or HL as requested, use SI units, and avoid claiming official IB marking. Do not reproduce unsupplied copyrighted examination material.`;
 
 const send = (res, status, body, headers = {}) => { res.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', ...headers }); res.end(JSON.stringify(body)); };
 const readJSON = req => new Promise((resolve, reject) => { let raw = ''; req.on('data', chunk => { raw += chunk; if (raw.length > 3000000) { reject(new Error('Request is too large.')); req.destroy(); } }); req.on('end', () => { try { resolve(JSON.parse(raw || '{}')); } catch { reject(new Error('Invalid JSON request body.')); } }); req.on('error', reject); });
@@ -91,12 +91,12 @@ const validImage = value => typeof value === 'string' && /^data:image\/(?:png|jp
 const sse = (res, event, data) => res.write(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
 
 function tutorInstructions({ mode, context, sources }) {
-  const retrieved = sources.map(source => `[${source.type}] ${source.title}\n${source.body}`).join('\n\n') || 'No direct PHYLAB match was found. Say this clearly, then give a careful general explanation.';
-  return `${TUTOR_CONTEXT}\n\nTeaching mode: ${mode}.\nCurrent PHYLAB route and learner context: ${JSON.stringify(context)}\n\nRetrieved PHYLAB content (use this before other knowledge):\n${retrieved}\n\nRespond in concise Markdown. When relevant, use these headings: Explanation, Formula, Variables and units, Worked example, Common mistakes, IB tip, and Next in PHYLAB. In Numerical Solver mode always show Known values, Unknown, Equation, Substitution, Answer with units and significant figures, and Reasonableness check. In IB Examiner mode label feedback as PHYLAB practice marking, identify correct points, missing points, an estimated mark, a model answer, and improvement advice. For Question Generator mode, produce original questions only, identify SL/HL, marks, command term, answer, and mark points. For Revision Coach mode, recommend a realistic next study action from the retrieved topics. Never reveal hidden reasoning or claim an official IB mark.`;
+  const retrieved = sources.map(source => `[${source.type}] ${source.title}\n${source.body}`).join('\n\n') || 'No direct KINETIQ match was found. Say this clearly, then give a careful general explanation.';
+  return `${TUTOR_CONTEXT}\n\nTeaching mode: ${mode}.\nCurrent KINETIQ route and learner context: ${JSON.stringify(context)}\n\nRetrieved KINETIQ content (use this before other knowledge):\n${retrieved}\n\nRespond in concise Markdown. When relevant, use these headings: Explanation, Formula, Variables and units, Worked example, Common mistakes, IB tip, and Next in KINETIQ. In Numerical Solver mode always show Known values, Unknown, Equation, Substitution, Answer with units and significant figures, and Reasonableness check. In IB Examiner mode label feedback as KINETIQ practice marking, identify correct points, missing points, an estimated mark, a model answer, and improvement advice. For Question Generator mode, produce original questions only, identify SL/HL, marks, command term, answer, and mark points. For Revision Coach mode, recommend a realistic next study action from the retrieved topics. Never reveal hidden reasoning or claim an official IB mark.`;
 }
 
 /**
- * PHYLAB talks to several providers so a learner is never blocked by one vendor.
+ * KINETIQ talks to several providers so a learner is never blocked by one vendor.
  * Every key is read from the server environment and never reaches the browser.
  */
 const PROVIDERS = {
@@ -185,7 +185,7 @@ async function streamProvider(response, res, parse) {
         const delta = parse(event) || '';
         if (delta) sse(res, 'delta', { delta });
         if (event.type === 'response.completed') sse(res, 'meta', { usage: event.response?.usage || null });
-        if (event.type === 'error' || event.error) sse(res, 'error', { error: 'PHY could not complete that request. Please retry.' });
+        if (event.type === 'error' || event.error) sse(res, 'error', { error: 'KIT could not complete that request. Please retry.' });
       } catch { /* Ignore incomplete upstream SSE packets. */ }
     }
   }
@@ -197,10 +197,10 @@ async function tutor(req, res) {
   try {
     const body = await readJSON(req);
     providerId = resolveProvider(body.provider);
-    if (!providerId) return send(res, 503, { error: 'PHY is ready, but no AI key has been configured on the server. Add GROQ_API_KEY, OPENAI_API_KEY, ANTHROPIC_API_KEY, or GEMINI_API_KEY to your environment.' });
+    if (!providerId) return send(res, 503, { error: 'KIT is ready, but no AI key has been configured on the server. Add GROQ_API_KEY, OPENAI_API_KEY, ANTHROPIC_API_KEY, or GEMINI_API_KEY to your environment.' });
     const provider = PROVIDERS[providerId];
     const message = cleanText(body.message);
-    if (!message) return send(res, 400, { error: 'Please write a question for PHY.' });
+    if (!message) return send(res, 400, { error: 'Please write a question for KIT.' });
     const mode = MODES.has(body.mode) ? body.mode : 'Physics Teacher';
     const context = cleanContext(body.context);
     const sources = await retrievalEngine.retrieve(message, context, 8);
@@ -218,7 +218,7 @@ async function tutor(req, res) {
     if (!response.ok) {
       const data = await response.json().catch(() => ({}));
       const detail = data?.error?.message || data?.error?.[0]?.message || data?.message;
-      return send(res, response.status, { error: `${provider.label}: ${detail || 'PHY could not complete that request.'}` });
+      return send(res, response.status, { error: `${provider.label}: ${detail || 'KIT could not complete that request.'}` });
     }
     res.writeHead(200, { 'Content-Type': 'text/event-stream; charset=utf-8', 'Cache-Control': 'no-cache, no-transform', Connection: 'keep-alive', 'X-Accel-Buffering': 'no' });
     sse(res, 'sources', { sources: sources.map(({ type, title, href, metadata }) => ({ type, title, href, metadata })) });
@@ -227,9 +227,9 @@ async function tutor(req, res) {
     sse(res, 'done', {}); res.end();
   } catch (error) {
     if (error.name === 'AbortError') return;
-    console.error('PHY request failed:', error.message);
-    if (!res.headersSent) send(res, 500, { error: 'PHY is temporarily unavailable. Please try again shortly.' });
-    else { sse(res, 'error', { error: 'PHY is temporarily unavailable. Please retry.' }); res.end(); }
+    console.error('KIT request failed:', error.message);
+    if (!res.headersSent) send(res, 500, { error: 'KIT is temporarily unavailable. Please try again shortly.' });
+    else { sse(res, 'error', { error: 'KIT is temporarily unavailable. Please retry.' }); res.end(); }
   }
 }
 async function serveAsset(res, pathname, headOnly) {
@@ -252,4 +252,4 @@ http.createServer(async (req, res) => {
   if (req.method === 'POST' && pathname === '/api/chat') return tutor(req, res);
   if (!['GET', 'HEAD'].includes(req.method)) return send(res, 405, { error: 'Method not allowed' });
   return serveAsset(res, pathname, req.method === 'HEAD');
-}).listen(PORT, HOST, () => console.log(`PHYLAB running at http://${HOST}:${PORT}`));
+}).listen(PORT, HOST, () => console.log(`KINETIQ running at http://${HOST}:${PORT}`));

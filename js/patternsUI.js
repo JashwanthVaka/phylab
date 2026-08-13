@@ -8,7 +8,7 @@ export function patternsPage(index) {
   return `<section class="page patterns-page">
     <p class="eyebrow">QUESTION PATTERNS</p>
     <h1>How to answer physics questions.</h1>
-    <p class="page-lead">Every IB command term expects a particular shape of answer. Match the pattern and the marks follow. Mark guidance here is PHYLAB’s own study advice, not an official IB mark scheme.</p>
+    <p class="page-lead">Every IB command term expects a particular shape of answer. Match the pattern and the marks follow. Mark guidance here is KINETIQ’s own study advice, not an official IB mark scheme.</p>
 
     <div class="patterns-controls">
       <label class="search library-search"><span>⌕</span><input id="patternSearch" type="search" autocomplete="off" placeholder="Search a command term…" aria-label="Filter command terms"></label>

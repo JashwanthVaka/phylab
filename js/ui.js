@@ -7,8 +7,8 @@ import { bindFlashcards } from './flashcards.js';
 import { bindGraphs, graphFor, renderGraph } from './graphEngine.js';
 import { bindHeroScene, heroScene } from './heroScene.js';
 
-export const renderLoading = message => `<section class="page"><p class="eyebrow">PHYLAB</p><h1>${escapeHTML(message)}</h1>${skeleton(6)}</section>`;
-export const renderNotFound = () => `<section class="page error-state"><p class="eyebrow">404</p><h1>That learning path does not exist.</h1><a class="button" href="/" data-route>Back to PHYLAB</a></section>`;
+export const renderLoading = message => `<section class="page"><p class="eyebrow">KINETIQ</p><h1>${escapeHTML(message)}</h1>${skeleton(6)}</section>`;
+export const renderNotFound = () => `<section class="page error-state"><p class="eyebrow">404</p><h1>That learning path does not exist.</h1><a class="button" href="/" data-route>Back to KINETIQ</a></section>`;
 
 export function renderHome(index, progress) {
   const lessons = orderLessons(index.lessonIndex);
@@ -22,7 +22,7 @@ export function renderHome(index, progress) {
     <div class="hero-copy">
       <p class="eyebrow">THE PHYSICS STUDIO FOR IB</p>
       <h1>Master IBDP Physics.<br><em>See every law move.</em></h1>
-      <p class="lead">Lessons in syllabus order, a formula centre that explains every symbol, graphs and simulations driven by the real equations, practice with transparent marking, and an AI tutor that answers from PHYLAB’s own content first.</p>
+      <p class="lead">Lessons in syllabus order, a formula centre that explains every symbol, graphs and simulations driven by the real equations, practice with transparent marking, and an AI tutor that answers from KINETIQ’s own content first.</p>
       <div class="actions">
         <a href="/lesson/${escapeHTML(next?.slug || '')}" class="button" data-route>Start learning <b>→</b></a>
         <a href="/exam-prep" class="outline" data-route>Test your knowledge</a>
@@ -87,11 +87,11 @@ export const renderFormulaLibrary = (formulas, selectedSlug) => {
   return `<section class="page"><p class="eyebrow">FORMULA CENTRE</p><h1>Know what every symbol means.</h1><p class="page-lead">Select a formula to see its variables, physical meaning, calculator, graph, and exam guidance.</p><div class="formula-grid">${formulas.map(item => `<a class="formula-block" href="/formulas/${item.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}" data-route><code>${escapeHTML(item.formula)}</code><h3>${escapeHTML(item.name)}</h3><p>${escapeHTML(item.topic || '')}</p></a>`).join('')}</div></section>`;
 };
 export const renderProgress = (index, progress) => `<section class="page"><p class="eyebrow">YOUR WORKSPACE</p><h1>Progress with purpose.</h1><div class="dash-grid"><article class="current"><span class="tag">LESSONS COMPLETE</span><h2>${progress.completedLessons.length} / ${index.lessonIndex.length}</h2><p>Your lesson completion is stored privately in this browser until account sync is introduced.</p></article>${card('Practice activity', `<p>${progress.attempts.length} solution${progress.attempts.length === 1 ? '' : 's'} revealed.</p>`)}${card('Next step', `<a class="button" href="/lesson/${index.lessonIndex.find(item => !progress.completedLessons.includes(item.slug))?.slug || index.lessonIndex[0]?.slug || ''}" data-route>Continue learning →</a>`)}</div></section>`;
-export const renderSearch = (results, query) => `<section class="page"><p class="eyebrow">GLOBAL SEARCH</p><h1>Search PHYLAB.</h1><label class="search large-search"><span>⌕</span><input id="searchPageInput" value="${escapeHTML(query)}" autofocus placeholder="Search lessons, definitions, formulae, questions…"></label><p class="page-lead">${query ? `${results.length} result${results.length === 1 ? '' : 's'} for “${escapeHTML(query)}”` : 'Start typing to search the entire learning catalogue.'}</p>${query ? searchResults(results) : emptyState('What are you looking for?', 'Try “momentum”, “Coulomb”, or “interference”.')}</section>`;
+export const renderSearch = (results, query) => `<section class="page"><p class="eyebrow">GLOBAL SEARCH</p><h1>Search KINETIQ.</h1><label class="search large-search"><span>⌕</span><input id="searchPageInput" value="${escapeHTML(query)}" autofocus placeholder="Search lessons, definitions, formulae, questions…"></label><p class="page-lead">${query ? `${results.length} result${results.length === 1 ? '' : 's'} for “${escapeHTML(query)}”` : 'Start typing to search the entire learning catalogue.'}</p>${query ? searchResults(results) : emptyState('What are you looking for?', 'Try “momentum”, “Coulomb”, or “interference”.')}</section>`;
 
 export function showTutor() {
   const root = document.querySelector('#modalRoot');
-  root.innerHTML = `<div class="modal show" role="dialog" aria-modal="true" aria-labelledby="tutorTitle"><div class="modal-card"><button class="modal-close" data-close-modal aria-label="Close PHY tutor">×</button><p class="eyebrow">PHY, YOUR AI STUDY PARTNER</p><h2 id="tutorTitle">Ask a better physics question.</h2><p>Open the dedicated PHY workspace for teaching modes, source-aware answers, saved conversations, images, and streamed explanations.</p><a class="button" href="/ai" data-route>Open PHY workspace →</a></div></div>`;
+  root.innerHTML = `<div class="modal show" role="dialog" aria-modal="true" aria-labelledby="tutorTitle"><div class="modal-card"><button class="modal-close" data-close-modal aria-label="Close KIT tutor">×</button><p class="eyebrow">KIT, YOUR AI STUDY PARTNER</p><h2 id="tutorTitle">Ask a better physics question.</h2><p>Open the dedicated KIT workspace for teaching modes, source-aware answers, saved conversations, images, and streamed explanations.</p><a class="button" href="/ai" data-route>Open KIT workspace →</a></div></div>`;
   document.querySelector('.modal-close')?.focus();
 }
 

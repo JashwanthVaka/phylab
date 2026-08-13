@@ -158,7 +158,7 @@ export function bindLibrary() {
       refreshUnitTotals();
       applyFilters();
     } catch (error) {
-      console.warn('PHYLAB could not save that completion.', error);
+      console.warn('KINETIQ could not save that completion.', error);
       button.textContent = 'Could not save — retry';
     } finally {
       button.disabled = false;

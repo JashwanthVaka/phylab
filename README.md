@@ -1,4 +1,4 @@
-# PHYLAB
+# KINETIQ
 
 A self-contained, interactive IBDP Physics learning platform built with vanilla HTML, CSS
 and ES modules on a dependency-free Node server.
@@ -16,20 +16,20 @@ and ES modules on a dependency-free Node server.
 - **Active toolkit** — five reusable methods for numerical, graph, data, practical and
   extended-response questions.
 - **Exam preparation hub**, **source library**, **formula centre**, **quiz engine** with
-  deterministic marking, and **PHY**, an AI tutor that answers from PHYLAB content first.
+  deterministic marking, and **KIT**, an AI tutor that answers from KINETIQ content first.
 
 ## Run locally
 
 ```bash
-cd /Users/jashu/Desktop/phylab
+cd /Users/jashu/Desktop/kinetiq
 npm start
 ```
 
 Then visit `http://localhost:3000`.
 
-## Enable PHY AI
+## Enable KIT AI
 
-PHY works with any one of four providers. Configure at least one; PHYLAB uses the first
+KIT works with any one of four providers. Configure at least one; KINETIQ uses the first
 configured provider, and if several are configured the learner can switch between them
 from a selector in the AI workspace.
 
@@ -56,22 +56,22 @@ written into `app.js`, `index.html`, or `public-env.js`, and `.env` is git-ignor
 host such as Render, set the variables in the service's Environment settings instead of
 committing a file.
 
-Without any key, PHY explains on `/ai` that no provider is configured and how to add one.
-Every other part of PHYLAB — lessons, formulae, graphs, simulations and quizzes — works
+Without any key, KIT explains on `/ai` that no provider is configured and how to add one.
+Every other part of KINETIQ — lessons, formulae, graphs, simulations and quizzes — works
 with no AI key at all.
 
 ## Keep it online 24/7
 
-PHYLAB is container-ready for an always-on Render deployment. The included `render.yaml` deliberately uses Render's paid Starter plan: free web services sleep after inactivity and do not meet a 24/7 requirement.
+KINETIQ is container-ready for an always-on Render deployment. The included `render.yaml` deliberately uses Render's paid Starter plan: free web services sleep after inactivity and do not meet a 24/7 requirement.
 
 1. Push this repository to GitHub.
-2. In [Render](https://render.com), select **New → Blueprint** and connect `JashwanthVaka/phylab`.
-3. Render will detect `render.yaml`; approve the `phylab` service.
-4. In the service environment settings, add one of `GROQ_API_KEY`, `OPENAI_API_KEY`, `ANTHROPIC_API_KEY` or `GEMINI_API_KEY` only if you want PHY AI. Leave them absent for the rest of PHYLAB to work without AI.
+2. In [Render](https://render.com), select **New → Blueprint** and connect `JashwanthVaka/kinetiq`.
+3. Render will detect `render.yaml`; approve the `kinetiq` service.
+4. In the service environment settings, add one of `GROQ_API_KEY`, `OPENAI_API_KEY`, `ANTHROPIC_API_KEY` or `GEMINI_API_KEY` only if you want KIT AI. Leave them absent for the rest of KINETIQ to work without AI.
 5. Deploy. Render provides a permanent HTTPS URL and automatically redeploys when you push changes to GitHub.
 
 The service listens on the host-provided `PORT`, exposes `/api/health` for health checks, and binds externally only in production. Your computer does not need to remain on after deployment.
 
-The practice bank contains original PHYLAB questions. Do not publicly upload or redistribute copyrighted IB past papers or markschemes; instead, link signed-in students to school-licensed materials held in a private storage bucket.
+The practice bank contains original KINETIQ questions. Do not publicly upload or redistribute copyrighted IB past papers or markschemes; instead, link signed-in students to school-licensed materials held in a private storage bucket.
 
 For a multi-user production version, replace the prototype data in `app.js` with Supabase/Postgres content, add Supabase Auth, and store per-student progress and approved private paper links in authenticated storage.

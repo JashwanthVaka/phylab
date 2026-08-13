@@ -1,4 +1,4 @@
-# PHYLAB client modules
+# KINETIQ client modules
 
 - `contentLoader.js`: cached API gateway and lesson retrieval.
 - `router.js`: History API routes and deep links.

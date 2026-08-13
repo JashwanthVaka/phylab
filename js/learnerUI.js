@@ -38,7 +38,7 @@ const statCard = (label, value, note) => `<article class="content-card stat-card
 const noData = text => `<div class="empty-state"><h3>Nothing recorded yet</h3><p>${escapeHTML(text)}</p></div>`;
 
 /**
- * Progress dashboard built only from data PHYLAB has actually stored —
+ * Progress dashboard built only from data KINETIQ has actually stored —
  * lesson completion, saved practice results and, when signed in, cloud mastery.
  */
 export function dashboardView(summary, extra = {}) {
@@ -60,7 +60,7 @@ export function dashboardView(summary, extra = {}) {
     <h1>${summary.guest ? 'Your learning on this device' : 'Your learning workspace'}</h1>
     <p class="page-lead">${summary.guest
       ? 'You are studying as a guest, so progress and practice results are stored in this browser only. Everything shown below comes from what you have actually done.'
-      : 'Progress, mastery and practice results are synced to your PHYLAB account.'}</p>
+      : 'Progress, mastery and practice results are synced to your KINETIQ account.'}</p>
 
     <div class="progress-hero">
       <div class="library-summary__ring" role="img" aria-label="${percentage} percent of lessons complete"><b>${percentage}%</b></div>
@@ -85,7 +85,7 @@ export function dashboardView(summary, extra = {}) {
       <div class="section-title"><p class="eyebrow">WHERE YOU ARE STRONG</p><h2>Strong topics</h2></div>
       ${strong.length
         ? `<div class="card-grid">${strong.map(topic => `<article class="content-card"><h3>${escapeHTML(topic.label || topic.topic_slug || '')}</h3><div class="bar"><i style="width:${topic.percentage ?? topic.mastery_score ?? 0}%"></i></div><p>${topic.percentage ?? topic.mastery_score ?? 0}%</p></article>`).join('')}</div>`
-        : noData('Submit a practice quiz and PHYLAB will show which topics you scored best on.')}
+        : noData('Submit a practice quiz and KINETIQ will show which topics you scored best on.')}
     </section>
 
     <section class="lesson-section">

@@ -39,7 +39,7 @@ export function casesPage(index) {
 /** One case: context, physics, formulas, graph, questions, exam prompt, mistakes and links. */
 export function casePage(index, slug) {
   const item = (index.cases || []).find(entry => entry.slug === slug);
-  if (!item) return '<section class="page"><h1>Case not found</h1><p class="page-lead">That case is not in the PHYLAB library.</p><a class="button" href="/cases" data-route>Back to case practice</a></section>';
+  if (!item) return '<section class="page"><h1>Case not found</h1><p class="page-lead">That case is not in the KINETIQ library.</p><a class="button" href="/cases" data-route>Back to case practice</a></section>';
   const lessons = index.lessonIndex || [];
   const lessonTitle = itemSlug => lessons.find(lesson => lesson.slug === itemSlug)?.title || itemSlug.replace(/-/g, ' ');
   const graph = item.graph ? graphFor({ title: item.graph, topicLabel: item.graph }) : null;
@@ -69,7 +69,7 @@ export function casePage(index, slug) {
         <p class="case-exam__prompt">${escapeHTML(item.examQuestion.prompt)}</p>
         <details><summary>Show the points a good answer would make</summary>
           <ol class="case-exam__points">${(item.examQuestion.markPoints || []).map(point => `<li>${escapeHTML(point)}</li>`).join('')}</ol>
-          <p class="practice-note"><b>PHYLAB practice guidance.</b> These are the points PHYLAB would expect. They are study support, not an official IB mark scheme.</p>
+          <p class="practice-note"><b>KINETIQ practice guidance.</b> These are the points KINETIQ would expect. They are study support, not an official IB mark scheme.</p>
         </details>
       </article>
     </section>` : ''}

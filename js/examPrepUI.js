@@ -20,9 +20,9 @@ export function examPrepPage(index) {
   return `<section class="page exam-prep-page">
     <p class="eyebrow">EXAM PREPARATION</p>
     <h1>Practise the way you will be assessed.</h1>
-    <p class="page-lead">Eight practice formats, each showing what it assesses, roughly how long it takes and what it is worth before you commit. PHYLAB draws on its own bank of ${questionCount} original questions.</p>
+    <p class="page-lead">Eight practice formats, each showing what it assesses, roughly how long it takes and what it is worth before you commit. KINETIQ draws on its own bank of ${questionCount} original questions.</p>
 
-    <p class="practice-note"><b>PHYLAB practice, not an IB examination.</b> These formats are modelled on the style of IB assessment for study purposes. They are not past papers, and PHYLAB marking is not official IB marking.</p>
+    <p class="practice-note"><b>KINETIQ practice, not an IB examination.</b> These formats are modelled on the style of IB assessment for study purposes. They are not past papers, and KINETIQ marking is not official IB marking.</p>
 
     <div class="exam-grid">
       ${FORMATS.map(format => `<article class="exam-card">

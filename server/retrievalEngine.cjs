@@ -22,7 +22,7 @@ function lessonRecords(lesson) {
 function buildRecords(catalogue) {
   const records = (catalogue.lessons || []).flatMap(lessonRecords);
   (catalogue.formulas || []).forEach(item => records.push(record('Formula', item.name || item.formula, compact(item), `/formulas/${item.slug || ''}`, { topic: item.topic })));
-  (catalogue.examples || []).forEach(item => records.push(record('Worked example', item.title || item.topic || 'PHYLAB example', compact(item), item.lesson_slug ? `/lesson/${item.lesson_slug}` : '/formulas', { topic: item.topic })));
+  (catalogue.examples || []).forEach(item => records.push(record('Worked example', item.title || item.topic || 'KINETIQ example', compact(item), item.lesson_slug ? `/lesson/${item.lesson_slug}` : '/formulas', { topic: item.topic })));
   (catalogue.glossary || []).forEach(item => records.push(record('Glossary', item.term || item.word, compact(item), item.lesson_slug ? `/lesson/${item.lesson_slug}` : '/search', { topic: item.topic })));
   (catalogue.questions || []).forEach(item => records.push(record('Question', item.topic || 'Practice question', `${item.question || ''} ${item.solution || ''} ${item.answer || ''}`, '/quiz', { topic: item.topic, level: item.level, type: item.type })));
   (catalogue.simulations || []).forEach(item => records.push(record('Simulation', item.name || item.title, `${item.description || ''} ${compact(item.variables)}`, '/simulations', { topic: item.topic })));

@@ -39,7 +39,7 @@ function loadPageModule(path) {
 /** Runs registered page clean-up callbacks before a new route mounts. */
 function cleanupPage() {
   pageCleanups.forEach(cleanup => {
-    try { cleanup(); } catch (error) { console.warn('PHYLAB page cleanup failed.', error); }
+    try { cleanup(); } catch (error) { console.warn('KINETIQ page cleanup failed.', error); }
   });
   pageCleanups.clear();
 }
@@ -58,12 +58,12 @@ function ensureOverlay() {
   overlay.setAttribute('role', 'status');
   overlay.setAttribute('aria-live', 'polite');
   overlay.setAttribute('aria-hidden', 'true');
-  overlay.innerHTML = '<div class="phylab-loading-overlay__card"><span class="phylab-loading-overlay__spinner" aria-hidden="true"></span><span data-loading-message>Loading PHYLAB…</span></div>';
+  overlay.innerHTML = '<div class="phylab-loading-overlay__card"><span class="phylab-loading-overlay__spinner" aria-hidden="true"></span><span data-loading-message>Loading KINETIQ…</span></div>';
   document.body.append(overlay);
   return overlay;
 }
 
-function setLoading(isLoading, message = 'Loading PHYLAB…') {
+function setLoading(isLoading, message = 'Loading KINETIQ…') {
   const overlay = ensureOverlay();
   overlay.querySelector('[data-loading-message]').textContent = message;
   overlay.hidden = !isLoading;
@@ -108,7 +108,7 @@ function render(view) {
 }
 
 function renderRouteError(error) {
-  console.error('PHYLAB route failed to initialise.', error);
+  console.error('KINETIQ route failed to initialise.', error);
   render('<section class="page error-state" role="alert"><p class="eyebrow">SOMETHING WENT WRONG</p><h1>This page could not load.</h1><p>Please try again. Your saved learning data is safe.</p><button class="button" type="button" data-retry>Try again</button></section>');
   notify('We could not load that page. Please try again.', 'error');
 }
@@ -220,7 +220,7 @@ const router = new Router({
     const workspace = await loadPageModule('./js/aiWorkspace.js');
     return { view: await workspace.aiWorkspace(), mount: () => workspace.bindAI() };
   }, 'Opening AI workspace…'),
-  '/search': ({ query }) => transition(async () => ({ view: renderSearch(searchIndex.search(query || ''), query || '') }), 'Searching PHYLAB…'),
+  '/search': ({ query }) => transition(async () => ({ view: renderSearch(searchIndex.search(query || ''), query || '') }), 'Searching KINETIQ…'),
   '*': () => transition(async () => ({ view: renderNotFound() }), 'Finding page…')
 });
 
@@ -236,7 +236,7 @@ async function boot() {
       await router.handle();
     }
   } catch (error) {
-    console.error('PHYLAB failed to load its content index.', error);
+    console.error('KINETIQ failed to load its content index.', error);
     renderRouteError(error);
   } finally {
     setLoading(false);
@@ -268,7 +268,7 @@ document.addEventListener('keydown', handleKeyboardNavigation, { signal: globalL
 window.addEventListener('online', async () => {
   document.body.dataset.offline = 'false';
   notify('You are back online. Syncing saved learning…', 'success');
-  try { await offlineSyncService.flush({ bookmark: bookmarkService.add }); } catch (error) { console.warn('PHYLAB offline sync could not finish.', error); }
+  try { await offlineSyncService.flush({ bookmark: bookmarkService.add }); } catch (error) { console.warn('KINETIQ offline sync could not finish.', error); }
 }, { signal: globalListeners.signal });
 window.addEventListener('offline', () => {
   document.body.dataset.offline = 'true';
