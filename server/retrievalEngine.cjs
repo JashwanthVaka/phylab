@@ -29,15 +29,33 @@ function buildRecords(catalogue) {
   return records;
 }
 
+/** Counts meaningful tokens so a passage that dwells on a term outranks one that mentions it once. */
+function tokenCounts(value) {
+  const counts = new Map();
+  (text(value).toLowerCase().match(/[a-z0-9]+/g) || []).forEach(token => {
+    if (token.length > 1 && !STOP_WORDS.has(token)) counts.set(token, (counts.get(token) || 0) + 1);
+  });
+  return counts;
+}
+
 function score(record, queryTerms, context) {
   const titleTerms = terms(record.title);
-  const bodyTerms = terms(record.body);
+  const bodyCounts = tokenCounts(record.body);
+  // A private book passage is titled "Book — p.12", which carries no subject signal,
+  // so its relevance has to come from the body alone. Weight it accordingly.
+  const bodyWeight = record.metadata.private ? 5 : 3;
   let value = 0;
+  let matched = 0;
   queryTerms.forEach(term => {
-    if (titleTerms.includes(term)) value += 9;
-    if (bodyTerms.includes(term)) value += 3;
+    const inTitle = titleTerms.includes(term);
+    const occurrences = bodyCounts.get(term) || 0;
+    if (inTitle) value += 9;
+    if (occurrences) value += bodyWeight + Math.min(occurrences - 1, 3) * 1.5;
+    if (inTitle || occurrences) matched += 1;
     if (record.metadata.topic && terms(record.metadata.topic).includes(term)) value += 5;
   });
+  // Reward passages that answer most of the question rather than echoing one word of it.
+  if (queryTerms.length > 1 && matched) value += 6 * (matched / queryTerms.length);
   const route = text(context?.route).toLowerCase();
   if (route && record.href && route === record.href) value += 6;
   if (context?.lesson_slug && record.href === `/lesson/${context.lesson_slug}`) value += 8;
