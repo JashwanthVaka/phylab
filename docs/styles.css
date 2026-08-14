@@ -284,3 +284,7 @@
 /* Review buttons sit on both the green front and the amber back, so give them their own
    dark chip treatment rather than inheriting either face colour. */
 .flashcard-face .review-actions button{background:var(--ink-deep);color:var(--on-dark);border-color:var(--ink-deep)}
+.ai-offline{border-left:5px solid var(--warn);background:var(--warn-soft);padding:11px 13px;margin:0 0 9px;font-size:13px;line-height:1.55}
+.ai-offline code{font:11px var(--font-mono);background:var(--warn-soft-2);padding:1px 5px}
+.ai-chat textarea[disabled],.ai-chat input[disabled]{opacity:.55;cursor:not-allowed}
+.ai-chat .button[disabled]{opacity:.45;cursor:not-allowed}
