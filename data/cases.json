@@ -234,7 +234,7 @@
     "context": "A refrigerator moves thermal energy from a cold interior to a warmer room, which does not happen spontaneously. The second law of thermodynamics requires work input to drive this transfer. A refrigerant is compressed and condenses outside the cabinet, releasing latent heat to the room; it then expands and evaporates inside, absorbing latent heat from the food. A heat pump is the same machine used for its warm side rather than its cold side.",
     "concepts": ["First law of thermodynamics", "Second law and entropy", "Latent heat", "Coefficient of performance"],
     "formulas": [
-      { "name": "First law", "formula": "ΔU = Q + W", "meaning": "The internal energy change equals thermal energy supplied plus work done on the gas." },
+      { "name": "First law", "formula": "ΔU = Q − W", "meaning": "The internal energy change equals the thermal energy supplied minus the work done by the gas. Keep this sign convention — W is work done BY the gas, matching the IB data booklet." },
       { "name": "Energy balance", "formula": "Q_hot = Q_cold + W", "meaning": "The energy released to the room exceeds the energy removed from the interior by the work input." },
       { "name": "Latent heat", "formula": "Q = mL", "meaning": "Energy transferred during a phase change at constant temperature." }
     ],
@@ -623,7 +623,7 @@
     "lessons": ["quantum-physics", "electromagnetic-waves"],
     "questions": [
       { "prompt": "A metal has work function 2.3 eV. Calculate its threshold frequency.", "answer": "φ = 2.3 × 1.60 × 10⁻¹⁹ = 3.68 × 10⁻¹⁹ J. f₀ = φ/h = 3.68 × 10⁻¹⁹ / 6.63 × 10⁻³⁴ = 5.6 × 10¹⁴ Hz." },
-      { "prompt": "Light of 6.0 × 10¹⁴ Hz strikes it. Find the maximum kinetic energy of emitted electrons.", "answer": "E_max = hf − φ = (6.63 × 10⁻³⁴ × 6.0 × 10¹⁴) − 3.68 × 10⁻¹⁹ = 2.8 × 10⁻²⁰ J." },
+      { "prompt": "Light of 6.0 × 10¹⁴ Hz strikes it. Find the maximum kinetic energy of emitted electrons.", "answer": "E_max = hf − φ = (6.63 × 10⁻³⁴ × 6.0 × 10¹⁴) − 3.68 × 10⁻¹⁹ = 3.98 × 10⁻¹⁹ − 3.68 × 10⁻¹⁹ = 3.0 × 10⁻²⁰ J." },
       { "prompt": "Why does increasing intensity below the threshold frequency still emit nothing?", "answer": "Each electron absorbs a single photon. If one photon carries less than the work function, no electron escapes; more photons per second simply means more insufficient interactions." }
     ],
     "examQuestion": {

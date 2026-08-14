@@ -1,13 +1,12 @@
-.env
-.env.local
-.env.production
+# Every .env variant is a secret, except the committed template.
+.env*
+!.env.example
+
 node_modules
 npm-debug.log*
 .DS_Store
 __pycache__/
 *.pyc
-.env.save
-.env.save
 
 # Personal study sources. Never commit copyrighted books or their extracted text.
 private/
