@@ -26,6 +26,28 @@ assert.deepEqual(
 );
 simulationCatalogue.forEach(item => assert.ok(item.name && item.topic && item.description && item.variables?.length, `simulation ${item.slug} is missing a field`));
 
+// The quiz modes advertise question counts, and the exam hub advertises a
+// multiple-choice paper. Both must actually be deliverable from the bank.
+const questions = read('questions.json');
+const questionIds = new Set();
+questions.forEach(item => {
+  assert.ok(!questionIds.has(item.id), `duplicate question id ${item.id}`);
+  questionIds.add(item.id);
+  assert.ok(item.topic && item.question && item.solution, `question ${item.id} is missing a field`);
+  assert.ok(item.answer || item.correctAnswer, `question ${item.id} has no answer`);
+  assert.ok(['SL', 'HL'].includes(item.level), `question ${item.id} needs level SL or HL`);
+  (item.lessonReferences || []).forEach(slug => assert.ok(lessonSlugs.has(slug), `question ${item.id} links to missing lesson ${slug}`));
+  if (item.options) {
+    assert.ok(item.options.length >= 3, `question ${item.id} needs at least three options`);
+    assert.equal(new Set(item.options).size, item.options.length, `question ${item.id} has duplicate options`);
+    assert.ok(item.options.includes(item.correctAnswer), `question ${item.id} correctAnswer is not one of its options`);
+  }
+});
+// The longest mode (Exam Practice) asks for 12, and Paper 1 practice needs MCQs.
+assert.ok(questions.length >= 12, 'the bank must cover the longest quiz mode');
+assert.ok(questions.filter(item => item.options).length >= 5, 'Paper 1 practice needs multiple-choice questions');
+assert.ok(questions.filter(item => item.level === 'HL').length >= 5, 'HL extension practice needs HL questions');
+
 const units = read('units.json');
 const unitIds = new Set(units.map(unit => unit.id));
 assert.ok(units.length >= 4, 'expected at least four syllabus units');

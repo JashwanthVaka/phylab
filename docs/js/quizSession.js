@@ -149,7 +149,7 @@ function setupView(topics, resume) {
   return `<div class="content-card"><h2>Set up your practice</h2><p>Choose a mode above, then adjust the scope before starting.</p>
     <div class="quiz-toolbar"><label>Topic <select data-quiz-topic><option value="">All topics</option>${topics.map(topic => `<option value="${escapeHTML(topic)}">${escapeHTML(topic)}</option>`).join('')}</select></label>
     <label>Level <select data-quiz-level><option value="">SL + HL</option><option>SL</option><option>HL</option></select></label>
-    <label>Questions <select data-quiz-count><option value="5">5 questions</option><option value="10">10 questions</option></select></label></div>
+    <label>Questions <select data-quiz-count><option value="">Use the mode's own length</option><option value="5">5 questions</option><option value="10">10 questions</option><option value="15">15 questions</option><option value="20">20 questions</option></select></label></div>
     <p data-quiz-selection>Select a practice mode to begin.</p>${resume ? '<button class="button" type="button" data-resume>Resume saved practice</button> <button class="outline" type="button" data-discard>Discard saved practice</button>' : ''}</div>`;
 }
 
