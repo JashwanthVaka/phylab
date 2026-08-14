@@ -219,6 +219,13 @@ async function tutor(req, res) {
     if (!response.ok) {
       const data = await response.json().catch(() => ({}));
       const detail = data?.error?.message || data?.error?.[0]?.message || data?.message;
+      // An auth failure means the key is wrong, revoked, or from another account.
+      // Say so plainly, because the generic upstream wording sends people hunting in the code.
+      if (response.status === 401 || response.status === 403) {
+        return send(res, response.status, {
+          error: `${provider.label} rejected the API key. It is present but not valid — most often it was deleted or regenerated on the provider's dashboard, or only part of it was pasted. Create a fresh key, put it in ${provider.envKey}, and restart KINETIQ.`
+        });
+      }
       return send(res, response.status, { error: `${provider.label}: ${detail || 'KIT could not complete that request.'}` });
     }
     res.writeHead(200, { 'Content-Type': 'text/event-stream; charset=utf-8', 'Cache-Control': 'no-cache, no-transform', Connection: 'keep-alive', 'X-Accel-Buffering': 'no' });
