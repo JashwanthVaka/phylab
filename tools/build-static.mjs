@@ -54,7 +54,11 @@ const index = await withServer(async () => {
   }
   return catalogue;
 });
-await write('api/ai/providers.json', JSON.stringify({ active: null, static: true, providers: [] }));
+// KINETIQ_APP_URL points the static copy at a deployment where the tutor actually runs,
+// so the published page can send people somewhere useful instead of a dead end.
+const appUrl = (process.env.KINETIQ_APP_URL || '').trim().replace(/\/$/, '');
+await write('api/ai/providers.json', JSON.stringify({ active: null, static: true, appUrl, providers: [] }));
+if (appUrl) console.log(`  tutor link points at ${appUrl}`);
 
 // 2. Copy the stylesheet and the browser env shim unchanged.
 await write('styles.css', await read('styles.css'));

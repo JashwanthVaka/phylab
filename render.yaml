@@ -2,9 +2,9 @@ services:
   - type: web
     name: kinetiq
     runtime: docker
-    # "starter" is Render's paid always-on plan. Change to "free" to trial it —
-    # free web services sleep after ~15 minutes idle and take ~30-60s to wake.
-    plan: starter
+    # Free tier: no card needed. Sleeps after ~15 min idle, ~30-60s to wake.
+    # Change to "starter" for always-on (paid).
+    plan: free
     healthCheckPath: /api/health
     autoDeploy: true
     envVars:
