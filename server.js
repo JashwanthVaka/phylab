@@ -241,7 +241,7 @@ async function serveAsset(res, pathname, headOnly) {
   const file = path.resolve(ROOT, target); if (!file.startsWith(`${ROOT}${path.sep}`)) return send(res, 403, { error: 'Forbidden' });
   try { const data = await fs.readFile(file); res.writeHead(200, { 'Content-Type': MIME[path.extname(file)] || 'application/octet-stream', 'Cache-Control': process.env.NODE_ENV === 'production' && target !== 'index.html' ? 'public, max-age=3600' : 'no-cache', 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'strict-origin-when-cross-origin', 'X-Frame-Options': 'DENY' }); if (!headOnly) res.end(data); else res.end(); } catch { send(res, 404, { error: 'Not found' }); }
 }
-http.createServer(async (req, res) => {
+async function handleRequest(req, res) {
   const url = new URL(req.url, `http://${req.headers.host || 'localhost'}`); const pathname = decodeURIComponent(url.pathname);
   if (req.method === 'GET' && pathname === '/api/health') return send(res, 200, { status: 'ok', tutorConfigured: availableProviders().length > 0, providers: availableProviders(), privateSources: privateSummary() });
   if (req.method === 'GET' && pathname === '/api/ai/providers') return send(res, 200, {
@@ -253,4 +253,15 @@ http.createServer(async (req, res) => {
   if (req.method === 'POST' && pathname === '/api/chat') return tutor(req, res);
   if (!['GET', 'HEAD'].includes(req.method)) return send(res, 405, { error: 'Method not allowed' });
   return serveAsset(res, pathname, req.method === 'HEAD');
-}).listen(PORT, HOST, () => console.log(`KINETIQ running at http://${HOST}:${PORT}`));
+}
+
+/**
+ * Serverless platforms import this module and call the handler per request, while
+ * `npm start` and the Docker image run it as a long-lived server. Only bind a port
+ * when this file is the entry point, so both work from one codebase.
+ */
+if (require.main === module) {
+  http.createServer(handleRequest).listen(PORT, HOST, () => console.log(`KINETIQ running at http://${HOST}:${PORT}`));
+}
+
+module.exports = handleRequest;
