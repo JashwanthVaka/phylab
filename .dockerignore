@@ -1,6 +1,21 @@
 .git
+.github
+
+# Secrets — the platform injects these as environment variables instead.
 .env
 .env.*
+
+# Personally-owned study sources. These must never enter a deployed image:
+# copying a copyrighted book onto a public server is redistribution.
+private/
+
+# Build output for GitHub Pages; the Node server renders these routes itself.
+docs/
+
+# Not needed at runtime.
+tests/
+tools/
+.claude/
 node_modules
 npm-debug.log
 .DS_Store

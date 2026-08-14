@@ -2,13 +2,23 @@ services:
   - type: web
     name: kinetiq
     runtime: docker
+    # "starter" is Render's paid always-on plan. Change to "free" to trial it —
+    # free web services sleep after ~15 minutes idle and take ~30-60s to wake.
     plan: starter
     healthCheckPath: /api/health
     autoDeploy: true
     envVars:
       - key: NODE_ENV
         value: production
+      # Add ONE provider key in the Render dashboard. sync:false means Render
+      # prompts for the value and never stores it in this file or in git.
+      - key: GROQ_API_KEY
+        sync: false
+      - key: GROQ_MODEL
+        value: llama-3.3-70b-versatile
       - key: OPENAI_API_KEY
         sync: false
-      - key: OPENAI_MODEL
-        value: gpt-5.6-sol
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
