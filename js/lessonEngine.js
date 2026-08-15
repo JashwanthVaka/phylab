@@ -2,6 +2,7 @@ import { card, definition, emptyState, example, formula, list, section, table } 
 import { escapeHTML } from './utils.js';
 import { diagramFor } from './diagramEngine.js';
 import { graphFor, renderGraph } from './graphEngine.js';
+import { lessonGraph } from './lessonGraphs.js';
 import { lessonFlashcards, renderFlashcards } from './flashcards.js';
 import { renderCalculator } from './calculatorEngine.js';
 import { KnowledgeGraph } from './knowledgeGraph.js';
@@ -23,7 +24,7 @@ export function renderLesson(lesson, index = { lessonIndex: [] }) {
     ${optional('Core concepts', lesson.core_concepts, item => card(item.heading, `<p>${escapeHTML(item.explanation)}</p>`), { id: 'concepts', eyebrow: 'BUILD UNDERSTANDING' })}
     ${lesson.formulas?.length ? section('Formula sheet', `<div class="formula-grid">${lesson.formulas.map(formula).join('')}</div>${variableRows.length ? `<h3>Variables and units</h3>${table(['Symbol', 'Meaning', 'Unit'], variableRows)}` : emptyState('Variable details unavailable', 'This source lesson does not yet provide variable definitions or units.')}`, { id: 'formulas', eyebrow: 'USE WITH CARE' }) : ''}
     ${section('Constants and derivations', `<div class="card-grid">${card('Physical constants', lesson.constants?.length ? list(lesson.constants) : '<p>Constants are introduced with the relevant formulae in this source lesson.</p>')}${card('Derivations', lesson.derivations?.length ? list(lesson.derivations) : '<p>No formal derivation is recorded yet. Use the formula sheet and worked examples to trace the relationship.</p>')}</div>`, { eyebrow: 'BUILD THE MODEL' })}
-    ${section('Visual model', `${diagramFor(lesson)}${renderGraph(graphFor(lesson))}`, { eyebrow: 'SEE THE PHYSICS' })}
+    ${section('Visual model', `${diagramFor(lesson)}${lessonGraph(lesson) || renderGraph(graphFor(lesson))}`, { eyebrow: 'SEE THE PHYSICS' })}
     ${section('Calculator', renderCalculator(), { eyebrow: 'CHECK A RESULT' })}
     ${optional('Worked examples', lesson.worked_examples, example, { eyebrow: 'METHOD IN ACTION' })}
     ${optional('Practice questions', lesson.practice_questions, item => card(`${item.level || 'Practice'} question`, `<p>${escapeHTML(item.question)}</p><button class="text-button" data-quiz-topic="${escapeHTML(lesson.slug)}">Practise this topic →</button>`), { id: 'practice', eyebrow: 'CHECK YOUR THINKING' })}

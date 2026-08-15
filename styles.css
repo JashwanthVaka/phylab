@@ -341,3 +341,19 @@
 .mistake-card summary{cursor:pointer;font-weight:600}
 .mistake-card__foot{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin-top:18px;border-top:1px solid var(--line);padding-top:14px}
 .mistake-card__foot button[disabled]{opacity:.45;cursor:not-allowed}
+
+/* Interactive lesson graphs. */
+.lesson-graph{border:1px solid var(--line);background:var(--surface);padding:22px;margin:16px 0}
+.lg-head h3{margin:0 0 5px;font-size:19px}
+.lg-head p{margin:0 0 18px;font-size:13px}
+.lg-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:18px;align-items:start;margin-bottom:18px}
+.lg-control{margin-bottom:14px}
+.lg-control label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.lg-control-row{display:flex;gap:10px;align-items:center}
+.lg-control-row input[type=range]{flex:1;min-width:0;accent-color:var(--teal)}
+.lg-control-row input[type=number]{width:94px;padding:7px;border:1px solid var(--line-strong);background:var(--surface-raised)}
+.lg-buttons{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.lg-readout h4{margin:0 0 10px;font:10px var(--font-mono);letter-spacing:.11em;color:var(--muted);text-transform:uppercase}
+.lg-sweep{font:12px var(--font-mono);background:var(--accent-soft);padding:8px 10px;margin:0 0 12px}
+.lg-meaning{font-size:13px;line-height:1.65;color:var(--ink-soft);background:var(--surface-alt);padding:14px 16px;margin:14px 0 0;max-width:76ch}
+@media(max-width:900px){.lg-grid{grid-template-columns:1fr}.lg-control-row{flex-direction:column;align-items:stretch}.lg-control-row input[type=number]{width:100%}}

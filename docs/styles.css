@@ -288,3 +288,72 @@
 .ai-offline code{font:11px var(--font-mono);background:var(--warn-soft-2);padding:1px 5px}
 .ai-chat textarea[disabled],.ai-chat input[disabled]{opacity:.55;cursor:not-allowed}
 .ai-chat .button[disabled]{opacity:.45;cursor:not-allowed}
+
+/* Data lab: scatter plot with error bars, fit lines and the propagation calculator. */
+.dl-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;align-items:start}
+.datalab-page textarea{width:100%;padding:11px;border:1px solid var(--line-strong);background:var(--surface-raised);font:12px var(--font-mono);margin-top:7px}
+.datalab-page label{display:block;font-size:13px;font-weight:600;margin-top:14px}
+.datalab-page select,.datalab-page input{width:100%;padding:9px;border:1px solid var(--line-strong);background:var(--surface-raised);margin-top:6px}
+.dl-fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.dl-fields label{margin-top:12px}
+.dl-readout{margin:0;display:grid;gap:2px}
+.dl-readout div{display:flex;justify-content:space-between;gap:14px;padding:10px 0;border-bottom:1px solid var(--line)}
+.dl-readout div:last-child{border-bottom:0}
+.dl-readout dt{font-size:13px;color:var(--muted)}
+.dl-readout dd{margin:0;font:14px var(--font-mono);font-weight:600;text-align:right}
+.dl-meaning{background:var(--accent-soft);padding:11px 13px;font-size:13px;margin:14px 0 0}
+.dl-good{border-left:5px solid var(--accent-3);background:var(--surface-ok);padding:11px 13px;font-size:13px;margin:12px 0 0}
+.dl-warn{border-left:5px solid var(--danger);background:var(--danger-soft);padding:11px 13px;font-size:13px;margin:12px 0 0}
+.dl-plot-holder{border:1px solid var(--line);background:var(--surface);padding:16px;overflow-x:auto}
+.dl-plot{width:100%;min-width:460px;max-height:420px}
+.dl-axis{stroke:var(--muted);stroke-width:1.5}
+.dl-tick{stroke:var(--line-strong);stroke-width:1}
+.dl-tick-label{font:9px var(--font-mono);fill:var(--muted)}
+.dl-axis-label{font:11px var(--font-mono);fill:var(--ink)}
+.dl-point{fill:var(--teal);stroke:var(--surface);stroke-width:1.5}
+.dl-bar{stroke:var(--muted);stroke-width:1.5}
+.dl-fit{stroke:var(--teal);stroke-width:2.5}
+.dl-extreme{stroke:var(--warn);stroke-width:1.2;stroke-dasharray:5 4}
+.dl-legend{font:10px var(--font-mono);color:var(--muted);display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin:12px 0 0}
+.dl-key{display:inline-block;width:22px;height:0;border-top:2.5px solid var(--teal);margin-right:5px;vertical-align:middle}
+.dl-key--extreme{border-top:1.5px dashed var(--warn)}
+.dl-prop-row{display:grid;grid-template-columns:1.4fr 1fr 1fr .7fr auto;gap:10px;align-items:end;padding:12px 0;border-bottom:1px solid var(--line)}
+.dl-prop-row label{margin-top:0;font-size:11px}
+.dl-prop-actions{display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin:16px 0}
+.dl-prop-actions label{margin-top:0;display:flex;align-items:center;gap:9px;font-size:13px}
+.dl-prop-actions select{width:auto;margin-top:0}
+.dl-prop-out{background:var(--accent-soft);padding:13px 15px;font-size:15px;margin:12px 0 6px}
+@media(max-width:900px){.dl-grid,.dl-fields{grid-template-columns:1fr}.dl-prop-row{grid-template-columns:1fr 1fr;gap:8px}}
+
+/* Mistake bank. */
+.mistake-list{display:grid;gap:14px}
+.mistake-card{border:1px solid var(--line);background:var(--surface);border-left:5px solid var(--line-strong);padding:22px}
+.mistake-card.is-due{border-left-color:var(--danger)}
+.mistake-card.is-reviewed{opacity:.6}
+.mistake-card__head{display:flex;justify-content:space-between;gap:14px;align-items:baseline;flex-wrap:wrap}
+.mistake-card__head .tag{margin:0}
+.mistake-card__due{font:10px var(--font-mono);color:var(--muted)}
+.mistake-card h3{font:19px var(--font-serif);line-height:1.4;margin:12px 0 14px}
+.mistake-card__answers p{font-size:13px;margin:5px 0}
+.mistake-wrong{font:13px var(--font-mono);color:var(--danger-ink);background:var(--danger-soft);padding:2px 7px}
+.mistake-right{font:13px var(--font-mono);color:var(--ok-deep);background:var(--surface-ok);padding:2px 7px}
+.mistake-card details{margin-top:12px;font-size:13px}
+.mistake-card summary{cursor:pointer;font-weight:600}
+.mistake-card__foot{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin-top:18px;border-top:1px solid var(--line);padding-top:14px}
+.mistake-card__foot button[disabled]{opacity:.45;cursor:not-allowed}
+
+/* Interactive lesson graphs. */
+.lesson-graph{border:1px solid var(--line);background:var(--surface);padding:22px;margin:16px 0}
+.lg-head h3{margin:0 0 5px;font-size:19px}
+.lg-head p{margin:0 0 18px;font-size:13px}
+.lg-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:18px;align-items:start;margin-bottom:18px}
+.lg-control{margin-bottom:14px}
+.lg-control label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.lg-control-row{display:flex;gap:10px;align-items:center}
+.lg-control-row input[type=range]{flex:1;min-width:0;accent-color:var(--teal)}
+.lg-control-row input[type=number]{width:94px;padding:7px;border:1px solid var(--line-strong);background:var(--surface-raised)}
+.lg-buttons{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.lg-readout h4{margin:0 0 10px;font:10px var(--font-mono);letter-spacing:.11em;color:var(--muted);text-transform:uppercase}
+.lg-sweep{font:12px var(--font-mono);background:var(--accent-soft);padding:8px 10px;margin:0 0 12px}
+.lg-meaning{font-size:13px;line-height:1.65;color:var(--ink-soft);background:var(--surface-alt);padding:14px 16px;margin:14px 0 0;max-width:76ch}
+@media(max-width:900px){.lg-grid{grid-template-columns:1fr}.lg-control-row{flex-direction:column;align-items:stretch}.lg-control-row input[type=number]{width:100%}}

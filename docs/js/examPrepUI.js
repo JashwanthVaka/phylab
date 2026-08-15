@@ -44,6 +44,7 @@ export function examPrepPage(index) {
         <article class="content-card"><h3>Know the command term</h3><p>Each term expects a specific shape of answer. Check the pattern before you write.</p><a class="text-button" href="/patterns" data-route>Question patterns →</a></article>
         <article class="content-card"><h3>Use a method</h3><p>Numerical, graph, data, practical and extended-response procedures, all in one place.</p><a class="text-button" href="/toolkit" data-route>Active toolkit →</a></article>
         <article class="content-card"><h3>Apply it in context</h3><p>Case practice puts the physics in a real setting with an exam-style prompt.</p><a class="text-button" href="/cases" data-route>Case practice →</a></article>
+        <article class="content-card"><h3>Revisit your mistakes</h3><p>Every question you have answered wrongly, collected automatically and brought back at widening intervals.</p><a class="text-button" href="/mistakes" data-route>Mistake bank →</a></article>
         <article class="content-card"><h3>Check your gaps</h3><p>Your progress page shows completion and, once you have results, weaker topics.</p><a class="text-button" href="/progress" data-route>View progress →</a></article>
       </div>
     </section>

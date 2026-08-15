@@ -5,6 +5,7 @@ import { completeLesson, debounce, escapeHTML, getProgress, orderLessons } from 
 import { bindCalculator, renderCalculator } from './calculatorEngine.js';
 import { bindFlashcards } from './flashcards.js';
 import { bindGraphs, graphFor, renderGraph } from './graphEngine.js';
+import { bindLessonGraph } from './lessonGraphs.js';
 import { bindHeroScene, heroScene } from './heroScene.js';
 
 export const renderLoading = message => `<section class="page"><p class="eyebrow">KINETIQ</p><h1>${escapeHTML(message)}</h1>${skeleton(6)}</section>`;
@@ -105,6 +106,7 @@ export function bindUI({ loader, router, searchIndex, render }) {
   document.querySelector('[data-close-modal]')?.addEventListener('click', () => { document.querySelector('#modalRoot').innerHTML = ''; document.querySelector('#tutorButton').focus(); });
   bindQuiz();
   bindGraphs();
+  bindLessonGraph();
   bindFlashcards();
   bindHeroScene();
   const bindCalculatorView = () => bindCalculator(value => { const holder = document.querySelector('.calculator-card'); if (holder) { holder.outerHTML = renderCalculator(value); bindCalculatorView(); } });
