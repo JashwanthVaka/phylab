@@ -324,3 +324,20 @@
 .dl-prop-actions select{width:auto;margin-top:0}
 .dl-prop-out{background:var(--accent-soft);padding:13px 15px;font-size:15px;margin:12px 0 6px}
 @media(max-width:900px){.dl-grid,.dl-fields{grid-template-columns:1fr}.dl-prop-row{grid-template-columns:1fr 1fr;gap:8px}}
+
+/* Mistake bank. */
+.mistake-list{display:grid;gap:14px}
+.mistake-card{border:1px solid var(--line);background:var(--surface);border-left:5px solid var(--line-strong);padding:22px}
+.mistake-card.is-due{border-left-color:var(--danger)}
+.mistake-card.is-reviewed{opacity:.6}
+.mistake-card__head{display:flex;justify-content:space-between;gap:14px;align-items:baseline;flex-wrap:wrap}
+.mistake-card__head .tag{margin:0}
+.mistake-card__due{font:10px var(--font-mono);color:var(--muted)}
+.mistake-card h3{font:19px var(--font-serif);line-height:1.4;margin:12px 0 14px}
+.mistake-card__answers p{font-size:13px;margin:5px 0}
+.mistake-wrong{font:13px var(--font-mono);color:var(--danger-ink);background:var(--danger-soft);padding:2px 7px}
+.mistake-right{font:13px var(--font-mono);color:var(--ok-deep);background:var(--surface-ok);padding:2px 7px}
+.mistake-card details{margin-top:12px;font-size:13px}
+.mistake-card summary{cursor:pointer;font-weight:600}
+.mistake-card__foot{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin-top:18px;border-top:1px solid var(--line);padding-top:14px}
+.mistake-card__foot button[disabled]{opacity:.45;cursor:not-allowed}
