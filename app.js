@@ -203,6 +203,10 @@ const router = new Router({
     const [index, examPrep] = await Promise.all([loader.getIndex(), loadPageModule('./js/examPrepUI.js')]);
     return { view: examPrep.examPrepPage(index) };
   }, 'Opening exam preparation…'),
+  '/data': () => transition(async () => {
+    const lab = await loadPageModule('./js/dataLabUI.js');
+    return { view: lab.dataLabPage(), mount: () => lab.bindDataLab() };
+  }, 'Opening the data lab…'),
   '/resources': () => transition(async () => {
     const [index, resources] = await Promise.all([loader.getIndex(), loadPageModule('./js/resourcesUI.js')]);
     return { view: resources.resourcesPage(index) };
