@@ -207,6 +207,10 @@ const router = new Router({
     const bank = await loadPageModule('./js/mistakeBank.js');
     return { view: bank.mistakesPage(), mount: () => bank.bindMistakes() };
   }, 'Opening your mistake bank…'),
+  '/ia': () => transition(async () => {
+    const ia = await loadPageModule('./js/iaWorkspace.js');
+    return { view: ia.iaPage(), mount: () => ia.bindIA() };
+  }, 'Opening the IA workspace…'),
   '/data': () => transition(async () => {
     const lab = await loadPageModule('./js/dataLabUI.js');
     return { view: lab.dataLabPage(), mount: () => lab.bindDataLab() };
@@ -223,7 +227,11 @@ const router = new Router({
   '/onboarding': () => transition(async () => ({ view: onboardingPage() }), 'Preparing onboarding…'),
   '/account': () => transition(async () => ({ view: accountPage(await profileService.get()) }), 'Loading account…'),
   '/bookmarks': () => transition(async () => ({ view: bookmarkPage(await bookmarkService.list()) }), 'Loading bookmarks…'),
-  '/revision': () => transition(async () => ({ view: '<section class="page"><p class="eyebrow">REVISION PLANNER</p><h1>Plan your next study session.</h1><div class="empty-state"><h3>No revision plan yet</h3><p>Create a plan after signing in. Plans and tasks are persisted through the revision service.</p><a class="button" href="/onboarding" data-route>Set learning goals</a></div></section>' }), 'Loading revision planner…'),
+  '/revision': () => transition(async () => {
+    const [index, planner] = await Promise.all([loader.getIndex(), loadPageModule('./js/revisionUI.js')]);
+    const lessons = await Promise.all(index.lessonIndex.map(item => loader.getLesson(item.slug)));
+    return { view: planner.revisionPage(index, lessons), mount: () => planner.bindRevision() };
+  }, 'Building your revision plan…'),
   '/ai': () => transition(async () => {
     const workspace = await loadPageModule('./js/aiWorkspace.js');
     return { view: await workspace.aiWorkspace(), mount: () => workspace.bindAI() };
