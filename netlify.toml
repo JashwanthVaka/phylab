@@ -1,0 +1,22 @@
+# KINETIQ on Netlify. The Node app in the repo root stays the source of truth;
+# `npm run build:netlify` emits a server-free copy into dist/ with real paths
+# and a rewrite, so deep links work without a hash.
+[build]
+  command = "npm run build:netlify"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Any path that is not a real file resolves to the single-page app.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "DENY"

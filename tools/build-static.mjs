@@ -12,7 +12,8 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
-const OUT = path.join(ROOT, 'docs');
+const MODE = process.env.KINETIQ_TARGET === 'netlify' ? 'netlify' : 'pages';
+const OUT = path.join(ROOT, MODE === 'netlify' ? 'dist' : 'docs');
 const PORT = 4173;
 const BASE = `http://127.0.0.1:${PORT}`;
 
@@ -66,28 +67,33 @@ await write('public-env.js', await read('public-env.js'));
 
 // 3. index.html: assets become relative, because Pages serves the site from /<repo>/.
 let html = await read('index.html');
-html = patch(html, 'href="/styles.css"', 'href="./styles.css"', 'stylesheet link');
-html = patch(html, 'src="/public-env.js"', 'src="./public-env.js"', 'env script');
-html = patch(html, 'src="/app.js"', 'src="./app.js"', 'app script');
+if (MODE === 'pages') {
+  html = patch(html, 'href="/styles.css"', 'href="./styles.css"', 'stylesheet link');
+  html = patch(html, 'src="/public-env.js"', 'src="./public-env.js"', 'env script');
+  html = patch(html, 'src="/app.js"', 'src="./app.js"', 'app script');
+}
 await write('index.html', html);
 
 // 4. Router: Pages has no SPA rewrite, so the static build routes on the hash.
 let router = await read('js/router.js');
+if (MODE === 'pages') {
 router = patch(router, "window.addEventListener('popstate', this.handle)", "window.addEventListener('hashchange', this.handle)", 'popstate listener');
 router = patch(router, "history.pushState({}, '', path)", 'location.hash = path', 'pushState call');
 router = patch(router, 'const path = location.pathname.replace(/\\/$/, \'\') || \'/\';', "const path = (location.hash.slice(1) || '/').replace(/\\/$/, '') || '/';", 'path read');
 router = patch(router, "new URLSearchParams(location.search).get('q')", "new URLSearchParams((location.hash.split('?')[1] || '')).get('q')", 'query read');
+}
 await write('js/router.js', router);
 
 // 5. Content loader: read the snapshot instead of the live API.
 let loader = await read('js/contentLoader.js');
-loader = patch(loader, "this.request('/api/content/index')", "this.request('./api/content/index.json')", 'index request');
-loader = patch(loader, 'this.request(`/api/content/lessons/${encodeURIComponent(key)}`)', 'this.request(`./api/content/lessons/${encodeURIComponent(key)}.json`)', 'lesson request');
+const prefix = MODE === 'pages' ? './' : '/';
+loader = patch(loader, "this.request('/api/content/index')", `this.request('${prefix}api/content/index.json')`, 'index request');
+loader = patch(loader, 'this.request(`/api/content/lessons/${encodeURIComponent(key)}`)', `this.request(\`${prefix}api/content/lessons/\${encodeURIComponent(key)}.json\`)`, 'lesson request');
 await write('js/contentLoader.js', loader);
 
 // 6. AI: no server means no tutor. Say so immediately rather than failing on send.
 let workspace = await read('js/aiWorkspace.js');
-workspace = patch(workspace, "await fetch('/api/ai/providers')", "await fetch('./api/ai/providers.json')", 'provider probe');
+workspace = patch(workspace, "await fetch('/api/ai/providers')", `await fetch('${prefix}api/ai/providers.json')`, 'provider probe');
 await write('js/aiWorkspace.js', workspace);
 
 let aiService = await read('js/services/aiService.js');
@@ -101,7 +107,7 @@ await write('js/services/aiService.js', aiService);
 
 // 7. Quiz results navigate by hash in the static build.
 let quiz = await read('js/quizSession.js');
-quiz = patch(quiz, 'window.location.assign(`/results/${complete.id}`)', 'window.location.hash = `/results/${complete.id}`', 'results navigation');
+if (MODE === 'pages') quiz = patch(quiz, 'window.location.assign(`/results/${complete.id}`)', 'window.location.hash = `/results/${complete.id}`', 'results navigation');
 await write('js/quizSession.js', quiz);
 
 // 8. Everything else copies across untouched.
@@ -122,7 +128,8 @@ app = `window.KINETIQ_STATIC = true;\n${app}`;
 await write('app.js', app);
 
 // 10. Pages must not run Jekyll over the output.
-await write('.nojekyll', '');
+if (MODE === 'netlify') await write('_redirects', '/*    /index.html   200\n');
+else await write('.nojekyll', '');
 
 const files = [];
 const count = async dir => {
@@ -132,4 +139,4 @@ const count = async dir => {
   }
 };
 await count(OUT);
-console.log(`static build written to docs/ — ${files.length} files, ${index.lessonIndex.length} lessons, ${index.cases.length} cases`);
+console.log(`static build written to ${MODE === 'netlify' ? 'dist' : 'docs'}/ — ${files.length} files, ${index.lessonIndex.length} lessons, ${index.cases.length} cases`);

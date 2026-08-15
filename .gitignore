@@ -10,3 +10,4 @@ __pycache__/
 
 # Personal study sources. Never commit copyrighted books or their extracted text.
 private/
+dist/
