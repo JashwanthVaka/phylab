@@ -3,7 +3,7 @@
 A self-contained, interactive IBDP Physics learning platform built with vanilla HTML, CSS
 and ES modules on a dependency-free Node server.
 
-**Live: https://jashwanthvaka.github.io/phylab/**
+**Live: https://getkinetiq.vercel.app**
 
 ## What is in it
 
@@ -45,8 +45,8 @@ stored curve.
 npm start
 ```
 
-Then visit `http://localhost:3000`. This is the only way to use KIT, since the tutor needs
-a server to hold the API key.
+Then visit `http://localhost:3000`. Running locally is also the only way to use a private
+book, since `private/` never leaves your machine.
 
 ## Tests
 
@@ -61,20 +61,16 @@ boundaries.
 
 ## Publishing
 
-Two static targets are built from the same source. The Node app in the repo root stays the
-source of truth; both builds are server-free copies of it.
+The app is deployed on Vercel at **https://getkinetiq.vercel.app**, which runs `server.js`
+itself rather than serving a static copy. That means real URLs, a live content API, and the
+AI tutor all work from one deployment. Pushing to `master` redeploys automatically.
 
-```bash
-npm run build           # -> docs/  for GitHub Pages
-npm run build:netlify   # -> dist/  for Netlify
-```
+`server.js` binds a port only when it is the entry point and exports its handler otherwise,
+so the same file runs under `npm start`, in Docker, and as a serverless function.
 
-GitHub Pages serves from `/<repo>/` and cannot rewrite unknown paths, so that build uses
-relative assets and routes on the hash. Netlify serves from the root and supports rewrites,
-so that build uses real paths and clean URLs like `/data` and `/ia`.
-
-`netlify.toml` and `render.yaml` are both configured. Neither the AI tutor nor a private
-book is available on a static host — see below.
+A static, server-free copy can still be produced if you ever want one — `npm run build`
+for a GitHub Pages layout, `npm run build:netlify` for a root-served one — but neither is
+published, and neither can run the tutor.
 
 ## Enable KIT AI
 
@@ -153,8 +149,8 @@ local-only for the same reason.
 
 ## Next
 
-- Rigid Body Mechanics and Electromagnetic Induction have no interactive graph model yet
-  and fall back to a decorative curve.
-- Supabase is fully wired but unconfigured, so progress is per-browser. Filling in
-  `public-env.js` enables cross-device sync.
-- There is no service worker, so the app does not work offline.
+- Supabase is fully wired but unconfigured, so progress is stored per browser. Filling in
+  `public-env.js` with a project URL and anon key enables cross-device sync.
+- Nine lessons have no matching simulation in the studio, though all 19 now have an
+  interactive graph.
+- The question bank is 71 items, which is thin for a two-year course.

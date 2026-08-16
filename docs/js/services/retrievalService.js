@@ -1,1 +1,0 @@
-import {SearchIndex} from '../search.js'; export const retrievalService={async retrieve(loader,query,limit=6){const index=await loader.getIndex();return new SearchIndex(index).search(query).slice(0,limit).map(x=>({type:x.type,title:x.title,href:x.href}))}};

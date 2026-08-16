@@ -63,8 +63,8 @@ assert.ok(
 );
 
 // 8. Nothing in the built site may contain private passages.
-const docs = path.join(ROOT, 'docs');
-if (fs.existsSync(docs)) {
+const buildDirs = ['docs', 'dist'].map(name => path.join(ROOT, name)).filter(dir => fs.existsSync(dir));
+if (buildDirs.length) {
   const libraryDir = path.join(ROOT, 'private', 'library');
   const books = fs.existsSync(libraryDir) ? fs.readdirSync(libraryDir).filter(file => file.endsWith('.json')) : [];
   const samples = books.flatMap(file => {
@@ -78,7 +78,7 @@ if (fs.existsSync(docs)) {
     const full = path.join(dir, entry.name);
     if (entry.isDirectory()) walk(full); else files.push(full);
   });
-  walk(docs);
+  buildDirs.forEach(walk);
 
   for (const file of files) {
     const contents = fs.readFileSync(file, 'utf8');
@@ -89,5 +89,5 @@ if (fs.existsSync(docs)) {
   }
   console.log(`privacy tests passed (checked ${files.length} built files against ${samples.length} private samples)`);
 } else {
-  console.log('privacy tests passed (no docs/ build present to check)');
+  console.log('privacy tests passed (no static build present to check)');
 }

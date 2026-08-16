@@ -1,5 +1,0 @@
-import { escapeHTML } from './utils.js';
-
-export function renderSimulations(simulations) {
-  return `<section class="page"><p class="eyebrow">INTERACTIVE LAB</p><h1>Model the physics.</h1><p class="page-lead">Simulation foundations are ready for validated interactive models. Select a lab to inspect its variables and learning focus.</p><div class="simulation-grid">${simulations.map(simulation => `<article class="simulation-card"><div class="simulation-placeholder" role="img" aria-label="${escapeHTML(simulation.name)} visual placeholder">φ</div><span class="tag">${escapeHTML(simulation.topic)}</span><h2>${escapeHTML(simulation.name)}</h2><p>${escapeHTML(simulation.description)}</p><h3>Variables</h3><ul>${simulation.variables.map(variable => `<li>${escapeHTML(variable)}</li>`).join('')}</ul><button class="outline" disabled aria-describedby="simulation-note">Interactive model in the next lab release</button></article>`).join('')}</div><p id="simulation-note" class="muted">The existing simulation catalogue is preserved while validated interactive models are prepared.</p></section>`;
-}

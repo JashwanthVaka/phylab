@@ -1,1 +1,0 @@
-import {getSupabase} from './supabaseClient.js'; export const revisionService={async createPlan(plan){const s=await getSupabase();if(!s)return {offline:true};const {data:{user}}=await s.auth.getUser();if(!user)return {guest:true};return s.from('revision_plans').insert({...plan,user_id:user.id}).select().single()}};
