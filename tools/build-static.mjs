@@ -64,6 +64,7 @@ if (appUrl) console.log(`  tutor link points at ${appUrl}`);
 // 2. Copy the stylesheet and the browser env shim unchanged.
 await write('styles.css', await read('styles.css'));
 await write('public-env.js', await read('public-env.js'));
+await write('sw.js', await read('sw.js'));
 
 // 3. index.html: assets become relative, because Pages serves the site from /<repo>/.
 let html = await read('index.html');

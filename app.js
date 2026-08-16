@@ -268,7 +268,20 @@ function handleRouteClick(event) {
   }
   if (event.target.matches('[data-retry]')) {
     loader.clear();
-    boot();
+    // Offline support. Registration failing is never fatal — the app stays online-only.
+function enableOffline() {
+  if (!('serviceWorker' in navigator) || location.protocol === 'file:') return;
+  const source = document.querySelector('script[src$="app.js"]')?.getAttribute('src') || '/app.js';
+  const scope = new URL(source.replace(/app\.js$/, ''), location.href);
+  navigator.serviceWorker.register(new URL('sw.js', scope).href, { scope: scope.href })
+    .catch(error => console.warn('KINETIQ could not enable offline support.', error));
+}
+// A module script can execute after load has already fired, in which case a
+// load listener would never run and offline support would silently never start.
+if (document.readyState === 'complete') enableOffline();
+else window.addEventListener('load', enableOffline, { once: true, signal: globalListeners.signal });
+
+boot();
   }
 }
 

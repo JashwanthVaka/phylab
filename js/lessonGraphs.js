@@ -90,6 +90,37 @@ const MODELS = {
       meaning: `The distance between successive peaks is the wavelength, ${round(v.lambda)} m, so ${round(v.span / v.lambda, 3)} wavelengths fit in the ${round(v.span)} m shown. With f = ${round(v.f)} Hz the wave speed is v = fλ = ${round(v.f * v.lambda)} m/s. Amplitude sets the energy carried, since intensity is proportional to A².`
     })
   },
+  'rigid-body-mechanics': {
+    match: /rigid|rotational|torque/,
+    title: 'Angular velocity under a constant torque',
+    controls: [['I', 'Moment of inertia', 'kg m²', 2, 0.1, 20], ['torque', 'Applied torque', 'N m', 4, -40, 40], ['t', 'Time shown', 's', 10, 1, 30]],
+    build: v => {
+      const alpha = v.torque / v.I;
+      return {
+        graph: { id: 'rigid', title: 'Angular velocity against time', x: `Time (0 to ${round(v.t)} s)`, y: 'Angular velocity (rad/s)', fn: u => alpha * (v.t * u / 100) },
+        sweep: { label: 'Time', unit: 's', from: 0, to: v.t },
+        at: t => [['Time', t, 's'], ['Angular velocity', alpha * t, 'rad/s'], ['Angle turned', 0.5 * alpha * t * t, 'rad'], ['Angular momentum', v.I * alpha * t, 'kg m²/s'], ['Rotational KE', 0.5 * v.I * (alpha * t) ** 2, 'J']],
+        meaning: `The gradient is the angular acceleration α = Γ/I = ${round(alpha)} rad/s². This is Newton's second law in rotational form, with moment of inertia playing the part of mass. The area under the line is the angle turned, ${round(0.5 * alpha * v.t * v.t)} rad after ${round(v.t)} s.`
+      };
+    }
+  },
+  'electromagnetic-induction': {
+    match: /induction|electromagnetic ind/,
+    title: 'Induced emf from a rotating coil',
+    controls: [['N', 'Turns', '', 200, 1, 2000], ['B', 'Flux density', 'T', 0.3, 0.01, 2], ['A', 'Coil area', 'm²', 0.015, 0.001, 0.5], ['omega', 'Angular speed', 'rad/s', 50, 1, 200], ['t', 'Time shown', 's', 0.25, 0.02, 2]],
+    build: v => {
+      const peak = v.N * v.B * v.A * v.omega;
+      return {
+        graph: { id: 'induction', title: 'Induced emf against time', x: `Time (0 to ${round(v.t)} s)`, y: 'emf (V)', fn: u => peak * Math.sin(v.omega * (v.t * u / 100)) },
+        sweep: { label: 'Time', unit: 's', from: 0, to: v.t },
+        at: t => {
+          const angle = v.omega * t;
+          return [['Time', t, 's'], ['emf', peak * Math.sin(angle), 'V'], ['Flux linkage', v.N * v.B * v.A * Math.cos(angle), 'Wb'], ['Coil angle', angle * 180 / Math.PI, '°'], ['Peak emf', peak, 'V']];
+        },
+        meaning: `Peak emf is NBAω = ${round(peak)} V. The emf is largest when the flux linkage is changing fastest — as the coil passes through the plane of the field, where the flux itself is momentarily zero. That quarter-cycle offset between flux and emf is Faraday's law: emf depends on the rate of change of flux, not on the flux.`
+      };
+    }
+  },
   'electric-fields': {
     match: /electric|field/,
     title: 'Field and potential around a point charge',
