@@ -73,15 +73,15 @@
   ],
   "formulas": [
     {
-      "name": "Double Slit Fringe Spacing",
-      "formula": "λ = sx/D",
+      "name": "Double-Slit Fringe Spacing",
+      "formula": "s = λD / d",
       "variables": {
-        "λ": "wavelength (m)",
-        "s": "slit separation (m)",
-        "x": "fringe separation (m)",
-        "D": "distance from slits to screen (m)"
+        "s": "spacing between adjacent fringes (m)",
+        "λ": "wavelength of the light (m)",
+        "D": "distance from the slits to the screen (m)",
+        "d": "separation of the two slits (m)"
       },
-      "explanation": "This equation relates wavelength to the spacing of interference fringes."
+      "explanation": "Fringes are further apart for longer wavelengths, a more distant screen, or more closely spaced slits."
     },
     {
       "name": "Diffraction Grating Equation",

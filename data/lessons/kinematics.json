@@ -2,9 +2,7 @@
   "title": "A.1 Kinematics",
   "subject": "IBDP Physics",
   "level": "SL and HL",
-
   "introduction": "Kinematics is the branch of physics that studies the motion of objects without analysing the forces responsible for that motion. It describes how objects move using measurable quantities such as position, distance, displacement, speed, velocity and acceleration. Kinematics provides the foundation for mechanics and is used in many areas of physics, engineering and technology.",
-
   "learning_objectives": [
     "Understand the difference between scalar and vector quantities.",
     "Distinguish between distance and displacement.",
@@ -13,7 +11,6 @@
     "Interpret motion graphs.",
     "Apply equations of motion for objects with constant acceleration."
   ],
-
   "definitions": [
     {
       "term": "Position",
@@ -40,7 +37,6 @@
       "meaning": "The rate of change of velocity with time."
     }
   ],
-
   "core_concepts": [
     {
       "heading": "Distance and Displacement",
@@ -58,9 +54,7 @@
       "heading": "Acceleration",
       "explanation": "Acceleration occurs when velocity changes. An object accelerates when it speeds up, slows down or changes direction."
     }
-  ]
-,
-
+  ],
   "formulas": [
     {
       "name": "Average velocity",
@@ -114,9 +108,19 @@
         "s": "displacement (m)"
       },
       "explanation": "This equation is useful when time is not provided."
+    },
+    {
+      "name": "Fourth equation of motion",
+      "formula": "s = ½(u + v)t",
+      "variables": {
+        "s": "displacement (m)",
+        "u": "initial velocity (m s⁻¹)",
+        "v": "final velocity (m s⁻¹)",
+        "t": "time (s)"
+      },
+      "explanation": "The one constant-acceleration equation that does not involve acceleration; useful when a is unknown."
     }
   ],
-
   "motion_graphs": [
     {
       "graph": "Distance-time graph",
@@ -145,7 +149,6 @@
       ]
     }
   ],
-
   "worked_examples": [
     {
       "question": "A car increases its velocity from 5 m/s to 25 m/s in 10 seconds. Calculate acceleration.",
@@ -165,67 +168,60 @@
       ],
       "answer": "20 m/s"
     }
-  ]
-  ,
-
-"common_mistakes": [
-  "Confusing distance with displacement. Distance has no direction, while displacement includes direction.",
-  "Using speed and velocity as the same quantity. Velocity requires direction.",
-  "Forgetting to convert units before calculation.",
-  "Using the wrong equation of motion when acceleration is not constant.",
-  "Reading the gradient of a graph incorrectly.",
-  "Forgetting that the area under a velocity-time graph represents displacement.",
-  "Ignoring negative signs when dealing with direction."
-],
-
-"ib_exam_tips": [
-  "Write the correct equation before substituting values.",
-  "Always include SI units in the final answer.",
-  "Show every step of calculation clearly.",
-  "Use significant figures according to the data provided.",
-  "Label graphs with correct axes and units.",
-  "Explain answers using physics terms instead of only calculations."
-],
-
-"hl_extension": [
-  {
-    "topic": "Projectile Motion",
-    "explanation": "Projectile motion describes objects moving under the influence of gravity after being launched. Horizontal and vertical motion are analysed separately because gravity only affects vertical motion."
-  },
-  {
-    "topic": "Relative Motion",
-    "explanation": "Relative motion describes the velocity of an object compared to another moving reference frame."
-  },
-  {
-    "topic": "Advanced Motion Analysis",
-    "explanation": "Higher level physics uses calculus concepts to analyse changing velocity and acceleration."
-  }
-],
-
-"real_world_applications": [
-  "Vehicle safety systems use kinematics to calculate stopping distances.",
-  "Aircraft engineers use motion analysis to study takeoff and landing.",
-  "Sports scientists analyse athlete movement using velocity and acceleration data.",
-  "Space missions use kinematics to calculate spacecraft trajectories."
-],
-
-"practice_questions": [
-  {
-    "level": "Easy",
-    "question": "A runner travels 100 m in 20 seconds. Calculate average speed.",
-    "answer": "5 m/s"
-  },
-  {
-    "level": "Medium",
-    "question": "A car accelerates from 10 m/s to 30 m/s in 5 seconds. Calculate acceleration.",
-    "answer": "4 m/s²"
-  },
-  {
-    "level": "HL",
-    "question": "A projectile is launched horizontally. Explain why horizontal velocity remains constant while vertical velocity changes.",
-    "answer": "Gravity only acts vertically, so horizontal motion has constant velocity while vertical motion accelerates due to gravity."
-  }
-],
-
-"summary": "Kinematics provides the mathematical tools needed to describe motion. By understanding displacement, velocity, acceleration and motion graphs, students are able to analyse and predict the movement of objects. These concepts form the foundation for mechanics and are essential for further topics in IB Physics."
+  ],
+  "common_mistakes": [
+    "Confusing distance with displacement. Distance has no direction, while displacement includes direction.",
+    "Using speed and velocity as the same quantity. Velocity requires direction.",
+    "Forgetting to convert units before calculation.",
+    "Using the wrong equation of motion when acceleration is not constant.",
+    "Reading the gradient of a graph incorrectly.",
+    "Forgetting that the area under a velocity-time graph represents displacement.",
+    "Ignoring negative signs when dealing with direction."
+  ],
+  "ib_exam_tips": [
+    "Write the correct equation before substituting values.",
+    "Always include SI units in the final answer.",
+    "Show every step of calculation clearly.",
+    "Use significant figures according to the data provided.",
+    "Label graphs with correct axes and units.",
+    "Explain answers using physics terms instead of only calculations."
+  ],
+  "hl_extension": [
+    {
+      "topic": "Projectile Motion",
+      "explanation": "Projectile motion describes objects moving under the influence of gravity after being launched. Horizontal and vertical motion are analysed separately because gravity only affects vertical motion."
+    },
+    {
+      "topic": "Relative Motion",
+      "explanation": "Relative motion describes the velocity of an object compared to another moving reference frame."
+    },
+    {
+      "topic": "Advanced Motion Analysis",
+      "explanation": "Higher level physics uses calculus concepts to analyse changing velocity and acceleration."
+    }
+  ],
+  "real_world_applications": [
+    "Vehicle safety systems use kinematics to calculate stopping distances.",
+    "Aircraft engineers use motion analysis to study takeoff and landing.",
+    "Sports scientists analyse athlete movement using velocity and acceleration data.",
+    "Space missions use kinematics to calculate spacecraft trajectories."
+  ],
+  "practice_questions": [
+    {
+      "level": "Easy",
+      "question": "A runner travels 100 m in 20 seconds. Calculate average speed.",
+      "answer": "5 m/s"
+    },
+    {
+      "level": "Medium",
+      "question": "A car accelerates from 10 m/s to 30 m/s in 5 seconds. Calculate acceleration.",
+      "answer": "4 m/s²"
+    },
+    {
+      "level": "HL",
+      "question": "A projectile is launched horizontally. Explain why horizontal velocity remains constant while vertical velocity changes.",
+      "answer": "Gravity only acts vertically, so horizontal motion has constant velocity while vertical motion accelerates due to gravity."
+    }
+  ],
+  "summary": "Kinematics provides the mathematical tools needed to describe motion. By understanding displacement, velocity, acceleration and motion graphs, students are able to analyse and predict the movement of objects. These concepts form the foundation for mechanics and are essential for further topics in IB Physics."
 }

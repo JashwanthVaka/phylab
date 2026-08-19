@@ -86,6 +86,18 @@
         "Ek": "maximum kinetic energy of emitted electron"
       },
       "explanation": "Photon energy is used to overcome the work function and provide kinetic energy to emitted electrons."
+    },
+    {
+      "name": "de Broglie Wavelength",
+      "formula": "λ = h / p = h / mv",
+      "variables": {
+        "λ": "wavelength (m)",
+        "h": "Planck constant (6.63 × 10⁻³⁴ J s)",
+        "p": "momentum (kg m s⁻¹)",
+        "m": "mass (kg)",
+        "v": "speed (m s⁻¹)"
+      },
+      "explanation": "Every particle has a wavelength set by its momentum — negligible for everyday objects, comparable to atomic spacings for electrons."
     }
   ],
   "photoelectric_effect": [

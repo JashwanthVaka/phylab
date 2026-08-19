@@ -333,5 +333,38 @@
       "answer": "Red shift occurs when a source moves away, causing observed wavelength to increase and frequency to decrease."
     }
   ],
-  "summary": "Electromagnetic waves transfer energy through oscillating electric and magnetic fields. The electromagnetic spectrum contains waves with different wavelengths, frequencies and energies. Their properties allow applications in communication, medicine, astronomy and technology while requiring safety controls for high energy radiation."
+  "summary": "Electromagnetic waves transfer energy through oscillating electric and magnetic fields. The electromagnetic spectrum contains waves with different wavelengths, frequencies and energies. Their properties allow applications in communication, medicine, astronomy and technology while requiring safety controls for high energy radiation.",
+  "formulas": [
+    {
+      "name": "Wave Equation for Light",
+      "formula": "c = fλ",
+      "variables": {
+        "c": "speed of light in a vacuum (3.00 × 10⁸ m s⁻¹)",
+        "f": "frequency (Hz)",
+        "λ": "wavelength (m)"
+      },
+      "explanation": "All electromagnetic waves travel at c in a vacuum, so frequency and wavelength are inversely related."
+    },
+    {
+      "name": "Photon Energy",
+      "formula": "E = hf = hc / λ",
+      "variables": {
+        "E": "photon energy (J)",
+        "h": "Planck constant (6.63 × 10⁻³⁴ J s)",
+        "f": "frequency (Hz)",
+        "λ": "wavelength (m)"
+      },
+      "explanation": "Higher-frequency radiation carries more energy per photon, which is why ultraviolet ionises and radio does not."
+    },
+    {
+      "name": "Intensity from a Point Source",
+      "formula": "I = P / 4πd²",
+      "variables": {
+        "I": "intensity (W m⁻²)",
+        "P": "power radiated (W)",
+        "d": "distance (m)"
+      },
+      "explanation": "Radiated power spreads over a sphere, so intensity falls with the square of distance."
+    }
+  ]
 }

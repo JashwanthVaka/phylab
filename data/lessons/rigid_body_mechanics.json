@@ -2,9 +2,7 @@
   "title": "A.4 Rigid Body Mechanics",
   "subject": "IBDP Physics",
   "level": "SL and HL",
-
   "introduction": "Rigid body mechanics studies the motion and equilibrium of objects that maintain their shape when forces act on them. Unlike particles, rigid bodies can rotate as well as translate. This topic explains concepts such as torque, angular motion, centre of mass and rotational equilibrium. These ideas are important in engineering, machines, structures and spacecraft.",
-
   "learning_objectives": [
     "Understand rotational motion.",
     "Explain torque and moments.",
@@ -13,7 +11,6 @@
     "Understand centre of mass.",
     "Apply conservation of angular momentum."
   ],
-
   "definitions": [
     {
       "term": "Rigid Body",
@@ -40,7 +37,6 @@
       "meaning": "The rate of change of angular velocity with time."
     }
   ],
-
   "core_concepts": [
     {
       "heading": "Rotational Motion",
@@ -58,215 +54,235 @@
       "heading": "Centre of Mass",
       "explanation": "The centre of mass is the balance point of an object. The motion of an object can be analysed by considering all mass concentrated at this point."
     }
-  ]
-,
-
-"formulas": [
-  {
-    "name": "Torque",
-    "formula": "τ = Fd",
-    "variables": {
-      "τ": "torque (N m)",
-      "F": "force (N)",
-      "d": "perpendicular distance from pivot (m)"
+  ],
+  "formulas": [
+    {
+      "name": "Torque",
+      "formula": "τ = Fd = Fr sinθ",
+      "variables": {
+        "τ": "torque (N m)",
+        "F": "force (N)",
+        "d": "perpendicular distance from the axis to the line of action (m)",
+        "r": "distance from the axis to the point of application (m)",
+        "θ": "angle between the force and that distance"
+      },
+      "explanation": "Torque is the force times the perpendicular distance. Since d = r sinθ, the two forms are equivalent."
     },
-    "explanation": "Torque is the turning effect produced by a force. The turning effect increases when the force increases or when the distance from the pivot increases."
-  },
-  {
-    "name": "Angular Velocity",
-    "formula": "ω = Δθ / Δt",
-    "variables": {
-      "ω": "angular velocity (rad/s)",
-      "Δθ": "angular displacement (rad)",
-      "Δt": "time taken (s)"
+    {
+      "name": "Angular Velocity",
+      "formula": "ω = Δθ / Δt",
+      "variables": {
+        "ω": "angular velocity (rad/s)",
+        "Δθ": "angular displacement (rad)",
+        "Δt": "time taken (s)"
+      },
+      "explanation": "Angular velocity describes how quickly an object rotates."
     },
-    "explanation": "Angular velocity describes how quickly an object rotates."
-  },
-  {
-    "name": "Angular Acceleration",
-    "formula": "α = Δω / Δt",
-    "variables": {
-      "α": "angular acceleration (rad/s²)",
-      "Δω": "change in angular velocity (rad/s)",
-      "Δt": "time interval (s)"
+    {
+      "name": "Angular Acceleration",
+      "formula": "α = Δω / Δt",
+      "variables": {
+        "α": "angular acceleration (rad/s²)",
+        "Δω": "change in angular velocity (rad/s)",
+        "Δt": "time interval (s)"
+      },
+      "explanation": "Angular acceleration describes the rate of change of angular velocity."
     },
-    "explanation": "Angular acceleration describes the rate of change of angular velocity."
-  },
-  {
-    "name": "Rotational Equilibrium",
-    "formula": "Clockwise moments = Anticlockwise moments",
-    "variables": {
-      "moment": "force × perpendicular distance"
+    {
+      "name": "Rotational Equilibrium",
+      "formula": "Clockwise moments = Anticlockwise moments",
+      "variables": {
+        "moment": "force × perpendicular distance"
+      },
+      "explanation": "For an object to remain balanced, the total turning effects in opposite directions must be equal."
     },
-    "explanation": "For an object to remain balanced, the total turning effects in opposite directions must be equal."
-  },
-  {
-    "name": "Rotational Kinetic Energy",
-    "formula": "KE = 1/2 Iω²",
-    "variables": {
-      "I": "moment of inertia (kg m²)",
-      "ω": "angular velocity (rad/s)"
+    {
+      "name": "Rotational Kinetic Energy",
+      "formula": "KE = 1/2 Iω²",
+      "variables": {
+        "I": "moment of inertia (kg m²)",
+        "ω": "angular velocity (rad/s)"
+      },
+      "explanation": "Rotating objects store kinetic energy depending on their rotational speed and distribution of mass."
     },
-    "explanation": "Rotating objects store kinetic energy depending on their rotational speed and distribution of mass."
-  }
-],
-
-"moments_and_equilibrium": [
-  {
-    "topic": "Principle of Moments",
-    "explanation": "The principle of moments states that when an object is in equilibrium, the sum of clockwise moments equals the sum of anticlockwise moments.",
-    "steps": [
-      "Identify the pivot point.",
-      "Draw all forces acting on the object.",
-      "Calculate each moment.",
-      "Set clockwise moments equal to anticlockwise moments."
-    ]
-  },
-  {
-    "topic": "Centre of Mass",
-    "explanation": "The centre of mass is the point where the mass of an object can be considered concentrated. If the centre of mass lies above the support area, the object remains stable.",
-    "applications": [
-      "Vehicle stability",
-      "Aircraft design",
-      "Sports techniques"
-    ]
-  }
-],
-
-"worked_examples": [
-  {
-    "question": "A force of 20 N acts at a distance of 3 m from a pivot. Calculate the torque.",
-    "solution": [
-      "Use τ = Fd",
-      "τ = 20 × 3",
-      "τ = 60 N m"
-    ],
-    "answer": "60 N m"
-  },
-  {
-    "question": "A 50 N force acts 2 m clockwise from a pivot. Another force acts 5 m anticlockwise from the pivot. Find the second force for equilibrium.",
-    "solution": [
-      "Clockwise moment = Anticlockwise moment",
-      "50 × 2 = F × 5",
-      "F = 20 N"
-    ],
-    "answer": "20 N"
-  }
-],
-
-"rotational_dynamics": [
-  {
-    "topic": "Moment of Inertia",
-    "explanation": "Moment of inertia is the rotational equivalent of mass. It describes how difficult it is to change the rotational motion of an object. It depends on the total mass and how far the mass is distributed from the axis of rotation.",
-    "formula": "I = Σmr²",
-    "variables": {
-      "I": "moment of inertia (kg m²)",
-      "m": "mass element (kg)",
-      "r": "distance from rotation axis (m)"
+    {
+      "name": "Moment of Inertia",
+      "formula": "I = Σmr²",
+      "variables": {
+        "I": "moment of inertia (kg m²)",
+        "m": "mass of each particle (kg)",
+        "r": "its distance from the axis (m)"
+      },
+      "explanation": "The rotational analogue of mass. Unlike mass it depends on how the mass is distributed about the axis."
+    },
+    {
+      "name": "Newton's Second Law for Rotation",
+      "formula": "Στ = Iα",
+      "variables": {
+        "Στ": "resultant torque (N m)",
+        "I": "moment of inertia (kg m²)",
+        "α": "angular acceleration (rad s⁻²)"
+      },
+      "explanation": "The rotational form of ΣF = ma."
+    },
+    {
+      "name": "Angular Momentum",
+      "formula": "L = Iω",
+      "variables": {
+        "L": "angular momentum (kg m² s⁻¹)",
+        "I": "moment of inertia (kg m²)",
+        "ω": "angular velocity (rad s⁻¹)"
+      },
+      "explanation": "Conserved when no external torque acts, which is why a skater spins faster on pulling their arms in."
     }
-  },
-  {
-    "topic": "Rotational Newton's Second Law",
-    "explanation": "The rotational version of Newton's second law connects torque, moment of inertia and angular acceleration.",
-    "formula": "τ = Iα",
-    "variables": {
-      "τ": "torque (N m)",
-      "I": "moment of inertia (kg m²)",
-      "α": "angular acceleration (rad/s²)"
+  ],
+  "moments_and_equilibrium": [
+    {
+      "topic": "Principle of Moments",
+      "explanation": "The principle of moments states that when an object is in equilibrium, the sum of clockwise moments equals the sum of anticlockwise moments.",
+      "steps": [
+        "Identify the pivot point.",
+        "Draw all forces acting on the object.",
+        "Calculate each moment.",
+        "Set clockwise moments equal to anticlockwise moments."
+      ]
+    },
+    {
+      "topic": "Centre of Mass",
+      "explanation": "The centre of mass is the point where the mass of an object can be considered concentrated. If the centre of mass lies above the support area, the object remains stable.",
+      "applications": [
+        "Vehicle stability",
+        "Aircraft design",
+        "Sports techniques"
+      ]
     }
-  },
-  {
-    "topic": "Angular Momentum",
-    "explanation": "Angular momentum describes the amount of rotational motion an object has. It depends on moment of inertia and angular velocity.",
-    "formula": "L = Iω",
-    "variables": {
-      "L": "angular momentum (kg m²/s)",
-      "I": "moment of inertia (kg m²)",
-      "ω": "angular velocity (rad/s)"
+  ],
+  "worked_examples": [
+    {
+      "question": "A force of 20 N acts at a distance of 3 m from a pivot. Calculate the torque.",
+      "solution": [
+        "Use τ = Fd",
+        "τ = 20 × 3",
+        "τ = 60 N m"
+      ],
+      "answer": "60 N m"
+    },
+    {
+      "question": "A 50 N force acts 2 m clockwise from a pivot. Another force acts 5 m anticlockwise from the pivot. Find the second force for equilibrium.",
+      "solution": [
+        "Clockwise moment = Anticlockwise moment",
+        "50 × 2 = F × 5",
+        "F = 20 N"
+      ],
+      "answer": "20 N"
     }
-  }
-],
-
-"angular_momentum_conservation": [
-  {
-    "topic": "Conservation of Angular Momentum",
-    "explanation": "When no external torque acts on a system, angular momentum remains constant. A change in the distribution of mass changes rotational speed.",
-    "examples": [
-      "A figure skater spins faster when pulling arms closer to the body.",
-      "Rotating spacecraft use conservation of angular momentum for attitude control."
-    ]
-  }
-],
-
-"engineering_applications": [
-  {
-    "field": "Aircraft Engineering",
-    "explanation": "Aircraft designers analyse rotational motion to understand stability, control surfaces and turning behaviour."
-  },
-  {
-    "field": "Mechanical Engineering",
-    "explanation": "Engineers use torque and rotational dynamics when designing motors, gears and machines."
-  },
-  {
-    "field": "Sports Science",
-    "explanation": "Athletes use principles of centre of mass and angular momentum to improve performance."
-  },
-  {
-    "field": "Space Technology",
-    "explanation": "Satellites use rotational mechanics to control orientation and maintain stability."
-  }
-],
-
-"common_mistakes": [
-  "Using distance instead of perpendicular distance when calculating moments.",
-  "Forgetting that torque is a vector quantity.",
-  "Confusing angular velocity with linear velocity.",
-  "Ignoring the position of the centre of mass.",
-  "Using mass instead of moment of inertia in rotational equations.",
-  "Forgetting that equilibrium requires both force and moment balance."
-],
-
-"ib_exam_tips": [
-  "Always identify the pivot before calculating moments.",
-  "Draw a clear diagram showing forces and distances.",
-  "Use perpendicular distance in torque calculations.",
-  "State clockwise and anticlockwise directions clearly.",
-  "Explain rotational principles using correct physics vocabulary.",
-  "Include units such as N m, rad/s and kg m²."
-],
-
-"hl_extension": [
-  {
-    "topic": "Rolling Motion",
-    "explanation": "Rolling objects combine translational and rotational motion. The total kinetic energy includes both movement of the centre of mass and rotation."
-  },
-  {
-    "topic": "Gyroscopic Effects",
-    "explanation": "Rotating objects resist changes to their axis of rotation due to angular momentum."
-  },
-  {
-    "topic": "Rotational Energy Transfer",
-    "explanation": "Energy can transfer between rotational and translational forms depending on the system."
-  }
-],
-
-"practice_questions": [
-  {
-    "level": "Easy",
-    "question": "A 10 N force acts 4 m from a pivot. Calculate the torque.",
-    "answer": "40 N m"
-  },
-  {
-    "level": "Medium",
-    "question": "Explain why a wide base increases stability.",
-    "answer": "A wider base makes it harder for the centre of mass to move outside the support area."
-  },
-  {
-    "level": "HL",
-    "question": "Explain why a spinning skater rotates faster when their arms move closer to their body.",
-    "answer": "Reducing the moment of inertia increases angular velocity while angular momentum remains conserved."
-  }
-],
-
-"summary": "Rigid body mechanics explains how objects rotate, balance and respond to turning forces. Understanding torque, moments, centre of mass and angular momentum allows physicists and engineers to analyse complex systems from machines to spacecraft."
+  ],
+  "rotational_dynamics": [
+    {
+      "topic": "Moment of Inertia",
+      "explanation": "Moment of inertia is the rotational equivalent of mass. It describes how difficult it is to change the rotational motion of an object. It depends on the total mass and how far the mass is distributed from the axis of rotation.",
+      "formula": "I = Σmr²",
+      "variables": {
+        "I": "moment of inertia (kg m²)",
+        "m": "mass element (kg)",
+        "r": "distance from rotation axis (m)"
+      }
+    },
+    {
+      "topic": "Rotational Newton's Second Law",
+      "explanation": "The rotational version of Newton's second law connects torque, moment of inertia and angular acceleration.",
+      "formula": "τ = Iα",
+      "variables": {
+        "τ": "torque (N m)",
+        "I": "moment of inertia (kg m²)",
+        "α": "angular acceleration (rad/s²)"
+      }
+    },
+    {
+      "topic": "Angular Momentum",
+      "explanation": "Angular momentum describes the amount of rotational motion an object has. It depends on moment of inertia and angular velocity.",
+      "formula": "L = Iω",
+      "variables": {
+        "L": "angular momentum (kg m²/s)",
+        "I": "moment of inertia (kg m²)",
+        "ω": "angular velocity (rad/s)"
+      }
+    }
+  ],
+  "angular_momentum_conservation": [
+    {
+      "topic": "Conservation of Angular Momentum",
+      "explanation": "When no external torque acts on a system, angular momentum remains constant. A change in the distribution of mass changes rotational speed.",
+      "examples": [
+        "A figure skater spins faster when pulling arms closer to the body.",
+        "Rotating spacecraft use conservation of angular momentum for attitude control."
+      ]
+    }
+  ],
+  "engineering_applications": [
+    {
+      "field": "Aircraft Engineering",
+      "explanation": "Aircraft designers analyse rotational motion to understand stability, control surfaces and turning behaviour."
+    },
+    {
+      "field": "Mechanical Engineering",
+      "explanation": "Engineers use torque and rotational dynamics when designing motors, gears and machines."
+    },
+    {
+      "field": "Sports Science",
+      "explanation": "Athletes use principles of centre of mass and angular momentum to improve performance."
+    },
+    {
+      "field": "Space Technology",
+      "explanation": "Satellites use rotational mechanics to control orientation and maintain stability."
+    }
+  ],
+  "common_mistakes": [
+    "Using distance instead of perpendicular distance when calculating moments.",
+    "Forgetting that torque is a vector quantity.",
+    "Confusing angular velocity with linear velocity.",
+    "Ignoring the position of the centre of mass.",
+    "Using mass instead of moment of inertia in rotational equations.",
+    "Forgetting that equilibrium requires both force and moment balance."
+  ],
+  "ib_exam_tips": [
+    "Always identify the pivot before calculating moments.",
+    "Draw a clear diagram showing forces and distances.",
+    "Use perpendicular distance in torque calculations.",
+    "State clockwise and anticlockwise directions clearly.",
+    "Explain rotational principles using correct physics vocabulary.",
+    "Include units such as N m, rad/s and kg m²."
+  ],
+  "hl_extension": [
+    {
+      "topic": "Rolling Motion",
+      "explanation": "Rolling objects combine translational and rotational motion. The total kinetic energy includes both movement of the centre of mass and rotation."
+    },
+    {
+      "topic": "Gyroscopic Effects",
+      "explanation": "Rotating objects resist changes to their axis of rotation due to angular momentum."
+    },
+    {
+      "topic": "Rotational Energy Transfer",
+      "explanation": "Energy can transfer between rotational and translational forms depending on the system."
+    }
+  ],
+  "practice_questions": [
+    {
+      "level": "Easy",
+      "question": "A 10 N force acts 4 m from a pivot. Calculate the torque.",
+      "answer": "40 N m"
+    },
+    {
+      "level": "Medium",
+      "question": "Explain why a wide base increases stability.",
+      "answer": "A wider base makes it harder for the centre of mass to move outside the support area."
+    },
+    {
+      "level": "HL",
+      "question": "Explain why a spinning skater rotates faster when their arms move closer to their body.",
+      "answer": "Reducing the moment of inertia increases angular velocity while angular momentum remains conserved."
+    }
+  ],
+  "summary": "Rigid body mechanics explains how objects rotate, balance and respond to turning forces. Understanding torque, moments, centre of mass and angular momentum allows physicists and engineers to analyse complex systems from machines to spacecraft."
 }

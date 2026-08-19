@@ -137,22 +137,21 @@
   ],
   "worked_examples": [
     {
-      "question": "Two charges of 2 C and 3 C are separated by 4 m. Calculate the electrostatic force.",
+      "question": "Two point charges of +2.0 μC and +3.0 μC are separated by 4.0 cm. Calculate the electrostatic force between them.",
       "solution": [
-        "Use F = kQ₁Q₂/r²",
-        "F = (8.99 × 10⁹ × 2 × 3)/4²",
-        "F = 3.37 × 10⁹ N"
+        "Use F = kQ₁Q₂/r² with r = 0.040 m",
+        "F = (8.99 × 10⁹ × 2.0 × 10⁻⁶ × 3.0 × 10⁻⁶) / (0.040)²",
+        "F = 5.394 × 10⁻² / 1.6 × 10⁻³"
       ],
-      "answer": "3.37 × 10⁹ N"
+      "answer": "About 34 N, repulsive since both charges are positive"
     },
     {
-      "question": "A charge experiences a force of 20 N in an electric field. The charge is 5 C. Find electric field strength.",
+      "question": "A charge of 5.0 μC experiences a force of 0.20 N in an electric field. Calculate the electric field strength.",
       "solution": [
         "Use E = F/Q",
-        "E = 20/5",
-        "E = 4 N/C"
+        "E = 0.20 / (5.0 × 10⁻⁶)"
       ],
-      "answer": "4 N/C"
+      "answer": "4.0 × 10⁴ N C⁻¹, equivalently 4.0 × 10⁴ V m⁻¹"
     }
   ],
   "capacitors": [

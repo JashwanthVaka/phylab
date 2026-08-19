@@ -262,5 +262,59 @@
       "answer": "Energy is used to increase potential energy by breaking intermolecular bonds rather than increasing kinetic energy."
     }
   ],
-  "summary": "Thermal physics explains how particles behave and how energy transfers between systems. Understanding temperature, internal energy, heat transfer and gas laws allows physicists to analyse materials, machines and natural processes. These concepts are essential for thermodynamics and many real-world technologies."
+  "summary": "Thermal physics explains how particles behave and how energy transfers between systems. Understanding temperature, internal energy, heat transfer and gas laws allows physicists to analyse materials, machines and natural processes. These concepts are essential for thermodynamics and many real-world technologies.",
+  "formulas": [
+    {
+      "name": "Specific Heat Capacity",
+      "formula": "Q = mcΔT",
+      "variables": {
+        "Q": "energy transferred (J)",
+        "m": "mass (kg)",
+        "c": "specific heat capacity (J kg⁻¹ K⁻¹)",
+        "ΔT": "temperature change (K or °C)"
+      },
+      "explanation": "Applies only while the substance stays in one phase."
+    },
+    {
+      "name": "Specific Latent Heat",
+      "formula": "Q = mL",
+      "variables": {
+        "Q": "energy transferred (J)",
+        "m": "mass (kg)",
+        "L": "specific latent heat (J kg⁻¹)"
+      },
+      "explanation": "Applies during a phase change, where the temperature does not change at all."
+    },
+    {
+      "name": "Stefan–Boltzmann Law",
+      "formula": "P = eσAT⁴",
+      "variables": {
+        "P": "radiated power (W)",
+        "e": "emissivity (1 for a black body)",
+        "σ": "Stefan–Boltzmann constant (5.67 × 10⁻⁸ W m⁻² K⁻⁴)",
+        "A": "surface area (m²)",
+        "T": "absolute temperature (K)"
+      },
+      "explanation": "The fourth power means doubling the absolute temperature multiplies the radiated power by sixteen."
+    },
+    {
+      "name": "Wien's Displacement Law",
+      "formula": "λ_max = 2.90 × 10⁻³ / T",
+      "variables": {
+        "λ_max": "wavelength of peak emission (m)",
+        "T": "absolute temperature (K)"
+      },
+      "explanation": "Hotter bodies peak at shorter wavelengths, which is why temperature can be read from colour."
+    },
+    {
+      "name": "Intensity from a Point Source",
+      "formula": "I = P / 4πd²",
+      "variables": {
+        "I": "intensity (W m⁻²)",
+        "P": "power radiated (W)",
+        "d": "distance from the source (m)"
+      },
+      "explanation": "The inverse-square law: power spreads over a sphere of increasing area."
+    }
+  ]
 }

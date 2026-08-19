@@ -311,8 +311,8 @@
         "meaning": "The rotational analogue of ½mv², with moment of inertia in place of mass."
       },
       {
-        "name": "Torque",
-        "formula": "Γ = Iα",
+        "name": "Newton's second law for rotation",
+        "formula": "τ_net = Iα",
         "meaning": "The rotational form of Newton's second law."
       }
     ],
@@ -1051,7 +1051,7 @@
       },
       {
         "prompt": "Compare this with a typical ionisation energy of about 2 × 10⁻¹⁸ J.",
-        "answer": "The radio photon is about 10⁸ times smaller, so it cannot ionise atoms. MRI is non-ionising."
+        "answer": "The radio photon is roughly 5 × 10⁷ times smaller, so it cannot ionise atoms. MRI is non-ionising."
       },
       {
         "prompt": "Why are superconducting coils used?",

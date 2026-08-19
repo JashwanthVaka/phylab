@@ -2,14 +2,15 @@
   "title": "D.1 Gravitation",
   "subject": "IBDP Physics",
   "level": "SL and HL",
-  "introduction": "Fields describe how objects can interact without direct contact. A field is a region of space where an object experiences a force. Physics uses different types of fields, including gravitational fields, electric fields and magnetic fields. Field concepts are essential for understanding planets, circuits, motors, generators and modern technology.",
+  "introduction": "Gravitation is the force every mass exerts on every other mass, and the field is the way that influence is described at a distance. This lesson builds from the inverse-square law to field strength, then applies both to orbits — why a satellite stays up, what sets its speed, and how Kepler’s laws follow from Newton’s.",
   "learning_objectives": [
-    "Understand the concept of fields.",
-    "Explain gravitational fields.",
-    "Explain electric fields.",
-    "Understand magnetic fields.",
-    "Apply field strength equations.",
-    "Analyse field diagrams."
+    "Understand the concept of a field as action at a distance.",
+    "Apply Newton’s law of gravitation.",
+    "Apply the concept of gravitational field strength.",
+    "Interpret gravitational field diagrams.",
+    "Explain orbital motion using centripetal force.",
+    "Use Kepler’s laws of planetary motion.",
+    "Apply gravitational potential and potential energy (HL)."
   ],
   "definitions": [
     {
@@ -17,24 +18,24 @@
       "meaning": "A region of space where an object experiences a force due to another object or source."
     },
     {
-      "term": "Field Strength",
-      "meaning": "The force experienced per unit quantity placed in a field."
-    },
-    {
-      "term": "Gravitational Field",
-      "meaning": "A region where a mass experiences a gravitational force."
-    },
-    {
-      "term": "Electric Field",
-      "meaning": "A region where a charged particle experiences an electric force."
-    },
-    {
-      "term": "Magnetic Field",
-      "meaning": "A region where magnetic materials or moving charges experience a magnetic force."
+      "term": "Gravitational Field Strength",
+      "meaning": "The gravitational force per unit mass at a point, in N kg⁻¹, numerically equal to the free-fall acceleration."
     },
     {
       "term": "Field Line",
-      "meaning": "A visual representation showing the direction and strength of a field."
+      "meaning": "A line showing the direction of the force on a test object, with closer spacing indicating a stronger field."
+    },
+    {
+      "term": "Gravitational Potential",
+      "meaning": "The work done per unit mass to bring a small mass from infinity to a point, defined as zero at infinity and therefore always negative."
+    },
+    {
+      "term": "Escape Speed",
+      "meaning": "The launch speed at which an object just reaches infinity with no kinetic energy remaining."
+    },
+    {
+      "term": "Geostationary Orbit",
+      "meaning": "An equatorial orbit with a period of exactly one day, so the satellite stays above the same point on the Earth’s surface."
     }
   ],
   "core_concepts": [
@@ -88,78 +89,31 @@
       }
     }
   ],
-  "electric_fields": [
-    {
-      "concept": "Electric Field Strength",
-      "explanation": "Electric field strength is the force experienced by a unit positive charge placed in an electric field.",
-      "formula": "E = F/Q",
-      "variables": {
-        "E": "electric field strength (N/C)",
-        "F": "electric force (N)",
-        "Q": "charge (C)"
-      }
-    },
-    {
-      "concept": "Electric Field Around a Point Charge",
-      "explanation": "A charged object creates an electric field. The field strength decreases as distance from the charge increases.",
-      "formula": "E = kQ/r²",
-      "variables": {
-        "k": "Coulomb constant",
-        "Q": "charge producing the field (C)",
-        "r": "distance from charge (m)"
-      }
-    },
-    {
-      "concept": "Electric Potential",
-      "explanation": "Electric potential is the energy transferred per unit charge when moving a charge in an electric field.",
-      "formula": "V = W/Q",
-      "variables": {
-        "V": "electric potential (V)",
-        "W": "work done (J)",
-        "Q": "charge (C)"
-      }
-    }
-  ],
-  "magnetic_fields": [
-    {
-      "concept": "Magnetic Field",
-      "explanation": "A magnetic field is created by magnets and moving charges. It applies forces on magnetic materials and moving charged particles."
-    },
-    {
-      "concept": "Magnetic Field Direction",
-      "explanation": "The direction of a magnetic field is shown using field lines. Outside a magnet, field lines move from north pole to south pole."
-    },
-    {
-      "concept": "Force on Moving Charge",
-      "formula": "F = BQv sinθ",
-      "variables": {
-        "F": "magnetic force (N)",
-        "B": "magnetic flux density (T)",
-        "Q": "charge (C)",
-        "v": "velocity (m/s)",
-        "θ": "angle between velocity and field"
-      },
-      "explanation": "A moving charge experiences a force when it travels through a magnetic field."
-    }
-  ],
   "worked_examples": [
     {
-      "question": "A force of 20 N acts on a charge of 5 C. Calculate electric field strength.",
+      "question": "The gravitational field strength at the surface of a planet is 3.7 N kg⁻¹. Calculate the weight of a 60 kg astronaut standing on it.",
       "solution": [
-        "Use E = F/Q",
-        "E = 20/5",
-        "E = 4 N/C"
+        "Use W = mg",
+        "W = 60 × 3.7"
       ],
-      "answer": "4 N/C"
+      "answer": "222 N, which is about a fifth of their weight on Earth"
     },
     {
-      "question": "Calculate gravitational field strength at a point where a 10 kg mass experiences a force of 98 N.",
+      "question": "Calculate the gravitational field strength at a point where a 10 kg mass experiences a force of 98 N.",
       "solution": [
         "Use g = F/m",
-        "g = 98/10",
-        "g = 9.8 N/kg"
+        "g = 98/10"
       ],
-      "answer": "9.8 N/kg"
+      "answer": "9.8 N kg⁻¹"
+    },
+    {
+      "question": "A satellite orbits 400 km above the Earth’s surface. Taking the Earth’s radius as 6.37 × 10⁶ m and GM = 3.99 × 10¹⁴ m³ s⁻², calculate its orbital speed.",
+      "solution": [
+        "The orbital radius is measured from the centre: r = 6.37 × 10⁶ + 4.00 × 10⁵ = 6.77 × 10⁶ m",
+        "Use v = √(GM/r)",
+        "v = √(3.99 × 10¹⁴ / 6.77 × 10⁶) = √(5.89 × 10⁷)"
+      ],
+      "answer": "About 7.68 × 10³ m s⁻¹"
     }
   ],
   "field_diagrams": [
@@ -170,23 +124,6 @@
         "Lines point towards the mass.",
         "Closer lines represent stronger fields.",
         "Field strength decreases with distance."
-      ]
-    },
-    {
-      "type": "Electric Field Lines",
-      "explanation": "Electric field lines show the direction a positive test charge would move in an electric field.",
-      "important_points": [
-        "Lines leave positive charges.",
-        "Lines enter negative charges.",
-        "Field lines never cross."
-      ]
-    },
-    {
-      "type": "Magnetic Field Lines",
-      "explanation": "Magnetic field lines show the direction of magnetic forces around magnets and current carrying wires.",
-      "important_points": [
-        "Outside a magnet, lines go from north to south.",
-        "Closer lines represent stronger magnetic fields."
       ]
     }
   ],
@@ -216,34 +153,6 @@
       ]
     }
   ],
-  "electromagnetic_induction": [
-    {
-      "concept": "Magnetic Flux",
-      "explanation": "Magnetic flux describes the amount of magnetic field passing through a surface.",
-      "formula": "Φ = BAcosθ",
-      "variables": {
-        "Φ": "magnetic flux (Wb)",
-        "B": "magnetic flux density (T)",
-        "A": "area (m²)",
-        "θ": "angle between field and area"
-      }
-    },
-    {
-      "concept": "Faraday's Law",
-      "explanation": "An induced emf is produced when magnetic flux through a conductor changes.",
-      "formula": "ε = -NΔΦ/Δt",
-      "variables": {
-        "ε": "induced emf (V)",
-        "N": "number of turns",
-        "ΔΦ": "change in magnetic flux",
-        "Δt": "time interval"
-      }
-    },
-    {
-      "concept": "Lenz's Law",
-      "explanation": "The induced current flows in a direction that opposes the change causing it. This follows the conservation of energy."
-    }
-  ],
   "real_world_applications": [
     "Power generators use electromagnetic induction to produce electricity.",
     "Electric motors use magnetic forces to create motion.",
@@ -252,58 +161,149 @@
     "Medical MRI machines use strong magnetic fields."
   ],
   "common_mistakes": [
-    "Confusing gravitational field strength with gravitational potential.",
-    "Forgetting that electric field direction is based on a positive test charge.",
-    "Using distance from the surface instead of distance from the centre of mass.",
-    "Ignoring direction when dealing with vector fields.",
-    "Confusing magnetic field strength with magnetic force.",
-    "Forgetting the negative sign in Faraday's law."
+    "Confusing gravitational field strength with gravitational potential — one is force per unit mass, the other energy per unit mass.",
+    "Measuring r from the surface of a planet instead of from its centre.",
+    "Forgetting that gravitational potential and potential energy are negative, because they are defined as zero at infinity.",
+    "Using the 1/r² dependence for potential; the field goes as 1/r² but the potential goes as 1/r.",
+    "Thinking a satellite in a lower orbit moves more slowly — it actually moves faster, though it has less total energy.",
+    "Assuming escape speed depends on the mass of the escaping object; it does not."
   ],
   "ib_exam_tips": [
-    "Draw field lines with correct direction.",
-    "State whether a field is attractive or repulsive.",
-    "Use the centre of mass when calculating gravitational fields.",
-    "Explain orbital motion using centripetal force.",
-    "Apply right hand rules carefully for magnetic fields.",
-    "Include units in all calculations."
+    "Always measure r from the centre of the body, adding the planetary radius to any stated altitude.",
+    "State that gravity provides the centripetal force before equating the two expressions in an orbit question.",
+    "Draw gravitational field lines pointing inwards, since gravity is only ever attractive.",
+    "Keep the negative sign on potential and potential energy.",
+    "Check the powers: field and force go as 1/r², potential and potential energy as 1/r."
   ],
   "hl_extension": [
     {
-      "topic": "Gravitational Potential Energy in Orbits",
-      "formula": "Ep = -GMm/r",
-      "explanation": "The negative value shows that gravitational energy is lower when objects are bound together."
-    },
-    {
-      "topic": "Electric Field Between Plates",
-      "formula": "E = V/d",
+      "topic": "Gravitational Potential",
+      "formula": "V_g = −GM / r",
       "variables": {
-        "E": "electric field strength",
-        "V": "potential difference",
-        "d": "distance between plates"
+        "V_g": "gravitational potential (J kg⁻¹)",
+        "M": "mass creating the field (kg)",
+        "r": "distance from its centre (m)"
       },
-      "explanation": "A uniform electric field exists between parallel charged plates."
+      "explanation": "Energy per unit mass, zero at infinity and negative everywhere else because work must be done to escape."
     },
     {
-      "topic": "Charged Particle Motion",
-      "explanation": "Charged particles moving through magnetic fields follow curved paths because magnetic forces act perpendicular to motion."
+      "topic": "Gravitational Potential Energy in Orbits",
+      "formula": "E_p = −GMm / r",
+      "variables": {
+        "E_p": "potential energy (J)",
+        "M": "central mass (kg)",
+        "m": "orbiting mass (kg)",
+        "r": "orbital radius (m)"
+      },
+      "explanation": "The negative value shows the pair is bound; a bound orbit has negative total energy."
+    },
+    {
+      "topic": "Escape Speed",
+      "formula": "v_esc = √(2GM / R)",
+      "variables": {
+        "v_esc": "escape speed (m s⁻¹)",
+        "M": "mass of the body (kg)",
+        "R": "its radius (m)"
+      },
+      "explanation": "Found by setting the total energy to zero. Independent of the escaping object’s mass."
     }
   ],
   "practice_questions": [
     {
       "level": "Easy",
-      "question": "What does a field line represent?",
-      "answer": "The direction and strength of a field."
+      "question": "State what a gravitational field line represents.",
+      "answer": "The direction of the gravitational force on a small test mass, with closer spacing showing a stronger field."
     },
     {
       "level": "Medium",
-      "question": "Why do satellites remain in orbit around Earth?",
-      "answer": "Gravity provides the centripetal force required for circular motion."
+      "question": "Why do satellites remain in orbit around the Earth?",
+      "answer": "Gravity provides exactly the centripetal force required for circular motion at that radius, so the satellite continually falls towards the Earth while moving fast enough sideways to keep missing it."
+    },
+    {
+      "level": "Medium",
+      "question": "Explain why the gravitational field strength at the top of a mountain is slightly less than at sea level.",
+      "answer": "Field strength is GM/r² and r is measured from the centre of the Earth. At the top of a mountain r is larger, so g is smaller."
     },
     {
       "level": "HL",
-      "question": "Explain electromagnetic induction.",
-      "answer": "A changing magnetic flux through a conductor produces an induced emf."
+      "question": "Explain why a satellite in a lower orbit travels faster yet has less total energy.",
+      "answer": "Orbital speed is √(GM/r), which increases as r falls. Total energy is −GMm/2r, which becomes more negative as r falls, so the total energy is lower despite the greater speed."
     }
   ],
-  "summary": "Fields explain how objects interact without direct contact. Gravitational, electric and magnetic fields are used to describe forces, energy transfer and motion. These concepts are important for understanding satellites, electricity generation, motors and modern technology."
+  "summary": "Fields explain how objects interact without direct contact. Gravitational, electric and magnetic fields are used to describe forces, energy transfer and motion. These concepts are important for understanding satellites, electricity generation, motors and modern technology.",
+  "formulas": [
+    {
+      "name": "Newton's Law of Gravitation",
+      "formula": "F = GMm / r²",
+      "variables": {
+        "F": "gravitational force (N)",
+        "G": "gravitational constant (6.67 × 10⁻¹¹ N m² kg⁻²)",
+        "M": "one mass (kg)",
+        "m": "the other mass (kg)",
+        "r": "separation of their centres (m)"
+      },
+      "explanation": "Always attractive, and r is measured centre to centre, not from the surface."
+    },
+    {
+      "name": "Gravitational Field Strength",
+      "formula": "g = F/m = GM / r²",
+      "variables": {
+        "g": "field strength (N kg⁻¹, equivalently m s⁻²)",
+        "M": "mass creating the field (kg)",
+        "r": "distance from its centre (m)"
+      },
+      "explanation": "Force per unit mass, numerically equal to the free-fall acceleration."
+    },
+    {
+      "name": "Orbital Speed",
+      "formula": "v = √(GM / r)",
+      "variables": {
+        "v": "orbital speed (m s⁻¹)",
+        "M": "mass of the central body (kg)",
+        "r": "orbital radius (m)"
+      },
+      "explanation": "From setting the gravitational force equal to the centripetal force."
+    },
+    {
+      "name": "Kepler's Third Law",
+      "formula": "T² = (4π² / GM) r³",
+      "variables": {
+        "T": "orbital period (s)",
+        "M": "mass of the central body (kg)",
+        "r": "orbital radius (m)"
+      },
+      "explanation": "The square of the period is proportional to the cube of the orbital radius."
+    },
+    {
+      "name": "Gravitational Potential",
+      "formula": "V_g = −GM / r",
+      "variables": {
+        "V_g": "gravitational potential (J kg⁻¹)",
+        "M": "mass creating the field (kg)",
+        "r": "distance from its centre (m)"
+      },
+      "explanation": "Energy per unit mass, defined as zero at infinity and therefore negative everywhere else."
+    },
+    {
+      "name": "Gravitational Potential Energy",
+      "formula": "E_p = −GMm / r",
+      "variables": {
+        "E_p": "potential energy of the pair (J)",
+        "M": "one mass (kg)",
+        "m": "the other mass (kg)",
+        "r": "separation (m)"
+      },
+      "explanation": "Note the 1/r dependence, against 1/r² for the force."
+    },
+    {
+      "name": "Escape Speed",
+      "formula": "v_esc = √(2GM / R)",
+      "variables": {
+        "v_esc": "escape speed (m s⁻¹)",
+        "M": "mass of the body (kg)",
+        "R": "radius of the body (m)"
+      },
+      "explanation": "The launch speed that just reaches infinity with no energy to spare. Independent of the escaping object’s mass."
+    }
+  ]
 }

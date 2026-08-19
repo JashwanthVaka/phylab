@@ -138,13 +138,12 @@
   ],
   "worked_examples": [
     {
-      "question": "A charge of 2 C moves at 5 m/s through a magnetic field of 3 T at 90 degrees. Calculate the magnetic force.",
+      "question": "A charge of 2.0 μC moves at 5.0 × 10⁴ m s⁻¹ perpendicular to a magnetic field of flux density 0.30 T. Calculate the magnetic force on it.",
       "solution": [
-        "Use F = BQv sinθ",
-        "F = 3 × 2 × 5 × sin90°",
-        "F = 30 N"
+        "Use F = BQv sinθ with θ = 90° so sinθ = 1",
+        "F = 0.30 × 2.0 × 10⁻⁶ × 5.0 × 10⁴"
       ],
-      "answer": "30 N"
+      "answer": "0.030 N, directed perpendicular to both the velocity and the field"
     },
     {
       "question": "A wire of length 0.5 m carries a current of 4 A in a magnetic field of 2 T at 90 degrees. Find the force.",

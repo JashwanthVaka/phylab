@@ -354,5 +354,70 @@
       "answer": "The final nucleus has greater binding energy per nucleon, and mass difference is converted into energy."
     }
   ],
-  "summary": "Nuclear physics explains the structure and behaviour of atomic nuclei. Radioactive decay, fission and fusion describe how nuclei change and release energy. These principles are used in power generation, medicine, research and space technology."
+  "summary": "Nuclear physics explains the structure and behaviour of atomic nuclei. Radioactive decay, fission and fusion describe how nuclei change and release energy. These principles are used in power generation, medicine, research and space technology.",
+  "formulas": [
+    {
+      "name": "Mass Defect",
+      "formula": "Δm = Zm_p + Nm_n − m_nucleus",
+      "variables": {
+        "Δm": "mass defect (kg or u)",
+        "Z": "proton number",
+        "m_p": "proton mass",
+        "N": "neutron number",
+        "m_n": "neutron mass",
+        "m_nucleus": "measured nuclear mass"
+      },
+      "explanation": "A nucleus always has less mass than its separated nucleons."
+    },
+    {
+      "name": "Mass–Energy Equivalence",
+      "formula": "E = Δmc²",
+      "variables": {
+        "E": "binding energy (J)",
+        "Δm": "mass defect (kg)",
+        "c": "speed of light (3.00 × 10⁸ m s⁻¹)"
+      },
+      "explanation": "The mass defect is the energy equivalent of the binding energy."
+    },
+    {
+      "name": "Energy from Atomic Mass Units",
+      "formula": "E = Δm × 931.5  MeV",
+      "variables": {
+        "E": "energy (MeV)",
+        "Δm": "mass defect (u)"
+      },
+      "explanation": "One atomic mass unit is equivalent to 931.5 MeV, avoiding conversion to kilograms."
+    },
+    {
+      "name": "Radioactive Decay Law",
+      "formula": "N = N₀e^(−λt)",
+      "variables": {
+        "N": "number of undecayed nuclei remaining",
+        "N₀": "initial number of nuclei",
+        "λ": "decay constant (s⁻¹)",
+        "t": "time (s)"
+      },
+      "explanation": "Decay is random, so the rate is proportional to the number remaining, giving exponential decay."
+    },
+    {
+      "name": "Activity",
+      "formula": "A = λN = A₀e^(−λt)",
+      "variables": {
+        "A": "activity (Bq)",
+        "λ": "decay constant (s⁻¹)",
+        "N": "number of undecayed nuclei",
+        "A₀": "initial activity (Bq)"
+      },
+      "explanation": "Activity is the number of decays per second and falls with the same exponential."
+    },
+    {
+      "name": "Half-Life and Decay Constant",
+      "formula": "T½ = ln2 / λ",
+      "variables": {
+        "T½": "half-life (s)",
+        "λ": "decay constant (s⁻¹)"
+      },
+      "explanation": "A long half-life means a small decay constant and a weakly active source."
+    }
+  ]
 }
