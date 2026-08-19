@@ -1,10 +1,8 @@
 {
-  "title": "C.4 Fields",
+  "title": "D.1 Gravitation",
   "subject": "IBDP Physics",
   "level": "SL and HL",
-
   "introduction": "Fields describe how objects can interact without direct contact. A field is a region of space where an object experiences a force. Physics uses different types of fields, including gravitational fields, electric fields and magnetic fields. Field concepts are essential for understanding planets, circuits, motors, generators and modern technology.",
-
   "learning_objectives": [
     "Understand the concept of fields.",
     "Explain gravitational fields.",
@@ -13,7 +11,6 @@
     "Apply field strength equations.",
     "Analyse field diagrams."
   ],
-
   "definitions": [
     {
       "term": "Field",
@@ -40,7 +37,6 @@
       "meaning": "A visual representation showing the direction and strength of a field."
     }
   ],
-
   "core_concepts": [
     {
       "heading": "Field Interactions",
@@ -58,270 +54,256 @@
       "heading": "Inverse Square Relationship",
       "explanation": "Many fields become weaker as distance from the source increases. Gravitational and electric fields follow inverse square relationships."
     }
-  ]
-,
-
-"gravitational_fields": [
-  {
-    "concept": "Gravitational Field Strength",
-    "explanation": "Gravitational field strength describes the force experienced by a unit mass placed in a gravitational field.",
-    "formula": "g = F/m",
-    "variables": {
-      "g": "gravitational field strength (N/kg)",
-      "F": "gravitational force (N)",
-      "m": "mass (kg)"
-    }
-  },
-  {
-    "concept": "Gravitational Field Around a Mass",
-    "explanation": "A mass creates a gravitational field around it. The field becomes weaker as distance from the mass increases.",
-    "formula": "g = GM/r²",
-    "variables": {
-      "G": "gravitational constant",
-      "M": "mass creating the field (kg)",
-      "r": "distance from centre of mass (m)"
-    }
-  },
-  {
-    "concept": "Gravitational Potential",
-    "explanation": "Gravitational potential is the work done per unit mass when moving a small mass from infinity to a point in the field.",
-    "formula": "V = -GM/r",
-    "variables": {
-      "V": "gravitational potential (J/kg)",
-      "G": "gravitational constant",
-      "M": "mass creating field",
-      "r": "distance from mass"
-    }
-  }
-],
-
-"electric_fields": [
-  {
-    "concept": "Electric Field Strength",
-    "explanation": "Electric field strength is the force experienced by a unit positive charge placed in an electric field.",
-    "formula": "E = F/Q",
-    "variables": {
-      "E": "electric field strength (N/C)",
-      "F": "electric force (N)",
-      "Q": "charge (C)"
-    }
-  },
-  {
-    "concept": "Electric Field Around a Point Charge",
-    "explanation": "A charged object creates an electric field. The field strength decreases as distance from the charge increases.",
-    "formula": "E = kQ/r²",
-    "variables": {
-      "k": "Coulomb constant",
-      "Q": "charge producing the field (C)",
-      "r": "distance from charge (m)"
-    }
-  },
-  {
-    "concept": "Electric Potential",
-    "explanation": "Electric potential is the energy transferred per unit charge when moving a charge in an electric field.",
-    "formula": "V = W/Q",
-    "variables": {
-      "V": "electric potential (V)",
-      "W": "work done (J)",
-      "Q": "charge (C)"
-    }
-  }
-],
-
-"magnetic_fields": [
-  {
-    "concept": "Magnetic Field",
-    "explanation": "A magnetic field is created by magnets and moving charges. It applies forces on magnetic materials and moving charged particles."
-  },
-  {
-    "concept": "Magnetic Field Direction",
-    "explanation": "The direction of a magnetic field is shown using field lines. Outside a magnet, field lines move from north pole to south pole."
-  },
-  {
-    "concept": "Force on Moving Charge",
-    "formula": "F = BQv sinθ",
-    "variables": {
-      "F": "magnetic force (N)",
-      "B": "magnetic flux density (T)",
-      "Q": "charge (C)",
-      "v": "velocity (m/s)",
-      "θ": "angle between velocity and field"
+  ],
+  "gravitational_fields": [
+    {
+      "concept": "Gravitational Field Strength",
+      "explanation": "Gravitational field strength describes the force experienced by a unit mass placed in a gravitational field.",
+      "formula": "g = F/m",
+      "variables": {
+        "g": "gravitational field strength (N/kg)",
+        "F": "gravitational force (N)",
+        "m": "mass (kg)"
+      }
     },
-    "explanation": "A moving charge experiences a force when it travels through a magnetic field."
-  }
-],
-
-"worked_examples": [
-  {
-    "question": "A force of 20 N acts on a charge of 5 C. Calculate electric field strength.",
-    "solution": [
-      "Use E = F/Q",
-      "E = 20/5",
-      "E = 4 N/C"
-    ],
-    "answer": "4 N/C"
-  },
-  {
-    "question": "Calculate gravitational field strength at a point where a 10 kg mass experiences a force of 98 N.",
-    "solution": [
-      "Use g = F/m",
-      "g = 98/10",
-      "g = 9.8 N/kg"
-    ],
-    "answer": "9.8 N/kg"
-  }
-],
-
-"field_diagrams": [
-  {
-    "type": "Gravitational Field Lines",
-    "explanation": "Gravitational field lines point towards the centre of mass because gravity is always attractive. The spacing of lines shows field strength.",
-    "important_points": [
-      "Lines point towards the mass.",
-      "Closer lines represent stronger fields.",
-      "Field strength decreases with distance."
-    ]
-  },
-  {
-    "type": "Electric Field Lines",
-    "explanation": "Electric field lines show the direction a positive test charge would move in an electric field.",
-    "important_points": [
-      "Lines leave positive charges.",
-      "Lines enter negative charges.",
-      "Field lines never cross."
-    ]
-  },
-  {
-    "type": "Magnetic Field Lines",
-    "explanation": "Magnetic field lines show the direction of magnetic forces around magnets and current carrying wires.",
-    "important_points": [
-      "Outside a magnet, lines go from north to south.",
-      "Closer lines represent stronger magnetic fields."
-    ]
-  }
-],
-
-"satellite_motion": [
-  {
-    "topic": "Orbital Motion",
-    "explanation": "Satellites remain in orbit because gravitational force provides the centripetal force required for circular motion."
-  },
-  {
-    "topic": "Orbital Speed",
-    "formula": "v = √GM/r",
-    "variables": {
-      "v": "orbital speed (m/s)",
-      "G": "gravitational constant",
-      "M": "mass of central object (kg)",
-      "r": "orbital radius (m)"
+    {
+      "concept": "Gravitational Field Around a Mass",
+      "explanation": "A mass creates a gravitational field around it. The field becomes weaker as distance from the mass increases.",
+      "formula": "g = GM/r²",
+      "variables": {
+        "G": "gravitational constant",
+        "M": "mass creating the field (kg)",
+        "r": "distance from centre of mass (m)"
+      }
     },
-    "explanation": "Orbital speed depends on the mass of the object being orbited and the distance from its centre."
-  },
-  {
-    "topic": "Geostationary Satellites",
-    "explanation": "A geostationary satellite has the same angular velocity as Earth and appears fixed above one location.",
-    "conditions": [
-      "Orbit above the equator.",
-      "Same direction as Earth's rotation.",
-      "Period of 24 hours."
-    ]
-  }
-],
-
-"electromagnetic_induction": [
-  {
-    "concept": "Magnetic Flux",
-    "explanation": "Magnetic flux describes the amount of magnetic field passing through a surface.",
-    "formula": "Φ = BAcosθ",
-    "variables": {
-      "Φ": "magnetic flux (Wb)",
-      "B": "magnetic flux density (T)",
-      "A": "area (m²)",
-      "θ": "angle between field and area"
+    {
+      "concept": "Gravitational Potential",
+      "explanation": "Gravitational potential is the work done per unit mass when moving a small mass from infinity to a point in the field.",
+      "formula": "V = -GM/r",
+      "variables": {
+        "V": "gravitational potential (J/kg)",
+        "G": "gravitational constant",
+        "M": "mass creating field",
+        "r": "distance from mass"
+      }
     }
-  },
-  {
-    "concept": "Faraday's Law",
-    "explanation": "An induced emf is produced when magnetic flux through a conductor changes.",
-    "formula": "ε = -NΔΦ/Δt",
-    "variables": {
-      "ε": "induced emf (V)",
-      "N": "number of turns",
-      "ΔΦ": "change in magnetic flux",
-      "Δt": "time interval"
-    }
-  },
-  {
-    "concept": "Lenz's Law",
-    "explanation": "The induced current flows in a direction that opposes the change causing it. This follows the conservation of energy."
-  }
-],
-
-"real_world_applications": [
-  "Power generators use electromagnetic induction to produce electricity.",
-  "Electric motors use magnetic forces to create motion.",
-  "Satellites use gravitational fields for orbital movement.",
-  "Transformers use changing magnetic fields to transfer electrical energy.",
-  "Medical MRI machines use strong magnetic fields."
-],
-
-"common_mistakes": [
-  "Confusing gravitational field strength with gravitational potential.",
-  "Forgetting that electric field direction is based on a positive test charge.",
-  "Using distance from the surface instead of distance from the centre of mass.",
-  "Ignoring direction when dealing with vector fields.",
-  "Confusing magnetic field strength with magnetic force.",
-  "Forgetting the negative sign in Faraday's law."
-],
-
-"ib_exam_tips": [
-  "Draw field lines with correct direction.",
-  "State whether a field is attractive or repulsive.",
-  "Use the centre of mass when calculating gravitational fields.",
-  "Explain orbital motion using centripetal force.",
-  "Apply right hand rules carefully for magnetic fields.",
-  "Include units in all calculations."
-],
-
-"hl_extension": [
-  {
-    "topic": "Gravitational Potential Energy in Orbits",
-    "formula": "Ep = -GMm/r",
-    "explanation": "The negative value shows that gravitational energy is lower when objects are bound together."
-  },
-  {
-    "topic": "Electric Field Between Plates",
-    "formula": "E = V/d",
-    "variables": {
-      "E": "electric field strength",
-      "V": "potential difference",
-      "d": "distance between plates"
+  ],
+  "electric_fields": [
+    {
+      "concept": "Electric Field Strength",
+      "explanation": "Electric field strength is the force experienced by a unit positive charge placed in an electric field.",
+      "formula": "E = F/Q",
+      "variables": {
+        "E": "electric field strength (N/C)",
+        "F": "electric force (N)",
+        "Q": "charge (C)"
+      }
     },
-    "explanation": "A uniform electric field exists between parallel charged plates."
-  },
-  {
-    "topic": "Charged Particle Motion",
-    "explanation": "Charged particles moving through magnetic fields follow curved paths because magnetic forces act perpendicular to motion."
-  }
-],
-
-"practice_questions": [
-  {
-    "level": "Easy",
-    "question": "What does a field line represent?",
-    "answer": "The direction and strength of a field."
-  },
-  {
-    "level": "Medium",
-    "question": "Why do satellites remain in orbit around Earth?",
-    "answer": "Gravity provides the centripetal force required for circular motion."
-  },
-  {
-    "level": "HL",
-    "question": "Explain electromagnetic induction.",
-    "answer": "A changing magnetic flux through a conductor produces an induced emf."
-  }
-],
-
-"summary": "Fields explain how objects interact without direct contact. Gravitational, electric and magnetic fields are used to describe forces, energy transfer and motion. These concepts are important for understanding satellites, electricity generation, motors and modern technology."
+    {
+      "concept": "Electric Field Around a Point Charge",
+      "explanation": "A charged object creates an electric field. The field strength decreases as distance from the charge increases.",
+      "formula": "E = kQ/r²",
+      "variables": {
+        "k": "Coulomb constant",
+        "Q": "charge producing the field (C)",
+        "r": "distance from charge (m)"
+      }
+    },
+    {
+      "concept": "Electric Potential",
+      "explanation": "Electric potential is the energy transferred per unit charge when moving a charge in an electric field.",
+      "formula": "V = W/Q",
+      "variables": {
+        "V": "electric potential (V)",
+        "W": "work done (J)",
+        "Q": "charge (C)"
+      }
+    }
+  ],
+  "magnetic_fields": [
+    {
+      "concept": "Magnetic Field",
+      "explanation": "A magnetic field is created by magnets and moving charges. It applies forces on magnetic materials and moving charged particles."
+    },
+    {
+      "concept": "Magnetic Field Direction",
+      "explanation": "The direction of a magnetic field is shown using field lines. Outside a magnet, field lines move from north pole to south pole."
+    },
+    {
+      "concept": "Force on Moving Charge",
+      "formula": "F = BQv sinθ",
+      "variables": {
+        "F": "magnetic force (N)",
+        "B": "magnetic flux density (T)",
+        "Q": "charge (C)",
+        "v": "velocity (m/s)",
+        "θ": "angle between velocity and field"
+      },
+      "explanation": "A moving charge experiences a force when it travels through a magnetic field."
+    }
+  ],
+  "worked_examples": [
+    {
+      "question": "A force of 20 N acts on a charge of 5 C. Calculate electric field strength.",
+      "solution": [
+        "Use E = F/Q",
+        "E = 20/5",
+        "E = 4 N/C"
+      ],
+      "answer": "4 N/C"
+    },
+    {
+      "question": "Calculate gravitational field strength at a point where a 10 kg mass experiences a force of 98 N.",
+      "solution": [
+        "Use g = F/m",
+        "g = 98/10",
+        "g = 9.8 N/kg"
+      ],
+      "answer": "9.8 N/kg"
+    }
+  ],
+  "field_diagrams": [
+    {
+      "type": "Gravitational Field Lines",
+      "explanation": "Gravitational field lines point towards the centre of mass because gravity is always attractive. The spacing of lines shows field strength.",
+      "important_points": [
+        "Lines point towards the mass.",
+        "Closer lines represent stronger fields.",
+        "Field strength decreases with distance."
+      ]
+    },
+    {
+      "type": "Electric Field Lines",
+      "explanation": "Electric field lines show the direction a positive test charge would move in an electric field.",
+      "important_points": [
+        "Lines leave positive charges.",
+        "Lines enter negative charges.",
+        "Field lines never cross."
+      ]
+    },
+    {
+      "type": "Magnetic Field Lines",
+      "explanation": "Magnetic field lines show the direction of magnetic forces around magnets and current carrying wires.",
+      "important_points": [
+        "Outside a magnet, lines go from north to south.",
+        "Closer lines represent stronger magnetic fields."
+      ]
+    }
+  ],
+  "satellite_motion": [
+    {
+      "topic": "Orbital Motion",
+      "explanation": "Satellites remain in orbit because gravitational force provides the centripetal force required for circular motion."
+    },
+    {
+      "topic": "Orbital Speed",
+      "formula": "v = √GM/r",
+      "variables": {
+        "v": "orbital speed (m/s)",
+        "G": "gravitational constant",
+        "M": "mass of central object (kg)",
+        "r": "orbital radius (m)"
+      },
+      "explanation": "Orbital speed depends on the mass of the object being orbited and the distance from its centre."
+    },
+    {
+      "topic": "Geostationary Satellites",
+      "explanation": "A geostationary satellite has the same angular velocity as Earth and appears fixed above one location.",
+      "conditions": [
+        "Orbit above the equator.",
+        "Same direction as Earth's rotation.",
+        "Period of 24 hours."
+      ]
+    }
+  ],
+  "electromagnetic_induction": [
+    {
+      "concept": "Magnetic Flux",
+      "explanation": "Magnetic flux describes the amount of magnetic field passing through a surface.",
+      "formula": "Φ = BAcosθ",
+      "variables": {
+        "Φ": "magnetic flux (Wb)",
+        "B": "magnetic flux density (T)",
+        "A": "area (m²)",
+        "θ": "angle between field and area"
+      }
+    },
+    {
+      "concept": "Faraday's Law",
+      "explanation": "An induced emf is produced when magnetic flux through a conductor changes.",
+      "formula": "ε = -NΔΦ/Δt",
+      "variables": {
+        "ε": "induced emf (V)",
+        "N": "number of turns",
+        "ΔΦ": "change in magnetic flux",
+        "Δt": "time interval"
+      }
+    },
+    {
+      "concept": "Lenz's Law",
+      "explanation": "The induced current flows in a direction that opposes the change causing it. This follows the conservation of energy."
+    }
+  ],
+  "real_world_applications": [
+    "Power generators use electromagnetic induction to produce electricity.",
+    "Electric motors use magnetic forces to create motion.",
+    "Satellites use gravitational fields for orbital movement.",
+    "Transformers use changing magnetic fields to transfer electrical energy.",
+    "Medical MRI machines use strong magnetic fields."
+  ],
+  "common_mistakes": [
+    "Confusing gravitational field strength with gravitational potential.",
+    "Forgetting that electric field direction is based on a positive test charge.",
+    "Using distance from the surface instead of distance from the centre of mass.",
+    "Ignoring direction when dealing with vector fields.",
+    "Confusing magnetic field strength with magnetic force.",
+    "Forgetting the negative sign in Faraday's law."
+  ],
+  "ib_exam_tips": [
+    "Draw field lines with correct direction.",
+    "State whether a field is attractive or repulsive.",
+    "Use the centre of mass when calculating gravitational fields.",
+    "Explain orbital motion using centripetal force.",
+    "Apply right hand rules carefully for magnetic fields.",
+    "Include units in all calculations."
+  ],
+  "hl_extension": [
+    {
+      "topic": "Gravitational Potential Energy in Orbits",
+      "formula": "Ep = -GMm/r",
+      "explanation": "The negative value shows that gravitational energy is lower when objects are bound together."
+    },
+    {
+      "topic": "Electric Field Between Plates",
+      "formula": "E = V/d",
+      "variables": {
+        "E": "electric field strength",
+        "V": "potential difference",
+        "d": "distance between plates"
+      },
+      "explanation": "A uniform electric field exists between parallel charged plates."
+    },
+    {
+      "topic": "Charged Particle Motion",
+      "explanation": "Charged particles moving through magnetic fields follow curved paths because magnetic forces act perpendicular to motion."
+    }
+  ],
+  "practice_questions": [
+    {
+      "level": "Easy",
+      "question": "What does a field line represent?",
+      "answer": "The direction and strength of a field."
+    },
+    {
+      "level": "Medium",
+      "question": "Why do satellites remain in orbit around Earth?",
+      "answer": "Gravity provides the centripetal force required for circular motion."
+    },
+    {
+      "level": "HL",
+      "question": "Explain electromagnetic induction.",
+      "answer": "A changing magnetic flux through a conductor produces an induced emf."
+    }
+  ],
+  "summary": "Fields explain how objects interact without direct contact. Gravitational, electric and magnetic fields are used to describe forces, energy transfer and motion. These concepts are important for understanding satellites, electricity generation, motors and modern technology."
 }

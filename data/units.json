@@ -2,25 +2,56 @@
   {
     "id": "A",
     "title": "Space, Time and Motion",
-    "summary": "Describing and predicting motion, the forces that cause it, and the conservation laws that constrain it — from everyday kinematics to relativistic limits.",
-    "skills": ["Motion graphs", "Vector resolution", "Conservation of momentum and energy", "Rotational dynamics"]
+    "summary": "Describing and predicting motion, the forces that cause it, and the conservation laws that constrain it — from everyday kinematics through rotation to relativistic limits.",
+    "skills": [
+      "Motion graphs",
+      "Vector resolution",
+      "Conservation of momentum and energy",
+      "Rotational dynamics"
+    ]
   },
   {
     "id": "B",
     "title": "The Particulate Nature of Matter",
-    "summary": "Modelling matter as particles: internal energy, temperature, the behaviour of gases, energy transfer, and the limits thermodynamics places on what is possible.",
-    "skills": ["Specific heat and latent heat", "Kinetic model of gases", "Energy transfer pathways", "Entropy and efficiency"]
+    "summary": "Matter modelled as particles: internal energy and temperature, the behaviour of gases, the limits thermodynamics places on what is possible, and the flow of charge through circuits.",
+    "skills": [
+      "Specific heat and latent heat",
+      "Kinetic model of gases",
+      "Entropy and efficiency",
+      "Circuit analysis"
+    ]
   },
   {
     "id": "C",
     "title": "Wave Behaviour",
-    "summary": "Oscillations and waves: how they are described, how they superpose, refract, diffract and resonate, and how a changing field induces motion.",
-    "skills": ["SHM analysis", "Superposition and interference", "Standing waves", "Induced emf"]
+    "summary": "Oscillations and waves: how they are described and how they superpose, refract, diffract, resonate, and shift in frequency when source and observer move relative to one another.",
+    "skills": [
+      "SHM analysis",
+      "Superposition and interference",
+      "Standing waves and resonance",
+      "Doppler shifts"
+    ]
   },
   {
     "id": "D",
     "title": "Fields",
-    "summary": "Action at a distance: electric, magnetic and gravitational fields, the electromagnetic spectrum, and the quantum and nuclear behaviour that classical fields cannot explain.",
-    "skills": ["Field and potential", "Motion of charges in fields", "Photon interactions", "Nuclear stability and decay"]
+    "summary": "Action at a distance: gravitational, electric and magnetic fields, the motion of charged particles through them, and the emf induced whenever the flux through a circuit changes.",
+    "skills": [
+      "Field and potential",
+      "Orbital motion",
+      "Motion of charges in fields",
+      "Faraday and Lenz"
+    ]
+  },
+  {
+    "id": "E",
+    "title": "Nuclear and Quantum Physics",
+    "summary": "Where classical physics runs out: the quantised atom, light and matter behaving as both wave and particle, and the binding, decay and fusion of nuclei that power the stars.",
+    "skills": [
+      "Atomic spectra",
+      "Photoelectric effect",
+      "Binding energy",
+      "Decay law"
+    ]
   }
 ]

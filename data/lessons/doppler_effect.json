@@ -1,0 +1,159 @@
+{
+  "title": "C.6 The Doppler Effect",
+  "subject": "IBDP Physics",
+  "level": "SL and HL",
+  "introduction": "When a source and an observer move relative to one another, the observed frequency differs from the emitted one. The effect is familiar from a passing siren and indispensable in astronomy, where the shift in a galaxy’s spectral lines is the primary evidence that the universe is expanding.",
+  "learning_objectives": [
+    "Explain the Doppler effect using wavefront diagrams.",
+    "Predict whether an observed frequency rises or falls from the relative motion.",
+    "Use the approximate Doppler equations for light at low speeds.",
+    "Explain redshift and its cosmological significance.",
+    "Apply the exact Doppler equations for sound (HL).",
+    "Distinguish a moving source from a moving observer (HL)."
+  ],
+  "definitions": [
+    {
+      "term": "Doppler Effect",
+      "meaning": "The change in observed frequency of a wave caused by relative motion between the source and the observer."
+    },
+    {
+      "term": "Redshift",
+      "meaning": "An increase in observed wavelength, occurring when a source of light recedes from the observer."
+    },
+    {
+      "term": "Blueshift",
+      "meaning": "A decrease in observed wavelength, occurring when a source of light approaches the observer."
+    },
+    {
+      "term": "Proper Frequency",
+      "meaning": "The frequency measured in the frame in which the source is at rest."
+    }
+  ],
+  "core_concepts": [
+    {
+      "heading": "The Wavefront Picture",
+      "explanation": "A moving source emits each successive wavefront from a slightly different position. Ahead of it the wavefronts bunch together, so the wavelength shortens and the frequency rises; behind it they spread out, so the wavelength lengthens and the frequency falls. Drawing this diagram explains the effect better than any formula."
+    },
+    {
+      "heading": "Direction of the Shift",
+      "explanation": "Approaching always raises the observed frequency and receding always lowers it, whatever is moving. This is the check to apply to every numerical answer before committing to it."
+    },
+    {
+      "heading": "Light at Everyday Speeds",
+      "explanation": "For light with a relative speed far below c, the fractional change in frequency and in wavelength both equal v/c to a good approximation. This is the form used for astronomical and radar work."
+    },
+    {
+      "heading": "Redshift and the Expanding Universe",
+      "explanation": "Distant galaxies show spectral lines shifted towards longer wavelengths, and the shift grows with distance. This is the observational basis for an expanding universe, and the same technique measures the rotation of galaxies and the orbits of binary stars."
+    },
+    {
+      "heading": "Why Sound Is Different",
+      "explanation": "Sound travels through a medium, and that medium provides a rest frame. A source moving through still air is therefore physically different from an observer moving through it, so the two cases need different equations — unlike light, where only the relative velocity matters."
+    }
+  ],
+  "formulas": [
+    {
+      "name": "Doppler Shift for Light (v ≪ c)",
+      "formula": "Δf / f = Δλ / λ ≈ v / c",
+      "variables": {
+        "Δf": "change in frequency (Hz)",
+        "f": "emitted frequency (Hz)",
+        "Δλ": "change in wavelength (m)",
+        "λ": "emitted wavelength (m)",
+        "v": "relative speed (m s⁻¹)",
+        "c": "speed of light (m s⁻¹)"
+      },
+      "explanation": "Valid when the relative speed is far below the speed of light."
+    },
+    {
+      "name": "Moving Source (Sound)",
+      "formula": "f' = f × v / (v ∓ uₛ)",
+      "variables": {
+        "f'": "observed frequency (Hz)",
+        "f": "emitted frequency (Hz)",
+        "v": "speed of sound (m s⁻¹)",
+        "uₛ": "speed of the source (m s⁻¹)"
+      },
+      "explanation": "Use the minus sign for a source approaching the observer and the plus sign for one receding."
+    },
+    {
+      "name": "Moving Observer (Sound)",
+      "formula": "f' = f × (v ± uₒ) / v",
+      "variables": {
+        "f'": "observed frequency (Hz)",
+        "f": "emitted frequency (Hz)",
+        "v": "speed of sound (m s⁻¹)",
+        "uₒ": "speed of the observer (m s⁻¹)"
+      },
+      "explanation": "Use the plus sign for an observer approaching the source and the minus sign for one receding."
+    }
+  ],
+  "worked_examples": [
+    {
+      "question": "A spectral line of wavelength 656 nm is observed from a receding galaxy at 660 nm. Estimate the recession speed.",
+      "solution": [
+        "Δλ = 660 − 656 = 4 nm",
+        "Use Δλ/λ ≈ v/c so v ≈ c × Δλ/λ",
+        "v ≈ 3.00 × 10⁸ × (4 / 656)"
+      ],
+      "answer": "About 1.8 × 10⁶ m s⁻¹"
+    },
+    {
+      "question": "An ambulance siren emits 800 Hz and approaches a stationary observer at 30 m s⁻¹. Taking the speed of sound as 340 m s⁻¹, find the observed frequency.",
+      "solution": [
+        "Source approaching, so f' = f × v / (v − uₛ)",
+        "f' = 800 × 340 / (340 − 30)",
+        "f' = 800 × 340 / 310"
+      ],
+      "answer": "About 877 Hz, which is higher than 800 Hz as expected for approach"
+    }
+  ],
+  "common_mistakes": [
+    "Choosing the sign from memory rather than checking that approach raises the frequency.",
+    "Using the light equation for sound, or ignoring that sound has a medium.",
+    "Treating a moving source and a moving observer as identical situations for sound.",
+    "Saying the source changes its emitted frequency — it does not; only the observed frequency changes.",
+    "Confusing redshift with the source being red in colour.",
+    "Mixing wavelength and frequency shifts: they move in opposite directions."
+  ],
+  "ib_exam_tips": [
+    "Draw the wavefront diagram if asked to explain rather than calculate.",
+    "Always sanity-check the direction of the shift after substituting.",
+    "State clearly which body is moving before selecting a sound equation.",
+    "For astronomy questions, link the measured shift to recession speed and then to the expansion of the universe.",
+    "Keep wavelengths in consistent units before taking a ratio."
+  ],
+  "hl_extension": [
+    {
+      "topic": "Exact Equations for Sound",
+      "explanation": "Because the medium defines a rest frame, the moving-source and moving-observer cases give genuinely different results even at the same relative speed. The source equation changes the emitted wavelength, while the observer equation changes the rate at which wavefronts are met."
+    },
+    {
+      "topic": "Doppler Broadening",
+      "explanation": "Atoms in a hot gas move randomly, so their emitted lines are shifted by differing amounts. The result is a spectral line broadened about its central wavelength, and the width gives a measure of the temperature of the gas."
+    }
+  ],
+  "practice_questions": [
+    {
+      "level": "Easy",
+      "question": "State what happens to the observed frequency as a source approaches an observer.",
+      "answer": "The observed frequency increases, because the wavefronts arrive more often than they were emitted."
+    },
+    {
+      "level": "Medium",
+      "question": "Explain, using wavefronts, why the pitch of a siren falls as it passes.",
+      "answer": "While approaching, the wavefronts bunch up ahead of the source, shortening the wavelength and raising the frequency. Once past, the wavefronts spread out behind it, lengthening the wavelength and lowering the frequency."
+    },
+    {
+      "level": "Medium",
+      "question": "A galaxy shows a 0.5% increase in wavelength. Estimate its recession speed.",
+      "answer": "v ≈ c × Δλ/λ = 3.00 × 10⁸ × 0.005 ≈ 1.5 × 10⁶ m s⁻¹."
+    },
+    {
+      "level": "Hard",
+      "question": "Explain why the Doppler effect for sound requires separate equations for a moving source and a moving observer, while light does not.",
+      "answer": "Sound travels through a medium that defines a rest frame, so motion of the source through the air changes the emitted wavelength while motion of the observer changes the rate of meeting wavefronts. Light needs no medium and has no preferred frame, so only the relative velocity matters."
+    }
+  ],
+  "summary": "Relative motion between a source and an observer changes the observed frequency: approach raises it, recession lowers it. For light at low speeds the fractional shift in frequency and wavelength both equal v/c, and the redshift of distant galaxies is the primary evidence for an expanding universe. Sound requires separate equations for a moving source and a moving observer, because its medium provides a rest frame."
+}

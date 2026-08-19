@@ -1,0 +1,165 @@
+{
+  "title": "E.1 Atomic Physics",
+  "subject": "IBDP Physics",
+  "level": "SL and HL",
+  "introduction": "Everything known about the inside of an atom was inferred rather than seen. Scattering alpha particles off gold foil revealed a tiny dense nucleus, and the sharp bright lines in the light emitted by a hot gas revealed that atomic energy is quantised. This lesson follows both lines of evidence and the model they force.",
+  "learning_objectives": [
+    "Describe the Geiger–Marsden–Rutherford experiment and its observations.",
+    "Explain why those observations rule out the Thomson model.",
+    "Describe emission and absorption spectra.",
+    "Explain discrete spectra in terms of quantised energy levels.",
+    "Calculate photon energies and wavelengths for atomic transitions.",
+    "Understand the quantisation of angular momentum (HL)."
+  ],
+  "definitions": [
+    {
+      "term": "Nucleus",
+      "meaning": "The tiny, dense, positively charged centre of an atom containing almost all of its mass."
+    },
+    {
+      "term": "Energy Level",
+      "meaning": "One of the discrete energies an electron in an atom is permitted to have."
+    },
+    {
+      "term": "Emission Spectrum",
+      "meaning": "A set of discrete bright lines emitted by a hot gas as electrons drop to lower energy levels."
+    },
+    {
+      "term": "Absorption Spectrum",
+      "meaning": "A continuous spectrum crossed by dark lines, produced when a cool gas absorbs the photons it would otherwise emit."
+    },
+    {
+      "term": "Ionisation Energy",
+      "meaning": "The energy needed to remove an electron completely from an atom in its ground state."
+    },
+    {
+      "term": "Ground State",
+      "meaning": "The lowest energy level available to an electron in an atom."
+    }
+  ],
+  "core_concepts": [
+    {
+      "heading": "The Alpha-Scattering Experiment",
+      "explanation": "Alpha particles fired at a thin gold foil mostly passed straight through, a few were deflected substantially, and a very small number bounced almost straight back. The Thomson model of positive charge spread through the atom could explain small deflections but nothing large."
+    },
+    {
+      "heading": "What the Results Force",
+      "explanation": "Because almost all alphas passed undeflected, the atom must be mostly empty space. Because a very few reversed direction, they must have met something extremely small, very massive and strongly positive — a nucleus containing essentially all of the atom’s mass and all of its positive charge."
+    },
+    {
+      "heading": "Discrete Spectra",
+      "explanation": "A hot gas emits only certain wavelengths, appearing as sharp bright lines. Passing white light through a cool gas removes exactly those same wavelengths, leaving dark lines. Both are direct evidence that only certain electron energies exist."
+    },
+    {
+      "heading": "Transitions and Photons",
+      "explanation": "An electron dropping from a higher to a lower level emits a single photon whose energy is exactly the difference between the two levels. A larger energy gap gives a higher frequency and a shorter wavelength, so the pattern of lines is a fingerprint of the element."
+    },
+    {
+      "heading": "Negative Energy Levels",
+      "explanation": "Energies are defined as zero for a free electron at rest far from the nucleus, so bound levels are negative. The ground state of hydrogen at −13.6 eV means 13.6 eV must be supplied to ionise it."
+    }
+  ],
+  "formulas": [
+    {
+      "name": "Photon Energy of a Transition",
+      "formula": "ΔE = hf = hc / λ",
+      "variables": {
+        "ΔE": "energy difference between levels (J)",
+        "h": "Planck constant (6.63 × 10⁻³⁴ J s)",
+        "f": "photon frequency (Hz)",
+        "c": "speed of light (m s⁻¹)",
+        "λ": "photon wavelength (m)"
+      },
+      "explanation": "The emitted photon carries exactly the energy lost by the electron."
+    },
+    {
+      "name": "Hydrogen Energy Levels",
+      "formula": "Eₙ = −13.6 / n²  eV",
+      "variables": {
+        "Eₙ": "energy of level n (eV)",
+        "n": "principal quantum number (1, 2, 3 …)"
+      },
+      "explanation": "Levels crowd together as n rises and approach zero at ionisation."
+    },
+    {
+      "name": "Quantised Angular Momentum",
+      "formula": "mvr = nh / 2π",
+      "variables": {
+        "m": "electron mass (kg)",
+        "v": "speed (m s⁻¹)",
+        "r": "orbit radius (m)",
+        "n": "whole number",
+        "h": "Planck constant (J s)"
+      },
+      "explanation": "The Bohr condition, later understood as fitting a whole number of electron wavelengths around the orbit."
+    }
+  ],
+  "worked_examples": [
+    {
+      "question": "An electron in hydrogen falls from n = 3 to n = 2. Calculate the energy of the emitted photon in eV.",
+      "solution": [
+        "E₃ = −13.6 / 9 = −1.51 eV",
+        "E₂ = −13.6 / 4 = −3.40 eV",
+        "ΔE = E₃ − E₂ = −1.51 − (−3.40)"
+      ],
+      "answer": "1.89 eV"
+    },
+    {
+      "question": "Calculate the wavelength of a photon of energy 1.89 eV.",
+      "solution": [
+        "Convert: E = 1.89 × 1.60 × 10⁻¹⁹ = 3.02 × 10⁻¹⁹ J",
+        "Use λ = hc / E",
+        "λ = (6.63 × 10⁻³⁴ × 3.00 × 10⁸) / 3.02 × 10⁻¹⁹"
+      ],
+      "answer": "About 6.6 × 10⁻⁷ m, which is red light"
+    }
+  ],
+  "common_mistakes": [
+    "Saying the alpha-scattering experiment proved the atom is mostly empty space without mentioning the large-angle deflections that reveal the nucleus.",
+    "Forgetting to convert electronvolts to joules before using E = hc/λ.",
+    "Treating energy levels as positive; bound levels are negative by convention.",
+    "Claiming a continuous spectrum comes from isolated atoms — it comes from hot dense solids.",
+    "Confusing the direction of a transition: emission is a drop to a lower level, absorption a jump to a higher one.",
+    "Assuming the largest energy gap gives the longest wavelength; it gives the shortest."
+  ],
+  "ib_exam_tips": [
+    "Quote all three observations of the alpha-scattering experiment and the conclusion drawn from each.",
+    "When asked for evidence of discrete energy levels, name emission and absorption line spectra explicitly.",
+    "Use the level differences, not the level values, when calculating photon energy.",
+    "State that the line pattern is unique to each element when discussing spectral identification.",
+    "Watch units: a photon energy in eV must be converted before combining with h and c in SI."
+  ],
+  "hl_extension": [
+    {
+      "topic": "The Bohr Condition as a Standing Wave",
+      "explanation": "Requiring the electron’s de Broglie wave to close on itself around the orbit means a whole number of wavelengths must fit the circumference. Substituting λ = h/mv reproduces the quantised angular momentum condition exactly."
+    },
+    {
+      "topic": "Limits of the Bohr Model",
+      "explanation": "The model predicts hydrogen’s spectrum well but fails for multi-electron atoms and says nothing about line intensities. It was superseded by the wave-mechanical model, in which electrons occupy probability distributions rather than definite orbits."
+    }
+  ],
+  "practice_questions": [
+    {
+      "level": "Easy",
+      "question": "State the three observations of the Geiger–Marsden–Rutherford experiment.",
+      "answer": "Most alpha particles passed straight through with little or no deflection; a small number were deflected through large angles; a very few were reflected almost straight back."
+    },
+    {
+      "level": "Medium",
+      "question": "Explain how an emission spectrum provides evidence for discrete energy levels.",
+      "answer": "Only certain wavelengths are emitted, giving sharp lines rather than a continuous band. Each line corresponds to a fixed photon energy, so only certain energy differences — and therefore only certain electron energies — can exist."
+    },
+    {
+      "level": "Medium",
+      "question": "Calculate the ionisation energy of hydrogen from its ground state.",
+      "answer": "13.6 eV, since the ground state is at −13.6 eV and ionisation raises the electron to zero energy."
+    },
+    {
+      "level": "Hard",
+      "question": "Explain why an absorption spectrum shows dark lines at exactly the wavelengths of the emission spectrum of the same element.",
+      "answer": "Absorption raises electrons across the same energy gaps that emission drops them across. Since the gaps are identical, the photon energies — and so the wavelengths — are identical; they are removed from the transmitted light instead of being added to it."
+    }
+  ],
+  "summary": "Alpha scattering revealed that the atom is mostly empty space with a tiny, massive, positively charged nucleus. Line emission and absorption spectra show that electron energies are quantised, with each transition emitting or absorbing a photon of energy exactly equal to the level difference. Bound levels are negative, and the energy needed to reach zero is the ionisation energy."
+}

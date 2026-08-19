@@ -1,0 +1,175 @@
+{
+  "title": "E.5 Nuclear Fusion and Stars",
+  "subject": "IBDP Physics",
+  "level": "SL and HL",
+  "introduction": "Fusion joins light nuclei into a heavier one and releases more energy per nucleon than fission. It is the process that powers every star, and the balance between the outward push of radiation and the inward pull of gravity determines how a star lives and how it dies.",
+  "learning_objectives": [
+    "Describe nuclear fusion and explain why it releases energy.",
+    "Explain the conditions required for fusion to occur.",
+    "Define luminosity and apparent brightness.",
+    "Use the Stefan–Boltzmann law and Wien’s law for stars.",
+    "Interpret the Hertzsprung–Russell diagram.",
+    "Describe stellar evolution for low-mass and high-mass stars (HL)."
+  ],
+  "definitions": [
+    {
+      "term": "Nuclear Fusion",
+      "meaning": "The joining of two light nuclei into a heavier one, with a release of energy."
+    },
+    {
+      "term": "Luminosity",
+      "meaning": "The total power radiated by a star in all directions, measured in watts."
+    },
+    {
+      "term": "Apparent Brightness",
+      "meaning": "The power received per unit area at the observer, which falls off with the square of distance."
+    },
+    {
+      "term": "Main Sequence",
+      "meaning": "The diagonal band on the Hertzsprung–Russell diagram occupied by stars fusing hydrogen into helium in their cores."
+    },
+    {
+      "term": "Chandrasekhar Limit",
+      "meaning": "About 1.4 solar masses, the largest mass a white dwarf can have before electron degeneracy pressure fails."
+    },
+    {
+      "term": "Oppenheimer–Volkoff Limit",
+      "meaning": "Roughly 2 to 3 solar masses, above which neutron degeneracy pressure cannot prevent collapse to a black hole."
+    }
+  ],
+  "core_concepts": [
+    {
+      "heading": "Why Fusion Releases Energy",
+      "explanation": "Light nuclei sit low on the binding-energy-per-nucleon curve. Joining them moves the system up towards the peak near iron-56, so the product is more tightly bound and the lost mass appears as energy — more per nucleon than fission gives."
+    },
+    {
+      "heading": "The Coulomb Barrier",
+      "explanation": "Both nuclei are positively charged and repel strongly at short range. Overcoming that repulsion needs enormous kinetic energy, meaning temperatures of order ten million kelvin, which is why fusion occurs in stellar cores and is so difficult to sustain on Earth."
+    },
+    {
+      "heading": "Hydrostatic Equilibrium",
+      "explanation": "A stable star is a balance: radiation pressure and gas pressure from the fusing core push outwards, gravity pulls inwards. A star remains on the main sequence for as long as core hydrogen fusion can maintain that balance."
+    },
+    {
+      "heading": "Luminosity and Brightness",
+      "explanation": "Luminosity depends on the star’s surface area and the fourth power of its surface temperature. What we actually measure is apparent brightness, which is the luminosity spread over a sphere of radius equal to the star’s distance — so distance must be known before luminosity can be found."
+    },
+    {
+      "heading": "Reading the HR Diagram",
+      "explanation": "Luminosity is plotted against surface temperature, with temperature increasing to the left. Most stars lie on the main sequence. Red giants sit above and to the right: cool but enormous, and therefore very luminous. White dwarfs sit below and to the left: hot but tiny, and therefore faint."
+    },
+    {
+      "heading": "How Mass Decides the Ending",
+      "explanation": "Once core hydrogen is exhausted the core contracts and heats while the outer layers swell. A low-mass star becomes a red giant, sheds a planetary nebula and leaves a white dwarf. A high-mass star becomes a red supergiant and explodes as a supernova, leaving a neutron star or a black hole."
+    }
+  ],
+  "formulas": [
+    {
+      "name": "Stellar Luminosity",
+      "formula": "L = 4πR²σT⁴",
+      "variables": {
+        "L": "luminosity (W)",
+        "R": "stellar radius (m)",
+        "σ": "Stefan–Boltzmann constant (5.67 × 10⁻⁸ W m⁻² K⁻⁴)",
+        "T": "surface temperature (K)"
+      },
+      "explanation": "Combines surface area with the Stefan–Boltzmann law."
+    },
+    {
+      "name": "Apparent Brightness",
+      "formula": "b = L / 4πd²",
+      "variables": {
+        "b": "apparent brightness (W m⁻²)",
+        "L": "luminosity (W)",
+        "d": "distance to the star (m)"
+      },
+      "explanation": "The inverse-square spreading of radiated power."
+    },
+    {
+      "name": "Wien’s Displacement Law",
+      "formula": "λ_max = 2.9 × 10⁻³ / T",
+      "variables": {
+        "λ_max": "wavelength of peak emission (m)",
+        "T": "surface temperature (K)"
+      },
+      "explanation": "Links a star’s colour to its surface temperature."
+    },
+    {
+      "name": "Mass–Energy Equivalence",
+      "formula": "E = Δmc²",
+      "variables": {
+        "E": "energy released (J)",
+        "Δm": "mass defect (kg)",
+        "c": "speed of light (m s⁻¹)"
+      },
+      "explanation": "The mass lost in fusion appears as radiated energy."
+    }
+  ],
+  "worked_examples": [
+    {
+      "question": "A star has a surface temperature of 5800 K. Calculate the wavelength at which it emits most strongly.",
+      "solution": [
+        "Use λ_max = 2.9 × 10⁻³ / T",
+        "λ_max = 2.9 × 10⁻³ / 5800"
+      ],
+      "answer": "About 5.0 × 10⁻⁷ m, in the green-yellow part of the visible spectrum"
+    },
+    {
+      "question": "A star of luminosity 4.0 × 10²⁶ W lies 2.0 × 10¹⁷ m away. Calculate its apparent brightness.",
+      "solution": [
+        "Use b = L / 4πd²",
+        "b = 4.0 × 10²⁶ / (4π × (2.0 × 10¹⁷)²)",
+        "b = 4.0 × 10²⁶ / (5.03 × 10³⁵)"
+      ],
+      "answer": "About 8.0 × 10⁻¹⁰ W m⁻²"
+    }
+  ],
+  "common_mistakes": [
+    "Reading the HR diagram left to right as increasing temperature; the axis is reversed.",
+    "Confusing luminosity with apparent brightness — the second depends on distance, the first does not.",
+    "Forgetting to square the distance in the inverse-square law.",
+    "Using celsius in Wien’s law or the Stefan–Boltzmann law; both need kelvin.",
+    "Applying the Chandrasekhar limit to the original mass of the star rather than to the remnant core.",
+    "Saying fusion is easy because it releases more energy than fission; the Coulomb barrier makes it far harder to start."
+  ],
+  "ib_exam_tips": [
+    "State that temperature increases to the left whenever you describe the HR diagram.",
+    "Say explicitly whether a quantity is luminosity or apparent brightness before choosing an equation.",
+    "Use the fourth power carefully: doubling surface temperature multiplies luminosity by sixteen.",
+    "Link a star’s position on the HR diagram to its stage of life, not just to its temperature.",
+    "For evolution questions, begin from the mass of the star, since mass decides every later stage."
+  ],
+  "hl_extension": [
+    {
+      "topic": "Stellar Evolution Pathways",
+      "explanation": "Low-mass stars pass through a red giant phase, eject a planetary nebula and leave a white dwarf supported by electron degeneracy pressure. High-mass stars become red supergiants, fuse progressively heavier elements up to iron, then collapse and explode as supernovae, leaving a neutron star or a black hole."
+    },
+    {
+      "topic": "Degeneracy Pressure and Mass Limits",
+      "explanation": "A white dwarf is held up by electron degeneracy pressure, which fails above the Chandrasekhar limit of about 1.4 solar masses. A neutron star is held up by neutron degeneracy pressure, which fails above roughly 2 to 3 solar masses, leaving collapse to a black hole as the only outcome."
+    }
+  ],
+  "practice_questions": [
+    {
+      "level": "Easy",
+      "question": "State why fusion requires extremely high temperatures.",
+      "answer": "Both nuclei are positively charged and repel each other, so they need very large kinetic energies to come close enough for the strong nuclear force to bind them."
+    },
+    {
+      "level": "Medium",
+      "question": "Distinguish between luminosity and apparent brightness.",
+      "answer": "Luminosity is the total power a star radiates and is a property of the star. Apparent brightness is the power received per unit area at the observer and depends on distance as well as luminosity."
+    },
+    {
+      "level": "Medium",
+      "question": "A red giant is cool yet very luminous. Explain how both can be true.",
+      "answer": "Luminosity depends on surface area as well as temperature. A red giant has a very large radius, so despite a low surface temperature its enormous surface area gives it a high total power output."
+    },
+    {
+      "level": "Hard",
+      "question": "Explain what determines whether a star ends as a white dwarf, a neutron star or a black hole.",
+      "answer": "The mass of the remnant core. Below about 1.4 solar masses electron degeneracy pressure supports a white dwarf. Above that, collapse continues to a neutron star supported by neutron degeneracy pressure. Above roughly 2 to 3 solar masses even that fails and the core collapses to a black hole."
+    }
+  ],
+  "summary": "Fusion joins light nuclei, moving them up the binding-energy curve and releasing energy, but needs temperatures of order ten million kelvin to overcome electrostatic repulsion. A star balances radiation pressure against gravity while fusing hydrogen on the main sequence. Luminosity depends on radius and the fourth power of surface temperature, and the mass of the remnant core decides whether a star ends as a white dwarf, a neutron star or a black hole."
+}

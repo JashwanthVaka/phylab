@@ -1,0 +1,180 @@
+{
+  "title": "C.5 Standing Waves and Resonance",
+  "subject": "IBDP Physics",
+  "level": "SL and HL",
+  "introduction": "When two identical waves travel in opposite directions they superpose into a pattern that does not move. This lesson explains how standing waves form, why only certain frequencies are allowed on a string or in a pipe, and how a system driven at its natural frequency responds with a large amplitude — resonance, the effect behind every musical instrument and a few structural disasters.",
+  "learning_objectives": [
+    "Explain the formation of standing waves using superposition.",
+    "Distinguish standing waves from travelling waves.",
+    "Identify nodes and antinodes.",
+    "Determine the harmonics of a string fixed at both ends.",
+    "Determine the harmonics of open and closed pipes.",
+    "Describe the effect of damping on an oscillating system.",
+    "Explain resonance and identify its consequences."
+  ],
+  "definitions": [
+    {
+      "term": "Standing Wave",
+      "meaning": "A wave pattern formed by the superposition of two identical waves travelling in opposite directions, in which the pattern does not move along the medium."
+    },
+    {
+      "term": "Node",
+      "meaning": "A point on a standing wave that never moves, where the two waves always cancel."
+    },
+    {
+      "term": "Antinode",
+      "meaning": "A point on a standing wave that oscillates with maximum amplitude."
+    },
+    {
+      "term": "Fundamental Frequency",
+      "meaning": "The lowest frequency at which a system forms a standing wave, also called the first harmonic."
+    },
+    {
+      "term": "Damping",
+      "meaning": "The removal of energy from an oscillating system by a resistive force, reducing amplitude over time."
+    },
+    {
+      "term": "Resonance",
+      "meaning": "The large-amplitude response that occurs when a system is driven at its natural frequency."
+    }
+  ],
+  "core_concepts": [
+    {
+      "heading": "How a Standing Wave Forms",
+      "explanation": "A wave reflects at a boundary and travels back through the incoming wave. Where the two are always in antiphase they cancel permanently, producing a node; where they are always in phase they reinforce, producing an antinode. Adjacent nodes are half a wavelength apart."
+    },
+    {
+      "heading": "Standing Versus Travelling",
+      "explanation": "A standing wave transfers no net energy along the medium, while a travelling wave does. Amplitude varies with position in a standing wave but is uniform in a travelling wave. All points between two nodes oscillate in phase, and the phase flips across a node."
+    },
+    {
+      "heading": "Strings Fixed at Both Ends",
+      "explanation": "Both ends must be nodes, which permits only wavelengths of 2L/n. Every harmonic is present, and the frequencies form a simple whole-number series above the fundamental."
+    },
+    {
+      "heading": "Pipes",
+      "explanation": "An open end requires an antinode and a closed end a node. An open–open pipe behaves like a string and has all harmonics. A pipe closed at one end fits only a quarter of a wavelength at the fundamental, so it sounds an octave lower than an open pipe of the same length and produces odd harmonics only."
+    },
+    {
+      "heading": "Damping",
+      "explanation": "Light damping decays slowly over many oscillations. Critical damping returns the system to equilibrium in the shortest time without overshooting, which is what car suspension and door closers are designed for. Heavy damping returns slowly without oscillating at all."
+    },
+    {
+      "heading": "Resonance",
+      "explanation": "When the driving frequency matches the natural frequency, energy is transferred into the system most efficiently and the amplitude grows large. Increasing the damping lowers and broadens the resonance peak and shifts its maximum slightly below the natural frequency."
+    }
+  ],
+  "formulas": [
+    {
+      "name": "Wavelength on a String",
+      "formula": "λₙ = 2L / n",
+      "variables": {
+        "λₙ": "wavelength of the nth harmonic (m)",
+        "L": "length of the string (m)",
+        "n": "harmonic number (1, 2, 3 …)"
+      },
+      "explanation": "Both ends are nodes, so a whole number of half wavelengths must fit."
+    },
+    {
+      "name": "Frequency on a String",
+      "formula": "fₙ = nv / 2L",
+      "variables": {
+        "fₙ": "frequency of the nth harmonic (Hz)",
+        "v": "wave speed on the string (m s⁻¹)",
+        "L": "length (m)",
+        "n": "harmonic number"
+      },
+      "explanation": "All harmonics are present, at whole-number multiples of the fundamental."
+    },
+    {
+      "name": "Open Pipe Harmonics",
+      "formula": "fₙ = nv / 2L",
+      "variables": {
+        "fₙ": "frequency (Hz)",
+        "v": "speed of sound (m s⁻¹)",
+        "L": "pipe length (m)",
+        "n": "1, 2, 3 …"
+      },
+      "explanation": "Antinodes at both ends give the same series as a string."
+    },
+    {
+      "name": "Closed Pipe Harmonics",
+      "formula": "fₙ = nv / 4L",
+      "variables": {
+        "fₙ": "frequency (Hz)",
+        "v": "speed of sound (m s⁻¹)",
+        "L": "pipe length (m)",
+        "n": "odd values only (1, 3, 5 …)"
+      },
+      "explanation": "A node at the closed end and an antinode at the open end permit only odd harmonics."
+    }
+  ],
+  "worked_examples": [
+    {
+      "question": "A string of length 0.60 m carries waves at 240 m s⁻¹. Calculate the fundamental frequency.",
+      "solution": [
+        "Use f₁ = v / 2L",
+        "f₁ = 240 / (2 × 0.60)",
+        "f₁ = 240 / 1.20"
+      ],
+      "answer": "200 Hz"
+    },
+    {
+      "question": "A pipe closed at one end has length 0.85 m. Taking the speed of sound as 340 m s⁻¹, find the fundamental frequency and the next frequency it can produce.",
+      "solution": [
+        "Closed pipe: fₙ = nv/4L with odd n only",
+        "f₁ = 340 / (4 × 0.85) = 340 / 3.40 = 100 Hz",
+        "Next allowed harmonic is n = 3, so f₃ = 3 × 100"
+      ],
+      "answer": "Fundamental 100 Hz, next 300 Hz"
+    }
+  ],
+  "common_mistakes": [
+    "Forgetting that a pipe closed at one end has no even harmonics.",
+    "Using 2L instead of 4L for a closed pipe, which doubles the fundamental frequency.",
+    "Claiming a standing wave transfers energy along the medium — it does not.",
+    "Saying every point on a standing wave oscillates with the same amplitude.",
+    "Forgetting that points either side of a node oscillate in antiphase.",
+    "Describing resonance as simply \"a loud sound\" instead of a maximum-amplitude response at the natural frequency."
+  ],
+  "ib_exam_tips": [
+    "Sketch the standing-wave pattern before calculating; count half wavelengths directly from the diagram.",
+    "State the boundary condition first — node at a fixed or closed end, antinode at a free or open end.",
+    "When asked to compare standing and travelling waves, give energy transfer, amplitude variation and phase.",
+    "For a damping question, name which type of damping is wanted and justify it from the required behaviour.",
+    "Remember that increasing damping reduces the peak amplitude and broadens the resonance curve."
+  ],
+  "hl_extension": [
+    {
+      "topic": "Resonance Curves and Damping",
+      "explanation": "Plotting amplitude against driving frequency gives a peak at the natural frequency. Light damping gives a tall narrow peak; heavier damping gives a lower, broader peak whose maximum sits slightly below the natural frequency."
+    },
+    {
+      "topic": "Resonance in Engineering",
+      "explanation": "Bridges, buildings and machinery are deliberately damped or stiffened so that their natural frequencies fall outside the range of expected driving frequencies, since sustained resonance can produce destructive amplitudes."
+    }
+  ],
+  "practice_questions": [
+    {
+      "level": "Easy",
+      "question": "State two differences between a standing wave and a travelling wave.",
+      "answer": "A standing wave transfers no net energy along the medium while a travelling wave does; amplitude varies with position in a standing wave but is uniform in a travelling wave."
+    },
+    {
+      "level": "Medium",
+      "question": "A pipe open at both ends has a fundamental frequency of 150 Hz. What is its second harmonic?",
+      "answer": "300 Hz, since an open pipe produces all harmonics at whole-number multiples of the fundamental."
+    },
+    {
+      "level": "Medium",
+      "question": "Explain why a pipe closed at one end sounds an octave lower than an open pipe of the same length.",
+      "answer": "The closed pipe fits only a quarter of a wavelength at the fundamental rather than a half, so its fundamental wavelength is twice as long and its frequency is half that of the open pipe."
+    },
+    {
+      "level": "Hard",
+      "question": "Describe how the amplitude of a driven oscillator varies with driving frequency, and state the effect of increasing damping.",
+      "answer": "Amplitude rises to a maximum at the natural frequency and falls away either side. Increasing damping lowers the peak, broadens the curve and shifts the maximum to a slightly lower frequency."
+    }
+  ],
+  "summary": "Standing waves form when identical waves travelling in opposite directions superpose, producing fixed nodes and antinodes and transferring no net energy. Boundary conditions restrict the allowed wavelengths, giving all harmonics on a string or open pipe and odd harmonics only in a closed pipe. Damping removes energy from an oscillator, and resonance is the large-amplitude response when the driving frequency matches the natural frequency."
+}

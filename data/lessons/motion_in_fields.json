@@ -1,0 +1,194 @@
+{
+  "title": "D.4 Motion in Electric and Magnetic Fields",
+  "subject": "IBDP Physics",
+  "level": "SL and HL",
+  "introduction": "A charged particle placed in a field feels a force, and the shape of the resulting path depends entirely on which field it is in. A uniform electric field produces a parabola exactly like projectile motion; a uniform magnetic field produces a circle and never changes the particle’s speed. Combining the two gives the velocity selector, and the whole topic underpins mass spectrometers, cathode-ray tubes and particle accelerators.",
+  "learning_objectives": [
+    "Describe the motion of a charged particle in a uniform electric field.",
+    "Recognise the similarity between motion in a uniform electric field and projectile motion.",
+    "Solve problems involving charged particles accelerated through a potential difference.",
+    "Describe the circular motion of a charged particle in a uniform magnetic field.",
+    "Explain why a magnetic force does no work.",
+    "Analyse motion in perpendicular electric and magnetic fields."
+  ],
+  "definitions": [
+    {
+      "term": "Electric Field Strength",
+      "meaning": "The force per unit positive charge at a point, measured in N C⁻¹ or equivalently V m⁻¹."
+    },
+    {
+      "term": "Magnetic Flux Density",
+      "meaning": "A measure of the strength of a magnetic field, measured in tesla."
+    },
+    {
+      "term": "Velocity Selector",
+      "meaning": "A device using perpendicular electric and magnetic fields so that only particles of one particular speed pass through undeflected."
+    },
+    {
+      "term": "Electronvolt",
+      "meaning": "The energy gained by one electron accelerated through a potential difference of one volt, equal to 1.60 × 10⁻¹⁹ J."
+    }
+  ],
+  "core_concepts": [
+    {
+      "heading": "Uniform Electric Field: A Parabola",
+      "explanation": "The electric force is constant in size and direction, so the motion is mathematically identical to projectile motion: constant velocity across the field and uniform acceleration along it, giving a parabolic path. The acceleration depends on the charge-to-mass ratio, and a negative charge accelerates against the field direction."
+    },
+    {
+      "heading": "Acceleration Through a Potential Difference",
+      "explanation": "A charge released from rest and accelerated through a potential difference gains kinetic energy equal to the work done on it. Equating qV to the kinetic energy gives the final speed directly, without needing the field strength or the distance travelled."
+    },
+    {
+      "heading": "Uniform Magnetic Field: A Circle",
+      "explanation": "The magnetic force is always perpendicular to the velocity, so it changes direction but never speed. A charge entering perpendicular to a uniform field therefore travels in a circle, with the magnetic force supplying the centripetal force."
+    },
+    {
+      "heading": "The Magnetic Force Does No Work",
+      "explanation": "Because the force is always at right angles to the displacement, it does zero work. Kinetic energy is unchanged, which is why a magnetic field can steer a beam but never speed it up."
+    },
+    {
+      "heading": "Period Independent of Speed",
+      "explanation": "The orbital period of a charged particle in a magnetic field depends only on its mass, charge and the field strength. Faster particles simply travel larger circles in the same time — the principle the cyclotron exploits."
+    },
+    {
+      "heading": "Crossed Fields",
+      "explanation": "With perpendicular electric and magnetic fields the electric and magnetic forces can be arranged to oppose one another. They balance for exactly one speed, v = E/B, so only particles at that speed pass straight through. Entering a magnetic field at an angle produces a helix, since the velocity component along the field is unaffected."
+    }
+  ],
+  "formulas": [
+    {
+      "name": "Force on a Charge in an Electric Field",
+      "formula": "F = qE",
+      "variables": {
+        "F": "force (N)",
+        "q": "charge (C)",
+        "E": "electric field strength (N C⁻¹)"
+      },
+      "explanation": "Constant in a uniform field, giving constant acceleration a = qE/m."
+    },
+    {
+      "name": "Acceleration Through a Potential Difference",
+      "formula": "qV = ½mv²",
+      "variables": {
+        "q": "charge (C)",
+        "V": "accelerating potential difference (V)",
+        "m": "mass (kg)",
+        "v": "final speed (m s⁻¹)"
+      },
+      "explanation": "Work done by the field becomes kinetic energy, for a particle starting from rest."
+    },
+    {
+      "name": "Force on a Moving Charge in a Magnetic Field",
+      "formula": "F = qvB sinθ",
+      "variables": {
+        "F": "force (N)",
+        "q": "charge (C)",
+        "v": "speed (m s⁻¹)",
+        "B": "magnetic flux density (T)",
+        "θ": "angle between velocity and field"
+      },
+      "explanation": "Maximum when the velocity is perpendicular to the field and zero when parallel."
+    },
+    {
+      "name": "Radius of the Circular Path",
+      "formula": "r = mv / qB",
+      "variables": {
+        "r": "radius (m)",
+        "m": "mass (kg)",
+        "v": "speed (m s⁻¹)",
+        "q": "charge (C)",
+        "B": "magnetic flux density (T)"
+      },
+      "explanation": "From equating the magnetic force to the centripetal force."
+    },
+    {
+      "name": "Period in a Magnetic Field",
+      "formula": "T = 2πm / qB",
+      "variables": {
+        "T": "period (s)",
+        "m": "mass (kg)",
+        "q": "charge (C)",
+        "B": "magnetic flux density (T)"
+      },
+      "explanation": "Independent of the particle’s speed and of the radius of its path."
+    },
+    {
+      "name": "Velocity Selector Condition",
+      "formula": "v = E / B",
+      "variables": {
+        "v": "selected speed (m s⁻¹)",
+        "E": "electric field strength (V m⁻¹)",
+        "B": "magnetic flux density (T)"
+      },
+      "explanation": "The speed at which the electric and magnetic forces balance exactly."
+    }
+  ],
+  "worked_examples": [
+    {
+      "question": "An electron is accelerated from rest through a potential difference of 500 V. Calculate its final speed. Take m = 9.11 × 10⁻³¹ kg and e = 1.60 × 10⁻¹⁹ C.",
+      "solution": [
+        "Use qV = ½mv², so v = √(2qV/m)",
+        "v = √(2 × 1.60 × 10⁻¹⁹ × 500 / 9.11 × 10⁻³¹)",
+        "v = √(1.756 × 10¹⁴)"
+      ],
+      "answer": "About 1.33 × 10⁷ m s⁻¹"
+    },
+    {
+      "question": "A proton of speed 2.0 × 10⁶ m s⁻¹ enters a 0.50 T field at right angles. Calculate the radius of its path. Take m = 1.67 × 10⁻²⁷ kg.",
+      "solution": [
+        "Use r = mv / qB",
+        "r = (1.67 × 10⁻²⁷ × 2.0 × 10⁶) / (1.60 × 10⁻¹⁹ × 0.50)",
+        "r = 3.34 × 10⁻²¹ / 8.0 × 10⁻²⁰"
+      ],
+      "answer": "About 0.042 m"
+    }
+  ],
+  "common_mistakes": [
+    "Claiming a magnetic field speeds a particle up — it does no work and cannot change the speed.",
+    "Using the maximum magnetic force when the velocity is parallel to the field, where the force is actually zero.",
+    "Forgetting that a stationary charge feels no magnetic force at all.",
+    "Assuming the period in a magnetic field depends on speed; it does not.",
+    "Mixing up the directions for positive and negative charges when applying a hand rule.",
+    "Forgetting that a negative charge accelerates opposite to the electric field direction."
+  ],
+  "ib_exam_tips": [
+    "Treat a uniform electric field problem exactly like a projectile: resolve into components and share the time.",
+    "Use qV = ½mv² whenever a particle is accelerated from rest through a stated potential difference.",
+    "Say explicitly that the magnetic force is perpendicular to the velocity when asked why the speed is constant.",
+    "State the sign of the charge when using a hand rule, and reverse the result for a negative charge.",
+    "Convert electronvolts to joules before substituting into any mechanical equation."
+  ],
+  "hl_extension": [
+    {
+      "topic": "Helical Motion",
+      "explanation": "A charge entering a magnetic field at an angle keeps its velocity component along the field unchanged while the perpendicular component circles. The combination is a helix whose pitch is set by the parallel component."
+    },
+    {
+      "topic": "Mass Spectrometry",
+      "explanation": "A velocity selector first passes only one speed, then a magnetic field bends the beam into a circle whose radius depends on mass. Measuring the radius therefore measures the mass-to-charge ratio, which is how isotopes are separated and identified."
+    }
+  ],
+  "practice_questions": [
+    {
+      "level": "Easy",
+      "question": "State why a magnetic force does no work on a moving charge.",
+      "answer": "The force is always perpendicular to the velocity, so there is no component of force along the displacement and the work done is zero."
+    },
+    {
+      "level": "Medium",
+      "question": "Describe the path of a positive charge entering a uniform electric field at right angles to the field lines.",
+      "answer": "It follows a parabola, keeping constant velocity perpendicular to the field while accelerating uniformly along the field direction — the same shape as a projectile under gravity."
+    },
+    {
+      "level": "Medium",
+      "question": "An electron and a proton travel at the same speed in the same magnetic field. Which has the larger orbital radius, and why?",
+      "answer": "The proton, because r = mv/qB and the two have the same magnitude of charge but the proton is far more massive."
+    },
+    {
+      "level": "Hard",
+      "question": "Explain how crossed electric and magnetic fields can select particles of one particular speed.",
+      "answer": "The electric force qE and the magnetic force qvB are arranged to act in opposite directions. They balance only when qE = qvB, that is when v = E/B, so only particles at that speed pass through undeflected while all others are deflected out of the beam."
+    }
+  ],
+  "summary": "A charged particle in a uniform electric field follows a parabolic path, and one accelerated through a potential difference gains kinetic energy qV. In a uniform magnetic field the force is always perpendicular to the velocity, so the particle moves in a circle of radius mv/qB at constant speed, with a period independent of that speed. Crossed fields balance at v = E/B, giving a velocity selector."
+}

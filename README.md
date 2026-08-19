@@ -9,15 +9,16 @@ and ES modules on a dependency-free Node server.
 
 | | |
 | --- | --- |
-| Lessons | 19, in syllabus order across the four IB units |
+| Lessons | 26, in syllabus order across the five course units |
 | Practice questions | 71 original, 21 of them multiple choice |
 | Applied cases | 19 real-world contexts |
 | Command terms | 15, with method and model answers |
 | Simulations | 10 labs driven by the real equations |
 | Formulae | 62, each with variables and meaning |
 
-- **Course library** (`/library`) — all 19 lessons grouped into the four IB units
-  (A Space, Time and Motion · B The Particulate Nature of Matter · C Wave Behaviour · D Fields),
+- **Course library** (`/library`) — all 26 lessons grouped into the five units
+  (A Space, Time and Motion · B The Particulate Nature of Matter · C Wave Behaviour · D Fields ·
+  E Nuclear and Quantum Physics),
   with search, unit filters, per-lesson completion and an overall progress ring.
 - **Simulation studio** (`/simulations`) — 10 labs with sliders and number inputs, live
   answers in SI units, an animated marker that advances physical time, and play/pause/reset.
@@ -151,6 +152,6 @@ local-only for the same reason.
 
 - Supabase is fully wired but unconfigured, so progress is stored per browser. Filling in
   `public-env.js` with a project URL and anon key enables cross-device sync.
-- Nine lessons have no matching simulation in the studio, though all 19 now have an
-  interactive graph.
+- Several lessons have no matching simulation in the studio, and the seven newest have no
+  interactive graph model yet.
 - The question bank is 71 items, which is thin for a two-year course.

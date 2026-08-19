@@ -1,0 +1,161 @@
+{
+  "title": "E.4 Nuclear Fission",
+  "subject": "IBDP Physics",
+  "level": "SL and HL",
+  "introduction": "A heavy nucleus struck by a slow neutron can split into two lighter fragments, releasing around 200 MeV — millions of times more per atom than any chemical reaction. The spare neutrons released can trigger further splits, and controlling that chain reaction is what a nuclear reactor is for.",
+  "learning_objectives": [
+    "Describe the process of nuclear fission.",
+    "Explain why fission releases energy using the binding-energy curve.",
+    "Calculate the energy released in a fission reaction.",
+    "Explain how a chain reaction is sustained and controlled.",
+    "Describe the function of the moderator, control rods and coolant.",
+    "Discuss the safety and environmental issues of nuclear power."
+  ],
+  "definitions": [
+    {
+      "term": "Nuclear Fission",
+      "meaning": "The splitting of a heavy nucleus into two lighter nuclei, together with several neutrons and a release of energy."
+    },
+    {
+      "term": "Chain Reaction",
+      "meaning": "A self-sustaining sequence in which neutrons released by one fission trigger further fissions."
+    },
+    {
+      "term": "Critical Mass",
+      "meaning": "The minimum mass of fissile material needed for a chain reaction to sustain itself."
+    },
+    {
+      "term": "Moderator",
+      "meaning": "A material that slows fast neutrons so they are more readily absorbed by the fuel."
+    },
+    {
+      "term": "Control Rod",
+      "meaning": "A neutron-absorbing rod raised or lowered to hold the reaction rate steady."
+    },
+    {
+      "term": "Fissile",
+      "meaning": "Able to undergo fission after absorbing a slow neutron, as uranium-235 does."
+    }
+  ],
+  "core_concepts": [
+    {
+      "heading": "Why Fission Releases Energy",
+      "explanation": "Binding energy per nucleon rises to a maximum near iron-56 and falls away for heavier nuclei. Splitting a heavy nucleus produces fragments closer to that peak, so the products are more tightly bound and the difference in mass appears as energy."
+    },
+    {
+      "heading": "The Fission Process",
+      "explanation": "A uranium-235 nucleus absorbs a slow neutron, becomes unstable, and splits into two unequal fragments plus two or three neutrons. Around 200 MeV is released, mostly as kinetic energy of the fragments, which then heats the surrounding material."
+    },
+    {
+      "heading": "The Chain Reaction",
+      "explanation": "Each fission releases more neutrons than it consumed, so the reaction can sustain itself if enough of them go on to cause further fissions. Below the critical mass too many neutrons escape and the reaction dies out."
+    },
+    {
+      "heading": "Why Neutrons Must Be Slowed",
+      "explanation": "Uranium-235 absorbs slow neutrons far more readily than fast ones, but fission releases fast neutrons. A moderator such as water or graphite slows them through repeated collisions, which is what makes a sustained reaction possible."
+    },
+    {
+      "heading": "Controlling the Rate",
+      "explanation": "Control rods of boron or cadmium absorb neutrons. Lowering them further reduces the number available to cause fission and slows the reaction; raising them speeds it up. They are set so that exactly one neutron per fission goes on to cause the next."
+    },
+    {
+      "heading": "Getting the Energy Out",
+      "explanation": "A coolant carries thermal energy from the core to a heat exchanger, raising steam that drives a turbine and generator. The coolant also prevents the core from overheating, which remains necessary after shutdown because decay heat continues."
+    }
+  ],
+  "formulas": [
+    {
+      "name": "Mass–Energy Equivalence",
+      "formula": "E = Δmc²",
+      "variables": {
+        "E": "energy released (J)",
+        "Δm": "mass defect (kg)",
+        "c": "speed of light (3.00 × 10⁸ m s⁻¹)"
+      },
+      "explanation": "The mass lost in the reaction appears as energy."
+    },
+    {
+      "name": "Energy from Atomic Mass Units",
+      "formula": "E = Δm × 931.5  MeV",
+      "variables": {
+        "E": "energy released (MeV)",
+        "Δm": "mass defect (u)"
+      },
+      "explanation": "A convenient shortcut: one atomic mass unit is equivalent to 931.5 MeV."
+    },
+    {
+      "name": "Energy Released per Fission",
+      "formula": "E = (binding energy of products) − (binding energy of reactants)",
+      "variables": {
+        "E": "energy released (MeV)"
+      },
+      "explanation": "Equivalently, the increase in total binding energy as the system moves towards the peak of the curve."
+    }
+  ],
+  "worked_examples": [
+    {
+      "question": "A fission reaction has a mass defect of 0.215 u. Calculate the energy released in MeV.",
+      "solution": [
+        "Use E = Δm × 931.5",
+        "E = 0.215 × 931.5"
+      ],
+      "answer": "About 200 MeV"
+    },
+    {
+      "question": "Convert 200 MeV to joules.",
+      "solution": [
+        "1 eV = 1.60 × 10⁻¹⁹ J, so 1 MeV = 1.60 × 10⁻¹³ J",
+        "E = 200 × 1.60 × 10⁻¹³"
+      ],
+      "answer": "3.2 × 10⁻¹¹ J"
+    }
+  ],
+  "common_mistakes": [
+    "Swapping the roles of the moderator and the control rods — the moderator slows neutrons, the rods absorb them.",
+    "Saying fission releases energy because the products are lighter, without linking it to binding energy per nucleon.",
+    "Forgetting that the neutron absorbed must be slow for uranium-235.",
+    "Failing to balance nucleon number and proton number in a fission equation.",
+    "Claiming a reactor can explode like a bomb; reactor fuel is far too dilute to go supercritical in that way.",
+    "Ignoring decay heat, which means cooling is still needed after the reaction is shut down."
+  ],
+  "ib_exam_tips": [
+    "Always check that nucleon numbers and proton numbers balance on both sides of a fission equation.",
+    "Refer to the binding-energy-per-nucleon curve explicitly when explaining why energy is released.",
+    "Name the specific material when asked about a reactor component, for example graphite as a moderator or boron as a control rod.",
+    "Use 931.5 MeV per u to avoid converting to kilograms unnecessarily.",
+    "For evaluation questions, give both sides: very low carbon dioxide output against long-lived waste and proliferation risk."
+  ],
+  "hl_extension": [
+    {
+      "topic": "Neutron Economy and Criticality",
+      "explanation": "The multiplication factor is the average number of neutrons from one fission that go on to cause another. Below one the reaction dies out, above one it grows, and a reactor is held at exactly one — the critical condition — by continuous adjustment of the control rods."
+    },
+    {
+      "topic": "Fission Products and Waste",
+      "explanation": "The fragments are neutron-rich and therefore beta-active, and some have half-lives of thousands of years. This is why spent fuel must be shielded, cooled and stored securely for far longer than the reactor itself operates."
+    }
+  ],
+  "practice_questions": [
+    {
+      "level": "Easy",
+      "question": "State what is meant by a chain reaction.",
+      "answer": "A self-sustaining sequence in which neutrons released by one fission go on to cause further fissions."
+    },
+    {
+      "level": "Medium",
+      "question": "Explain the difference in function between a moderator and a control rod.",
+      "answer": "A moderator slows fast neutrons so uranium-235 can absorb them and fission. A control rod absorbs neutrons to reduce the number available, and is raised or lowered to hold the reaction rate steady."
+    },
+    {
+      "level": "Medium",
+      "question": "Explain why fission of a heavy nucleus releases energy.",
+      "answer": "The fragments lie closer to the peak of the binding-energy-per-nucleon curve than the original nucleus, so they are more tightly bound. The excess mass is released as energy."
+    },
+    {
+      "level": "Hard",
+      "question": "Discuss two safety issues associated with nuclear fission power.",
+      "answer": "Spent fuel remains intensely radioactive for thousands of years and needs secure long-term storage. Decay heat continues after shutdown, so loss of cooling can still damage the core. Fissile material also carries a weapons-proliferation risk."
+    }
+  ],
+  "summary": "A heavy nucleus absorbing a slow neutron splits into lighter fragments plus two or three neutrons, releasing about 200 MeV because the products sit closer to the peak of the binding-energy curve. Those neutrons can sustain a chain reaction, which a reactor controls with a moderator to slow neutrons, control rods to absorb them, and a coolant to carry the energy away."
+}

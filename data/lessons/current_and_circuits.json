@@ -1,0 +1,241 @@
+{
+  "title": "B.5 Current and Circuits",
+  "subject": "IBDP Physics",
+  "level": "SL and HL",
+  "introduction": "An electric circuit is a closed path that lets charge flow and deliver energy where it is wanted. This lesson builds the three quantities everything else rests on — current, potential difference and resistance — then combines components in series and parallel, and finishes with the internal resistance that makes a real cell behave differently from an ideal one.",
+  "learning_objectives": [
+    "Define electric current as the rate of flow of charge.",
+    "Define potential difference as energy transferred per unit charge.",
+    "Distinguish resistance from Ohm’s law.",
+    "Calculate power dissipated in a circuit component.",
+    "Combine resistors in series and in parallel.",
+    "Explain the difference between emf and terminal potential difference.",
+    "Analyse potential divider circuits, including sensor circuits."
+  ],
+  "definitions": [
+    {
+      "term": "Electric Current",
+      "meaning": "The rate of flow of electric charge past a point, measured in amperes (1 A = 1 C s⁻¹)."
+    },
+    {
+      "term": "Potential Difference",
+      "meaning": "The energy transferred per unit charge between two points, measured in volts (1 V = 1 J C⁻¹)."
+    },
+    {
+      "term": "Resistance",
+      "meaning": "The ratio of potential difference across a component to the current through it, measured in ohms."
+    },
+    {
+      "term": "Electromotive Force (emf)",
+      "meaning": "The total energy supplied per unit charge by a source. Despite the name it is a potential difference, not a force."
+    },
+    {
+      "term": "Internal Resistance",
+      "meaning": "The resistance of the source itself, which drops part of the emf inside the cell."
+    },
+    {
+      "term": "Resistivity",
+      "meaning": "A property of a material that, with length and cross-sectional area, fixes the resistance of a sample."
+    }
+  ],
+  "core_concepts": [
+    {
+      "heading": "Charge Flow and Drift",
+      "explanation": "Current is the rate at which charge passes a point. The charge carriers themselves drift slowly, but the electric field that drives them is established almost instantly throughout the circuit, which is why a lamp lights the moment the switch closes rather than after the electrons arrive."
+    },
+    {
+      "heading": "Resistance Versus Ohm’s Law",
+      "explanation": "R = V/I defines resistance for every component. Ohm’s law is the stronger claim that R stays constant as V changes, and it holds only for an ohmic conductor at constant temperature. A filament lamp is not ohmic: as current heats the filament its resistance rises, so its I–V graph curves."
+    },
+    {
+      "heading": "What Sets Resistance",
+      "explanation": "Resistance rises with length and falls with cross-sectional area, scaled by the resistivity of the material. A long thin wire resists more than a short thick one of the same metal."
+    },
+    {
+      "heading": "Series and Parallel",
+      "explanation": "In series the current is the same everywhere and the potential differences add, so resistances add. In parallel each branch has the same potential difference and the branch currents add, so the reciprocals of resistance add. A parallel combination always has less resistance than either resistor alone."
+    },
+    {
+      "heading": "Real Cells",
+      "explanation": "A real cell has internal resistance, so some of its emf is dropped inside it. The terminal potential difference delivered to the circuit therefore falls as the current drawn rises — which is why a car’s headlights dim while the starter motor turns."
+    },
+    {
+      "heading": "Potential Dividers",
+      "explanation": "Two resistors in series split the supply voltage in proportion to their resistances. Replacing one with a thermistor or a light-dependent resistor turns the circuit into a sensor whose output voltage tracks temperature or light level."
+    }
+  ],
+  "formulas": [
+    {
+      "name": "Electric Current",
+      "formula": "I = Δq / Δt",
+      "variables": {
+        "I": "current (A)",
+        "Δq": "charge transferred (C)",
+        "Δt": "time taken (s)"
+      },
+      "explanation": "Current is the rate of flow of charge past a point in the circuit."
+    },
+    {
+      "name": "Potential Difference",
+      "formula": "V = W / q",
+      "variables": {
+        "V": "potential difference (V)",
+        "W": "energy transferred (J)",
+        "q": "charge moved (C)"
+      },
+      "explanation": "One volt is one joule of energy transferred per coulomb of charge."
+    },
+    {
+      "name": "Resistance",
+      "formula": "R = V / I",
+      "variables": {
+        "R": "resistance (Ω)",
+        "V": "potential difference (V)",
+        "I": "current (A)"
+      },
+      "explanation": "Defines resistance for any component, ohmic or not."
+    },
+    {
+      "name": "Resistivity",
+      "formula": "R = ρL / A",
+      "variables": {
+        "R": "resistance (Ω)",
+        "ρ": "resistivity (Ω m)",
+        "L": "length (m)",
+        "A": "cross-sectional area (m²)"
+      },
+      "explanation": "Links the resistance of a sample to the material and its dimensions."
+    },
+    {
+      "name": "Electrical Power",
+      "formula": "P = VI = I²R = V²/R",
+      "variables": {
+        "P": "power dissipated (W)",
+        "V": "potential difference (V)",
+        "I": "current (A)",
+        "R": "resistance (Ω)"
+      },
+      "explanation": "Three equivalent forms; choose the one matching the quantities you know."
+    },
+    {
+      "name": "Resistors in Series",
+      "formula": "R = R₁ + R₂ + …",
+      "variables": {
+        "R": "total resistance (Ω)"
+      },
+      "explanation": "Series resistances add directly."
+    },
+    {
+      "name": "Resistors in Parallel",
+      "formula": "1/R = 1/R₁ + 1/R₂ + …",
+      "variables": {
+        "R": "total resistance (Ω)"
+      },
+      "explanation": "Add the reciprocals, then invert. The result is always smaller than the smallest branch."
+    },
+    {
+      "name": "Terminal Potential Difference",
+      "formula": "V = ε − Ir",
+      "variables": {
+        "V": "terminal pd (V)",
+        "ε": "emf (V)",
+        "I": "current (A)",
+        "r": "internal resistance (Ω)"
+      },
+      "explanation": "The pd delivered to the external circuit falls as current rises."
+    },
+    {
+      "name": "Potential Divider",
+      "formula": "V_out = V_in × R₂ / (R₁ + R₂)",
+      "variables": {
+        "V_out": "output pd (V)",
+        "V_in": "supply pd (V)",
+        "R₁": "first resistance (Ω)",
+        "R₂": "resistance across the output (Ω)"
+      },
+      "explanation": "The supply divides in proportion to the resistances."
+    }
+  ],
+  "worked_examples": [
+    {
+      "question": "A 12 V battery of internal resistance 0.50 Ω drives a current of 2.0 A. Calculate the terminal potential difference.",
+      "solution": [
+        "Use V = ε − Ir",
+        "V = 12 − (2.0 × 0.50)",
+        "V = 12 − 1.0"
+      ],
+      "answer": "11 V"
+    },
+    {
+      "question": "A 6.0 Ω and a 3.0 Ω resistor are connected in parallel across a 9.0 V supply. Calculate the total resistance and the total current.",
+      "solution": [
+        "1/R = 1/6.0 + 1/3.0 = 0.1667 + 0.3333 = 0.500",
+        "R = 1 / 0.500 = 2.0 Ω",
+        "I = V/R = 9.0 / 2.0"
+      ],
+      "answer": "R = 2.0 Ω and I = 4.5 A"
+    },
+    {
+      "question": "A 4.0 kΩ and a 2.0 kΩ resistor form a potential divider across a 9.0 V supply. Calculate the output voltage taken across the 2.0 kΩ resistor.",
+      "solution": [
+        "Use V_out = V_in × R₂ / (R₁ + R₂)",
+        "V_out = 9.0 × 2000 / (4000 + 2000)",
+        "V_out = 9.0 × 0.3333"
+      ],
+      "answer": "3.0 V"
+    }
+  ],
+  "common_mistakes": [
+    "Treating every component as ohmic. Ohm’s law only holds at constant temperature for an ohmic conductor.",
+    "Forgetting to invert after adding reciprocals for a parallel combination.",
+    "Producing a parallel resistance larger than one of the branches — always a sign of the error above.",
+    "Confusing emf with terminal potential difference; they are only equal when no current flows.",
+    "Placing an ammeter in parallel or a voltmeter in series.",
+    "Assuming current is used up as it flows round a circuit — charge is conserved, energy is what is transferred."
+  ],
+  "ib_exam_tips": [
+    "Quote units carefully: 1 A = 1 C s⁻¹ and 1 V = 1 J C⁻¹.",
+    "For an internal-resistance experiment, plot V against I: the intercept is the emf and the gradient is −r.",
+    "Check a parallel result against the rule that it must be smaller than the smallest branch.",
+    "State that an ideal ammeter has zero resistance and an ideal voltmeter infinite resistance when asked why real meters cause systematic error.",
+    "For a sensor circuit, say explicitly whether the resistance rises or falls with the stimulus before deducing what the output voltage does."
+  ],
+  "hl_extension": [
+    {
+      "topic": "Maximum Power Transfer",
+      "explanation": "The power delivered to an external resistor is greatest when its resistance equals the internal resistance of the source. Above and below that value the delivered power falls away.",
+      "formula": "P_max when R = r",
+      "variables": {
+        "R": "external resistance (Ω)",
+        "r": "internal resistance (Ω)"
+      }
+    },
+    {
+      "topic": "Non-Ohmic Characteristics",
+      "explanation": "For a filament lamp the I–V graph curves as the filament heats; for a diode current is negligible until a threshold forward voltage and then rises sharply. Resistance at any point is still V/I, read from the coordinates rather than the gradient."
+    }
+  ],
+  "practice_questions": [
+    {
+      "level": "Easy",
+      "question": "Define electric current and state its unit.",
+      "answer": "The rate of flow of electric charge past a point, measured in amperes, where 1 A = 1 C s⁻¹."
+    },
+    {
+      "level": "Medium",
+      "question": "Two 8.0 Ω resistors are connected in parallel. Calculate the combined resistance.",
+      "answer": "4.0 Ω, since 1/R = 1/8.0 + 1/8.0 = 0.25 so R = 4.0 Ω."
+    },
+    {
+      "level": "Medium",
+      "question": "Explain why the terminal potential difference of a cell falls as the current drawn increases.",
+      "answer": "Part of the emf is dropped across the internal resistance. Since V = ε − Ir, a larger current means a larger internal drop and so a smaller terminal pd."
+    },
+    {
+      "level": "Hard",
+      "question": "A filament lamp does not obey Ohm’s law. Explain why, and describe the shape of its I–V graph.",
+      "answer": "Current heats the filament, raising its temperature and therefore its resistance, so R is not constant. The I–V graph curves towards the voltage axis as the gradient falls with increasing current."
+    }
+  ],
+  "summary": "Current is the rate of flow of charge, potential difference is energy transferred per unit charge, and resistance is their ratio. Resistances add in series and add reciprocally in parallel. Real sources have internal resistance, so terminal potential difference falls as current rises, and potential dividers split a supply in proportion to resistance — the basis of most simple sensor circuits."
+}

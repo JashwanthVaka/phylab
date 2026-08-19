@@ -1,10 +1,8 @@
 {
-  "title": "C.5 Electromagnetic Induction",
+  "title": "D.5 Electromagnetic Induction",
   "subject": "IBDP Physics",
   "level": "SL and HL",
-
   "introduction": "Electromagnetic induction explains how electrical energy can be produced from changing magnetic fields. This principle is the foundation of generators, transformers and many electrical technologies. When magnetic flux through a conductor changes, an induced electromotive force is produced.",
-
   "learning_objectives": [
     "Understand magnetic flux.",
     "Explain electromagnetic induction.",
@@ -13,7 +11,6 @@
     "Understand generators and transformers.",
     "Analyse induced emf."
   ],
-
   "definitions": [
     {
       "term": "Electromagnetic Induction",
@@ -40,7 +37,6 @@
       "meaning": "An electric current that changes direction periodically."
     }
   ],
-
   "core_concepts": [
     {
       "heading": "Magnetic Flux",
@@ -58,245 +54,231 @@
       "heading": "Lenz's Law",
       "explanation": "The induced current always acts in a direction that opposes the change in magnetic flux that produced it."
     }
-  ]
-,
-
-"formulas": [
-  {
-    "name": "Magnetic Flux",
-    "formula": "Φ = BAcosθ",
-    "variables": {
-      "Φ": "magnetic flux (Wb)",
-      "B": "magnetic flux density (T)",
-      "A": "area (m²)",
-      "θ": "angle between magnetic field and surface"
-    },
-    "explanation": "Magnetic flux measures how much magnetic field passes through a surface. Maximum flux occurs when the field is perpendicular to the surface."
-  },
-  {
-    "name": "Faraday's Law",
-    "formula": "ε = -NΔΦ/Δt",
-    "variables": {
-      "ε": "induced emf (V)",
-      "N": "number of turns in coil",
-      "ΔΦ": "change in magnetic flux (Wb)",
-      "Δt": "time interval (s)"
-    },
-    "explanation": "The induced emf increases when magnetic flux changes faster or when the number of coil turns increases."
-  },
-  {
-    "name": "Transformer Equation",
-    "formula": "Vp/Vs = Np/Ns",
-    "variables": {
-      "Vp": "primary voltage (V)",
-      "Vs": "secondary voltage (V)",
-      "Np": "number of primary turns",
-      "Ns": "number of secondary turns"
-    },
-    "explanation": "Transformers change voltage by changing the number of turns in primary and secondary coils."
-  },
-  {
-    "name": "Transformer Power Relationship",
-    "formula": "VpIp = VsIs",
-    "variables": {
-      "Vp": "primary voltage",
-      "Ip": "primary current",
-      "Vs": "secondary voltage",
-      "Is": "secondary current"
-    },
-    "explanation": "In an ideal transformer, input power equals output power."
-  }
-],
-
-"generators": [
-  {
-    "topic": "AC Generator",
-    "explanation": "An alternating current generator converts mechanical energy into electrical energy by rotating a coil inside a magnetic field.",
-    "components": [
-      "Coil",
-      "Magnetic field",
-      "Slip rings",
-      "Brushes"
-    ]
-  },
-  {
-    "topic": "Generator Operation",
-    "steps": [
-      "A coil rotates inside a magnetic field.",
-      "Magnetic flux through the coil changes.",
-      "An emf is induced.",
-      "The direction of current changes every half rotation, producing alternating current."
-    ]
-  }
-],
-
-"transformers": [
-  {
-    "type": "Step-Up Transformer",
-    "explanation": "A step-up transformer increases voltage and decreases current.",
-    "condition": "Secondary coil has more turns than primary coil."
-  },
-  {
-    "type": "Step-Down Transformer",
-    "explanation": "A step-down transformer decreases voltage and increases current.",
-    "condition": "Secondary coil has fewer turns than primary coil."
-  },
-  {
-    "topic": "Electrical Transmission",
-    "explanation": "Power is transmitted at high voltage and low current to reduce energy loss in cables. Transformers allow voltage changes between power stations and consumers."
-  }
-],
-
-"worked_examples": [
-  {
-    "question": "A coil has 200 turns. The magnetic flux changes by 0.05 Wb in 2 seconds. Calculate the induced emf.",
-    "solution": [
-      "Use ε = NΔΦ/Δt",
-      "ε = (200 × 0.05)/2",
-      "ε = 5 V"
-    ],
-    "answer": "5 V"
-  },
-  {
-    "question": "A transformer has 1000 primary turns and 200 secondary turns. The primary voltage is 240 V. Find the secondary voltage.",
-    "solution": [
-      "Use Vp/Vs = Np/Ns",
-      "240/Vs = 1000/200",
-      "Vs = 48 V"
-    ],
-    "answer": "48 V"
-  }
-],
-
-"lenz_law_applications": [
-  {
-    "topic": "Lenz's Law",
-    "explanation": "Lenz's law states that the induced current always flows in a direction that opposes the change in magnetic flux causing it. This prevents the creation of energy from nothing and follows the principle of conservation of energy."
-  },
-  {
-    "example": "Magnet Moving Through a Coil",
-    "explanation": "When a magnet moves towards a coil, the induced current creates a magnetic field that opposes the approaching magnet. When the magnet moves away, the induced field tries to maintain the original magnetic flux."
-  },
-  {
-    "example": "Eddy Currents",
-    "explanation": "Eddy currents are circular currents induced inside conducting materials. They create magnetic fields that oppose changes in magnetic flux."
-  }
-],
-
-"eddy_currents": [
-  {
-    "advantages": [
-      "Magnetic braking systems in trains.",
-      "Induction heating in cookers.",
-      "Damping in measuring instruments."
-    ]
-  },
-  {
-    "disadvantages": [
-      "Energy losses in transformers.",
-      "Unwanted heating in electrical machines."
-    ]
-  }
-],
-
-"motors_and_induction_connection": [
-  {
-    "topic": "Motor Effect",
-    "explanation": "The motor effect is the force experienced by a current carrying conductor placed in a magnetic field. It is the reverse process of electromagnetic induction.",
-    "formula": "F = BILsinθ",
-    "variables": {
-      "F": "force (N)",
-      "B": "magnetic flux density (T)",
-      "I": "current (A)",
-      "L": "length of conductor (m)",
-      "θ": "angle between current and field"
-    }
-  },
-  {
-    "topic": "Generator and Motor Comparison",
-    "comparison": [
-      {
-        "device": "Generator",
-        "energy_conversion": "Mechanical energy to electrical energy"
+  ],
+  "formulas": [
+    {
+      "name": "Magnetic Flux",
+      "formula": "Φ = BAcosθ",
+      "variables": {
+        "Φ": "magnetic flux (Wb)",
+        "B": "magnetic flux density (T)",
+        "A": "area (m²)",
+        "θ": "angle between magnetic field and surface"
       },
-      {
-        "device": "Motor",
-        "energy_conversion": "Electrical energy to mechanical energy"
+      "explanation": "Magnetic flux measures how much magnetic field passes through a surface. Maximum flux occurs when the field is perpendicular to the surface."
+    },
+    {
+      "name": "Faraday's Law",
+      "formula": "ε = -NΔΦ/Δt",
+      "variables": {
+        "ε": "induced emf (V)",
+        "N": "number of turns in coil",
+        "ΔΦ": "change in magnetic flux (Wb)",
+        "Δt": "time interval (s)"
+      },
+      "explanation": "The induced emf increases when magnetic flux changes faster or when the number of coil turns increases."
+    },
+    {
+      "name": "Transformer Equation",
+      "formula": "Vp/Vs = Np/Ns",
+      "variables": {
+        "Vp": "primary voltage (V)",
+        "Vs": "secondary voltage (V)",
+        "Np": "number of primary turns",
+        "Ns": "number of secondary turns"
+      },
+      "explanation": "Transformers change voltage by changing the number of turns in primary and secondary coils."
+    },
+    {
+      "name": "Transformer Power Relationship",
+      "formula": "VpIp = VsIs",
+      "variables": {
+        "Vp": "primary voltage",
+        "Ip": "primary current",
+        "Vs": "secondary voltage",
+        "Is": "secondary current"
+      },
+      "explanation": "In an ideal transformer, input power equals output power."
+    }
+  ],
+  "generators": [
+    {
+      "topic": "AC Generator",
+      "explanation": "An alternating current generator converts mechanical energy into electrical energy by rotating a coil inside a magnetic field.",
+      "components": [
+        "Coil",
+        "Magnetic field",
+        "Slip rings",
+        "Brushes"
+      ]
+    },
+    {
+      "topic": "Generator Operation",
+      "steps": [
+        "A coil rotates inside a magnetic field.",
+        "Magnetic flux through the coil changes.",
+        "An emf is induced.",
+        "The direction of current changes every half rotation, producing alternating current."
+      ]
+    }
+  ],
+  "transformers": [
+    {
+      "type": "Step-Up Transformer",
+      "explanation": "A step-up transformer increases voltage and decreases current.",
+      "condition": "Secondary coil has more turns than primary coil."
+    },
+    {
+      "type": "Step-Down Transformer",
+      "explanation": "A step-down transformer decreases voltage and increases current.",
+      "condition": "Secondary coil has fewer turns than primary coil."
+    },
+    {
+      "topic": "Electrical Transmission",
+      "explanation": "Power is transmitted at high voltage and low current to reduce energy loss in cables. Transformers allow voltage changes between power stations and consumers."
+    }
+  ],
+  "worked_examples": [
+    {
+      "question": "A coil has 200 turns. The magnetic flux changes by 0.05 Wb in 2 seconds. Calculate the induced emf.",
+      "solution": [
+        "Use ε = NΔΦ/Δt",
+        "ε = (200 × 0.05)/2",
+        "ε = 5 V"
+      ],
+      "answer": "5 V"
+    },
+    {
+      "question": "A transformer has 1000 primary turns and 200 secondary turns. The primary voltage is 240 V. Find the secondary voltage.",
+      "solution": [
+        "Use Vp/Vs = Np/Ns",
+        "240/Vs = 1000/200",
+        "Vs = 48 V"
+      ],
+      "answer": "48 V"
+    }
+  ],
+  "lenz_law_applications": [
+    {
+      "topic": "Lenz's Law",
+      "explanation": "Lenz's law states that the induced current always flows in a direction that opposes the change in magnetic flux causing it. This prevents the creation of energy from nothing and follows the principle of conservation of energy."
+    },
+    {
+      "example": "Magnet Moving Through a Coil",
+      "explanation": "When a magnet moves towards a coil, the induced current creates a magnetic field that opposes the approaching magnet. When the magnet moves away, the induced field tries to maintain the original magnetic flux."
+    },
+    {
+      "example": "Eddy Currents",
+      "explanation": "Eddy currents are circular currents induced inside conducting materials. They create magnetic fields that oppose changes in magnetic flux."
+    }
+  ],
+  "eddy_currents": [
+    {
+      "advantages": [
+        "Magnetic braking systems in trains.",
+        "Induction heating in cookers.",
+        "Damping in measuring instruments."
+      ]
+    },
+    {
+      "disadvantages": [
+        "Energy losses in transformers.",
+        "Unwanted heating in electrical machines."
+      ]
+    }
+  ],
+  "motors_and_induction_connection": [
+    {
+      "topic": "Motor Effect",
+      "explanation": "The motor effect is the force experienced by a current carrying conductor placed in a magnetic field. It is the reverse process of electromagnetic induction.",
+      "formula": "F = BILsinθ",
+      "variables": {
+        "F": "force (N)",
+        "B": "magnetic flux density (T)",
+        "I": "current (A)",
+        "L": "length of conductor (m)",
+        "θ": "angle between current and field"
       }
-    ]
-  }
-],
-
-"applications": [
-  {
-    "application": "Electric Power Generation",
-    "explanation": "Large generators in power stations rotate coils or magnets to produce electricity using electromagnetic induction."
-  },
-  {
-    "application": "Wireless Charging",
-    "explanation": "Wireless chargers use changing magnetic fields to transfer energy between coils."
-  },
-  {
-    "application": "Metal Detectors",
-    "explanation": "Metal detectors use changing magnetic fields to create eddy currents in metal objects."
-  },
-  {
-    "application": "Induction Cookers",
-    "explanation": "Induction cookers heat conducting materials using rapidly changing magnetic fields."
-  }
-],
-
-"common_mistakes": [
-  "Thinking a magnetic field alone creates current without a change in flux.",
-  "Forgetting that induced current opposes the change in flux.",
-  "Confusing generators and motors.",
-  "Using the wrong transformer equation.",
-  "Ignoring the number of coil turns when calculating emf.",
-  "Forgetting that transformers require alternating current."
-],
-
-"ib_exam_tips": [
-  "State the cause of the change in magnetic flux.",
-  "Explain the direction of induced current using Lenz's law.",
-  "Draw clear generator and transformer diagrams.",
-  "Remember that increasing coil turns increases induced emf.",
-  "Explain energy conversions in devices.",
-  "Include units in electromagnetic calculations."
-],
-
-"hl_extension": [
-  {
-    "topic": "Mutual Induction",
-    "explanation": "Mutual induction occurs when a changing current in one coil creates a changing magnetic field that induces emf in another coil."
-  },
-  {
-    "topic": "Self Induction",
-    "explanation": "Self induction occurs when a changing current in a coil induces an emf in the same coil that opposes the change.",
-    "formula": "ε = -LΔI/Δt"
-  },
-  {
-    "topic": "Inductance",
-    "explanation": "Inductance describes the ability of a component to oppose changes in current."
-  }
-],
-
-"practice_questions": [
-  {
-    "level": "Easy",
-    "question": "What causes electromagnetic induction?",
-    "answer": "A change in magnetic flux through a conductor."
-  },
-  {
-    "level": "Medium",
-    "question": "Explain Lenz's law.",
-    "answer": "The induced current acts in a direction that opposes the change causing it."
-  },
-  {
-    "level": "HL",
-    "question": "Explain why transformers only work with alternating current.",
-    "answer": "Alternating current produces a changing magnetic field, which is required to induce emf in the secondary coil."
-  }
-],
-
-"summary": "Electromagnetic induction explains how changing magnetic fields create electrical energy. Faraday's law describes the magnitude of induced emf, while Lenz's law explains its direction. These principles form the basis of generators, transformers, motors and many modern electrical technologies."
+    },
+    {
+      "topic": "Generator and Motor Comparison",
+      "comparison": [
+        {
+          "device": "Generator",
+          "energy_conversion": "Mechanical energy to electrical energy"
+        },
+        {
+          "device": "Motor",
+          "energy_conversion": "Electrical energy to mechanical energy"
+        }
+      ]
+    }
+  ],
+  "applications": [
+    {
+      "application": "Electric Power Generation",
+      "explanation": "Large generators in power stations rotate coils or magnets to produce electricity using electromagnetic induction."
+    },
+    {
+      "application": "Wireless Charging",
+      "explanation": "Wireless chargers use changing magnetic fields to transfer energy between coils."
+    },
+    {
+      "application": "Metal Detectors",
+      "explanation": "Metal detectors use changing magnetic fields to create eddy currents in metal objects."
+    },
+    {
+      "application": "Induction Cookers",
+      "explanation": "Induction cookers heat conducting materials using rapidly changing magnetic fields."
+    }
+  ],
+  "common_mistakes": [
+    "Thinking a magnetic field alone creates current without a change in flux.",
+    "Forgetting that induced current opposes the change in flux.",
+    "Confusing generators and motors.",
+    "Using the wrong transformer equation.",
+    "Ignoring the number of coil turns when calculating emf.",
+    "Forgetting that transformers require alternating current."
+  ],
+  "ib_exam_tips": [
+    "State the cause of the change in magnetic flux.",
+    "Explain the direction of induced current using Lenz's law.",
+    "Draw clear generator and transformer diagrams.",
+    "Remember that increasing coil turns increases induced emf.",
+    "Explain energy conversions in devices.",
+    "Include units in electromagnetic calculations."
+  ],
+  "hl_extension": [
+    {
+      "topic": "Mutual Induction",
+      "explanation": "Mutual induction occurs when a changing current in one coil creates a changing magnetic field that induces emf in another coil."
+    },
+    {
+      "topic": "Self Induction",
+      "explanation": "Self induction occurs when a changing current in a coil induces an emf in the same coil that opposes the change.",
+      "formula": "ε = -LΔI/Δt"
+    },
+    {
+      "topic": "Inductance",
+      "explanation": "Inductance describes the ability of a component to oppose changes in current."
+    }
+  ],
+  "practice_questions": [
+    {
+      "level": "Easy",
+      "question": "What causes electromagnetic induction?",
+      "answer": "A change in magnetic flux through a conductor."
+    },
+    {
+      "level": "Medium",
+      "question": "Explain Lenz's law.",
+      "answer": "The induced current acts in a direction that opposes the change causing it."
+    },
+    {
+      "level": "HL",
+      "question": "Explain why transformers only work with alternating current.",
+      "answer": "Alternating current produces a changing magnetic field, which is required to induce emf in the secondary coil."
+    }
+  ],
+  "summary": "Electromagnetic induction explains how changing magnetic fields create electrical energy. Faraday's law describes the magnitude of induced emf, while Lenz's law explains its direction. These principles form the basis of generators, transformers, motors and many modern electrical technologies."
 }
