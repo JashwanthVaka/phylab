@@ -1,3 +1,4 @@
+import { markActiveRoute } from './navShell.js';
 /** Small History API router with deep-link and browser-navigation support. */
 export class Router {
   constructor(routes) { this.routes = routes; this.handle = this.handle.bind(this); }
@@ -5,6 +6,7 @@ export class Router {
   go(path) { history.pushState({}, '', path); this.handle(); }
   async handle() {
     const path = location.pathname.replace(/\/$/, '') || '/';
+    markActiveRoute(path);
     for (const [pattern, handler] of Object.entries(this.routes)) {
       if (pattern === '*') continue;
       const names = []; const regex = new RegExp(`^${pattern.replace(/:([^/]+)/g, (_, name) => { names.push(name); return '([^/]+)'; })}/?$`);

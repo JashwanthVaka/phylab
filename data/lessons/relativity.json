@@ -1,7 +1,7 @@
 {
   "title": "A.5 Relativity",
   "subject": "IBDP Physics",
-  "level": "SL and HL",
+  "level": "HL",
   "introduction": "Relativity explains how measurements of space, time and motion depend on the observer's reference frame. Developed by Albert Einstein, relativity changed the understanding of gravity, energy and the relationship between space and time. This topic introduces special relativity, which deals with objects moving at constant velocity, and connects mass, energy and the speed of light.",
   "learning_objectives": [
     "Understand the need for relativity in physics.",
@@ -217,5 +217,6 @@
       "answer": "At speeds close to light speed, classical equations do not correctly describe energy and momentum."
     }
   ],
-  "summary": "Relativity changes the way physicists understand space, time and energy. Special relativity explains how measurements depend on motion, while the mass-energy relationship shows the connection between matter and energy. These concepts are essential for modern physics, astronomy, particle physics and advanced technology."
+  "summary": "Relativity changes the way physicists understand space, time and energy. Special relativity explains how measurements depend on motion, while the mass-energy relationship shows the connection between matter and energy. These concepts are essential for modern physics, astronomy, particle physics and advanced technology.",
+  "difficulty": "HL"
 }

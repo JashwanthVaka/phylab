@@ -1,7 +1,7 @@
 {
   "title": "D.5 Electromagnetic Induction",
   "subject": "IBDP Physics",
-  "level": "SL and HL",
+  "level": "HL",
   "introduction": "Electromagnetic induction explains how electrical energy can be produced from changing magnetic fields. This principle is the foundation of generators, transformers and many electrical technologies. When magnetic flux through a conductor changes, an induced electromotive force is produced.",
   "learning_objectives": [
     "Understand magnetic flux.",
@@ -280,5 +280,6 @@
       "answer": "Alternating current produces a changing magnetic field, which is required to induce emf in the secondary coil."
     }
   ],
-  "summary": "Electromagnetic induction explains how changing magnetic fields create electrical energy. Faraday's law describes the magnitude of induced emf, while Lenz's law explains its direction. These principles form the basis of generators, transformers, motors and many modern electrical technologies."
+  "summary": "Electromagnetic induction explains how changing magnetic fields create electrical energy. Faraday's law describes the magnitude of induced emf, while Lenz's law explains its direction. These principles form the basis of generators, transformers, motors and many modern electrical technologies.",
+  "difficulty": "HL"
 }

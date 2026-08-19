@@ -1,7 +1,7 @@
 {
   "title": "A.4 Rigid Body Mechanics",
   "subject": "IBDP Physics",
-  "level": "SL and HL",
+  "level": "HL",
   "introduction": "Rigid body mechanics studies the motion and equilibrium of objects that maintain their shape when forces act on them. Unlike particles, rigid bodies can rotate as well as translate. This topic explains concepts such as torque, angular motion, centre of mass and rotational equilibrium. These ideas are important in engineering, machines, structures and spacecraft.",
   "learning_objectives": [
     "Understand rotational motion.",
@@ -284,5 +284,6 @@
       "answer": "Reducing the moment of inertia increases angular velocity while angular momentum remains conserved."
     }
   ],
-  "summary": "Rigid body mechanics explains how objects rotate, balance and respond to turning forces. Understanding torque, moments, centre of mass and angular momentum allows physicists and engineers to analyse complex systems from machines to spacecraft."
+  "summary": "Rigid body mechanics explains how objects rotate, balance and respond to turning forces. Understanding torque, moments, centre of mass and angular momentum allows physicists and engineers to analyse complex systems from machines to spacecraft.",
+  "difficulty": "HL"
 }

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#fbfbfd">
+  <meta name="theme-color" content="#F7F7F5">
   <meta name="description" content="KINETIQ — an interactive IBDP Physics learning platform.">
   <title>KINETIQ — IBDP Physics</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,21 +14,57 @@
 <body>
   <a class="skip-link" href="#app">Skip to content</a>
   <div class="noise" aria-hidden="true"></div>
-  <header class="site-header">
-    <a class="brand" href="/" data-route><span class="brand-mark">κ</span><span>KINETIQ<small>IBDP PHYSICS</small></span></a>
-    <nav aria-label="Primary navigation">
-      <a href="/" data-route>Home</a>
-      <a href="/library" data-route>Learn</a>
-      <a href="/simulations" data-route>Lab</a>
-      <a href="/cases" data-route>Cases</a>
-      <a href="/toolkit" data-route>Toolkit</a><a href="/data" data-route>Data</a><a href="/ia" data-route>IA</a>
-      <a href="/exam-prep" data-route>Practice</a>
-      <a href="/mistakes" data-route>Mistakes</a>
-      <a href="/revision" data-route>Revise</a>
-      <a href="/formulas" data-route>Formulae</a>
-      <a href="/progress" data-route>Progress</a>
-    </nav>
-    <button class="outline" id="tutorButton" type="button">Ask KIT</button>
+  <header class="site-header" id="siteHeader">
+    <div class="nav-shell glass" data-glass>
+      <a class="brand" href="/" data-route><span class="brand-mark">κ</span><span>KINETIQ<small>IBDP PHYSICS</small></span></a>
+
+      <nav class="nav-primary" aria-label="Primary navigation">
+        <a href="/library" data-route>Learn</a>
+        <a href="/simulations" data-route>Lab</a>
+        <a href="/cases" data-route>Cases</a>
+        <a href="/exam-prep" data-route>Practice</a>
+        <a href="/progress" data-route>Progress</a>
+        <div class="nav-more">
+          <button class="nav-more-btn" id="navMoreBtn" type="button" aria-expanded="false" aria-haspopup="true" aria-controls="navMoreMenu">
+            More<svg viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4"/></svg>
+          </button>
+          <div class="glass-menu glass" id="navMoreMenu" data-glass role="menu" hidden>
+            <a href="/toolkit" data-route role="menuitem">Toolkit</a>
+            <a href="/data" data-route role="menuitem">Data lab</a>
+            <a href="/ia" data-route role="menuitem">IA workspace</a>
+            <a href="/mistakes" data-route role="menuitem">Mistake bank</a>
+            <a href="/revision" data-route role="menuitem">Revision</a>
+            <a href="/formulas" data-route role="menuitem">Formulae</a>
+            <a href="/patterns" data-route role="menuitem">Question patterns</a>
+            <a href="/resources" data-route role="menuitem">Sources</a>
+          </div>
+        </div>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="btn btn-primary" id="tutorButton" type="button">Ask KIT</button>
+        <button class="nav-burger" id="navBurger" type="button" aria-expanded="false" aria-controls="mobileNav" aria-label="Open menu">
+          <span></span><span></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="mobile-nav glass" id="mobileNav" data-glass hidden>
+      <nav aria-label="All pages">
+        <a href="/" data-route>Home</a>
+        <a href="/library" data-route>Learn</a>
+        <a href="/simulations" data-route>Lab</a>
+        <a href="/cases" data-route>Cases</a>
+        <a href="/exam-prep" data-route>Practice</a>
+        <a href="/progress" data-route>Progress</a>
+        <a href="/toolkit" data-route>Toolkit</a>
+        <a href="/data" data-route>Data lab</a>
+        <a href="/ia" data-route>IA workspace</a>
+        <a href="/mistakes" data-route>Mistake bank</a>
+        <a href="/revision" data-route>Revision</a>
+        <a href="/formulas" data-route>Formulae</a>
+      </nav>
+    </div>
   </header>
   <main id="app" tabindex="-1" aria-live="polite"></main>
   <div id="modalRoot"></div>

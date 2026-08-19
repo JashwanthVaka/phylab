@@ -57,7 +57,7 @@ export function libraryPage(index, state) {
   return `<section class="page library-page">
     <p class="eyebrow">COURSE LIBRARY</p>
     <h1>Work through the whole course.</h1>
-    <p class="page-lead">All ${lessons.length} lessons in syllabus order, grouped into the four IB Physics units. Your completion is ${state.guest ? 'saved on this device' : 'saved to your account'}.</p>
+    <p class="page-lead">All ${lessons.length} lessons in syllabus order, grouped into the five course units. Your completion is ${state.guest ? 'saved on this device' : 'saved to your account'}.</p>
 
     <div class="library-summary">
       <div class="library-summary__ring" role="img" aria-label="${percentage} percent of lessons complete"><b>${percentage}%</b></div>
@@ -77,7 +77,7 @@ export function libraryPage(index, state) {
       </div>
       <div class="library-selects">
         <label>Status <select data-filter-status>${STATUSES.map(([value, label]) => `<option value="${value}">${label}</option>`).join('')}</select></label>
-        <span class="library-note">Every lesson covers both SL and HL, each with its own HL extension section.</span>
+        <span class="library-note">Five lessons are Higher Level only. The rest cover both, each with its own HL extension section.</span>
       </div>
     </div>
     <p class="library-count" data-library-count aria-live="polite"></p>

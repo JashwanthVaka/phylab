@@ -1,7 +1,7 @@
 {
   "title": "E.2 Quantum Physics",
   "subject": "IBDP Physics",
-  "level": "SL and HL",
+  "level": "HL",
   "introduction": "Quantum physics studies the behaviour of matter and radiation at atomic and subatomic scales. At these scales, particles show both wave-like and particle-like properties. Quantum theory explains phenomena such as the photoelectric effect, atomic spectra, electron behaviour and modern technologies including lasers and semiconductors.",
   "learning_objectives": [
     "Understand the quantum nature of light.",
@@ -279,5 +279,6 @@
       "answer": "Matter and radiation show both wave and particle properties depending on the experiment."
     }
   ],
-  "summary": "Quantum physics explains the behaviour of matter and radiation at atomic scales. Concepts such as photons, energy quantisation, the photoelectric effect and wave-particle duality explain modern technologies including lasers, electronics and medical equipment."
+  "summary": "Quantum physics explains the behaviour of matter and radiation at atomic scales. Concepts such as photons, energy quantisation, the photoelectric effect and wave-particle duality explain modern technologies including lasers, electronics and medical equipment.",
+  "difficulty": "HL"
 }

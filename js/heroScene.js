@@ -17,7 +17,7 @@ const GRAVITY = 22;
 export function heroScene() {
   return `<div class="hero-scene" data-hero-scene>
     <svg viewBox="0 0 ${WIDTH} ${HEIGHT}" class="hero-svg" role="img" aria-label="An animated physics model. Use the buttons to change which model is shown." data-hero-svg>
-      <defs><radialGradient id="heroGlow" cx="50%" cy="50%"><stop offset="0%" stop-color="#b9e65d" stop-opacity=".55"/><stop offset="100%" stop-color="#b9e65d" stop-opacity="0"/></radialGradient></defs>
+      <defs><radialGradient id="heroGlow" cx="50%" cy="50%"><stop offset="0%" stop-color="var(--accent-2)" stop-opacity=".55"/><stop offset="100%" stop-color="var(--accent-2)" stop-opacity="0"/></radialGradient></defs>
       <rect width="${WIDTH}" height="${HEIGHT}" fill="none"/>
       <circle cx="${WIDTH / 2}" cy="${HEIGHT / 2}" r="130" fill="url(#heroGlow)"/>
       <g data-hero-static></g>
@@ -106,7 +106,7 @@ export function bindHeroScene() {
         const outer = setting >= 0 ? 116 : 20;
         return `<line class="hero-field-line" x1="${WIDTH / 2 + inner * Math.cos(angle)}" y1="${HEIGHT / 2 + inner * Math.sin(angle)}" x2="${WIDTH / 2 + outer * Math.cos(angle)}" y2="${HEIGHT / 2 + outer * Math.sin(angle)}" marker-end="url(#heroArrow)"/>`;
       }).join('');
-      staticLayer.innerHTML = `<defs><marker id="heroArrow" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#4a8372"/></marker></defs>${lines}`;
+      staticLayer.innerHTML = `<defs><marker id="heroArrow" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="var(--teal)"/></marker></defs>${lines}`;
       return;
     }
     staticLayer.innerHTML = `<line class="hero-axis" x1="20" y1="${HEIGHT / 2}" x2="${WIDTH - 20}" y2="${HEIGHT / 2}"/>`;
