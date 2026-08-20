@@ -1826,3 +1826,70 @@ body > footer nav a:hover { color: var(--blue); text-decoration: underline; }
   --glass-bg:        rgba(15, 23, 42, .30);
   --glass-bg-strong: rgba(15, 23, 42, .50);
 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   Warm palette. The primary moves from blue to a burnt rust, and no blue —
+   dark or otherwise — remains in the interface. Unit colours are re-cast so
+   none of them collides with the new primary.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Primary */
+  --blue:        #C2410C;   /* rust 700  — 4.83:1 on the page, 5.18:1 white-on-it */
+  --blue-strong: #9A3412;   /* hover / pressed */
+  --blue-soft:   #E4703F;   /* on dark grounds only */
+  --focus:       #C2410C;
+
+  /* Warm tint replaces the pale blue surface */
+  --pale:             #FDF2EC;
+  --bg-alt:           #FDF2EC;
+  --accent-soft:      #FDF2EC;
+  --accent-soft-line: rgba(194, 65, 12, .22);
+  --accent-2:         #E4703F;
+  --accent-3:         #0F766E;   /* success stays teal so it is not confused with the primary */
+
+  /* The kappa mark keeps its amber; it is the one warm-yellow note */
+  --accent:     #F4B942;
+  --btn-accent: #F4B942;
+}
+
+:root[data-theme="dark"] {
+  --blue:        #F97D4A;
+  --blue-strong: #EA580C;
+  --blue-soft:   #FDBA8C;
+  --focus:       #F97D4A;
+  --pale:        #2A1A12;
+  --accent-soft: #2A1A12;
+  --accent-soft-line: rgba(249, 125, 74, .28);
+  --accent-3:    #2DD4BF;
+}
+
+/* Unit identities, none of them blue and none of them the primary rust */
+[data-unit="A"] { --unit-color: #0F766E; }  /* teal        5.47:1 */
+[data-unit="B"] { --unit-color: #7C3AED; }  /* violet      5.70:1 */
+[data-unit="C"] { --unit-color: #0E7490; }  /* deep cyan   5.36:1 */
+[data-unit="D"] { --unit-color: #B45309; }  /* amber-brown 5.02:1 */
+[data-unit="E"] { --unit-color: #BE185D; }  /* magenta     6.04:1 */
+
+/* Selection and focus tints follow the primary */
+::selection { background: rgba(194, 65, 12, .16); }
+.search:focus-within { border-color: rgba(194,65,12,.5); box-shadow: 0 0 0 4px rgba(194,65,12,.14), inset 0 1px 0 var(--glass-hi); }
+input:focus-visible, textarea:focus-visible, select:focus-visible {
+  border-color: rgba(194,65,12,.55); box-shadow: 0 0 0 4px rgba(194,65,12,.14);
+}
+.nav-primary > a[aria-current="page"] { background: rgba(194, 65, 12, .10); }
+.nav-primary > a[aria-current="page"]::after { background: var(--blue); }
+.cmdk__list li.is-active a, .cmdk__list a:hover { background: rgba(194, 65, 12, .12); }
+.mobile-nav a[aria-current="page"] { background: rgba(194, 65, 12, .12); color: var(--blue); }
+.btn-primary:hover, .button:hover { box-shadow: 0 2px 8px rgba(194,65,12,.28), inset 0 1px 0 rgba(255,255,255,.18); }
+.chip.is-active { box-shadow: 0 2px 8px rgba(194,65,12,.26), inset 0 1px 0 rgba(255,255,255,.2); }
+.module-card::after, .library-card::after { background: var(--unit-color, var(--blue)); }
+
+/* Unit colours, final: nothing in the blue or violet band (195-280 deg).
+   The earlier violet and cyan both read as blue-adjacent. Each still clears
+   AA at 10px on white. */
+[data-unit="A"] { --unit-color: #0F766E; }  /* teal        175 deg  5.47:1 */
+[data-unit="B"] { --unit-color: #15803D; }  /* green       142 deg  5.02:1 */
+[data-unit="C"] { --unit-color: #A16207; }  /* olive-gold   35 deg  4.92:1 */
+[data-unit="D"] { --unit-color: #7C2D12; }  /* deep brown   15 deg  9.37:1 */
+[data-unit="E"] { --unit-color: #BE185D; }  /* magenta     335 deg  6.04:1 */
