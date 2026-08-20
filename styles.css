@@ -1993,3 +1993,101 @@ input:focus-visible, textarea:focus-visible, select:focus-visible {
   .ask-suggestions .chip { flex: none; }
   .ask-answer { padding: var(--s4); }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   Rounded corners everywhere, and glass with no tint at all.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* The base stylesheet was built on square corners. Every remaining surface
+   is rounded here so nothing is left with a hard 90-degree edge. */
+.journey-grid li {
+  border-radius: var(--r-xl);
+  border-top: 1px solid var(--line);
+  padding: var(--s5);
+  overflow: hidden;
+  position: relative;
+  transition: transform var(--t-mid) var(--ease), box-shadow var(--t-mid) var(--ease),
+              border-color var(--t-mid) var(--ease);
+}
+/* The 6px slab across the top becomes a short inset rule, so the rounding reads */
+.journey-grid li::before {
+  content: "";
+  position: absolute;
+  top: 0; left: var(--s5);
+  width: 30px; height: 3px;
+  border-radius: 0 0 var(--r-pill) var(--r-pill);
+  background: var(--blue);
+}
+.journey-grid li:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 2px 6px rgba(16,24,40,.05), 0 16px 32px -16px rgba(16,24,40,.22);
+  border-color: rgba(16,24,40,.16);
+}
+.journey-grid h3 { font: 600 19px/1.25 var(--font-sans); letter-spacing: -.025em; margin: var(--s4) 0 var(--s2); }
+.journey-grid p { font-size: 13.8px; line-height: 1.55; }
+
+.example-block, .table-wrap, .chat, .chat-form input, .quiz-toolbar select,
+.simulation-placeholder, .skeleton, .ai-sidebar, .ai-chat, .ai-context,
+.ai-message, .content-card, .definition-card, .method-card, .progress-card,
+.case-card, .quiz-card, .search-result, .simulation-card, .empty-state,
+.error-state, .notification, .summary-card, .graph-card, .ask-answer,
+input, select, textarea, .stats, .facts {
+  border-radius: var(--r-lg);
+}
+.tip-card, .warning-card { border-radius: var(--r-lg); }
+.formula-block { border-radius: var(--r-md); }
+.level-badge, .tag, .chip, .btn, .button, .outline, .related-links a { border-radius: var(--r-pill); }
+
+/* Glass with no tint whatsoever. The frosted look comes entirely from the
+   backdrop blur and saturation, not from a white wash, so what is behind it
+   genuinely shows through. The hairline ring is what keeps a control
+   readable as a control once the fill is gone. */
+:root {
+  --glass-bg:        rgba(255, 255, 255, 0);
+  --glass-bg-strong: rgba(255, 255, 255, .10);
+  --glass-blur:      34px;
+  --glass-sat:       200%;
+  --glass-ring:      rgba(16, 24, 40, .20);
+  --glass-hi:        rgba(255, 255, 255, .55);
+}
+:root[data-theme="dark"] {
+  --glass-bg:        rgba(15, 23, 42, 0);
+  --glass-bg-strong: rgba(15, 23, 42, .18);
+  --glass-ring:      rgba(255, 255, 255, .16);
+  --glass-hi:        rgba(255, 255, 255, .10);
+}
+
+/* With no fill, the blur has to be present on every glass surface or the
+   element vanishes entirely rather than reading as glass. */
+.nav-shell, .glass-menu, .mobile-nav, .lesson-nav, .outline, .chip,
+.search, .theme-toggle, .cmdk__panel, .graph-toolbar button {
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+}
+
+/* Where blur is unavailable, a fully transparent control would be invisible,
+   so the fallback is a solid surface rather than nothing. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .nav-shell, .glass-menu, .mobile-nav, .lesson-nav, .outline, .chip,
+  .search, .theme-toggle, .cmdk__panel, .graph-toolbar button {
+    background: var(--surface);
+    border-color: var(--line);
+  }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .nav-shell, .glass-menu, .mobile-nav, .lesson-nav, .outline, .chip,
+  .search, .theme-toggle, .cmdk__panel, .graph-toolbar button {
+    background: var(--surface);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    border-color: var(--line);
+  }
+}
+
+/* Menus and the palette float over arbitrary content, so they keep a light
+   fill — at zero tint their text would sit directly on whatever is beneath. */
+.glass-menu, .mobile-nav, .cmdk__panel { background: var(--glass-bg-strong); }
+
+@media (max-width: 700px) {
+  .journey-grid li { padding: var(--s4); }
+}

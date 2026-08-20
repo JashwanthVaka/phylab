@@ -44,7 +44,7 @@ export function renderHome(index, progress) {
 
   <section class="page journey">
     <ol class="journey-grid">
-      <li><span class="journey-num">01</span><h3>Learn the course</h3><p>All ${lessons.length} lessons grouped into the four IB units, with progress you can track.</p><a class="text-button" href="/library" data-route>Course library →</a></li>
+      <li><span class="journey-num">01</span><h3>Learn the course</h3><p>All ${lessons.length} lessons grouped into the five course units, with progress you can track.</p><a class="text-button" href="/library" data-route>Course library →</a></li>
       <li><span class="journey-num">02</span><h3>Model it</h3><p>Ten simulations and every lesson graph run from real equations, not stored curves.</p><a class="text-button" href="/simulations" data-route>Simulation studio →</a></li>
       <li><span class="journey-num">03</span><h3>Apply it</h3><p>${(index.cases || []).length} real-world cases from car safety to carbon dating.</p><a class="text-button" href="/cases" data-route>Case practice →</a></li>
       <li><span class="journey-num">04</span><h3>Learn the method</h3><p>Five study procedures and every IB command term explained.</p><a class="text-button" href="/toolkit" data-route>Active toolkit →</a></li>
