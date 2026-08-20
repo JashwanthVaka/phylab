@@ -1,4 +1,6 @@
 import { ContentLoader } from './js/contentLoader.js';
+import './js/theme.js';
+import { indexContent } from './js/commandPalette.js';
 import { Router } from './js/router.js';
 import {
   renderHome,
@@ -245,6 +247,7 @@ async function boot() {
   try {
     const index = await loader.getIndex();
     searchIndex = new SearchIndex(index);
+    indexContent(index);
     if (!routerStarted) {
       router.start();
       routerStarted = true;

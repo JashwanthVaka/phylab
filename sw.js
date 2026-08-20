@@ -17,7 +17,8 @@ const CONTENT = `${VERSION}-content`;
 // root and under a project path such as /phylab/.
 const scoped = path => new URL(path, self.registration.scope).toString();
 
-const SHELL_FILES = ['', 'index.html', 'styles.css', 'app.js', 'public-env.js'].map(scoped);
+const SHELL_FILES = ['', 'index.html', 'styles.css', 'app.js', 'public-env.js',
+  'manifest.json', 'icons/icon-180.png', 'icons/icon-192.png', 'icons/icon-512.png'].map(scoped);
 
 self.addEventListener('install', event => {
   event.waitUntil(

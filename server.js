@@ -25,7 +25,7 @@ loadEnvFile();
 const PORT = Number(process.env.PORT || 3000);
 const HOST = process.env.HOST || (process.env.NODE_ENV === 'production' ? '0.0.0.0' : '127.0.0.1');
 const REQUESTS = new Map();
-const MIME = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'application/javascript; charset=utf-8', '.svg': 'image/svg+xml' };
+const MIME = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'application/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.png': 'image/png', '.json': 'application/json; charset=utf-8', '.webmanifest': 'application/manifest+json', '.ico': 'image/x-icon' };
 const TUTOR_CONTEXT = `You are KIT, the experienced IBDP Physics teacher inside KINETIQ. Treat KINETIQ retrieval as the primary source of truth. Use general physics knowledge only to explain or connect retrieved KINETIQ material, and clearly state when the requested detail is not in KINETIQ. Teach accurately at SL or HL as requested, use SI units, and avoid claiming official IB marking. Do not reproduce unsupplied copyrighted examination material.`;
 
 const send = (res, status, body, headers = {}) => { res.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', ...headers }); res.end(JSON.stringify(body)); };
@@ -244,7 +244,7 @@ async function serveAsset(res, pathname, headOnly) {
   let target = pathname === '/' ? 'index.html' : pathname.replace(/^\//, '');
   // Any path without a file extension is a client route, so the SPA renders it (including its own 404 page).
   if (!/\.[a-z0-9]+$/i.test(target) && !target.startsWith('api/')) target = 'index.html';
-  if (!(/^(index\.html|styles\.css|app\.js|public-env\.js|sw\.js|js\/[a-zA-Z0-9_\/-]+\.js)$/.test(target))) return send(res, 404, { error: 'Not found' });
+  if (!(/^(index\.html|styles\.css|app\.js|public-env\.js|sw\.js|manifest\.json|js\/[a-zA-Z0-9_\/-]+\.js|icons\/[a-zA-Z0-9_-]+\.png)$/.test(target))) return send(res, 404, { error: 'Not found' });
   const file = path.resolve(ROOT, target); if (!file.startsWith(`${ROOT}${path.sep}`)) return send(res, 403, { error: 'Forbidden' });
   try { const data = await fs.readFile(file); res.writeHead(200, { 'Content-Type': MIME[path.extname(file)] || 'application/octet-stream', 'Cache-Control': process.env.NODE_ENV === 'production' && target !== 'index.html' ? 'public, max-age=3600' : 'no-cache', 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'strict-origin-when-cross-origin', 'X-Frame-Options': 'DENY' }); if (!headOnly) res.end(data); else res.end(); } catch { send(res, 404, { error: 'Not found' }); }
 }
