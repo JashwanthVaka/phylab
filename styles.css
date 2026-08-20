@@ -1600,3 +1600,88 @@ img, svg, video, canvas { max-width: 100%; }
 
   @page { margin: 14mm; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   No navy surfaces.
+
+   Deep navy is a text colour here, never a background. Every block that was
+   previously inverted onto --ink or --ink-deep is now a light surface, with
+   its text flipped back to ink so contrast holds.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Footer — was the largest navy field on the page */
+body > footer {
+  background: var(--surface-alt);
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+}
+body > footer .brand { color: var(--ink); }
+body > footer .brand small { color: var(--muted); }
+body > footer a { color: var(--ink-soft); }
+body > footer a:hover { color: var(--blue); }
+
+/* Lesson summary block — pale blue reads as a closing panel without going dark */
+.summary-card {
+  background: var(--pale);
+  color: var(--ink);
+  border: 1px solid var(--accent-soft-line);
+}
+.summary-card h2, .summary-card h3, .summary-card strong { color: var(--ink); }
+
+/* Simulation cards */
+.simulation-card {
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--line);
+}
+.simulation-card .tag { color: var(--muted); }
+.simulation-card .outline { color: var(--ink); border-color: var(--glass-ring); }
+.simulation-placeholder {
+  background: var(--pale);
+  color: var(--blue);
+}
+
+/* Selected / current row */
+.current { background: var(--pale); color: var(--ink); }
+.current a, .current strong { color: var(--ink); }
+
+/* Small numbered badges: blue rather than navy */
+.method-card b,
+.toolkit-method__index,
+.case-question__n,
+.flashcard-face .review-actions button {
+  background: var(--blue);
+  color: #fff;
+}
+
+/* Toast keeps enough weight to read as an overlay without being navy */
+.notification {
+  background: var(--ink-soft);
+  color: #fff;
+}
+
+/* The hero nucleus is a diagram element, not a surface — keep it legible
+   but move it off navy too. */
+.nucleus { background: var(--blue); color: #fff; }
+
+/* Dark mode is opt-in and deliberately keeps its own dark surfaces; these
+   light overrides must not leak into it. */
+:root[data-theme="dark"] body > footer { background: var(--surface); color: var(--muted); }
+:root[data-theme="dark"] body > footer .brand { color: var(--ink); }
+:root[data-theme="dark"] .summary-card { background: var(--surface-alt); color: var(--ink); }
+:root[data-theme="dark"] .simulation-card { background: var(--surface); color: var(--ink); }
+:root[data-theme="dark"] .current { background: var(--surface-alt); color: var(--ink); }
+
+/* --footer-ink was a pale grey chosen to sit on the old navy footer. On a
+   light footer it fell to 2.0:1, so it is retuned rather than left behind. */
+:root { --footer-ink: #5E6572; }
+body > footer, body > footer span { color: var(--footer-ink); }
+body > footer .footer-nav a,
+body > footer nav a {
+  color: var(--ink-soft);
+  text-decoration: none;
+}
+body > footer .footer-nav a:hover,
+body > footer nav a:hover { color: var(--blue); text-decoration: underline; }
+:root[data-theme="dark"] { --footer-ink: #9AA3B2; }
+:root[data-theme="dark"] body > footer .footer-nav a { color: var(--ink-soft); }
