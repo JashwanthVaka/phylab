@@ -15,6 +15,14 @@ function lessonRecords(lesson) {
   (lesson.formulas || []).forEach(item => records.push(record('Formula', item.name || item.formula, `${item.formula || ''} ${item.explanation || ''}`, href, { topic: lesson.topicLabel })));
   (lesson.worked_examples || []).forEach(item => records.push(record('Worked example', lesson.title, `${item.question || ''} ${item.answer || ''} ${item.solution || ''}`, href, { topic: lesson.topicLabel })));
   (lesson.constants || []).forEach(item => records.push(record('Constant', item.name || item.symbol, `${item.symbol || ''} ${item.value || ''} ${item.unit || ''}`, href, { topic: lesson.topicLabel })));
+  // The explanatory body of a lesson is where most answers actually live, so
+  // concepts, mistakes, tips and HL extensions are indexed too — previously
+  // only summaries, definitions, formulas and examples were reachable.
+  (lesson.core_concepts || []).forEach(item => records.push(record('Concept', item.heading || lesson.topicLabel, `${item.explanation || ''} ${lesson.title}`, href, { topic: lesson.topicLabel })));
+  (lesson.common_mistakes || []).forEach(item => records.push(record('Common mistake', lesson.topicLabel, text(item), href, { topic: lesson.topicLabel })));
+  (lesson.ib_exam_tips || []).forEach(item => records.push(record('Exam tip', lesson.topicLabel, text(item), href, { topic: lesson.topicLabel })));
+  (lesson.hl_extension || []).forEach(item => records.push(record('HL extension', item.topic || lesson.topicLabel, `${item.explanation || ''} ${item.formula || ''}`, href, { topic: lesson.topicLabel, level: 'HL' })));
+  (lesson.practice_questions || []).forEach(item => records.push(record('Practice question', lesson.topicLabel, `${item.question || ''} ${item.answer || ''}`, href, { topic: lesson.topicLabel, level: item.level })));
   records.push(record('Graph', `${lesson.topicLabel} visual model`, `${lesson.title} graph, diagram, and visual interpretation`, href, { topic: lesson.topicLabel }));
   return records;
 }
@@ -26,6 +34,12 @@ function buildRecords(catalogue) {
   (catalogue.glossary || []).forEach(item => records.push(record('Glossary', item.term || item.word, compact(item), item.lesson_slug ? `/lesson/${item.lesson_slug}` : '/search', { topic: item.topic })));
   (catalogue.questions || []).forEach(item => records.push(record('Question', item.topic || 'Practice question', `${item.question || ''} ${item.solution || ''} ${item.answer || ''}`, '/quiz', { topic: item.topic, level: item.level, type: item.type })));
   (catalogue.simulations || []).forEach(item => records.push(record('Simulation', item.name || item.title, `${item.description || ''} ${compact(item.variables)}`, '/simulations', { topic: item.topic })));
+  // Method and context material was never indexed, so questions about how to
+  // do something ("find the gradient uncertainty", "structure an evaluation")
+  // had nothing to match against.
+  (catalogue.toolkit || []).forEach(item => records.push(record('Method', item.title, `${item.purpose || ''} ${compact(item.steps)}`, '/toolkit', { topic: item.title })));
+  (catalogue.cases || []).forEach(item => records.push(record('Applied case', item.title, `${item.context || ''} ${compact(item.concepts)} ${compact(item.questions)}`, `/cases/${item.slug}`, { topic: item.title, unit: item.unit })));
+  (catalogue.questionPatterns || []).forEach(item => records.push(record('Command term', item.command, `${item.meaning || ''} ${item.expectation || ''} ${compact(item.steps)} ${compact(item.model)}`, '/patterns', { topic: item.command })));
   return records;
 }
 
@@ -56,6 +70,22 @@ function score(record, queryTerms, context) {
   });
   // Reward passages that answer most of the question rather than echoing one word of it.
   if (queryTerms.length > 1 && matched) value += 6 * (matched / queryTerms.length);
+  // A record containing the query as a phrase is far more likely to be the
+  // subject than one that merely shares a common word with it.
+  if (queryTerms.length > 1) {
+    const phrase = queryTerms.join(' ');
+    const inTitle = text(record.title).toLowerCase();
+    const inBody = text(record.body).toLowerCase();
+    if (inTitle.includes(phrase)) value += 30;
+    else if (inBody.includes(phrase)) value += 14;
+    // Adjacent pairs catch "closed pipe" and "photoelectric effect" even when
+    // the question carries extra words around them.
+    for (let i = 0; i < queryTerms.length - 1; i += 1) {
+      const pair = queryTerms[i] + ' ' + queryTerms[i + 1];
+      if (inTitle.includes(pair)) value += 12;
+      else if (inBody.includes(pair)) value += 5;
+    }
+  }
   const route = text(context?.route).toLowerCase();
   if (route && record.href && route === record.href) value += 6;
   if (context?.lesson_slug && record.href === `/lesson/${context.lesson_slug}`) value += 8;

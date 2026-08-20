@@ -12,6 +12,7 @@
 import { escapeHTML } from './utils.js';
 
 const PAGES = [
+  ['Ask a question', '/ask', 'Page'],
   ['Course library', '/library', 'Page'],
   ['Simulation lab', '/simulations', 'Page'],
   ['Applied cases', '/cases', 'Page'],

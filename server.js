@@ -4,6 +4,7 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 const crypto = require('node:crypto');
 const { createRetrievalEngine } = require('./server/retrievalEngine.cjs');
+const { composeAnswer } = require('./server/answerEngine.cjs');
 const { loadPrivateRecords, privateSummary } = require('./server/privateLibrary.cjs');
 
 const ROOT = __dirname;
@@ -85,6 +86,9 @@ async function contentIndex({ includeLessons = false } = {}) {
   };
 }
 const retrievalEngine = createRetrievalEngine(() => contentIndex({ includeLessons: true }), { getExtraRecords: loadPrivateRecords });
+// Deliberately no getExtraRecords: /api/answer is public, so it may only ever
+// draw on KINETIQ's own material, never on a privately indexed book.
+const publicRetrieval = createRetrievalEngine(() => contentIndex({ includeLessons: true }));
 const MODES = new Set(['Physics Teacher', 'Numerical Solver', 'Formula Explainer', 'Derivation Tutor', 'IB Examiner', 'Revision Coach', 'Lab Assistant', 'Graph Analyzer', 'TOK Discussion', 'IA Mentor', 'Question Generator', 'Challenge Me', 'Concept Check', 'Explain', 'Teach', 'Step-by-step', 'Hint', 'Revision', 'Socratic Tutor', 'Quick Answer']);
 const cleanText = (value, maximum = 6000) => typeof value === 'string' ? value.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, '').trim().slice(0, maximum) : '';
 const cleanContext = context => context && typeof context === 'object' ? Object.fromEntries(Object.entries(context).slice(0, 20).map(([key, value]) => [cleanText(key, 50), cleanText(typeof value === 'string' ? value : JSON.stringify(value), 500)])) : {};
@@ -259,6 +263,23 @@ async function serveAsset(res, pathname, headOnly) {
 }
 async function handleRequest(req, res) {
   const url = new URL(req.url, `http://${req.headers.host || 'localhost'}`); const pathname = decodeURIComponent(url.pathname);
+  // Answers a question from KINETIQ's own content, with no AI provider and no
+  // API key. Deterministic: same question, same passages, every time.
+  if (pathname === '/api/answer' && (req.method === 'GET' || req.method === 'POST')) {
+    try {
+      const query = req.method === 'GET'
+        ? (url.searchParams.get('q') || '')
+        : String((await readJSON(req))?.question || '');
+      const trimmed = String(query).replace(/\s+/g, ' ').trim();
+      if (!trimmed) return send(res, 400, { error: 'Ask a question first.' });
+      if (trimmed.length > 400) return send(res, 400, { error: 'That question is too long. Keep it under 400 characters.' });
+      const hits = await publicRetrieval.retrieve(trimmed, {}, 12);
+      return send(res, 200, { question: trimmed, ...composeAnswer(trimmed, hits) }, { 'Cache-Control': 'public, max-age=120' });
+    } catch (error) {
+      return send(res, 500, { error: `Answer error: ${error.message}` });
+    }
+  }
+
   if (req.method === 'GET' && pathname === '/api/health') return send(res, 200, { status: 'ok', tutorConfigured: availableProviders().length > 0, providers: availableProviders(), privateSources: privateSummary() });
   if (req.method === 'GET' && pathname === '/api/ai/providers') return send(res, 200, {
     active: resolveProvider(),

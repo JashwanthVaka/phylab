@@ -1,6 +1,7 @@
 import { ContentLoader } from './js/contentLoader.js';
 import './js/theme.js';
 import { indexContent } from './js/commandPalette.js';
+import { askPage, bindAsk } from './js/askUI.js';
 import { Router } from './js/router.js';
 import {
   renderHome,
@@ -146,6 +147,8 @@ function bookmarkPage(rows) {
 }
 
 const router = new Router({
+  // Answers from KINETIQ's own content, so it works with no AI key configured.
+  '/ask': ({ query }) => transition(async () => ({ view: askPage(query || ''), mount: bindAsk }), 'Opening Ask KINETIQ…'),
   '/': () => transition(async () => ({ view: renderHome(await loader.getIndex(), getProgress()) }), 'Preparing your physics workspace…'),
   '/lesson/:slug': ({ slug }) => transition(async () => {
     const [lesson, index] = await Promise.all([loader.getLesson(slug), loader.getIndex()]);

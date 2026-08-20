@@ -1888,3 +1888,108 @@ input:focus-visible, textarea:focus-visible, select:focus-visible {
 [data-unit="C"] { --unit-color: #A16207; }  /* olive-gold   35 deg  4.92:1 */
 [data-unit="D"] { --unit-color: #7C2D12; }  /* deep brown   15 deg  9.37:1 */
 [data-unit="E"] { --unit-color: #BE185D; }  /* magenta     335 deg  6.04:1 */
+
+/* ═══════════════════════════════════════════════════════════════════════
+   Ask KINETIQ — answers with no AI key, drawn from KINETIQ's own content.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.ask-form { display: flex; gap: var(--s3); align-items: center; flex-wrap: wrap; margin-bottom: var(--s4); }
+.ask-form .search { flex: 1 1 380px; max-width: 640px; }
+.ask-form .btn { min-height: 44px; }
+
+.ask-suggestions { display: flex; flex-wrap: wrap; gap: var(--s2); margin-bottom: var(--s7); }
+.ask-suggestions .chip { font-size: 12.5px; }
+
+.ask-loading { padding: var(--s6) 0; }
+
+.ask-answer {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-xl);
+  padding: var(--s6);
+}
+.ask-answer__head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: var(--s4); flex-wrap: wrap;
+  padding-bottom: var(--s4); margin-bottom: var(--s5);
+  border-bottom: 1px solid var(--line);
+}
+.ask-answer__head h2 {
+  font: 700 26px/1.15 var(--font-sans);
+  letter-spacing: -.03em;
+  margin: 0;
+}
+
+/* Match strength is stated plainly rather than dressed up as a score */
+.ask-confidence {
+  font: 500 10.5px/1 var(--font-mono);
+  letter-spacing: .09em; text-transform: uppercase;
+  padding: 6px 10px; border-radius: var(--r-pill);
+  border: 1px solid currentColor; white-space: nowrap;
+}
+.ask-confidence.is-ok   { color: var(--accent-3); }
+.ask-confidence.is-warn { color: var(--warn); }
+.ask-confidence.is-bad  { color: var(--danger); }
+
+.ask-note {
+  background: var(--warn-soft);
+  border-left: 3px solid var(--warn);
+  border-radius: var(--r-xs);
+  padding: var(--s3) var(--s4);
+  font-size: 14px; color: var(--ink-soft);
+  margin: 0 0 var(--s5);
+}
+
+.ask-sections { display: grid; gap: var(--s4); }
+.ask-section {
+  padding: var(--s4) var(--s5);
+  background: var(--surface-alt);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--line);
+}
+.ask-section__label {
+  font: 500 10.5px/1 var(--font-mono);
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--blue);
+  margin: 0 0 var(--s2);
+}
+.ask-section__body {
+  margin: 0;
+  font-size: 15.5px; line-height: 1.6;
+  color: var(--ink);
+  /* Equations and units read better in mono, and most bodies contain them */
+  font-variant-numeric: tabular-nums;
+}
+.ask-section__src {
+  display: inline-block; margin-top: var(--s3);
+  font: 600 13px/1 var(--font-sans);
+  color: var(--blue); text-decoration: none;
+}
+.ask-section__src:hover { text-decoration: underline; }
+
+.ask-sources {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--s3);
+  margin-top: var(--s5); padding-top: var(--s4);
+  border-top: 1px solid var(--line);
+  font-size: 13.5px;
+}
+.ask-sources > span {
+  font: 500 10.5px/1 var(--font-mono);
+  letter-spacing: .1em; text-transform: uppercase; color: var(--muted);
+}
+.ask-sources a {
+  color: var(--ink-soft); text-decoration: none;
+  border: 1px solid var(--line); border-radius: var(--r-pill);
+  padding: 6px 12px;
+}
+.ask-sources a:hover { border-color: var(--line-strong); color: var(--ink); }
+
+.ask-empty { margin-top: var(--s5); }
+
+@media (max-width: 700px) {
+  .ask-form { flex-direction: column; align-items: stretch; }
+  .ask-form .btn { width: 100%; }
+  .ask-suggestions { overflow-x: auto; flex-wrap: nowrap; padding-bottom: var(--s2); }
+  .ask-suggestions .chip { flex: none; }
+  .ask-answer { padding: var(--s4); }
+}
