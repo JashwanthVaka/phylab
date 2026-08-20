@@ -1,19 +1,14 @@
 /**
  * Theme control.
  *
- * The full dark palette already existed in the stylesheet but nothing ever
- * switched it on, so a Mac running dark system-wide got a bright white page.
- *
- * Three states, deliberately: no stored choice means follow the system and
- * keep following it as the Mac flips at sunset. Pressing the toggle stores an
- * explicit choice that then wins over the system until it is cleared. The
- * initial value is applied by an inline script in the document head so the
- * page never paints the wrong theme first.
+ * KINETIQ is a light product: light is the default for everyone, and the
+ * operating system's dark setting is deliberately NOT followed. Dark is
+ * available, but only when the learner asks for it with the toggle, and that
+ * choice then persists. The initial value is applied by an inline script in
+ * the document head so the page never paints the wrong theme first.
  */
 
 const KEY = 'kinetiq-theme';
-const query = window.matchMedia('(prefers-color-scheme: dark)');
-
 const stored = () => {
   try { return localStorage.getItem(KEY); } catch { return null; }
 };
@@ -35,12 +30,6 @@ function apply(dark) {
   document.head.appendChild(meta);
 }
 
-// Follow the system for as long as the learner has not chosen for themselves.
-query.addEventListener('change', event => {
-  if (stored()) return;
-  apply(event.matches);
-});
-
 document.getElementById('themeToggle')?.addEventListener('click', () => {
   const next = !isDark();
   try { localStorage.setItem(KEY, next ? 'dark' : 'light'); } catch { /* private mode */ }
@@ -48,6 +37,6 @@ document.getElementById('themeToggle')?.addEventListener('click', () => {
 });
 
 // Sync the button with whatever the head script already decided.
-apply(isDark() || (!stored() && query.matches));
+apply(stored() === 'dark');
 
 export { apply as applyTheme };

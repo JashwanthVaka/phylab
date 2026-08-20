@@ -8,8 +8,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="KINETIQ">
-  <meta name="theme-color" content="#F7F7F5" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#0A0F1A" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#F7F7F5">
   <meta name="description" content="KINETIQ — an interactive IBDP Physics learning platform.">
   <title>KINETIQ — IBDP Physics</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,10 +17,11 @@
   <script>
     (function () {
       try {
-        var saved = localStorage.getItem('kinetiq-theme');
-        var dark = saved ? saved === 'dark'
-                         : window.matchMedia('(prefers-color-scheme: dark)').matches;
-        if (dark) document.documentElement.setAttribute('data-theme', 'dark');
+        // KINETIQ is a light product by default. Dark is opt-in through the
+        // toggle, and is not inferred from the operating system.
+        if (localStorage.getItem('kinetiq-theme') === 'dark') {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
       } catch (e) {}
     })();
   </script>
