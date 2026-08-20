@@ -25,22 +25,73 @@ export function graphFor(lesson) {
   );
 }
 
-function graphPoints(config, scale = 1, pan = 0) {
+const PLOT = { left: 44, right: 314, top: 22, bottom: 168 };
+
+/** The real x range for a model: an explicit xMin/xMax when given, otherwise
+ *  parsed from the axis label, which every model writes as "(A to B unit)". */
+function readDomain(config) {
+  if (Number.isFinite(config.xMin) && Number.isFinite(config.xMax)) return [config.xMin, config.xMax];
+  const match = String(config.x || '').match(/\(\s*(-?[\d.]+)\s*to\s*(-?[\d.]+)/i);
+  if (!match) return null;
+  const a = Number(match[1]);
+  const b = Number(match[2]);
+  return Number.isFinite(a) && Number.isFinite(b) ? [a, b] : null;
+}
+
+/** The label without its range, since the ticks now carry the numbers. */
+function axisTitle(label) {
+  return String(label || '').replace(/\s*\(\s*-?[\d.]+\s*to\s*-?[\d.]+\s*([^)]*)\)/i,
+    (_, unit) => (unit && unit.trim() ? ` / ${unit.trim()}` : ''));
+}
+
+/** Computes the curve and the tick values for both axes in one pass, so the
+ *  axes can be labelled with the real quantities rather than left bare. */
+function plot(config, scale = 1, pan = 0) {
   const values = [];
-  for (let index = 0; index <= 100; index += 2) {
+  for (let index = 0; index <= 100; index += 1) {
     const x = index * scale + pan;
     const y = Number(config.fn(x));
-    if (Number.isFinite(y)) values.push({ x: index, y });
+    if (Number.isFinite(y)) values.push({ i: index, x, y });
   }
-  if (!values.length) return '';
-  const minimum = Math.min(...values.map(point => point.y));
-  const maximum = Math.max(...values.map(point => point.y));
-  const span = Math.max(maximum - minimum, 1);
-  return values.map(point => {
-    const svgX = 35 + point.x * 2.7;
-    const svgY = 170 - ((point.y - minimum) / span) * 140;
-    return `${svgX.toFixed(2)},${svgY.toFixed(2)}`;
-  }).join(' ');
+  if (!values.length) return { points: '', xTicks: [], yTicks: [] };
+
+  const ys = values.map(p => p.y);
+  const yMin = Math.min(...ys);
+  const yMax = Math.max(...ys);
+  const span = Math.max(yMax - yMin, 1e-9);
+  const domain = readDomain(config);
+  const xMin = domain ? domain[0] : values[0].x;
+  const xMax = domain ? domain[1] : values[values.length - 1].x;
+
+  const px = i => PLOT.left + (i / 100) * (PLOT.right - PLOT.left);
+  const py = y => PLOT.bottom - ((y - yMin) / span) * (PLOT.bottom - PLOT.top);
+
+  const round = v => {
+    const a = Math.abs(v);
+    if (a === 0) return '0';
+    if (a >= 1000 || a < 0.01) return v.toExponential(1).replace('e+', 'e');
+    return String(Number(v.toPrecision(3)));
+  };
+
+  const xTicks = [0, 0.25, 0.5, 0.75, 1].map(f => ({
+    pos: PLOT.left + f * (PLOT.right - PLOT.left),
+    label: round(xMin + f * (xMax - xMin)),
+  }));
+  const yTicks = [0, 0.25, 0.5, 0.75, 1].map(f => ({
+    pos: PLOT.bottom - f * (PLOT.bottom - PLOT.top),
+    label: round(yMin + f * span),
+  }));
+
+  return {
+    points: values.map(p => `${px(p.i).toFixed(2)},${py(p.y).toFixed(2)}`).join(' '),
+    xTicks,
+    yTicks,
+  };
+}
+
+/** Kept for callers that only need the polyline string. */
+function graphPoints(config, scale = 1, pan = 0) {
+  return plot(config, scale, pan).points;
 }
 
 function registerGraph(config) {
@@ -94,12 +145,27 @@ export function renderGraph(config) {
         <button type="button" data-graph-action="png" aria-label="Export graph as PNG">PNG</button>
       </div>
     </div>
-    <svg class="physics-graph" viewBox="0 0 330 205" role="img" aria-label="Interactive ${escapeHTML(config.title)} graph" tabindex="0">
-      <line x1="35" y1="15" x2="35" y2="175"/><line x1="35" y1="175" x2="310" y2="175"/>
-      <polyline class="graph-line" points="${graphPoints(config)}" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle class="graph-marker" r="4" fill="#e4b516" stroke="#17392f" stroke-width="1.5" aria-hidden="true"/>
-      <text x="150" y="199">${escapeHTML(config.x)}</text><text x="8" y="18">${escapeHTML(config.y)}</text>
-    </svg>
+    ${(() => {
+      const { points, xTicks, yTicks } = plot(config);
+      return `<svg class="physics-graph" viewBox="0 0 330 205" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Interactive ${escapeHTML(config.title)} graph" tabindex="0">
+      <g class="graph-grid">
+        ${yTicks.map(t => `<line x1="${PLOT.left}" y1="${t.pos.toFixed(1)}" x2="${PLOT.right}" y2="${t.pos.toFixed(1)}"/>`).join('')}
+        ${xTicks.map(t => `<line x1="${t.pos.toFixed(1)}" y1="${PLOT.top}" x2="${t.pos.toFixed(1)}" y2="${PLOT.bottom}"/>`).join('')}
+      </g>
+      <g class="graph-axis">
+        <line x1="${PLOT.left}" y1="${PLOT.top}" x2="${PLOT.left}" y2="${PLOT.bottom}"/>
+        <line x1="${PLOT.left}" y1="${PLOT.bottom}" x2="${PLOT.right}" y2="${PLOT.bottom}"/>
+      </g>
+      <g class="graph-ticks">
+        ${xTicks.map(t => `<text x="${t.pos.toFixed(1)}" y="${PLOT.bottom + 10}" text-anchor="middle">${escapeHTML(t.label)}</text>`).join('')}
+        ${yTicks.map(t => `<text x="${PLOT.left - 5}" y="${(t.pos + 2).toFixed(1)}" text-anchor="end">${escapeHTML(t.label)}</text>`).join('')}
+      </g>
+      <polyline class="graph-line" points="${points}" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle class="graph-marker" r="3.4" aria-hidden="true"/>
+      <text class="graph-axis-title" x="${(PLOT.left + PLOT.right) / 2}" y="192" text-anchor="middle">${escapeHTML(axisTitle(config.x))}</text>
+      <text class="graph-axis-title" x="${-(PLOT.top + PLOT.bottom) / 2}" y="12" text-anchor="middle" transform="rotate(-90)">${escapeHTML(axisTitle(config.y))}</text>
+    </svg>`;
+    })()}
     <p class="muted" data-graph-status>Animating the relationship. Use playback controls, mouse wheel, or drag to inspect it.</p>
   </article>`;
 }
