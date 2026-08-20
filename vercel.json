@@ -12,10 +12,18 @@
           "public-env.js",
           "js/**",
           "server/**",
-          "data/**"
+          "data/**",
+          "sw.js",
+          "manifest.json",
+          "icons/**"
         ]
       }
     }
   ],
-  "routes": [{ "src": "/(.*)", "dest": "/server.js" }]
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/server.js"
+    }
+  ]
 }

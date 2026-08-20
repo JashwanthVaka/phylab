@@ -112,3 +112,13 @@ lessons.forEach(file => {
 });
 
 console.log(`content tests passed (${units.length} units, ${toolkit.length} methods, ${cases.length} cases, ${patterns.length} patterns, ${lessons.length} lessons)`);
+
+// Vercel bundles only what includeFiles names, so a file can pass the server's
+// static allowlist locally and still 404 in production. sw.js and the web app
+// manifest were both live-404ing for exactly this reason.
+const vercel = JSON.parse(fs.readFileSync(path.join(ROOT, 'vercel.json'), 'utf8'));
+const included = vercel.builds?.[0]?.config?.includeFiles || [];
+['sw.js', 'manifest.json', 'icons/**', 'index.html', 'styles.css', 'app.js', 'js/**'].forEach(entry => {
+  assert.ok(included.includes(entry), `vercel.json includeFiles is missing ${entry}, so it will 404 in production`);
+});
+console.log(`deploy manifest checked (${included.length} include patterns)`);
