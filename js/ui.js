@@ -23,7 +23,7 @@ export function renderHome(index, progress) {
     <div class="hero-copy">
       <p class="eyebrow">THE PHYSICS STUDIO FOR IB</p>
       <h1>Master IBDP Physics.<br><em>See every law move.</em></h1>
-      <p class="lead">Lessons in syllabus order, a formula centre that explains every symbol, graphs and simulations driven by the real equations, practice with transparent marking, and and question answering that draws on KINETIQ’s own lessons.</p>
+      <p class="lead">Lessons in syllabus order, a formula centre that explains every symbol, graphs and simulations driven by the real equations, practice with transparent marking, and question answering that draws on KINETIQ’s own lessons.</p>
       <div class="actions">
         <a href="/lesson/${escapeHTML(next?.slug || '')}" class="button" data-route>Start learning <b>→</b></a>
         <a href="/exam-prep" class="outline" data-route>Test your knowledge</a>

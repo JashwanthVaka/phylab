@@ -2293,3 +2293,86 @@ input, select, textarea, .stats, .facts {
   border-radius: var(--r-xl);
   border: 1px solid var(--accent-soft-line);
 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   The last square surfaces, found by sweeping every route rather than by eye.
+   Structural dividers (.page, footer, formula-grid, card feet) are deliberately
+   left alone — they carry a rule, not a surface, and rounding them looks wrong.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.rev-stat, .rev-card, .library-summary, .progress-hero, .hero-scene,
+.dl-meaning, .dl-plot-holder, .dl-prop-out, .ia-section, .toolkit-example,
+.pattern-card, .pattern-example, .cases-unit, .lesson-graph, .lg-meaning,
+.exam-card__meta {
+  border-radius: var(--r-lg);
+}
+
+.pattern-example__q, .pattern-example__a, .lg-sweep, .ia-progress__bar,
+.toolkit-method__index {
+  border-radius: var(--r-md);
+}
+
+/* Progress bars read better fully rounded, and the fill has to match the track
+   or the leading edge sits square inside a rounded rail. */
+.ia-progress__bar, .ia-progress__bar > *, .bar, .bar i {
+  border-radius: var(--r-pill);
+  overflow: hidden;
+}
+
+/* Revision cards earn a hover lift like every other card, and the due state is
+   marked with a rule rather than colour alone. */
+.rev-card, .rev-stat {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  padding: var(--s5);
+  transition: transform var(--t-mid) var(--ease), box-shadow var(--t-mid) var(--ease),
+              border-color var(--t-mid) var(--ease);
+}
+.rev-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 6px rgba(16,24,40,.05), 0 14px 28px -14px rgba(16,24,40,.2);
+}
+.rev-stat.is-due {
+  border-color: var(--accent-soft-line);
+  background: var(--pale);
+}
+.rev-stat.is-due::before {
+  content: "";
+  display: block;
+  width: 26px; height: 3px;
+  border-radius: var(--r-pill);
+  background: var(--blue);
+  margin-bottom: var(--s3);
+}
+
+/* Any remaining bare button inside content becomes a pill, matching the rest. */
+#app button:not(.chip):not(.text-button):not(.nav-burger):not(.theme-toggle):not([data-graph-action]) {
+  border-radius: var(--r-pill);
+}
+
+/* ── Touch targets ───────────────────────────────────────────────────
+   Two real failures found by auditing every interactive element at
+   375px: lesson-title links measured 23px tall and .text-button 19px.
+   WCAG 2.2 (2.5.8) asks for 24x24 CSS px; Apple's HIG asks for 44pt.
+
+   The title link is fixed by the standard card pattern — a stretched
+   pseudo-element makes the whole card the target, which is what a
+   thumb expects anyway. The footer is lifted above it so "Mark
+   complete" stays its own button rather than a hole in the card.
+
+   The padding is added only under (pointer: coarse) so the dense
+   desktop layout the cards were designed for is untouched. */
+.library-card { position: relative; }
+.library-card h3 a::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+.library-card__foot { position: relative; z-index: 1; }
+
+@media (pointer: coarse) {
+  .text-button {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    /* Absorbed so the button occupies its old visual box in the row. */
+    margin-block: -12px;
+  }
+  .library-tags li { min-height: 28px; display: inline-flex; align-items: center; }
+}

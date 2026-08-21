@@ -10,7 +10,7 @@ and ES modules on a dependency-free Node server.
 | | |
 | --- | --- |
 | Lessons | 26, in syllabus order across the five course units |
-| Practice questions | 148 original, 36 of them multiple choice |
+| Practice questions | 178 original, 40 of them multiple choice |
 | Applied cases | 19 real-world contexts |
 | Command terms | 15, with method and model answers |
 | Simulations | 26 labs, one per lesson, driven by the real equations |
@@ -55,10 +55,10 @@ book, since `private/` never leaves your machine.
 npm test
 ```
 
-Six suites: the physics engine against known cases, guest conversations, the retrieval
+Seven suites: the physics engine against known cases, guest conversations, the retrieval
 engine, the uncertainty maths against hand-worked results, content cross-references
-(every case and pattern link resolves to a real lesson or simulation), and privacy
-boundaries.
+(every case and pattern link resolves to a real lesson or simulation), the answer engine,
+and privacy boundaries.
 
 ## Publishing
 
@@ -152,6 +152,6 @@ local-only for the same reason.
 
 - Supabase is fully wired but unconfigured, so progress is stored per browser. Filling in
   `public-env.js` with a project URL and anon key enables cross-device sync.
-- Several lessons have no matching simulation in the studio, and the seven newest have no
-  interactive graph model yet.
-- The question bank is 71 items, which is thin for a two-year course.
+- The question bank is 178 items across all 26 lessons. HL is the thinner half at 45, so
+  that is where the next batch should go.
+- Applied cases are uneven by unit: A has five, B and C four each, D and E three.
