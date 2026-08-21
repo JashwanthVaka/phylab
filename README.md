@@ -10,17 +10,17 @@ and ES modules on a dependency-free Node server.
 | | |
 | --- | --- |
 | Lessons | 26, in syllabus order across the five course units |
-| Practice questions | 71 original, 21 of them multiple choice |
+| Practice questions | 148 original, 36 of them multiple choice |
 | Applied cases | 19 real-world contexts |
 | Command terms | 15, with method and model answers |
-| Simulations | 10 labs driven by the real equations |
-| Formulae | 62, each with variables and meaning |
+| Simulations | 26 labs, one per lesson, driven by the real equations |
+| Formulae | 131, each with variables and meaning |
 
 - **Course library** (`/library`) — all 26 lessons grouped into the five units
   (A Space, Time and Motion · B The Particulate Nature of Matter · C Wave Behaviour · D Fields ·
   E Nuclear and Quantum Physics),
   with search, unit filters, per-lesson completion and an overall progress ring.
-- **Simulation studio** (`/simulations`) — 10 labs with sliders and number inputs, live
+- **Simulation studio** (`/simulations`) — 26 labs with sliders and number inputs, live
   answers in SI units, an animated marker that advances physical time, and play/pause/reset.
 - **Data lab** (`/data`) — paste practical measurements, pick one of six linearisations, and
   get a scatter plot with error bars, a least-squares fit, and the gradient with its

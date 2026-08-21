@@ -2214,3 +2214,82 @@ input, select, textarea, .stats, .facts {
   .sheet-list { grid-template-columns: 1fr; }
 }
 .formula-sheet-link { margin: 0 0 var(--s6); }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   Soften every remaining hard edge, and blend the hero glow.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* The four surviving 6px colour slabs sat square across the top of a card and
+   read as a hard bar. They become the same short inset rule the other cards
+   use, so the rounding is visible and the accent still identifies the card. */
+.exam-card, .practice-note, .quiz-card, .case-card, .library-card, .module-card,
+.journey-grid li {
+  border-top-width: 1px !important;
+  border-top-style: solid !important;
+  border-radius: var(--r-xl);
+  position: relative;
+  overflow: hidden;
+}
+.exam-card { border-top-color: var(--line) !important; padding: var(--s6); }
+.exam-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: var(--s6);
+  width: 34px; height: 3px;
+  border-radius: 0 0 var(--r-pill) var(--r-pill);
+  background: var(--blue);
+}
+.exam-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 2px 6px rgba(16,24,40,.05), 0 16px 32px -16px rgba(16,24,40,.22);
+}
+.exam-card { transition: transform var(--t-mid) var(--ease), box-shadow var(--t-mid) var(--ease); }
+
+/* The advisory banner was a square cream block with a hard left bar. */
+.practice-note {
+  border-radius: var(--r-lg);
+  border: 1px solid var(--warn-line, rgba(180,83,9,.28));
+  border-left: 3px solid var(--warn);
+  background: var(--warn-soft);
+  padding: var(--s4) var(--s5);
+}
+
+/* Everything else that carries a surface gets a radius. Listing the components
+   individually rather than using a blanket * rule keeps pills and circles
+   (progress ring, brand mark, marker dots) from being squared off. */
+.skip-link, .orbital-scene, .course-library, .current,
+.sim-control-row input[type=number], .sim-validation, .sim-sweep,
+.quiz-navigator button, .ai-conversation-row button:not(.text-button),
+.ai-message, .ai-message.user, .ai-status, .ai-status code,
+.notification, .notification--success, .notification--error, .notification--warning,
+.phylab-loading-overlay__card, .library-selects select, .library-tags--skills li,
+.formula-hero, .formula-block, .toolkit-method, .case-context, .case-exam,
+.case-question, .case-mistakes, .home-unit, .library-unit, .dash-grid > *,
+.activity-row, .bar, .metric, .flashcard-face, .exam-timer, .results-card {
+  border-radius: var(--r-md);
+}
+.ai-status code, .library-tags--skills li, .quiz-navigator button { border-radius: var(--r-sm); }
+.skip-link { border-radius: var(--r-sm); }
+
+/* The hero glow was a hard-edged disc behind a blur, which left a visible ring
+   where the circle ended. A radial gradient that fades to transparent has no
+   edge to show, so it blends into the panel instead of sitting on top of it. */
+.glow {
+  width: 460px;
+  height: 460px;
+  background: radial-gradient(circle at 50% 50%,
+    var(--accent-2) 0%,
+    color-mix(in srgb, var(--accent-2) 55%, transparent) 38%,
+    transparent 72%);
+  filter: blur(56px);
+  opacity: .34;
+}
+@supports not (background: color-mix(in srgb, red 50%, transparent)) {
+  .glow { background: radial-gradient(circle, var(--accent-2) 0%, transparent 70%); }
+}
+
+/* The scene panel itself should fade into the page rather than ending on a line. */
+.orbital-scene {
+  border-radius: var(--r-xl);
+  border: 1px solid var(--accent-soft-line);
+}

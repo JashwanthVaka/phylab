@@ -1,7 +1,7 @@
 /**
  * ⌘K command palette.
  *
- * With 26 lessons, 122 formulas, 19 cases and 10 simulations, hunting through
+ * With 26 lessons, 131 formulas, 19 cases and 26 simulations, hunting through
  * navigation is the slow path. This opens on ⌘K (Ctrl+K elsewhere) or "/" and
  * jumps straight to anything.
  *

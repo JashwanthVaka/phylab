@@ -83,7 +83,7 @@ export function libraryPage(index, state) {
     <p class="library-count" data-library-count aria-live="polite"></p>
 
     ${units.map(unit => unitSection(unit, lessons.filter(lesson => unitOf(lesson) === unit.id), completed)).join('')}
-    ${ungrouped.length ? unitSection({ id: 'other', title: 'Further lessons', summary: 'Lessons that sit outside the four named units.' }, ungrouped, completed) : ''}
+    ${ungrouped.length ? unitSection({ id: 'other', title: 'Further lessons', summary: 'Lessons that sit outside the five named units.' }, ungrouped, completed) : ''}
   </section>`;
 }
 

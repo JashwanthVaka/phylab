@@ -23,12 +23,12 @@ export function renderHome(index, progress) {
     <div class="hero-copy">
       <p class="eyebrow">THE PHYSICS STUDIO FOR IB</p>
       <h1>Master IBDP Physics.<br><em>See every law move.</em></h1>
-      <p class="lead">Lessons in syllabus order, a formula centre that explains every symbol, graphs and simulations driven by the real equations, practice with transparent marking, and an AI tutor that answers from KINETIQ’s own content first.</p>
+      <p class="lead">Lessons in syllabus order, a formula centre that explains every symbol, graphs and simulations driven by the real equations, practice with transparent marking, and and question answering that draws on KINETIQ’s own lessons.</p>
       <div class="actions">
         <a href="/lesson/${escapeHTML(next?.slug || '')}" class="button" data-route>Start learning <b>→</b></a>
         <a href="/exam-prep" class="outline" data-route>Test your knowledge</a>
       </div>
-      <p class="hero-note">Everything except the AI tutor works with no account and no API key.</p>
+      <p class="hero-note">Every part of KINETIQ works with no account. Asking a question needs no API key either — only the generative tutor does.</p>
     </div>
     ${heroScene()}
   </section>
@@ -45,7 +45,7 @@ export function renderHome(index, progress) {
   <section class="page journey">
     <ol class="journey-grid">
       <li><span class="journey-num">01</span><h3>Learn the course</h3><p>All ${lessons.length} lessons grouped into the five course units, with progress you can track.</p><a class="text-button" href="/library" data-route>Course library →</a></li>
-      <li><span class="journey-num">02</span><h3>Model it</h3><p>Ten simulations and every lesson graph run from real equations, not stored curves.</p><a class="text-button" href="/simulations" data-route>Simulation studio →</a></li>
+      <li><span class="journey-num">02</span><h3>Model it</h3><p>${(index.simulations || []).length} simulations and every lesson graph run from real equations, not stored curves.</p><a class="text-button" href="/simulations" data-route>Simulation studio →</a></li>
       <li><span class="journey-num">03</span><h3>Apply it</h3><p>${(index.cases || []).length} real-world cases from car safety to carbon dating.</p><a class="text-button" href="/cases" data-route>Case practice →</a></li>
       <li><span class="journey-num">04</span><h3>Learn the method</h3><p>Five study procedures and every IB command term explained.</p><a class="text-button" href="/toolkit" data-route>Active toolkit →</a></li>
       <li><span class="journey-num">05</span><h3>Practise</h3><p>Eight practice formats with time, marks and level shown up front.</p><a class="text-button" href="/exam-prep" data-route>Exam preparation →</a></li>
