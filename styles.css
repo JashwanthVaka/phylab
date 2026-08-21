@@ -2091,3 +2091,126 @@ input, select, textarea, .stats, .facts {
 @media (max-width: 700px) {
   .journey-grid li { padding: var(--s4); }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   Ask: history, related questions, save. Lesson ask box. Formula sheet.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.ask-answer__actions { display: flex; align-items: center; gap: var(--s3); flex-wrap: wrap; }
+.ask-save { min-height: 34px; padding: 0 14px; font-size: 13px; }
+.ask-save[disabled] { opacity: .6; cursor: default; }
+
+.ask-related {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--s2);
+  margin-top: var(--s5); padding-top: var(--s4);
+  border-top: 1px solid var(--line);
+}
+.ask-related > span {
+  font: 500 10.5px/1 var(--font-mono);
+  letter-spacing: .1em; text-transform: uppercase; color: var(--muted);
+  margin-right: var(--s1);
+}
+
+.ask-history { margin-top: var(--s7); }
+.ask-history__head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s4); }
+.ask-history ul { list-style: none; margin: var(--s3) 0 0; padding: 0; display: grid; gap: 2px; }
+.ask-history li {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--s4);
+  border-bottom: 1px solid var(--line);
+}
+.ask-history li button {
+  flex: 1; text-align: left; background: none; border: 0; cursor: pointer;
+  padding: 11px 0; font: 500 14.5px/1.4 var(--font-sans); color: var(--ink-soft);
+}
+.ask-history li button:hover { color: var(--blue); }
+.ask-history li span { font: 400 11.5px/1 var(--font-mono); color: var(--muted); white-space: nowrap; }
+
+/* ── In-lesson ask ──────────────────────────────────────────────────── */
+.lesson-ask {
+  margin: var(--s7) 0 var(--s5);
+  padding: var(--s5);
+  background: var(--pale);
+  border: 1px solid var(--accent-soft-line);
+  border-radius: var(--r-xl);
+}
+.lesson-ask .eyebrow { margin-bottom: var(--s3); }
+.lesson-ask__form { display: flex; gap: var(--s3); align-items: center; flex-wrap: wrap; }
+.lesson-ask__form .search { flex: 1 1 300px; background: var(--surface); }
+.lesson-ask__result:not(:empty) { margin-top: var(--s4); }
+.lesson-ask__answer {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: var(--s4) var(--s5);
+}
+.lesson-ask__answer h4 { font: 600 17px/1.25 var(--font-sans); letter-spacing: -.02em; margin: 0 0 var(--s3); }
+.lesson-ask__answer p { font-size: 14.5px; line-height: 1.6; color: var(--ink-soft); margin: 0 0 var(--s3); }
+.lesson-ask__label {
+  font: 500 10px/1 var(--font-mono) !important;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--blue) !important; margin-bottom: 4px !important;
+}
+.lesson-ask__foot { display: flex; align-items: center; gap: var(--s4); flex-wrap: wrap; margin-top: var(--s2); }
+.lesson-ask__foot .outline { min-height: 34px; padding: 0 14px; font-size: 13px; }
+
+/* ── Formula sheet ──────────────────────────────────────────────────── */
+.sheet-head { display: flex; justify-content: space-between; gap: var(--s6); align-items: flex-start; flex-wrap: wrap; margin-bottom: var(--s7); }
+.sheet-actions { display: flex; gap: var(--s2); flex-wrap: wrap; }
+
+.sheet-unit { margin-bottom: var(--s8); break-inside: auto; }
+.sheet-unit h2 {
+  display: flex; align-items: center; gap: var(--s3);
+  font: 700 24px/1.2 var(--font-sans); letter-spacing: -.03em;
+  padding-bottom: var(--s3); margin: 0 0 var(--s5);
+  border-bottom: 2px solid var(--ink);
+}
+.sheet-unit__id {
+  display: grid; place-items: center;
+  width: 30px; height: 30px; border-radius: 50%;
+  background: var(--unit-color, var(--blue)); color: #fff;
+  font: 600 14px/1 var(--font-mono);
+}
+.sheet-unit:nth-of-type(1) { --unit-color: #0F766E; }
+.sheet-unit:nth-of-type(2) { --unit-color: #15803D; }
+.sheet-unit:nth-of-type(3) { --unit-color: #A16207; }
+.sheet-unit:nth-of-type(4) { --unit-color: #7C2D12; }
+.sheet-unit:nth-of-type(5) { --unit-color: #BE185D; }
+
+.sheet-topic { margin-bottom: var(--s5); break-inside: avoid; }
+.sheet-topic h3 {
+  font: 500 11px/1 var(--font-mono); letter-spacing: .1em; text-transform: uppercase;
+  color: var(--muted); margin: 0 0 var(--s3);
+}
+.sheet-list { margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: var(--s3); }
+.sheet-item {
+  break-inside: avoid;
+  padding: var(--s3) var(--s4);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--surface);
+}
+.sheet-item dt { margin: 0 0 5px; }
+.sheet-item code { font: 400 17px/1.35 var(--font-serif); color: var(--blue); }
+.sheet-item dd { margin: 0; }
+.sheet-item b { display: block; font: 600 13px/1.3 var(--font-sans); margin-bottom: 3px; }
+.sheet-vars { font: 400 11.5px/1.5 var(--font-mono); color: var(--muted); }
+.sheet-foot { margin-top: var(--s7); font-size: 12px; color: var(--muted); text-align: center; }
+
+@media print {
+  .sheet-head, .sheet-actions { display: none !important; }
+  .sheet-unit { margin-bottom: 10pt; }
+  .sheet-unit h2 { font-size: 13pt !important; border-bottom-width: 1pt; }
+  .sheet-list { grid-template-columns: 1fr 1fr !important; gap: 4pt; }
+  .sheet-item { padding: 4pt 6pt; border-color: #ccc; }
+  .sheet-item code { font-size: 11pt !important; color: #000 !important; }
+  .sheet-item b { font-size: 8.5pt !important; }
+  .sheet-vars { font-size: 7.5pt !important; color: #444 !important; }
+  .lesson-ask, .ask-history, .ask-related { display: none !important; }
+}
+
+@media (max-width: 700px) {
+  .lesson-ask__form { flex-direction: column; align-items: stretch; }
+  .lesson-ask__form .btn { width: 100%; }
+  .sheet-list { grid-template-columns: 1fr; }
+}
+.formula-sheet-link { margin: 0 0 var(--s6); }

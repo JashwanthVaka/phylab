@@ -10,6 +10,9 @@ import { escapeHTML } from './utils.js';
 
 const RESULTS_PREFIX = 'phylab_quiz_results:';
 const STATE_KEY = 'phylab_mistake_state_v1';
+// Answers saved from Ask KINETIQ. A thing you had to look up is a thing you did
+// not know, so it earns the same spaced review as a wrongly answered question.
+const SAVED_KEY = 'phylab_saved_answers_v1';
 // Days until a mistake is due again, by how many times it has since been answered correctly.
 const INTERVALS = [0, 1, 3, 7, 16, 35];
 const DAY = 86400000;
@@ -33,6 +36,37 @@ function allResults() {
     } catch { /* skip unreadable entries */ }
   }
   return rows.sort((left, right) => (right.startedAt || 0) - (left.startedAt || 0));
+}
+
+const readSaved = () => {
+  try { return JSON.parse(localStorage.getItem(SAVED_KEY)) || []; } catch { return []; }
+};
+
+/** Saves a looked-up answer for spaced review. Returns false if already saved. */
+export function saveAnswerForReview({ question, headline, body, href }) {
+  const rows = readSaved();
+  const id = `ask:${String(question).trim().toLowerCase()}`;
+  if (rows.some(row => row.id === id)) return false;
+  rows.push({
+    id,
+    question: String(question).trim(),
+    headline: String(headline || '').trim(),
+    body: String(body || '').trim().slice(0, 600),
+    href: href || '',
+    savedAt: Date.now(),
+  });
+  try { localStorage.setItem(SAVED_KEY, JSON.stringify(rows.slice(-200))); } catch { return false; }
+  return true;
+}
+
+export function isAnswerSaved(question) {
+  const id = `ask:${String(question).trim().toLowerCase()}`;
+  return readSaved().some(row => row.id === id);
+}
+
+export function removeSavedAnswer(id) {
+  const rows = readSaved().filter(row => row.id !== id);
+  try { localStorage.setItem(SAVED_KEY, JSON.stringify(rows)); } catch { /* blocked */ }
 }
 
 /**
@@ -60,6 +94,22 @@ export function collectMistakes() {
         existing.lastCorrect = Boolean(correct);
       }
       byQuestion.set(id, existing);
+    });
+  });
+
+  // Saved lookups join the same queue and are scheduled identically.
+  readSaved().forEach(row => {
+    byQuestion.set(row.id, {
+      id: row.id,
+      question: { id: row.id, question: row.question, topic: row.headline, level: '' },
+      timesWrong: 1,
+      timesRight: 0,
+      lastAnswer: '',
+      lastReason: row.body,
+      lastAt: row.savedAt,
+      lastCorrect: false,
+      fromAsk: true,
+      href: row.href,
     });
   });
 
@@ -133,7 +183,7 @@ export function mistakesPage() {
   return `<section class="page mistakes-page">
     <p class="eyebrow">MISTAKE BANK</p>
     <h1>Every question you got wrong, in one place.</h1>
-    <p class="page-lead">Collected automatically from your submitted quizzes. Mark one as understood and it comes back later; miss it again and it returns sooner. Intervals run 1, 3, 7, 16 and 35 days.</p>
+    <p class="page-lead">Collected automatically from your submitted quizzes, plus anything you saved from Ask KINETIQ. Mark one as understood and it comes back later; miss it again and it returns sooner. Intervals run 1, 3, 7, 16 and 35 days.</p>
 
     <div class="library-summary">
       <div class="library-summary__ring" role="img" aria-label="${due.length} mistakes due"><b>${due.length}</b></div>

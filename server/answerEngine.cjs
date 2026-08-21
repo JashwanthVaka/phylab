@@ -47,6 +47,7 @@ function composeAnswer(query, hits) {
       headline: 'Nothing in KINETIQ matches that yet.',
       sections: [],
       sources: [],
+      related: [],
       confidence: 'none',
       note: 'Try naming the quantity or the topic — for example "escape speed", "why does a closed pipe have no even harmonics", or "half-life".',
     };
@@ -132,11 +133,25 @@ function composeAnswer(query, hits) {
   const top = Number(best.score) || 0;
   const confidence = top >= 24 ? 'strong' : top >= 12 ? 'partial' : 'weak';
 
+  // Strong neighbouring matches that did not make it into the answer are the
+  // natural next question, so they are offered rather than discarded.
+  const used = new Set(sections.map(s => s.title));
+  const related = [];
+  hits.forEach(hit => {
+    if (related.length >= 4) return;
+    const title = String(hit.title || '').trim();
+    if (!title || used.has(title) || related.some(r => r.title === title)) return;
+    if (title.toLowerCase() === String(best.title).toLowerCase()) return;
+    used.add(title);
+    related.push({ title, href: hit.href, kind: hit.type });
+  });
+
   return {
     answered: true,
     headline: best.title,
     sections: sections.slice(0, 7),
     sources: sources.slice(0, 5),
+    related,
     confidence,
     note: confidence === 'weak'
       ? 'This is the closest material in KINETIQ, but it may not be exactly what you asked. Open the source to check.'

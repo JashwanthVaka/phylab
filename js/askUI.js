@@ -9,6 +9,21 @@
  */
 
 import { escapeHTML } from './utils.js';
+import { saveAnswerForReview, isAnswerSaved } from './mistakeBank.js';
+
+const HISTORY_KEY = 'kinetiq_ask_history_v1';
+
+const readHistory = () => {
+  try { return JSON.parse(localStorage.getItem(HISTORY_KEY)) || []; } catch { return []; }
+};
+const pushHistory = question => {
+  const rows = readHistory().filter(row => row.q !== question);
+  rows.unshift({ q: question, at: Date.now() });
+  try { localStorage.setItem(HISTORY_KEY, JSON.stringify(rows.slice(0, 12))); } catch { /* blocked */ }
+};
+const clearHistory = () => {
+  try { localStorage.removeItem(HISTORY_KEY); } catch { /* blocked */ }
+};
 
 const SUGGESTIONS = [
   'What is escape speed?',
@@ -24,6 +39,16 @@ const CONFIDENCE = {
   partial: { label: 'Close match',  tone: 'warn' },
   weak:    { label: 'Loose match',  tone: 'warn' },
   none:    { label: 'No match',     tone: 'bad' },
+};
+
+const ago = timestamp => {
+  const mins = Math.round((Date.now() - timestamp) / 60000);
+  if (mins < 1) return 'just now';
+  if (mins < 60) return `${mins} min ago`;
+  const hours = Math.round(mins / 60);
+  if (hours < 24) return `${hours} h ago`;
+  const days = Math.round(hours / 24);
+  return days === 1 ? 'yesterday' : `${days} days ago`;
 };
 
 export function askPage(query = '') {
@@ -47,10 +72,19 @@ export function askPage(query = '') {
     </div>
 
     <div data-ask-result aria-live="polite"></div>
+    <div data-ask-history></div>
   </section>`;
 }
 
-function answerHTML(data) {
+function relatedHTML(related) {
+  if (!related?.length) return '';
+  return `<div class="ask-related">
+    <span>Next question</span>
+    ${related.map(item => `<button type="button" class="chip" data-ask-suggest="${escapeHTML(item.title)}">${escapeHTML(item.title)}</button>`).join('')}
+  </div>`;
+}
+
+function answerHTML(data, question) {
   if (!data.answered) {
     return `<div class="empty-state ask-empty">
       <h3>${escapeHTML(data.headline)}</h3>
@@ -59,11 +93,17 @@ function answerHTML(data) {
   }
 
   const conf = CONFIDENCE[data.confidence] || CONFIDENCE.partial;
+  const saved = isAnswerSaved(question);
 
   return `<article class="ask-answer">
     <header class="ask-answer__head">
       <h2>${escapeHTML(data.headline)}</h2>
-      <span class="ask-confidence is-${conf.tone}">${escapeHTML(conf.label)}</span>
+      <div class="ask-answer__actions">
+        <span class="ask-confidence is-${conf.tone}">${escapeHTML(conf.label)}</span>
+        <button type="button" class="outline ask-save" data-ask-save ${saved ? 'disabled' : ''}>
+          ${saved ? 'Saved for review ✓' : 'Save for review'}
+        </button>
+      </div>
     </header>
     ${data.note ? `<p class="ask-note">${escapeHTML(data.note)}</p>` : ''}
     <div class="ask-sections">
@@ -74,6 +114,7 @@ function answerHTML(data) {
           ${section.href ? `<a class="ask-section__src" href="${escapeHTML(section.href)}" data-route>${escapeHTML(section.topic || section.title || 'Open source')} →</a>` : ''}
         </section>`).join('')}
     </div>
+    ${relatedHTML(data.related)}
     ${data.sources.length ? `<footer class="ask-sources">
       <span>Sources</span>
       ${data.sources.map(s => `<a href="${escapeHTML(s.href)}" data-route>${escapeHTML(s.title || s.href)}</a>`).join('')}
@@ -81,19 +122,40 @@ function answerHTML(data) {
   </article>`;
 }
 
+function historyHTML() {
+  const rows = readHistory();
+  if (!rows.length) return '';
+  return `<section class="ask-history">
+    <div class="ask-history__head">
+      <p class="eyebrow">YOU ASKED BEFORE</p>
+      <button type="button" class="text-button" data-ask-clear>Clear</button>
+    </div>
+    <ul>
+      ${rows.map(row => `<li>
+        <button type="button" data-ask-suggest="${escapeHTML(row.q)}">${escapeHTML(row.q)}</button>
+        <span>${escapeHTML(ago(row.at))}</span>
+      </li>`).join('')}
+    </ul>
+  </section>`;
+}
+
 export function bindAsk() {
   const form = document.querySelector('[data-ask-form]');
   const result = document.querySelector('[data-ask-result]');
+  const historyBox = document.querySelector('[data-ask-history]');
   const input = document.getElementById('askInput');
   if (!form || !result || !input) return;
 
   let inFlight = null;
+  let lastAnswer = null;
+  let lastQuestion = '';
+
+  const renderHistory = () => { if (historyBox) historyBox.innerHTML = historyHTML(); };
 
   async function ask(question) {
     const trimmed = String(question || '').trim();
     if (!trimmed) return;
 
-    // Keep the question in the URL so an answer can be linked or reloaded.
     const url = `/ask?q=${encodeURIComponent(trimmed)}`;
     if (location.pathname + location.search !== url) history.replaceState({}, '', url);
 
@@ -106,7 +168,11 @@ export function bindAsk() {
       const response = await fetch(`/api/answer?q=${encodeURIComponent(trimmed)}`, { signal: controller.signal });
       const data = await response.json();
       if (!response.ok) throw new Error(data?.error || 'That search could not be completed.');
-      result.innerHTML = answerHTML(data);
+      lastAnswer = data;
+      lastQuestion = trimmed;
+      result.innerHTML = answerHTML(data, trimmed);
+      // Only a question that actually produced an answer is worth remembering.
+      if (data.answered) { pushHistory(trimmed); renderHistory(); }
     } catch (error) {
       if (error.name === 'AbortError') return;
       result.innerHTML = `<div class="empty-state ask-empty">
@@ -122,14 +188,35 @@ export function bindAsk() {
     ask(input.value);
   });
 
-  document.querySelectorAll('[data-ask-suggest]').forEach(button => {
-    button.addEventListener('click', () => {
-      input.value = button.dataset.askSuggest;
+  // Suggestions, related-question chips and history entries all re-ask.
+  document.addEventListener('click', event => {
+    const suggest = event.target.closest('[data-ask-suggest]');
+    if (suggest) {
+      input.value = suggest.dataset.askSuggest;
+      input.scrollIntoView({ block: 'nearest' });
       ask(input.value);
-    });
+      return;
+    }
+    if (event.target.closest('[data-ask-clear]')) {
+      clearHistory();
+      renderHistory();
+      return;
+    }
+    const save = event.target.closest('[data-ask-save]');
+    if (save && lastAnswer?.answered) {
+      const ok = saveAnswerForReview({
+        question: lastQuestion,
+        headline: lastAnswer.headline,
+        body: lastAnswer.sections[0]?.body || '',
+        href: lastAnswer.sources[0]?.href || '',
+      });
+      save.disabled = true;
+      save.textContent = ok ? 'Saved for review ✓' : 'Already saved ✓';
+    }
   });
 
-  // Answer straight away when arriving with ?q= already set.
+  renderHistory();
+
   const initial = new URLSearchParams(location.search).get('q');
   if (initial) ask(initial);
   else input.focus();

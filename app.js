@@ -2,6 +2,8 @@ import { ContentLoader } from './js/contentLoader.js';
 import './js/theme.js';
 import { indexContent } from './js/commandPalette.js';
 import { askPage, bindAsk } from './js/askUI.js';
+import { bindLessonAsk } from './js/lessonAsk.js';
+import { formulaSheetPage } from './js/formulaSheet.js';
 import { Router } from './js/router.js';
 import {
   renderHome,
@@ -152,8 +154,10 @@ const router = new Router({
   '/': () => transition(async () => ({ view: renderHome(await loader.getIndex(), getProgress()) }), 'Preparing your physics workspace…'),
   '/lesson/:slug': ({ slug }) => transition(async () => {
     const [lesson, index] = await Promise.all([loader.getLesson(slug), loader.getIndex()]);
-    return { view: renderLesson(lesson, index) };
+    return { view: renderLesson(lesson, index), mount: bindLessonAsk };
   }, 'Opening lesson…'),
+  // One page, every formula, grouped by unit — built for printing.
+  '/formulas/print': () => transition(async () => ({ view: formulaSheetPage(await loader.getIndex()) }), 'Building the formula sheet…'),
   '/formulas': () => transition(async () => ({ view: renderFormulaLibrary((await loader.getIndex()).formulas) }), 'Loading formula centre…'),
   '/formulas/:slug': ({ slug }) => transition(async () => ({ view: renderFormulaLibrary((await loader.getIndex()).formulas, slug) }), 'Loading formula…'),
   '/quiz': () => transition(async () => {

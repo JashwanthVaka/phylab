@@ -36,6 +36,19 @@ export function renderLesson(lesson, index = { lessonIndex: [] }) {
     ${section('Summary', `<div class="summary-card"><p>${escapeHTML(lesson.summary || 'Summary not yet supplied.')}</p></div>`, { id: 'summary', eyebrow: 'TAKEAWAY' })}
     ${section('Flashcards', renderFlashcards(lessonFlashcards(lesson)), { eyebrow: 'SPACED REVISION' })}
     ${section('Knowledge pathways', `<div class="pathway-grid">${graph.previous ? `<a href="/lesson/${graph.previous.slug}" data-route>← Previous<br><b>${escapeHTML(graph.previous.title)}</b></a>` : '<span></span>'}${graph.next ? `<a href="/lesson/${graph.next.slug}" data-route>Next →<br><b>${escapeHTML(graph.next.title)}</b></a>` : '<span></span>'}</div>${graph.related.length ? `<div class="related-links">${graph.related.map(item => `<a href="/lesson/${escapeHTML(item.slug)}" data-route>${escapeHTML(item.title)}</a>`).join('')}</div>` : ''}${graph.advanced.length ? `<p><b>Advanced:</b> ${escapeHTML(graph.advanced.join(' · '))}</p>` : ''}`, { eyebrow: 'CONTINUE LEARNING' })}
+    <section class="lesson-ask" data-lesson-ask data-topic="${escapeHTML(lesson.topicLabel || lesson.title)}">
+      <p class="eyebrow">STUCK ON SOMETHING?</p>
+      <form class="lesson-ask__form">
+        <label class="search">
+          <span aria-hidden="true">⌕</span>
+          <input type="search" name="q" autocomplete="off"
+                 placeholder="Ask about ${escapeHTML(lesson.topicLabel || lesson.title)}…"
+                 aria-label="Ask a question about this lesson">
+        </label>
+        <button class="btn btn-primary" type="submit">Answer</button>
+      </form>
+      <div class="lesson-ask__result" aria-live="polite"></div>
+    </section>
     <div class="lesson-actions"><button class="button" data-complete-lesson="${escapeHTML(lesson.slug)}">Mark lesson complete</button><a class="outline" href="/quiz" data-route>Practise now</a><button class="outline" data-open-tutor>Ask KIT about this lesson</button></div>
   </article>`;
 }
