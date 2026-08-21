@@ -1,90 +1,2951 @@
 [
-  { "id": 1, "topic": "Kinematics", "level": "SL", "difficulty": "easy", "marks": 2, "question": "A car starts from rest and accelerates uniformly at 5.0 m/s^2 for 4.0 s. Calculate its final velocity. Give your answer in m/s.", "answer": "20 m/s", "unit": "m/s", "tolerance": 0.5, "solution": "Use v = u + at with u = 0. v = 0 + 5.0 x 4.0 = 20 m/s. In IB notation this is 20 m s^-1.", "lessonReferences": ["kinematics"], "tags": ["suvat", "calculation"] },
-  { "id": 2, "topic": "Kinematics", "level": "SL", "difficulty": "easy", "marks": 1, "question": "A ball is thrown vertically upwards. At the highest point of its flight, what is its acceleration? Air resistance is negligible.", "options": ["Zero, because the ball is momentarily at rest", "9.81 m/s^2 directed downwards", "9.81 m/s^2 directed upwards", "It depends on how fast the ball was thrown"], "correctAnswer": "9.81 m/s^2 directed downwards", "solution": "Velocity is zero at the top, but acceleration is not. Gravity acts throughout the flight, so the acceleration stays 9.81 m/s^2 downwards. Confusing zero velocity with zero acceleration is the classic error here.", "lessonReferences": ["kinematics"], "tags": ["mcq", "concept"] },
-  { "id": 3, "topic": "Kinematics", "level": "SL", "difficulty": "medium", "marks": 3, "question": "A car travelling at 25 m/s brakes uniformly and stops in a distance of 40 m. Calculate the magnitude of its deceleration in m/s^2.", "answer": "7.81 m/s^2", "unit": "m/s^2", "tolerance": 0.15, "solution": "Use v^2 = u^2 + 2as with v = 0, u = 25 m/s, s = 40 m. 0 = 625 + 2a(40), so a = -625/80 = -7.81 m/s^2. The magnitude is 7.81 m/s^2; the minus sign shows it opposes the motion.", "lessonReferences": ["kinematics"], "tags": ["suvat", "calculation"] },
-  { "id": 4, "topic": "Kinematics", "level": "SL", "difficulty": "easy", "marks": 1, "question": "An athlete runs exactly one lap of a 400 m circular track, finishing where they started. What is the magnitude of their displacement?", "options": ["400 m", "0 m", "200 m", "800 m"], "correctAnswer": "0 m", "solution": "Displacement is the straight-line change in position, a vector. Start and finish coincide, so displacement is zero even though the distance travelled is 400 m.", "lessonReferences": ["kinematics"], "tags": ["mcq", "vectors"] },
-  { "id": 5, "topic": "Kinematics", "level": "SL", "difficulty": "medium", "marks": 2, "question": "An object is released from rest and falls freely through 45 m. Calculate the time taken. Give your answer in s.", "answer": "3.03 s", "unit": "s", "tolerance": 0.08, "solution": "Use s = ut + (1/2)at^2 with u = 0. 45 = 0.5 x 9.81 x t^2, so t^2 = 9.174 and t = 3.03 s.", "lessonReferences": ["kinematics"], "tags": ["free-fall", "calculation"] },
-  { "id": 6, "topic": "Kinematics", "level": "SL", "difficulty": "medium", "marks": 3, "question": "A projectile is launched at 20 m/s at 30 degrees above the horizontal from ground level. Calculate the maximum height reached. Give your answer in m.", "answer": "5.10 m", "unit": "m", "tolerance": 0.15, "solution": "Vertical component: vy = 20 sin30 = 10 m/s. At the peak the vertical velocity is zero, so 0 = vy^2 - 2gh, giving h = 100/(2 x 9.81) = 5.10 m. Using the full 20 m/s instead of the vertical component is the usual mistake.", "lessonReferences": ["kinematics"], "tags": ["projectile", "calculation"] },
-  { "id": 7, "topic": "Kinematics", "level": "SL", "difficulty": "medium", "marks": 3, "question": "A velocity-time graph shows a straight line rising from 0 to 12 m/s over 4 s, then a horizontal line at 12 m/s for 6 s. Describe the motion and state the total distance travelled.", "answer": "Uniform acceleration of 3 m/s^2 for 4 s, then constant velocity for 6 s; total distance 96 m", "markScheme": ["uniform acceleration", "constant velocity", "96"], "solution": "The gradient in the first phase is 12/4 = 3 m/s^2, so the object accelerates uniformly. The flat section means zero acceleration and constant velocity. Distance is the area under the graph: (1/2 x 4 x 12) + (6 x 12) = 24 + 72 = 96 m.", "lessonReferences": ["kinematics"], "tags": ["graphs", "structured"] },
-
-  { "id": 8, "topic": "Forces and Momentum", "level": "SL", "difficulty": "easy", "marks": 2, "question": "A 10 kg object accelerates at 3.0 m/s^2. Calculate the resultant force acting on it. Give your answer in N.", "answer": "30 N", "unit": "N", "tolerance": 0.5, "solution": "Newton's second law: F = ma = 10 x 3.0 = 30 N.", "lessonReferences": ["forces"], "tags": ["newton", "calculation"] },
-  { "id": 9, "topic": "Forces and Momentum", "level": "SL", "difficulty": "easy", "marks": 2, "question": "A 2.0 kg object moves at 6.0 m/s. Calculate its momentum. Give your answer in kg m/s.", "answer": "12 kg m/s", "unit": "kg m/s", "tolerance": 0.3, "solution": "p = mv = 2.0 x 6.0 = 12 kg m/s. Momentum is a vector, so a direction should be stated when the context gives one.", "lessonReferences": ["forces"], "tags": ["momentum", "calculation"] },
-  { "id": 10, "topic": "Forces and Momentum", "level": "SL", "difficulty": "medium", "marks": 1, "question": "A book rests on a table. Which force is the Newton's third law pair to the weight of the book?", "options": ["The normal contact force of the table on the book", "The gravitational pull of the book on the Earth", "The weight of the table", "The friction between book and table"], "correctAnswer": "The gravitational pull of the book on the Earth", "solution": "A third-law pair acts on two different bodies, is the same type of force, and is equal and opposite. The book's weight is the Earth pulling the book, so its pair is the book pulling the Earth. The normal force is a contact force on the same body, which is why it is the popular wrong answer.", "lessonReferences": ["forces"], "tags": ["mcq", "concept"] },
-  { "id": 11, "topic": "Forces and Momentum", "level": "SL", "difficulty": "medium", "marks": 3, "question": "A 1200 kg car travelling at 20 m/s is brought to rest in 4.0 s. Calculate the magnitude of the average resultant force. Give your answer in N.", "answer": "6000 N", "unit": "N", "tolerance": 120, "solution": "a = (v - u)/t = (0 - 20)/4.0 = -5.0 m/s^2. F = ma = 1200 x 5.0 = 6000 N (6.0 kN), directed opposite to the motion. You can also use impulse: F = change in momentum / time = 24000/4.0.", "lessonReferences": ["forces"], "tags": ["newton", "impulse", "calculation"] },
-  { "id": 12, "topic": "Forces and Momentum", "level": "SL", "difficulty": "medium", "marks": 3, "question": "A 2.0 kg trolley moving at 3.0 m/s collides with a stationary 4.0 kg trolley and they move off together. Calculate their common velocity. Give your answer in m/s.", "answer": "1.0 m/s", "unit": "m/s", "tolerance": 0.05, "solution": "Momentum is conserved: (2.0 x 3.0) + 0 = (2.0 + 4.0)v, so 6.0 = 6.0v and v = 1.0 m/s. This is a perfectly inelastic collision, so kinetic energy is not conserved even though momentum is.", "lessonReferences": ["forces"], "tags": ["momentum", "collisions", "calculation"] },
-  { "id": 13, "topic": "Forces and Momentum", "level": "SL", "difficulty": "medium", "marks": 1, "question": "Two identical cars stop from the same speed. One stops in 0.10 s, the other in 0.50 s. Which statement is correct?", "options": ["The car stopping in 0.10 s experiences the larger average force", "The car stopping in 0.50 s experiences the larger average force", "Both experience the same average force", "The car stopping in 0.50 s undergoes a larger momentum change"], "correctAnswer": "The car stopping in 0.10 s experiences the larger average force", "solution": "Both cars undergo the same momentum change. Since impulse F(delta t) = delta p, a shorter stopping time means a larger average force. This is exactly why crumple zones extend the collision time.", "lessonReferences": ["forces"], "tags": ["mcq", "impulse"] },
-  { "id": 14, "topic": "Forces and Momentum", "level": "SL", "difficulty": "hard", "marks": 4, "question": "Explain, in terms of momentum and impulse, how a crumple zone reduces the force on a passenger during a collision.", "answer": "The momentum change is fixed; the crumple zone increases the collision time, and since impulse equals force times time, a longer time means a smaller average force", "markScheme": ["momentum change is the same", "impulse", "increases the time", "smaller force"], "solution": "The change in momentum is set by the initial and final velocities and the mass, so it cannot be altered. Impulse F(delta t) equals that momentum change. A crumple zone deforms, extending delta t. With delta p fixed and delta t larger, the average force F must be smaller.", "lessonReferences": ["forces"], "tags": ["structured", "impulse"] },
-
-  { "id": 15, "topic": "Work, Energy and Power", "level": "SL", "difficulty": "easy", "marks": 2, "question": "A 4.0 kg object moves at 5.0 m/s. Calculate its kinetic energy. Give your answer in J.", "answer": "50 J", "unit": "J", "tolerance": 1, "solution": "Ek = (1/2)mv^2 = 0.5 x 4.0 x 25 = 50 J. Remember to square the velocity before multiplying.", "lessonReferences": ["energy"], "tags": ["energy", "calculation"] },
-  { "id": 16, "topic": "Work, Energy and Power", "level": "SL", "difficulty": "easy", "marks": 2, "question": "A 60 kg student climbs a staircase of vertical height 3.0 m. Calculate the gain in gravitational potential energy. Give your answer in J.", "answer": "1770 J", "unit": "J", "tolerance": 40, "solution": "Ep = mgh = 60 x 9.81 x 3.0 = 1766 J, which is 1.8 x 10^3 J to 2 significant figures. Only the vertical height counts, not the distance along the stairs.", "lessonReferences": ["energy"], "tags": ["energy", "calculation"] },
-  { "id": 17, "topic": "Work, Energy and Power", "level": "SL", "difficulty": "easy", "marks": 1, "question": "A motor is supplied with 500 J of electrical energy and does 300 J of useful work. What is its efficiency?", "options": ["60%", "167%", "40%", "800%"], "correctAnswer": "60%", "solution": "Efficiency = useful output / total input = 300/500 = 0.60, or 60%. The remaining 200 J is dissipated, mostly as thermal energy in the windings. Efficiency can never exceed 100%.", "lessonReferences": ["energy"], "tags": ["mcq", "efficiency"] },
-  { "id": 18, "topic": "Work, Energy and Power", "level": "SL", "difficulty": "medium", "marks": 3, "question": "A 2.0 kg mass is released from rest at a height of 10 m. Ignoring air resistance, calculate its speed just before it hits the ground. Give your answer in m/s.", "answer": "14.0 m/s", "unit": "m/s", "tolerance": 0.3, "solution": "Energy conservation: mgh = (1/2)mv^2, so v = sqrt(2gh) = sqrt(2 x 9.81 x 10) = 14.0 m/s. The mass cancels, so a 2 kg and a 20 kg mass arrive at the same speed.", "lessonReferences": ["energy"], "tags": ["energy", "calculation"] },
-  { "id": 19, "topic": "Work, Energy and Power", "level": "SL", "difficulty": "medium", "marks": 3, "question": "A crane lifts a load of weight 500 N through a vertical height of 4.0 m in 8.0 s. Calculate the useful power output. Give your answer in W.", "answer": "250 W", "unit": "W", "tolerance": 5, "solution": "Work done W = Fs = 500 x 4.0 = 2000 J. Power P = W/t = 2000/8.0 = 250 W.", "lessonReferences": ["energy"], "tags": ["power", "calculation"] },
-
-  { "id": 20, "topic": "Rigid Body Mechanics", "level": "HL", "difficulty": "easy", "marks": 2, "question": "A force of 20 N is applied perpendicular to a spanner at a distance of 0.50 m from the pivot. Calculate the torque. Give your answer in N m.", "answer": "10 N m", "unit": "N m", "tolerance": 0.3, "solution": "Torque = Fd = 20 x 0.50 = 10 N m, where d is the perpendicular distance from the pivot to the line of action of the force.", "lessonReferences": ["rigid-body-mechanics"], "tags": ["torque", "calculation"] },
-  { "id": 21, "topic": "Rigid Body Mechanics", "level": "HL", "difficulty": "medium", "marks": 2, "question": "A flywheel has moment of inertia 2.0 kg m^2 and rotates at an angular velocity of 5.0 rad/s. Calculate its rotational kinetic energy. Give your answer in J.", "answer": "25 J", "unit": "J", "tolerance": 0.6, "solution": "Ek(rot) = (1/2)I(omega)^2 = 0.5 x 2.0 x 25 = 25 J. This is the rotational analogue of (1/2)mv^2, with moment of inertia in place of mass.", "lessonReferences": ["rigid-body-mechanics"], "tags": ["rotation", "calculation"] },
-  { "id": 22, "topic": "Rigid Body Mechanics", "level": "HL", "difficulty": "medium", "marks": 1, "question": "A uniform beam is in rotational equilibrium. Which statement must be true?", "options": ["The sum of clockwise moments equals the sum of anticlockwise moments about any point", "The beam must be horizontal", "No forces act on the beam", "The beam must be stationary"], "correctAnswer": "The sum of clockwise moments equals the sum of anticlockwise moments about any point", "solution": "Rotational equilibrium means zero resultant torque, so opposing moments balance about any chosen point. A body can be in rotational equilibrium while rotating at constant angular velocity, so it need not be stationary.", "lessonReferences": ["rigid-body-mechanics"], "tags": ["mcq", "equilibrium"] },
-
-  { "id": 23, "topic": "Relativity", "level": "HL", "difficulty": "medium", "marks": 2, "question": "Calculate the Lorentz factor for an object moving at 0.60c.", "answer": "1.25", "unit": "", "tolerance": 0.03, "solution": "gamma = 1/sqrt(1 - v^2/c^2) = 1/sqrt(1 - 0.36) = 1/sqrt(0.64) = 1/0.80 = 1.25. The Lorentz factor has no units.", "lessonReferences": ["relativity"], "tags": ["relativity", "calculation"] },
-  { "id": 24, "topic": "Relativity", "level": "HL", "difficulty": "medium", "marks": 2, "question": "A clock on a fast-moving spacecraft measures a proper time interval of 10 s. An observer on Earth measures the interval as 20 s. Calculate the Lorentz factor.", "answer": "2.0", "unit": "", "tolerance": 0.05, "solution": "Time dilation: delta t = gamma x delta t0, where delta t0 = 10 s is the proper time measured in the frame where the events occur at the same place. gamma = 20/10 = 2.0.", "lessonReferences": ["relativity"], "tags": ["relativity", "calculation"] },
-  { "id": 25, "topic": "Relativity", "level": "HL", "difficulty": "medium", "marks": 1, "question": "A rod moves at high speed relative to an observer, along its own length. What does the observer measure?", "options": ["A shorter rod than its proper length", "A longer rod than its proper length", "The same length as its proper length", "A rod whose length depends on its mass"], "correctAnswer": "A shorter rod than its proper length", "solution": "Length contraction: L = L0/gamma, and gamma is always greater than 1 for a moving object, so the measured length is shorter. Contraction happens only along the direction of motion.", "lessonReferences": ["relativity"], "tags": ["mcq", "relativity"] },
-
-  { "id": 26, "topic": "Thermal Physics", "level": "SL", "difficulty": "easy", "marks": 3, "question": "Calculate the energy needed to raise the temperature of 0.50 kg of water from 20 C to 80 C. The specific heat capacity of water is 4200 J/kg/K. Give your answer in J.", "answer": "126000 J", "unit": "J", "tolerance": 2600, "solution": "Q = mc(delta T) = 0.50 x 4200 x 60 = 1.26 x 10^5 J. A temperature change of 60 C equals a change of 60 K, so no conversion is needed for delta T.", "lessonReferences": ["thermal-physics"], "tags": ["heat", "calculation"] },
-  { "id": 27, "topic": "Thermal Physics", "level": "SL", "difficulty": "medium", "marks": 1, "question": "Two objects are at the same temperature but have different masses. Which statement is correct?", "options": ["They have the same average kinetic energy per particle", "They have the same total internal energy", "The heavier object is at a higher temperature", "They must be made of the same material"], "correctAnswer": "They have the same average kinetic energy per particle", "solution": "Absolute temperature is a measure of the average kinetic energy per particle. Total internal energy also depends on how many particles there are, so the more massive object generally has greater internal energy at the same temperature.", "lessonReferences": ["thermal-physics"], "tags": ["mcq", "concept"] },
-  { "id": 28, "topic": "Thermal Physics", "level": "SL", "difficulty": "medium", "marks": 2, "question": "Calculate the energy needed to melt 0.20 kg of ice at 0 C. The specific latent heat of fusion of ice is 3.34 x 10^5 J/kg. Give your answer in J.", "answer": "66800 J", "unit": "J", "tolerance": 1400, "solution": "Q = mL = 0.20 x 3.34 x 10^5 = 6.68 x 10^4 J. No temperature change occurs during melting, so mc(delta T) does not apply here.", "lessonReferences": ["thermal-physics"], "tags": ["latent-heat", "calculation"] },
-  { "id": 29, "topic": "Thermal Physics", "level": "SL", "difficulty": "medium", "marks": 3, "question": "Explain why the temperature of a substance stays constant while it is melting, even though energy is still being supplied.", "answer": "The energy supplied breaks the bonds between particles, increasing potential energy rather than kinetic energy, and temperature depends on average kinetic energy", "markScheme": ["breaks bonds", "potential energy", "kinetic energy"], "solution": "During a phase change the supplied energy increases the potential energy of the particles by overcoming the forces holding them in the solid lattice. The average kinetic energy is unchanged, and since temperature is a measure of average kinetic energy, the temperature stays constant.", "lessonReferences": ["thermal-physics"], "tags": ["structured", "latent-heat"] },
-
-  { "id": 30, "topic": "Greenhouse Effect", "level": "SL", "difficulty": "easy", "marks": 1, "question": "Which of these gases is NOT a significant greenhouse gas?", "options": ["Carbon dioxide", "Methane", "Nitrogen", "Water vapour"], "correctAnswer": "Nitrogen", "solution": "Greenhouse gases absorb infrared radiation because their molecular vibrations have natural frequencies in the infrared. Nitrogen is a symmetric diatomic molecule with no changing dipole moment, so it does not absorb infrared appreciably, despite making up about 78% of the atmosphere.", "lessonReferences": ["greenhouse-effect"], "tags": ["mcq", "concept"] },
-  { "id": 31, "topic": "Greenhouse Effect", "level": "SL", "difficulty": "medium", "marks": 2, "question": "A star has a surface temperature of 6000 K. Using Wien's displacement law with the constant 2.90 x 10^-3 m K, calculate the wavelength at which it emits most strongly. Give your answer in m.", "answer": "4.83e-7 m", "unit": "m", "tolerance": 2e-8, "solution": "lambda(max) = 2.90 x 10^-3 / T = 2.90 x 10^-3 / 6000 = 4.83 x 10^-7 m, which is in the visible range. Hotter bodies peak at shorter wavelengths.", "lessonReferences": ["greenhouse-effect", "electromagnetic-waves"], "tags": ["wien", "calculation"] },
-  { "id": 32, "topic": "Greenhouse Effect", "level": "SL", "difficulty": "hard", "marks": 4, "question": "Explain why the Earth's atmosphere transmits most incoming solar radiation but absorbs much of the radiation emitted by the Earth's surface.", "answer": "The Sun is much hotter so emits short-wavelength visible radiation which passes through, while the cooler Earth emits infrared which greenhouse gases absorb by resonance", "markScheme": ["Sun is hotter", "short wavelength", "infrared", "absorb"], "solution": "By Wien's law the Sun at about 5800 K peaks in the visible, and the atmosphere is largely transparent to those wavelengths. The Earth's surface at about 288 K peaks in the infrared. Greenhouse gas molecules have vibrational and rotational modes with natural frequencies in the infrared, so they resonate with and absorb that outgoing radiation, then re-emit it in all directions.", "lessonReferences": ["greenhouse-effect"], "tags": ["structured", "radiation"] },
-
-  { "id": 33, "topic": "Gas Laws", "level": "SL", "difficulty": "easy", "marks": 2, "question": "A gas at a pressure of 200 kPa occupies 2.0 m^3. It is compressed at constant temperature to 0.50 m^3. Calculate the new pressure. Give your answer in kPa.", "answer": "800 kPa", "unit": "kPa", "tolerance": 20, "solution": "At constant temperature, p1V1 = p2V2. So 200 x 2.0 = p2 x 0.50, giving p2 = 400/0.50 = 800 kPa. Reducing the volume by a factor of 4 multiplies the pressure by 4.", "lessonReferences": ["gas-laws"], "tags": ["boyle", "calculation"] },
-  { "id": 34, "topic": "Gas Laws", "level": "SL", "difficulty": "medium", "marks": 3, "question": "Calculate the pressure of 2.0 mol of an ideal gas at 300 K in a container of volume 0.050 m^3. Use R = 8.31 J/mol/K. Give your answer in Pa.", "answer": "99700 Pa", "unit": "Pa", "tolerance": 2500, "solution": "pV = nRT, so p = nRT/V = (2.0 x 8.31 x 300)/0.050 = 4986/0.050 = 9.97 x 10^4 Pa. Temperature must be in kelvin.", "lessonReferences": ["gas-laws"], "tags": ["ideal-gas", "calculation"] },
-  { "id": 35, "topic": "Gas Laws", "level": "SL", "difficulty": "medium", "marks": 2, "question": "A sealed rigid container holds gas at 100 kPa and 300 K. The gas is heated to 450 K. Calculate the new pressure. Give your answer in kPa.", "answer": "150 kPa", "unit": "kPa", "tolerance": 4, "solution": "At constant volume, p1/T1 = p2/T2. So p2 = 100 x 450/300 = 150 kPa. Using Celsius here would give a badly wrong answer.", "lessonReferences": ["gas-laws"], "tags": ["pressure-law", "calculation"] },
-  { "id": 36, "topic": "Gas Laws", "level": "SL", "difficulty": "medium", "marks": 1, "question": "Which assumption is NOT part of the kinetic model of an ideal gas?", "options": ["Collisions between particles are perfectly elastic", "The particles have negligible volume compared with the container", "There are significant attractive forces between particles", "The particles move in random directions"], "correctAnswer": "There are significant attractive forces between particles", "solution": "The ideal gas model assumes intermolecular forces are negligible except during collisions. Real gases deviate from ideal behaviour precisely when those forces matter, at high pressure and low temperature.", "lessonReferences": ["gas-laws"], "tags": ["mcq", "kinetic-theory"] },
-
-  { "id": 37, "topic": "Thermodynamics", "level": "HL", "difficulty": "medium", "marks": 2, "question": "A gas absorbs 500 J of thermal energy and does 200 J of work on its surroundings. Calculate the change in its internal energy. Give your answer in J.", "answer": "300 J", "unit": "J", "tolerance": 6, "solution": "First law: delta U = Q - W, where W is the work done BY the gas. delta U = 500 - 200 = 300 J. Keep this sign convention consistent, as it matches the IB data booklet.", "lessonReferences": ["thermodynamics"], "tags": ["first-law", "calculation"] },
-  { "id": 38, "topic": "Thermodynamics", "level": "HL", "difficulty": "medium", "marks": 2, "question": "A heat engine takes in 1000 J from a hot reservoir and does 300 J of useful work. Calculate its efficiency as a percentage.", "answer": "30 %", "unit": "%", "tolerance": 1, "solution": "Efficiency = useful work out / energy in = 300/1000 = 0.30, which is 30%. The remaining 700 J is rejected to the cold reservoir, as the second law requires.", "lessonReferences": ["thermodynamics"], "tags": ["efficiency", "calculation"] },
-  { "id": 39, "topic": "Thermodynamics", "level": "HL", "difficulty": "medium", "marks": 1, "question": "Which statement best expresses the second law of thermodynamics?", "options": ["Energy cannot be created or destroyed", "The total entropy of an isolated system cannot decrease", "Thermal energy always flows from cold to hot", "All heat engines can be made 100% efficient"], "correctAnswer": "The total entropy of an isolated system cannot decrease", "solution": "The first option is the first law. Thermal energy flows spontaneously from hot to cold, not the reverse. No heat engine can be 100% efficient, which is a direct consequence of the second law.", "lessonReferences": ["thermodynamics"], "tags": ["mcq", "entropy"] },
-
-  { "id": 40, "topic": "Simple Harmonic Motion", "level": "SL", "difficulty": "medium", "marks": 2, "question": "A 0.50 kg mass oscillates on a spring of spring constant 50 N/m. Calculate the period of oscillation. Give your answer in s.", "answer": "0.628 s", "unit": "s", "tolerance": 0.02, "solution": "T = 2(pi)sqrt(m/k) = 2(pi)sqrt(0.50/50) = 2(pi)sqrt(0.010) = 2(pi)(0.10) = 0.628 s. The amplitude does not appear, so it does not affect the period.", "lessonReferences": ["simple-harmonic-motion"], "tags": ["shm", "calculation"] },
-  { "id": 41, "topic": "Simple Harmonic Motion", "level": "SL", "difficulty": "easy", "marks": 1, "question": "In simple harmonic motion, the acceleration of the oscillator is always directed", "options": ["towards the equilibrium position", "away from the equilibrium position", "in the direction of motion", "perpendicular to the displacement"], "correctAnswer": "towards the equilibrium position", "solution": "The defining relationship is a = -(omega^2)x. The minus sign means the acceleration is always opposite in sign to the displacement, so it points back towards equilibrium. This is the restoring condition.", "lessonReferences": ["simple-harmonic-motion"], "tags": ["mcq", "shm"] },
-  { "id": 42, "topic": "Simple Harmonic Motion", "level": "SL", "difficulty": "medium", "marks": 2, "question": "An oscillator has angular frequency 4.0 rad/s and amplitude 0.20 m. Calculate its maximum speed. Give your answer in m/s.", "answer": "0.80 m/s", "unit": "m/s", "tolerance": 0.03, "solution": "v(max) = (omega)A = 4.0 x 0.20 = 0.80 m/s. Maximum speed occurs at the equilibrium position, where displacement is zero.", "lessonReferences": ["simple-harmonic-motion"], "tags": ["shm", "calculation"] },
-  { "id": 43, "topic": "Simple Harmonic Motion", "level": "SL", "difficulty": "medium", "marks": 2, "question": "Calculate the period of a simple pendulum of length 1.0 m. Take g = 9.81 m/s^2. Give your answer in s.", "answer": "2.01 s", "unit": "s", "tolerance": 0.06, "solution": "T = 2(pi)sqrt(L/g) = 2(pi)sqrt(1.0/9.81) = 2(pi)(0.3193) = 2.01 s. The mass of the bob does not appear in the equation.", "lessonReferences": ["simple-harmonic-motion"], "tags": ["shm", "calculation"] },
-
-  { "id": 44, "topic": "Wave Properties", "level": "SL", "difficulty": "easy", "marks": 2, "question": "A wave has a frequency of 10 Hz and a wavelength of 2.0 m. Calculate its speed. Give your answer in m/s.", "answer": "20 m/s", "unit": "m/s", "tolerance": 0.5, "solution": "v = f(lambda) = 10 x 2.0 = 20 m/s.", "lessonReferences": ["wave-properties"], "tags": ["wave-equation", "calculation"] },
-  { "id": 45, "topic": "Wave Properties", "level": "SL", "difficulty": "easy", "marks": 1, "question": "Sound travelling through air is best described as", "options": ["a longitudinal wave", "a transverse wave", "an electromagnetic wave", "a standing wave"], "correctAnswer": "a longitudinal wave", "solution": "In sound the air particles oscillate parallel to the direction of energy transfer, producing compressions and rarefactions. Sound needs a medium, so it cannot be electromagnetic.", "lessonReferences": ["wave-properties"], "tags": ["mcq", "concept"] },
-  { "id": 46, "topic": "Wave Properties", "level": "SL", "difficulty": "easy", "marks": 2, "question": "A sound wave of frequency 170 Hz travels at 340 m/s. Calculate its wavelength. Give your answer in m.", "answer": "2.0 m", "unit": "m", "tolerance": 0.06, "solution": "lambda = v/f = 340/170 = 2.0 m.", "lessonReferences": ["wave-properties"], "tags": ["wave-equation", "calculation"] },
-  { "id": 47, "topic": "Wave Properties", "level": "SL", "difficulty": "medium", "marks": 1, "question": "The intensity of a wave is doubled. What happens to its amplitude?", "options": ["It increases by a factor of sqrt(2)", "It doubles", "It quadruples", "It stays the same"], "correctAnswer": "It increases by a factor of sqrt(2)", "solution": "Intensity is proportional to amplitude squared, so I doubling means A^2 doubles and A increases by sqrt(2), about 1.41 times.", "lessonReferences": ["wave-properties"], "tags": ["mcq", "intensity"] },
-
-  { "id": 48, "topic": "Wave Phenomena", "level": "SL", "difficulty": "medium", "marks": 3, "question": "In a double-slit experiment the slit separation is 5.0 x 10^-4 m, the screen is 2.0 m away, and the fringe spacing is 2.4 x 10^-3 m. Calculate the wavelength of the light. Give your answer in m.", "answer": "6.0e-7 m", "unit": "m", "tolerance": 2e-8, "solution": "lambda = sx/D where s is the slit separation, x the fringe spacing and D the slit-to-screen distance. lambda = (5.0 x 10^-4 x 2.4 x 10^-3)/2.0 = 6.0 x 10^-7 m, which is orange-red light.", "lessonReferences": ["wave-phenomena"], "tags": ["interference", "calculation"] },
-  { "id": 49, "topic": "Wave Phenomena", "level": "SL", "difficulty": "medium", "marks": 3, "question": "Light travels from air (n = 1.00) into glass (n = 1.50) with an angle of incidence of 30 degrees. Calculate the angle of refraction in degrees.", "answer": "19.5 degrees", "unit": "degrees", "tolerance": 0.6, "solution": "Snell's law: n1 sin(theta1) = n2 sin(theta2). 1.00 x sin30 = 1.50 x sin(theta2), so sin(theta2) = 0.500/1.50 = 0.3333 and theta2 = 19.5 degrees. The ray bends towards the normal on entering the denser medium.", "lessonReferences": ["wave-phenomena"], "tags": ["refraction", "calculation"] },
-  { "id": 50, "topic": "Wave Phenomena", "level": "SL", "difficulty": "medium", "marks": 1, "question": "Diffraction of a wave through a gap is most noticeable when", "options": ["the gap width is comparable to the wavelength", "the gap is much wider than the wavelength", "the gap is much narrower than the wavelength", "the wave has a very high frequency"], "correctAnswer": "the gap width is comparable to the wavelength", "solution": "Significant spreading occurs when the aperture and the wavelength are of similar size. This is why long-wavelength radio signals diffract around hills while short-wavelength signals leave shadow regions.", "lessonReferences": ["wave-phenomena"], "tags": ["mcq", "diffraction"] },
-
-  { "id": 51, "topic": "Electromagnetic Induction", "level": "HL", "difficulty": "medium", "marks": 2, "question": "A coil of area 0.020 m^2 lies perpendicular to a magnetic field of flux density 0.40 T. Calculate the magnetic flux through the coil. Give your answer in Wb.", "answer": "0.0080 Wb", "unit": "Wb", "tolerance": 0.0003, "solution": "Flux = BA cos(theta). The field is perpendicular to the coil plane, so the angle to the normal is zero and cos(theta) = 1. Flux = 0.40 x 0.020 = 8.0 x 10^-3 Wb.", "lessonReferences": ["electromagnetic-induction"], "tags": ["flux", "calculation"] },
-  { "id": 52, "topic": "Electromagnetic Induction", "level": "HL", "difficulty": "medium", "marks": 3, "question": "A 100-turn coil experiences a change in magnetic flux of 5.0 x 10^-3 Wb in 0.10 s. Calculate the magnitude of the induced emf. Give your answer in V.", "answer": "5.0 V", "unit": "V", "tolerance": 0.15, "solution": "Faraday's law: emf = N x (change in flux)/(time) = 100 x (5.0 x 10^-3)/0.10 = 5.0 V. The minus sign in the full statement is Lenz's law, giving the direction.", "lessonReferences": ["electromagnetic-induction"], "tags": ["faraday", "calculation"] },
-  { "id": 53, "topic": "Electromagnetic Induction", "level": "HL", "difficulty": "medium", "marks": 1, "question": "A magnet is pushed north-pole-first into a coil. The induced current in the coil", "options": ["creates a north pole facing the approaching magnet, opposing its motion", "creates a south pole facing the approaching magnet, attracting it", "flows only after the magnet stops moving", "is zero because the magnet is not touching the coil"], "correctAnswer": "creates a north pole facing the approaching magnet, opposing its motion", "solution": "Lenz's law states that the induced effect opposes the change producing it. A north pole is induced to repel the incoming north pole. If it attracted instead, the magnet would accelerate and energy would be created from nothing.", "lessonReferences": ["electromagnetic-induction"], "tags": ["mcq", "lenz"] },
-  { "id": 54, "topic": "Electromagnetic Induction", "level": "HL", "difficulty": "medium", "marks": 2, "question": "An ideal transformer has 1000 turns on the primary and 50 turns on the secondary. The primary voltage is 240 V. Calculate the secondary voltage. Give your answer in V.", "answer": "12 V", "unit": "V", "tolerance": 0.4, "solution": "Vp/Vs = Np/Ns, so Vs = Vp x Ns/Np = 240 x 50/1000 = 12 V. This is a step-down transformer, so the secondary current is correspondingly larger in an ideal device.", "lessonReferences": ["electromagnetic-induction"], "tags": ["transformer", "calculation"] },
-
-  { "id": 55, "topic": "Electric Fields", "level": "SL", "difficulty": "easy", "marks": 2, "question": "A circuit has a potential difference of 12 V across a resistance of 4.0 ohms. Calculate the current. Give your answer in A.", "answer": "3.0 A", "unit": "A", "tolerance": 0.1, "solution": "Ohm's law: I = V/R = 12/4.0 = 3.0 A.", "lessonReferences": ["electric-fields"], "tags": ["circuits", "calculation"] },
-  { "id": 56, "topic": "Electric Fields", "level": "SL", "difficulty": "medium", "marks": 3, "question": "Two point charges of 2.0 x 10^-6 C each are separated by 0.10 m. Calculate the magnitude of the electrostatic force between them. Use k = 8.99 x 10^9 N m^2/C^2. Give your answer in N.", "answer": "3.60 N", "unit": "N", "tolerance": 0.1, "solution": "F = kQ1Q2/r^2 = (8.99 x 10^9 x 2.0 x 10^-6 x 2.0 x 10^-6)/(0.10)^2 = (8.99 x 10^9 x 4.0 x 10^-12)/0.010 = 3.60 N. Forgetting to square the separation is the usual slip.", "lessonReferences": ["electric-fields"], "tags": ["coulomb", "calculation"] },
-  { "id": 57, "topic": "Electric Fields", "level": "SL", "difficulty": "easy", "marks": 1, "question": "The electric field lines around an isolated negative point charge", "options": ["point radially inwards towards the charge", "point radially outwards from the charge", "form closed loops around the charge", "are parallel and evenly spaced"], "correctAnswer": "point radially inwards towards the charge", "solution": "Field direction is defined as the force on a positive test charge, which is attracted towards a negative charge. Closed loops describe magnetic fields, not electrostatic ones.", "lessonReferences": ["electric-fields"], "tags": ["mcq", "fields"] },
-  { "id": 58, "topic": "Electric Fields", "level": "SL", "difficulty": "medium", "marks": 2, "question": "A charge of 3.0 x 10^-6 C experiences a force of 0.60 N in an electric field. Calculate the electric field strength. Give your answer in N/C.", "answer": "200000 N/C", "unit": "N/C", "tolerance": 5000, "solution": "E = F/Q = 0.60/(3.0 x 10^-6) = 2.0 x 10^5 N/C. This is equivalent to 2.0 x 10^5 V/m.", "lessonReferences": ["electric-fields"], "tags": ["fields", "calculation"] },
-
-  { "id": 59, "topic": "Magnetic Fields", "level": "SL", "difficulty": "medium", "marks": 3, "question": "An electron of charge 1.6 x 10^-19 C moves at 2.0 x 10^6 m/s perpendicular to a magnetic field of flux density 0.50 T. Calculate the magnitude of the magnetic force on it. Give your answer in N.", "answer": "1.6e-13 N", "unit": "N", "tolerance": 5e-15, "solution": "F = BQv sin(theta) with theta = 90 degrees, so sin(theta) = 1. F = 0.50 x 1.6 x 10^-19 x 2.0 x 10^6 = 1.6 x 10^-13 N. The force is perpendicular to the velocity, so it changes direction but not speed.", "lessonReferences": ["magnetic-fields"], "tags": ["magnetic-force", "calculation"] },
-  { "id": 60, "topic": "Magnetic Fields", "level": "SL", "difficulty": "medium", "marks": 2, "question": "A wire of length 0.50 m carrying a current of 3.0 A lies perpendicular to a magnetic field of 0.20 T. Calculate the force on the wire. Give your answer in N.", "answer": "0.30 N", "unit": "N", "tolerance": 0.01, "solution": "F = BIL sin(theta) = 0.20 x 3.0 x 0.50 x 1 = 0.30 N.", "lessonReferences": ["magnetic-fields"], "tags": ["magnetic-force", "calculation"] },
-  { "id": 61, "topic": "Magnetic Fields", "level": "SL", "difficulty": "medium", "marks": 1, "question": "A charged particle moves parallel to a uniform magnetic field. The magnetic force on it is", "options": ["zero", "maximum", "perpendicular to the field", "directed along the field"], "correctAnswer": "zero", "solution": "F = BQv sin(theta), and for motion parallel to the field theta = 0 so sin(theta) = 0. The force is maximum at 90 degrees and zero when parallel.", "lessonReferences": ["magnetic-fields"], "tags": ["mcq", "magnetic-force"] },
-
-  { "id": 62, "topic": "Electromagnetic Waves", "level": "SL", "difficulty": "easy", "marks": 2, "question": "Light of wavelength 5.0 x 10^-7 m travels in a vacuum. Calculate its frequency. Use c = 3.0 x 10^8 m/s. Give your answer in Hz.", "answer": "6.0e14 Hz", "unit": "Hz", "tolerance": 2e13, "solution": "c = f(lambda), so f = c/lambda = (3.0 x 10^8)/(5.0 x 10^-7) = 6.0 x 10^14 Hz.", "lessonReferences": ["electromagnetic-waves"], "tags": ["em-spectrum", "calculation"] },
-  { "id": 63, "topic": "Electromagnetic Waves", "level": "SL", "difficulty": "easy", "marks": 1, "question": "Which list places electromagnetic waves in order of increasing wavelength?", "options": ["Gamma rays, X-rays, ultraviolet, visible, infrared, radio", "Radio, infrared, visible, ultraviolet, X-rays, gamma rays", "Visible, infrared, radio, ultraviolet, X-rays, gamma rays", "Infrared, visible, ultraviolet, radio, X-rays, gamma rays"], "correctAnswer": "Gamma rays, X-rays, ultraviolet, visible, infrared, radio", "solution": "Gamma rays have the shortest wavelength and highest frequency; radio waves have the longest wavelength and lowest frequency. All travel at c in a vacuum.", "lessonReferences": ["electromagnetic-waves"], "tags": ["mcq", "em-spectrum"] },
-
-  { "id": 64, "topic": "Quantum Physics", "level": "SL", "difficulty": "easy", "marks": 2, "question": "Calculate the energy of a photon of frequency 5.0 x 10^14 Hz. Use h = 6.63 x 10^-34 J s. Give your answer in J.", "answer": "3.32e-19 J", "unit": "J", "tolerance": 1e-20, "solution": "E = hf = 6.63 x 10^-34 x 5.0 x 10^14 = 3.32 x 10^-19 J.", "lessonReferences": ["quantum-physics"], "tags": ["photon", "calculation"] },
-  { "id": 65, "topic": "Quantum Physics", "level": "SL", "difficulty": "medium", "marks": 3, "question": "Calculate the energy of a photon of wavelength 4.0 x 10^-7 m. Use h = 6.63 x 10^-34 J s and c = 3.0 x 10^8 m/s. Give your answer in J.", "answer": "4.97e-19 J", "unit": "J", "tolerance": 1.5e-20, "solution": "E = hc/lambda = (6.63 x 10^-34 x 3.0 x 10^8)/(4.0 x 10^-7) = (1.989 x 10^-25)/(4.0 x 10^-7) = 4.97 x 10^-19 J.", "lessonReferences": ["quantum-physics"], "tags": ["photon", "calculation"] },
-  { "id": 66, "topic": "Quantum Physics", "level": "SL", "difficulty": "medium", "marks": 1, "question": "In the photoelectric effect, increasing the intensity of light above the threshold frequency causes", "options": ["more electrons to be emitted per second, each with the same maximum kinetic energy", "each emitted electron to have greater maximum kinetic energy", "electrons to be emitted from a metal below its threshold frequency", "no change in the emitted current"], "correctAnswer": "more electrons to be emitted per second, each with the same maximum kinetic energy", "solution": "Intensity sets the number of photons arriving per second, so more electrons are freed. Maximum kinetic energy depends only on photon energy through E(max) = hf - (work function), so it is unchanged by intensity. Below the threshold frequency no intensity produces emission.", "lessonReferences": ["quantum-physics"], "tags": ["mcq", "photoelectric"] },
-  { "id": 67, "topic": "Quantum Physics", "level": "HL", "difficulty": "hard", "marks": 3, "question": "A metal has a work function of 3.0 x 10^-19 J. Light of frequency 6.0 x 10^14 Hz is incident on it. Calculate the maximum kinetic energy of the emitted electrons. Use h = 6.63 x 10^-34 J s. Give your answer in J.", "answer": "9.78e-20 J", "unit": "J", "tolerance": 4e-21, "solution": "The photon energy is hf = 6.63 x 10^-34 x 6.0 x 10^14 = 3.978 x 10^-19 J. E(max) = hf - (work function) = 3.978 x 10^-19 - 3.0 x 10^-19 = 9.78 x 10^-20 J. Since hf exceeds the work function, emission does occur.", "lessonReferences": ["quantum-physics"], "tags": ["photoelectric", "calculation"] },
-
-  { "id": 68, "topic": "Nuclear Physics", "level": "SL", "difficulty": "easy", "marks": 2, "question": "A sample initially contains 800 undecayed nuclei. After three half-lives, how many undecayed nuclei remain?", "answer": "100 nuclei", "unit": "nuclei", "tolerance": 2, "solution": "Each half-life halves the number remaining: 800 to 400 to 200 to 100. Equivalently N = N0 x (1/2)^3 = 800/8 = 100. Half-lives are not added together.", "lessonReferences": ["nuclear-physics"], "tags": ["half-life", "calculation"] },
-  { "id": 69, "topic": "Nuclear Physics", "level": "SL", "difficulty": "easy", "marks": 1, "question": "Which type of radiation is the most penetrating?", "options": ["Gamma", "Beta", "Alpha", "All penetrate equally"], "correctAnswer": "Gamma", "solution": "Alpha particles are stopped by paper or a few centimetres of air, beta by a few millimetres of aluminium, and gamma requires several centimetres of lead. Penetrating power runs opposite to ionising power.", "lessonReferences": ["nuclear-physics"], "tags": ["mcq", "radiation"] },
-  { "id": 70, "topic": "Nuclear Physics", "level": "HL", "difficulty": "medium", "marks": 2, "question": "A radioactive isotope has a half-life of 20 s. Calculate its decay constant. Give your answer in 1/s.", "answer": "0.0347 1/s", "unit": "1/s", "tolerance": 0.0012, "solution": "The decay constant is lambda = ln2 / T(half) = 0.693/20 = 0.0347 s^-1.", "lessonReferences": ["nuclear-physics"], "tags": ["decay-constant", "calculation"] },
-  { "id": 71, "topic": "Nuclear Physics", "level": "SL", "difficulty": "hard", "marks": 4, "question": "Explain why a gamma-emitting isotope with a short half-life is preferred as a tracer in medical imaging.", "answer": "Gamma radiation is penetrating enough to escape the body and be detected, while a short half-life means the activity falls quickly so the patient dose is limited", "markScheme": ["gamma", "escape the body", "short half-life", "reduces the dose"], "solution": "Gamma radiation is weakly ionising and highly penetrating, so it leaves the body and reaches the detector rather than depositing its energy in nearby tissue. A short half-life means the activity falls rapidly once the scan is complete, limiting the total dose. The half-life must still be long enough for the tracer to reach the organ and for the scan to finish.", "lessonReferences": ["nuclear-physics"], "tags": ["structured", "medical"] }
+  {
+    "id": 1,
+    "topic": "Kinematics",
+    "level": "SL",
+    "difficulty": "easy",
+    "marks": 2,
+    "question": "A car starts from rest and accelerates uniformly at 5.0 m/s^2 for 4.0 s. Calculate its final velocity. Give your answer in m/s.",
+    "answer": "20 m/s",
+    "unit": "m/s",
+    "tolerance": 0.5,
+    "solution": "Use v = u + at with u = 0. v = 0 + 5.0 x 4.0 = 20 m/s. In IB notation this is 20 m s^-1.",
+    "lessonReferences": [
+      "kinematics"
+    ],
+    "tags": [
+      "suvat",
+      "calculation"
+    ]
+  },
+  {
+    "id": 2,
+    "topic": "Kinematics",
+    "level": "SL",
+    "difficulty": "easy",
+    "marks": 1,
+    "question": "A ball is thrown vertically upwards. At the highest point of its flight, what is its acceleration? Air resistance is negligible.",
+    "options": [
+      "Zero, because the ball is momentarily at rest",
+      "9.81 m/s^2 directed downwards",
+      "9.81 m/s^2 directed upwards",
+      "It depends on how fast the ball was thrown"
+    ],
+    "correctAnswer": "9.81 m/s^2 directed downwards",
+    "solution": "Velocity is zero at the top, but acceleration is not. Gravity acts throughout the flight, so the acceleration stays 9.81 m/s^2 downwards. Confusing zero velocity with zero acceleration is the classic error here.",
+    "lessonReferences": [
+      "kinematics"
+    ],
+    "tags": [
+      "mcq",
+      "concept"
+    ]
+  },
+  {
+    "id": 3,
+    "topic": "Kinematics",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "A car travelling at 25 m/s brakes uniformly and stops in a distance of 40 m. Calculate the magnitude of its deceleration in m/s^2.",
+    "answer": "7.81 m/s^2",
+    "unit": "m/s^2",
+    "tolerance": 0.15,
+    "solution": "Use v^2 = u^2 + 2as with v = 0, u = 25 m/s, s = 40 m. 0 = 625 + 2a(40), so a = -625/80 = -7.81 m/s^2. The magnitude is 7.81 m/s^2; the minus sign shows it opposes the motion.",
+    "lessonReferences": [
+      "kinematics"
+    ],
+    "tags": [
+      "suvat",
+      "calculation"
+    ]
+  },
+  {
+    "id": 4,
+    "topic": "Kinematics",
+    "level": "SL",
+    "difficulty": "easy",
+    "marks": 1,
+    "question": "An athlete runs exactly one lap of a 400 m circular track, finishing where they started. What is the magnitude of their displacement?",
+    "options": [
+      "400 m",
+      "0 m",
+      "200 m",
+      "800 m"
+    ],
+    "correctAnswer": "0 m",
+    "solution": "Displacement is the straight-line change in position, a vector. Start and finish coincide, so displacement is zero even though the distance travelled is 400 m.",
+    "lessonReferences": [
+      "kinematics"
+    ],
+    "tags": [
+      "mcq",
+      "vectors"
+    ]
+  },
+  {
+    "id": 5,
+    "topic": "Kinematics",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 2,
+    "question": "An object is released from rest and falls freely through 45 m. Calculate the time taken. Give your answer in s.",
+    "answer": "3.03 s",
+    "unit": "s",
+    "tolerance": 0.08,
+    "solution": "Use s = ut + (1/2)at^2 with u = 0. 45 = 0.5 x 9.81 x t^2, so t^2 = 9.174 and t = 3.03 s.",
+    "lessonReferences": [
+      "kinematics"
+    ],
+    "tags": [
+      "free-fall",
+      "calculation"
+    ]
+  },
+  {
+    "id": 6,
+    "topic": "Kinematics",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "A projectile is launched at 20 m/s at 30 degrees above the horizontal from ground level. Calculate the maximum height reached. Give your answer in m.",
+    "answer": "5.10 m",
+    "unit": "m",
+    "tolerance": 0.15,
+    "solution": "Vertical component: vy = 20 sin30 = 10 m/s. At the peak the vertical velocity is zero, so 0 = vy^2 - 2gh, giving h = 100/(2 x 9.81) = 5.10 m. Using the full 20 m/s instead of the vertical component is the usual mistake.",
+    "lessonReferences": [
+      "kinematics"
+    ],
+    "tags": [
+      "projectile",
+      "calculation"
+    ]
+  },
+  {
+    "id": 7,
+    "topic": "Kinematics",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "A velocity-time graph shows a straight line rising from 0 to 12 m/s over 4 s, then a horizontal line at 12 m/s for 6 s. Describe the motion and state the total distance travelled.",
+    "answer": "Uniform acceleration of 3 m/s^2 for 4 s, then constant velocity for 6 s; total distance 96 m",
+    "markScheme": [
+      "uniform acceleration",
+      "constant velocity",
+      "96"
+    ],
+    "solution": "The gradient in the first phase is 12/4 = 3 m/s^2, so the object accelerates uniformly. The flat section means zero acceleration and constant velocity. Distance is the area under the graph: (1/2 x 4 x 12) + (6 x 12) = 24 + 72 = 96 m.",
+    "lessonReferences": [
+      "kinematics"
+    ],
+    "tags": [
+      "graphs",
+      "structured"
+    ]
+  },
+  {
+    "id": 8,
+    "topic": "Forces and Momentum",
+    "level": "SL",
+    "difficulty": "easy",
+    "marks": 2,
+    "question": "A 10 kg object accelerates at 3.0 m/s^2. Calculate the resultant force acting on it. Give your answer in N.",
+    "answer": "30 N",
+    "unit": "N",
+    "tolerance": 0.5,
+    "solution": "Newton's second law: F = ma = 10 x 3.0 = 30 N.",
+    "lessonReferences": [
+      "forces"
+    ],
+    "tags": [
+      "newton",
+      "calculation"
+    ]
+  },
+  {
+    "id": 9,
+    "topic": "Forces and Momentum",
+    "level": "SL",
+    "difficulty": "easy",
+    "marks": 2,
+    "question": "A 2.0 kg object moves at 6.0 m/s. Calculate its momentum. Give your answer in kg m/s.",
+    "answer": "12 kg m/s",
+    "unit": "kg m/s",
+    "tolerance": 0.3,
+    "solution": "p = mv = 2.0 x 6.0 = 12 kg m/s. Momentum is a vector, so a direction should be stated when the context gives one.",
+    "lessonReferences": [
+      "forces"
+    ],
+    "tags": [
+      "momentum",
+      "calculation"
+    ]
+  },
+  {
+    "id": 10,
+    "topic": "Forces and Momentum",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 1,
+    "question": "A book rests on a table. Which force is the Newton's third law pair to the weight of the book?",
+    "options": [
+      "The normal contact force of the table on the book",
+      "The gravitational pull of the book on the Earth",
+      "The weight of the table",
+      "The friction between book and table"
+    ],
+    "correctAnswer": "The gravitational pull of the book on the Earth",
+    "solution": "A third-law pair acts on two different bodies, is the same type of force, and is equal and opposite. The book's weight is the Earth pulling the book, so its pair is the book pulling the Earth. The normal force is a contact force on the same body, which is why it is the popular wrong answer.",
+    "lessonReferences": [
+      "forces"
+    ],
+    "tags": [
+      "mcq",
+      "concept"
+    ]
+  },
+  {
+    "id": 11,
+    "topic": "Forces and Momentum",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "A 1200 kg car travelling at 20 m/s is brought to rest in 4.0 s. Calculate the magnitude of the average resultant force. Give your answer in N.",
+    "answer": "6000 N",
+    "unit": "N",
+    "tolerance": 120,
+    "solution": "a = (v - u)/t = (0 - 20)/4.0 = -5.0 m/s^2. F = ma = 1200 x 5.0 = 6000 N (6.0 kN), directed opposite to the motion. You can also use impulse: F = change in momentum / time = 24000/4.0.",
+    "lessonReferences": [
+      "forces"
+    ],
+    "tags": [
+      "newton",
+      "impulse",
+      "calculation"
+    ]
+  },
+  {
+    "id": 12,
+    "topic": "Forces and Momentum",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "A 2.0 kg trolley moving at 3.0 m/s collides with a stationary 4.0 kg trolley and they move off together. Calculate their common velocity. Give your answer in m/s.",
+    "answer": "1.0 m/s",
+    "unit": "m/s",
+    "tolerance": 0.05,
+    "solution": "Momentum is conserved: (2.0 x 3.0) + 0 = (2.0 + 4.0)v, so 6.0 = 6.0v and v = 1.0 m/s. This is a perfectly inelastic collision, so kinetic energy is not conserved even though momentum is.",
+    "lessonReferences": [
+      "forces"
+    ],
+    "tags": [
+      "momentum",
+      "collisions",
+      "calculation"
+    ]
+  },
+  {
+    "id": 13,
+    "topic": "Forces and Momentum",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 1,
+    "question": "Two identical cars stop from the same speed. One stops in 0.10 s, the other in 0.50 s. Which statement is correct?",
+    "options": [
+      "The car stopping in 0.10 s experiences the larger average force",
+      "The car stopping in 0.50 s experiences the larger average force",
+      "Both experience the same average force",
+      "The car stopping in 0.50 s undergoes a larger momentum change"
+    ],
+    "correctAnswer": "The car stopping in 0.10 s experiences the larger average force",
+    "solution": "Both cars undergo the same momentum change. Since impulse F(delta t) = delta p, a shorter stopping time means a larger average force. This is exactly why crumple zones extend the collision time.",
+    "lessonReferences": [
+      "forces"
+    ],
+    "tags": [
+      "mcq",
+      "impulse"
+    ]
+  },
+  {
+    "id": 14,
+    "topic": "Forces and Momentum",
+    "level": "SL",
+    "difficulty": "hard",
+    "marks": 4,
+    "question": "Explain, in terms of momentum and impulse, how a crumple zone reduces the force on a passenger during a collision.",
+    "answer": "The momentum change is fixed; the crumple zone increases the collision time, and since impulse equals force times time, a longer time means a smaller average force",
+    "markScheme": [
+      "momentum change is the same",
+      "impulse",
+      "increases the time",
+      "smaller force"
+    ],
+    "solution": "The change in momentum is set by the initial and final velocities and the mass, so it cannot be altered. Impulse F(delta t) equals that momentum change. A crumple zone deforms, extending delta t. With delta p fixed and delta t larger, the average force F must be smaller.",
+    "lessonReferences": [
+      "forces"
+    ],
+    "tags": [
+      "structured",
+      "impulse"
+    ]
+  },
+  {
+    "id": 15,
+    "topic": "Work, Energy and Power",
+    "level": "SL",
+    "difficulty": "easy",
+    "marks": 2,
+    "question": "A 4.0 kg object moves at 5.0 m/s. Calculate its kinetic energy. Give your answer in J.",
+    "answer": "50 J",
+    "unit": "J",
+    "tolerance": 1,
+    "solution": "Ek = (1/2)mv^2 = 0.5 x 4.0 x 25 = 50 J. Remember to square the velocity before multiplying.",
+    "lessonReferences": [
+      "energy"
+    ],
+    "tags": [
+      "energy",
+      "calculation"
+    ]
+  },
+  {
+    "id": 16,
+    "topic": "Work, Energy and Power",
+    "level": "SL",
+    "difficulty": "easy",
+    "marks": 2,
+    "question": "A 60 kg student climbs a staircase of vertical height 3.0 m. Calculate the gain in gravitational potential energy. Give your answer in J.",
+    "answer": "1770 J",
+    "unit": "J",
+    "tolerance": 40,
+    "solution": "Ep = mgh = 60 x 9.81 x 3.0 = 1766 J, which is 1.8 x 10^3 J to 2 significant figures. Only the vertical height counts, not the distance along the stairs.",
+    "lessonReferences": [
+      "energy"
+    ],
+    "tags": [
+      "energy",
+      "calculation"
+    ]
+  },
+  {
+    "id": 17,
+    "topic": "Work, Energy and Power",
+    "level": "SL",
+    "difficulty": "easy",
+    "marks": 1,
+    "question": "A motor is supplied with 500 J of electrical energy and does 300 J of useful work. What is its efficiency?",
+    "options": [
+      "60%",
+      "167%",
+      "40%",
+      "800%"
+    ],
+    "correctAnswer": "60%",
+    "solution": "Efficiency = useful output / total input = 300/500 = 0.60, or 60%. The remaining 200 J is dissipated, mostly as thermal energy in the windings. Efficiency can never exceed 100%.",
+    "lessonReferences": [
+      "energy"
+    ],
+    "tags": [
+      "mcq",
+      "efficiency"
+    ]
+  },
+  {
+    "id": 18,
+    "topic": "Work, Energy and Power",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "A 2.0 kg mass is released from rest at a height of 10 m. Ignoring air resistance, calculate its speed just before it hits the ground. Give your answer in m/s.",
+    "answer": "14.0 m/s",
+    "unit": "m/s",
+    "tolerance": 0.3,
+    "solution": "Energy conservation: mgh = (1/2)mv^2, so v = sqrt(2gh) = sqrt(2 x 9.81 x 10) = 14.0 m/s. The mass cancels, so a 2 kg and a 20 kg mass arrive at the same speed.",
+    "lessonReferences": [
+      "energy"
+    ],
+    "tags": [
+      "energy",
+      "calculation"
+    ]
+  },
+  {
+    "id": 19,
+    "topic": "Work, Energy and Power",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "A crane lifts a load of weight 500 N through a vertical height of 4.0 m in 8.0 s. Calculate the useful power output. Give your answer in W.",
+    "answer": "250 W",
+    "unit": "W",
+    "tolerance": 5,
+    "solution": "Work done W = Fs = 500 x 4.0 = 2000 J. Power P = W/t = 2000/8.0 = 250 W.",
+    "lessonReferences": [
+      "energy"
+    ],
+    "tags": [
+      "power",
+      "calculation"
+    ]
+  },
+  {
+    "id": 20,
+    "topic": "Rigid Body Mechanics",
+    "level": "HL",
+    "difficulty": "easy",
+    "marks": 2,
+    "question": "A force of 20 N is applied perpendicular to a spanner at a distance of 0.50 m from the pivot. Calculate the torque. Give your answer in N m.",
+    "answer": "10 N m",
+    "unit": "N m",
+    "tolerance": 0.3,
+    "solution": "Torque = Fd = 20 x 0.50 = 10 N m, where d is the perpendicular distance from the pivot to the line of action of the force.",
+    "lessonReferences": [
+      "rigid-body-mechanics"
+    ],
+    "tags": [
+      "torque",
+      "calculation"
+    ]
+  },
+  {
+    "id": 21,
+    "topic": "Rigid Body Mechanics",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 2,
+    "question": "A flywheel has moment of inertia 2.0 kg m^2 and rotates at an angular velocity of 5.0 rad/s. Calculate its rotational kinetic energy. Give your answer in J.",
+    "answer": "25 J",
+    "unit": "J",
+    "tolerance": 0.6,
+    "solution": "Ek(rot) = (1/2)I(omega)^2 = 0.5 x 2.0 x 25 = 25 J. This is the rotational analogue of (1/2)mv^2, with moment of inertia in place of mass.",
+    "lessonReferences": [
+      "rigid-body-mechanics"
+    ],
+    "tags": [
+      "rotation",
+      "calculation"
+    ]
+  },
+  {
+    "id": 22,
+    "topic": "Rigid Body Mechanics",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 1,
+    "question": "A uniform beam is in rotational equilibrium. Which statement must be true?",
+    "options": [
+      "The sum of clockwise moments equals the sum of anticlockwise moments about any point",
+      "The beam must be horizontal",
+      "No forces act on the beam",
+      "The beam must be stationary"
+    ],
+    "correctAnswer": "The sum of clockwise moments equals the sum of anticlockwise moments about any point",
+    "solution": "Rotational equilibrium means zero resultant torque, so opposing moments balance about any chosen point. A body can be in rotational equilibrium while rotating at constant angular velocity, so it need not be stationary.",
+    "lessonReferences": [
+      "rigid-body-mechanics"
+    ],
+    "tags": [
+      "mcq",
+      "equilibrium"
+    ]
+  },
+  {
+    "id": 23,
+    "topic": "Relativity",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 2,
+    "question": "Calculate the Lorentz factor for an object moving at 0.60c.",
+    "answer": "1.25",
+    "unit": "",
+    "tolerance": 0.03,
+    "solution": "gamma = 1/sqrt(1 - v^2/c^2) = 1/sqrt(1 - 0.36) = 1/sqrt(0.64) = 1/0.80 = 1.25. The Lorentz factor has no units.",
+    "lessonReferences": [
+      "relativity"
+    ],
+    "tags": [
+      "relativity",
+      "calculation"
+    ]
+  },
+  {
+    "id": 24,
+    "topic": "Relativity",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 2,
+    "question": "A clock on a fast-moving spacecraft measures a proper time interval of 10 s. An observer on Earth measures the interval as 20 s. Calculate the Lorentz factor.",
+    "answer": "2.0",
+    "unit": "",
+    "tolerance": 0.05,
+    "solution": "Time dilation: delta t = gamma x delta t0, where delta t0 = 10 s is the proper time measured in the frame where the events occur at the same place. gamma = 20/10 = 2.0.",
+    "lessonReferences": [
+      "relativity"
+    ],
+    "tags": [
+      "relativity",
+      "calculation"
+    ]
+  },
+  {
+    "id": 25,
+    "topic": "Relativity",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 1,
+    "question": "A rod moves at high speed relative to an observer, along its own length. What does the observer measure?",
+    "options": [
+      "A shorter rod than its proper length",
+      "A longer rod than its proper length",
+      "The same length as its proper length",
+      "A rod whose length depends on its mass"
+    ],
+    "correctAnswer": "A shorter rod than its proper length",
+    "solution": "Length contraction: L = L0/gamma, and gamma is always greater than 1 for a moving object, so the measured length is shorter. Contraction happens only along the direction of motion.",
+    "lessonReferences": [
+      "relativity"
+    ],
+    "tags": [
+      "mcq",
+      "relativity"
+    ]
+  },
+  {
+    "id": 26,
+    "topic": "Thermal Physics",
+    "level": "SL",
+    "difficulty": "easy",
+    "marks": 3,
+    "question": "Calculate the energy needed to raise the temperature of 0.50 kg of water from 20 C to 80 C. The specific heat capacity of water is 4200 J/kg/K. Give your answer in J.",
+    "answer": "126000 J",
+    "unit": "J",
+    "tolerance": 2600,
+    "solution": "Q = mc(delta T) = 0.50 x 4200 x 60 = 1.26 x 10^5 J. A temperature change of 60 C equals a change of 60 K, so no conversion is needed for delta T.",
+    "lessonReferences": [
+      "thermal-physics"
+    ],
+    "tags": [
+      "heat",
+      "calculation"
+    ]
+  },
+  {
+    "id": 27,
+    "topic": "Thermal Physics",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 1,
+    "question": "Two objects are at the same temperature but have different masses. Which statement is correct?",
+    "options": [
+      "They have the same average kinetic energy per particle",
+      "They have the same total internal energy",
+      "The heavier object is at a higher temperature",
+      "They must be made of the same material"
+    ],
+    "correctAnswer": "They have the same average kinetic energy per particle",
+    "solution": "Absolute temperature is a measure of the average kinetic energy per particle. Total internal energy also depends on how many particles there are, so the more massive object generally has greater internal energy at the same temperature.",
+    "lessonReferences": [
+      "thermal-physics"
+    ],
+    "tags": [
+      "mcq",
+      "concept"
+    ]
+  },
+  {
+    "id": 28,
+    "topic": "Thermal Physics",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 2,
+    "question": "Calculate the energy needed to melt 0.20 kg of ice at 0 C. The specific latent heat of fusion of ice is 3.34 x 10^5 J/kg. Give your answer in J.",
+    "answer": "66800 J",
+    "unit": "J",
+    "tolerance": 1400,
+    "solution": "Q = mL = 0.20 x 3.34 x 10^5 = 6.68 x 10^4 J. No temperature change occurs during melting, so mc(delta T) does not apply here.",
+    "lessonReferences": [
+      "thermal-physics"
+    ],
+    "tags": [
+      "latent-heat",
+      "calculation"
+    ]
+  },
+  {
+    "id": 29,
+    "topic": "Thermal Physics",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "Explain why the temperature of a substance stays constant while it is melting, even though energy is still being supplied.",
+    "answer": "The energy supplied breaks the bonds between particles, increasing potential energy rather than kinetic energy, and temperature depends on average kinetic energy",
+    "markScheme": [
+      "breaks bonds",
+      "potential energy",
+      "kinetic energy"
+    ],
+    "solution": "During a phase change the supplied energy increases the potential energy of the particles by overcoming the forces holding them in the solid lattice. The average kinetic energy is unchanged, and since temperature is a measure of average kinetic energy, the temperature stays constant.",
+    "lessonReferences": [
+      "thermal-physics"
+    ],
+    "tags": [
+      "structured",
+      "latent-heat"
+    ]
+  },
+  {
+    "id": 30,
+    "topic": "Greenhouse Effect",
+    "level": "SL",
+    "difficulty": "easy",
+    "marks": 1,
+    "question": "Which of these gases is NOT a significant greenhouse gas?",
+    "options": [
+      "Carbon dioxide",
+      "Methane",
+      "Nitrogen",
+      "Water vapour"
+    ],
+    "correctAnswer": "Nitrogen",
+    "solution": "Greenhouse gases absorb infrared radiation because their molecular vibrations have natural frequencies in the infrared. Nitrogen is a symmetric diatomic molecule with no changing dipole moment, so it does not absorb infrared appreciably, despite making up about 78% of the atmosphere.",
+    "lessonReferences": [
+      "greenhouse-effect"
+    ],
+    "tags": [
+      "mcq",
+      "concept"
+    ]
+  },
+  {
+    "id": 31,
+    "topic": "Greenhouse Effect",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 2,
+    "question": "A star has a surface temperature of 6000 K. Using Wien's displacement law with the constant 2.90 x 10^-3 m K, calculate the wavelength at which it emits most strongly. Give your answer in m.",
+    "answer": "4.83e-7 m",
+    "unit": "m",
+    "tolerance": 2e-8,
+    "solution": "lambda(max) = 2.90 x 10^-3 / T = 2.90 x 10^-3 / 6000 = 4.83 x 10^-7 m, which is in the visible range. Hotter bodies peak at shorter wavelengths.",
+    "lessonReferences": [
+      "greenhouse-effect",
+      "electromagnetic-waves"
+    ],
+    "tags": [
+      "wien",
+      "calculation"
+    ]
+  },
+  {
+    "id": 32,
+    "topic": "Greenhouse Effect",
+    "level": "SL",
+    "difficulty": "hard",
+    "marks": 4,
+    "question": "Explain why the Earth's atmosphere transmits most incoming solar radiation but absorbs much of the radiation emitted by the Earth's surface.",
+    "answer": "The Sun is much hotter so emits short-wavelength visible radiation which passes through, while the cooler Earth emits infrared which greenhouse gases absorb by resonance",
+    "markScheme": [
+      "Sun is hotter",
+      "short wavelength",
+      "infrared",
+      "absorb"
+    ],
+    "solution": "By Wien's law the Sun at about 5800 K peaks in the visible, and the atmosphere is largely transparent to those wavelengths. The Earth's surface at about 288 K peaks in the infrared. Greenhouse gas molecules have vibrational and rotational modes with natural frequencies in the infrared, so they resonate with and absorb that outgoing radiation, then re-emit it in all directions.",
+    "lessonReferences": [
+      "greenhouse-effect"
+    ],
+    "tags": [
+      "structured",
+      "radiation"
+    ]
+  },
+  {
+    "id": 33,
+    "topic": "Gas Laws",
+    "level": "SL",
+    "difficulty": "easy",
+    "marks": 2,
+    "question": "A gas at a pressure of 200 kPa occupies 2.0 m^3. It is compressed at constant temperature to 0.50 m^3. Calculate the new pressure. Give your answer in kPa.",
+    "answer": "800 kPa",
+    "unit": "kPa",
+    "tolerance": 20,
+    "solution": "At constant temperature, p1V1 = p2V2. So 200 x 2.0 = p2 x 0.50, giving p2 = 400/0.50 = 800 kPa. Reducing the volume by a factor of 4 multiplies the pressure by 4.",
+    "lessonReferences": [
+      "gas-laws"
+    ],
+    "tags": [
+      "boyle",
+      "calculation"
+    ]
+  },
+  {
+    "id": 34,
+    "topic": "Gas Laws",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "Calculate the pressure of 2.0 mol of an ideal gas at 300 K in a container of volume 0.050 m^3. Use R = 8.31 J/mol/K. Give your answer in Pa.",
+    "answer": "99700 Pa",
+    "unit": "Pa",
+    "tolerance": 2500,
+    "solution": "pV = nRT, so p = nRT/V = (2.0 x 8.31 x 300)/0.050 = 4986/0.050 = 9.97 x 10^4 Pa. Temperature must be in kelvin.",
+    "lessonReferences": [
+      "gas-laws"
+    ],
+    "tags": [
+      "ideal-gas",
+      "calculation"
+    ]
+  },
+  {
+    "id": 35,
+    "topic": "Gas Laws",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 2,
+    "question": "A sealed rigid container holds gas at 100 kPa and 300 K. The gas is heated to 450 K. Calculate the new pressure. Give your answer in kPa.",
+    "answer": "150 kPa",
+    "unit": "kPa",
+    "tolerance": 4,
+    "solution": "At constant volume, p1/T1 = p2/T2. So p2 = 100 x 450/300 = 150 kPa. Using Celsius here would give a badly wrong answer.",
+    "lessonReferences": [
+      "gas-laws"
+    ],
+    "tags": [
+      "pressure-law",
+      "calculation"
+    ]
+  },
+  {
+    "id": 36,
+    "topic": "Gas Laws",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 1,
+    "question": "Which assumption is NOT part of the kinetic model of an ideal gas?",
+    "options": [
+      "Collisions between particles are perfectly elastic",
+      "The particles have negligible volume compared with the container",
+      "There are significant attractive forces between particles",
+      "The particles move in random directions"
+    ],
+    "correctAnswer": "There are significant attractive forces between particles",
+    "solution": "The ideal gas model assumes intermolecular forces are negligible except during collisions. Real gases deviate from ideal behaviour precisely when those forces matter, at high pressure and low temperature.",
+    "lessonReferences": [
+      "gas-laws"
+    ],
+    "tags": [
+      "mcq",
+      "kinetic-theory"
+    ]
+  },
+  {
+    "id": 37,
+    "topic": "Thermodynamics",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 2,
+    "question": "A gas absorbs 500 J of thermal energy and does 200 J of work on its surroundings. Calculate the change in its internal energy. Give your answer in J.",
+    "answer": "300 J",
+    "unit": "J",
+    "tolerance": 6,
+    "solution": "First law: delta U = Q - W, where W is the work done BY the gas. delta U = 500 - 200 = 300 J. Keep this sign convention consistent, as it matches the IB data booklet.",
+    "lessonReferences": [
+      "thermodynamics"
+    ],
+    "tags": [
+      "first-law",
+      "calculation"
+    ]
+  },
+  {
+    "id": 38,
+    "topic": "Thermodynamics",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 2,
+    "question": "A heat engine takes in 1000 J from a hot reservoir and does 300 J of useful work. Calculate its efficiency as a percentage.",
+    "answer": "30 %",
+    "unit": "%",
+    "tolerance": 1,
+    "solution": "Efficiency = useful work out / energy in = 300/1000 = 0.30, which is 30%. The remaining 700 J is rejected to the cold reservoir, as the second law requires.",
+    "lessonReferences": [
+      "thermodynamics"
+    ],
+    "tags": [
+      "efficiency",
+      "calculation"
+    ]
+  },
+  {
+    "id": 39,
+    "topic": "Thermodynamics",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 1,
+    "question": "Which statement best expresses the second law of thermodynamics?",
+    "options": [
+      "Energy cannot be created or destroyed",
+      "The total entropy of an isolated system cannot decrease",
+      "Thermal energy always flows from cold to hot",
+      "All heat engines can be made 100% efficient"
+    ],
+    "correctAnswer": "The total entropy of an isolated system cannot decrease",
+    "solution": "The first option is the first law. Thermal energy flows spontaneously from hot to cold, not the reverse. No heat engine can be 100% efficient, which is a direct consequence of the second law.",
+    "lessonReferences": [
+      "thermodynamics"
+    ],
+    "tags": [
+      "mcq",
+      "entropy"
+    ]
+  },
+  {
+    "id": 40,
+    "topic": "Simple Harmonic Motion",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 2,
+    "question": "A 0.50 kg mass oscillates on a spring of spring constant 50 N/m. Calculate the period of oscillation. Give your answer in s.",
+    "answer": "0.628 s",
+    "unit": "s",
+    "tolerance": 0.02,
+    "solution": "T = 2(pi)sqrt(m/k) = 2(pi)sqrt(0.50/50) = 2(pi)sqrt(0.010) = 2(pi)(0.10) = 0.628 s. The amplitude does not appear, so it does not affect the period.",
+    "lessonReferences": [
+      "simple-harmonic-motion"
+    ],
+    "tags": [
+      "shm",
+      "calculation"
+    ]
+  },
+  {
+    "id": 41,
+    "topic": "Simple Harmonic Motion",
+    "level": "SL",
+    "difficulty": "easy",
+    "marks": 1,
+    "question": "In simple harmonic motion, the acceleration of the oscillator is always directed",
+    "options": [
+      "towards the equilibrium position",
+      "away from the equilibrium position",
+      "in the direction of motion",
+      "perpendicular to the displacement"
+    ],
+    "correctAnswer": "towards the equilibrium position",
+    "solution": "The defining relationship is a = -(omega^2)x. The minus sign means the acceleration is always opposite in sign to the displacement, so it points back towards equilibrium. This is the restoring condition.",
+    "lessonReferences": [
+      "simple-harmonic-motion"
+    ],
+    "tags": [
+      "mcq",
+      "shm"
+    ]
+  },
+  {
+    "id": 42,
+    "topic": "Simple Harmonic Motion",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 2,
+    "question": "An oscillator has angular frequency 4.0 rad/s and amplitude 0.20 m. Calculate its maximum speed. Give your answer in m/s.",
+    "answer": "0.80 m/s",
+    "unit": "m/s",
+    "tolerance": 0.03,
+    "solution": "v(max) = (omega)A = 4.0 x 0.20 = 0.80 m/s. Maximum speed occurs at the equilibrium position, where displacement is zero.",
+    "lessonReferences": [
+      "simple-harmonic-motion"
+    ],
+    "tags": [
+      "shm",
+      "calculation"
+    ]
+  },
+  {
+    "id": 43,
+    "topic": "Simple Harmonic Motion",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 2,
+    "question": "Calculate the period of a simple pendulum of length 1.0 m. Take g = 9.81 m/s^2. Give your answer in s.",
+    "answer": "2.01 s",
+    "unit": "s",
+    "tolerance": 0.06,
+    "solution": "T = 2(pi)sqrt(L/g) = 2(pi)sqrt(1.0/9.81) = 2(pi)(0.3193) = 2.01 s. The mass of the bob does not appear in the equation.",
+    "lessonReferences": [
+      "simple-harmonic-motion"
+    ],
+    "tags": [
+      "shm",
+      "calculation"
+    ]
+  },
+  {
+    "id": 44,
+    "topic": "Wave Properties",
+    "level": "SL",
+    "difficulty": "easy",
+    "marks": 2,
+    "question": "A wave has a frequency of 10 Hz and a wavelength of 2.0 m. Calculate its speed. Give your answer in m/s.",
+    "answer": "20 m/s",
+    "unit": "m/s",
+    "tolerance": 0.5,
+    "solution": "v = f(lambda) = 10 x 2.0 = 20 m/s.",
+    "lessonReferences": [
+      "wave-properties"
+    ],
+    "tags": [
+      "wave-equation",
+      "calculation"
+    ]
+  },
+  {
+    "id": 45,
+    "topic": "Wave Properties",
+    "level": "SL",
+    "difficulty": "easy",
+    "marks": 1,
+    "question": "Sound travelling through air is best described as",
+    "options": [
+      "a longitudinal wave",
+      "a transverse wave",
+      "an electromagnetic wave",
+      "a standing wave"
+    ],
+    "correctAnswer": "a longitudinal wave",
+    "solution": "In sound the air particles oscillate parallel to the direction of energy transfer, producing compressions and rarefactions. Sound needs a medium, so it cannot be electromagnetic.",
+    "lessonReferences": [
+      "wave-properties"
+    ],
+    "tags": [
+      "mcq",
+      "concept"
+    ]
+  },
+  {
+    "id": 46,
+    "topic": "Wave Properties",
+    "level": "SL",
+    "difficulty": "easy",
+    "marks": 2,
+    "question": "A sound wave of frequency 170 Hz travels at 340 m/s. Calculate its wavelength. Give your answer in m.",
+    "answer": "2.0 m",
+    "unit": "m",
+    "tolerance": 0.06,
+    "solution": "lambda = v/f = 340/170 = 2.0 m.",
+    "lessonReferences": [
+      "wave-properties"
+    ],
+    "tags": [
+      "wave-equation",
+      "calculation"
+    ]
+  },
+  {
+    "id": 47,
+    "topic": "Wave Properties",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 1,
+    "question": "The intensity of a wave is doubled. What happens to its amplitude?",
+    "options": [
+      "It increases by a factor of sqrt(2)",
+      "It doubles",
+      "It quadruples",
+      "It stays the same"
+    ],
+    "correctAnswer": "It increases by a factor of sqrt(2)",
+    "solution": "Intensity is proportional to amplitude squared, so I doubling means A^2 doubles and A increases by sqrt(2), about 1.41 times.",
+    "lessonReferences": [
+      "wave-properties"
+    ],
+    "tags": [
+      "mcq",
+      "intensity"
+    ]
+  },
+  {
+    "id": 48,
+    "topic": "Wave Phenomena",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "In a double-slit experiment the slit separation is 5.0 x 10^-4 m, the screen is 2.0 m away, and the fringe spacing is 2.4 x 10^-3 m. Calculate the wavelength of the light. Give your answer in m.",
+    "answer": "6.0e-7 m",
+    "unit": "m",
+    "tolerance": 2e-8,
+    "solution": "lambda = sx/D where s is the slit separation, x the fringe spacing and D the slit-to-screen distance. lambda = (5.0 x 10^-4 x 2.4 x 10^-3)/2.0 = 6.0 x 10^-7 m, which is orange-red light.",
+    "lessonReferences": [
+      "wave-phenomena"
+    ],
+    "tags": [
+      "interference",
+      "calculation"
+    ]
+  },
+  {
+    "id": 49,
+    "topic": "Wave Phenomena",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "Light travels from air (n = 1.00) into glass (n = 1.50) with an angle of incidence of 30 degrees. Calculate the angle of refraction in degrees.",
+    "answer": "19.5 degrees",
+    "unit": "degrees",
+    "tolerance": 0.6,
+    "solution": "Snell's law: n1 sin(theta1) = n2 sin(theta2). 1.00 x sin30 = 1.50 x sin(theta2), so sin(theta2) = 0.500/1.50 = 0.3333 and theta2 = 19.5 degrees. The ray bends towards the normal on entering the denser medium.",
+    "lessonReferences": [
+      "wave-phenomena"
+    ],
+    "tags": [
+      "refraction",
+      "calculation"
+    ]
+  },
+  {
+    "id": 50,
+    "topic": "Wave Phenomena",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 1,
+    "question": "Diffraction of a wave through a gap is most noticeable when",
+    "options": [
+      "the gap width is comparable to the wavelength",
+      "the gap is much wider than the wavelength",
+      "the gap is much narrower than the wavelength",
+      "the wave has a very high frequency"
+    ],
+    "correctAnswer": "the gap width is comparable to the wavelength",
+    "solution": "Significant spreading occurs when the aperture and the wavelength are of similar size. This is why long-wavelength radio signals diffract around hills while short-wavelength signals leave shadow regions.",
+    "lessonReferences": [
+      "wave-phenomena"
+    ],
+    "tags": [
+      "mcq",
+      "diffraction"
+    ]
+  },
+  {
+    "id": 51,
+    "topic": "Electromagnetic Induction",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 2,
+    "question": "A coil of area 0.020 m^2 lies perpendicular to a magnetic field of flux density 0.40 T. Calculate the magnetic flux through the coil. Give your answer in Wb.",
+    "answer": "0.0080 Wb",
+    "unit": "Wb",
+    "tolerance": 0.0003,
+    "solution": "Flux = BA cos(theta). The field is perpendicular to the coil plane, so the angle to the normal is zero and cos(theta) = 1. Flux = 0.40 x 0.020 = 8.0 x 10^-3 Wb.",
+    "lessonReferences": [
+      "electromagnetic-induction"
+    ],
+    "tags": [
+      "flux",
+      "calculation"
+    ]
+  },
+  {
+    "id": 52,
+    "topic": "Electromagnetic Induction",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "A 100-turn coil experiences a change in magnetic flux of 5.0 x 10^-3 Wb in 0.10 s. Calculate the magnitude of the induced emf. Give your answer in V.",
+    "answer": "5.0 V",
+    "unit": "V",
+    "tolerance": 0.15,
+    "solution": "Faraday's law: emf = N x (change in flux)/(time) = 100 x (5.0 x 10^-3)/0.10 = 5.0 V. The minus sign in the full statement is Lenz's law, giving the direction.",
+    "lessonReferences": [
+      "electromagnetic-induction"
+    ],
+    "tags": [
+      "faraday",
+      "calculation"
+    ]
+  },
+  {
+    "id": 53,
+    "topic": "Electromagnetic Induction",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 1,
+    "question": "A magnet is pushed north-pole-first into a coil. The induced current in the coil",
+    "options": [
+      "creates a north pole facing the approaching magnet, opposing its motion",
+      "creates a south pole facing the approaching magnet, attracting it",
+      "flows only after the magnet stops moving",
+      "is zero because the magnet is not touching the coil"
+    ],
+    "correctAnswer": "creates a north pole facing the approaching magnet, opposing its motion",
+    "solution": "Lenz's law states that the induced effect opposes the change producing it. A north pole is induced to repel the incoming north pole. If it attracted instead, the magnet would accelerate and energy would be created from nothing.",
+    "lessonReferences": [
+      "electromagnetic-induction"
+    ],
+    "tags": [
+      "mcq",
+      "lenz"
+    ]
+  },
+  {
+    "id": 54,
+    "topic": "Electromagnetic Induction",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 2,
+    "question": "An ideal transformer has 1000 turns on the primary and 50 turns on the secondary. The primary voltage is 240 V. Calculate the secondary voltage. Give your answer in V.",
+    "answer": "12 V",
+    "unit": "V",
+    "tolerance": 0.4,
+    "solution": "Vp/Vs = Np/Ns, so Vs = Vp x Ns/Np = 240 x 50/1000 = 12 V. This is a step-down transformer, so the secondary current is correspondingly larger in an ideal device.",
+    "lessonReferences": [
+      "electromagnetic-induction"
+    ],
+    "tags": [
+      "transformer",
+      "calculation"
+    ]
+  },
+  {
+    "id": 55,
+    "topic": "Electric Fields",
+    "level": "SL",
+    "difficulty": "easy",
+    "marks": 2,
+    "question": "A circuit has a potential difference of 12 V across a resistance of 4.0 ohms. Calculate the current. Give your answer in A.",
+    "answer": "3.0 A",
+    "unit": "A",
+    "tolerance": 0.1,
+    "solution": "Ohm's law: I = V/R = 12/4.0 = 3.0 A.",
+    "lessonReferences": [
+      "electric-fields"
+    ],
+    "tags": [
+      "circuits",
+      "calculation"
+    ]
+  },
+  {
+    "id": 56,
+    "topic": "Electric Fields",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "Two point charges of 2.0 x 10^-6 C each are separated by 0.10 m. Calculate the magnitude of the electrostatic force between them. Use k = 8.99 x 10^9 N m^2/C^2. Give your answer in N.",
+    "answer": "3.60 N",
+    "unit": "N",
+    "tolerance": 0.1,
+    "solution": "F = kQ1Q2/r^2 = (8.99 x 10^9 x 2.0 x 10^-6 x 2.0 x 10^-6)/(0.10)^2 = (8.99 x 10^9 x 4.0 x 10^-12)/0.010 = 3.60 N. Forgetting to square the separation is the usual slip.",
+    "lessonReferences": [
+      "electric-fields"
+    ],
+    "tags": [
+      "coulomb",
+      "calculation"
+    ]
+  },
+  {
+    "id": 57,
+    "topic": "Electric Fields",
+    "level": "SL",
+    "difficulty": "easy",
+    "marks": 1,
+    "question": "The electric field lines around an isolated negative point charge",
+    "options": [
+      "point radially inwards towards the charge",
+      "point radially outwards from the charge",
+      "form closed loops around the charge",
+      "are parallel and evenly spaced"
+    ],
+    "correctAnswer": "point radially inwards towards the charge",
+    "solution": "Field direction is defined as the force on a positive test charge, which is attracted towards a negative charge. Closed loops describe magnetic fields, not electrostatic ones.",
+    "lessonReferences": [
+      "electric-fields"
+    ],
+    "tags": [
+      "mcq",
+      "fields"
+    ]
+  },
+  {
+    "id": 58,
+    "topic": "Electric Fields",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 2,
+    "question": "A charge of 3.0 x 10^-6 C experiences a force of 0.60 N in an electric field. Calculate the electric field strength. Give your answer in N/C.",
+    "answer": "200000 N/C",
+    "unit": "N/C",
+    "tolerance": 5000,
+    "solution": "E = F/Q = 0.60/(3.0 x 10^-6) = 2.0 x 10^5 N/C. This is equivalent to 2.0 x 10^5 V/m.",
+    "lessonReferences": [
+      "electric-fields"
+    ],
+    "tags": [
+      "fields",
+      "calculation"
+    ]
+  },
+  {
+    "id": 59,
+    "topic": "Magnetic Fields",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "An electron of charge 1.6 x 10^-19 C moves at 2.0 x 10^6 m/s perpendicular to a magnetic field of flux density 0.50 T. Calculate the magnitude of the magnetic force on it. Give your answer in N.",
+    "answer": "1.6e-13 N",
+    "unit": "N",
+    "tolerance": 5e-15,
+    "solution": "F = BQv sin(theta) with theta = 90 degrees, so sin(theta) = 1. F = 0.50 x 1.6 x 10^-19 x 2.0 x 10^6 = 1.6 x 10^-13 N. The force is perpendicular to the velocity, so it changes direction but not speed.",
+    "lessonReferences": [
+      "magnetic-fields"
+    ],
+    "tags": [
+      "magnetic-force",
+      "calculation"
+    ]
+  },
+  {
+    "id": 60,
+    "topic": "Magnetic Fields",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 2,
+    "question": "A wire of length 0.50 m carrying a current of 3.0 A lies perpendicular to a magnetic field of 0.20 T. Calculate the force on the wire. Give your answer in N.",
+    "answer": "0.30 N",
+    "unit": "N",
+    "tolerance": 0.01,
+    "solution": "F = BIL sin(theta) = 0.20 x 3.0 x 0.50 x 1 = 0.30 N.",
+    "lessonReferences": [
+      "magnetic-fields"
+    ],
+    "tags": [
+      "magnetic-force",
+      "calculation"
+    ]
+  },
+  {
+    "id": 61,
+    "topic": "Magnetic Fields",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 1,
+    "question": "A charged particle moves parallel to a uniform magnetic field. The magnetic force on it is",
+    "options": [
+      "zero",
+      "maximum",
+      "perpendicular to the field",
+      "directed along the field"
+    ],
+    "correctAnswer": "zero",
+    "solution": "F = BQv sin(theta), and for motion parallel to the field theta = 0 so sin(theta) = 0. The force is maximum at 90 degrees and zero when parallel.",
+    "lessonReferences": [
+      "magnetic-fields"
+    ],
+    "tags": [
+      "mcq",
+      "magnetic-force"
+    ]
+  },
+  {
+    "id": 62,
+    "topic": "Electromagnetic Waves",
+    "level": "SL",
+    "difficulty": "easy",
+    "marks": 2,
+    "question": "Light of wavelength 5.0 x 10^-7 m travels in a vacuum. Calculate its frequency. Use c = 3.0 x 10^8 m/s. Give your answer in Hz.",
+    "answer": "6.0e14 Hz",
+    "unit": "Hz",
+    "tolerance": 20000000000000,
+    "solution": "c = f(lambda), so f = c/lambda = (3.0 x 10^8)/(5.0 x 10^-7) = 6.0 x 10^14 Hz.",
+    "lessonReferences": [
+      "electromagnetic-waves"
+    ],
+    "tags": [
+      "em-spectrum",
+      "calculation"
+    ]
+  },
+  {
+    "id": 63,
+    "topic": "Electromagnetic Waves",
+    "level": "SL",
+    "difficulty": "easy",
+    "marks": 1,
+    "question": "Which list places electromagnetic waves in order of increasing wavelength?",
+    "options": [
+      "Gamma rays, X-rays, ultraviolet, visible, infrared, radio",
+      "Radio, infrared, visible, ultraviolet, X-rays, gamma rays",
+      "Visible, infrared, radio, ultraviolet, X-rays, gamma rays",
+      "Infrared, visible, ultraviolet, radio, X-rays, gamma rays"
+    ],
+    "correctAnswer": "Gamma rays, X-rays, ultraviolet, visible, infrared, radio",
+    "solution": "Gamma rays have the shortest wavelength and highest frequency; radio waves have the longest wavelength and lowest frequency. All travel at c in a vacuum.",
+    "lessonReferences": [
+      "electromagnetic-waves"
+    ],
+    "tags": [
+      "mcq",
+      "em-spectrum"
+    ]
+  },
+  {
+    "id": 64,
+    "topic": "Quantum Physics",
+    "level": "SL",
+    "difficulty": "easy",
+    "marks": 2,
+    "question": "Calculate the energy of a photon of frequency 5.0 x 10^14 Hz. Use h = 6.63 x 10^-34 J s. Give your answer in J.",
+    "answer": "3.32e-19 J",
+    "unit": "J",
+    "tolerance": 1e-20,
+    "solution": "E = hf = 6.63 x 10^-34 x 5.0 x 10^14 = 3.32 x 10^-19 J.",
+    "lessonReferences": [
+      "quantum-physics"
+    ],
+    "tags": [
+      "photon",
+      "calculation"
+    ]
+  },
+  {
+    "id": 65,
+    "topic": "Quantum Physics",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "Calculate the energy of a photon of wavelength 4.0 x 10^-7 m. Use h = 6.63 x 10^-34 J s and c = 3.0 x 10^8 m/s. Give your answer in J.",
+    "answer": "4.97e-19 J",
+    "unit": "J",
+    "tolerance": 1.5e-20,
+    "solution": "E = hc/lambda = (6.63 x 10^-34 x 3.0 x 10^8)/(4.0 x 10^-7) = (1.989 x 10^-25)/(4.0 x 10^-7) = 4.97 x 10^-19 J.",
+    "lessonReferences": [
+      "quantum-physics"
+    ],
+    "tags": [
+      "photon",
+      "calculation"
+    ]
+  },
+  {
+    "id": 66,
+    "topic": "Quantum Physics",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 1,
+    "question": "In the photoelectric effect, increasing the intensity of light above the threshold frequency causes",
+    "options": [
+      "more electrons to be emitted per second, each with the same maximum kinetic energy",
+      "each emitted electron to have greater maximum kinetic energy",
+      "electrons to be emitted from a metal below its threshold frequency",
+      "no change in the emitted current"
+    ],
+    "correctAnswer": "more electrons to be emitted per second, each with the same maximum kinetic energy",
+    "solution": "Intensity sets the number of photons arriving per second, so more electrons are freed. Maximum kinetic energy depends only on photon energy through E(max) = hf - (work function), so it is unchanged by intensity. Below the threshold frequency no intensity produces emission.",
+    "lessonReferences": [
+      "quantum-physics"
+    ],
+    "tags": [
+      "mcq",
+      "photoelectric"
+    ]
+  },
+  {
+    "id": 67,
+    "topic": "Quantum Physics",
+    "level": "HL",
+    "difficulty": "hard",
+    "marks": 3,
+    "question": "A metal has a work function of 3.0 x 10^-19 J. Light of frequency 6.0 x 10^14 Hz is incident on it. Calculate the maximum kinetic energy of the emitted electrons. Use h = 6.63 x 10^-34 J s. Give your answer in J.",
+    "answer": "9.78e-20 J",
+    "unit": "J",
+    "tolerance": 4e-21,
+    "solution": "The photon energy is hf = 6.63 x 10^-34 x 6.0 x 10^14 = 3.978 x 10^-19 J. E(max) = hf - (work function) = 3.978 x 10^-19 - 3.0 x 10^-19 = 9.78 x 10^-20 J. Since hf exceeds the work function, emission does occur.",
+    "lessonReferences": [
+      "quantum-physics"
+    ],
+    "tags": [
+      "photoelectric",
+      "calculation"
+    ]
+  },
+  {
+    "id": 68,
+    "topic": "Nuclear Physics",
+    "level": "SL",
+    "difficulty": "easy",
+    "marks": 2,
+    "question": "A sample initially contains 800 undecayed nuclei. After three half-lives, how many undecayed nuclei remain?",
+    "answer": "100 nuclei",
+    "unit": "nuclei",
+    "tolerance": 2,
+    "solution": "Each half-life halves the number remaining: 800 to 400 to 200 to 100. Equivalently N = N0 x (1/2)^3 = 800/8 = 100. Half-lives are not added together.",
+    "lessonReferences": [
+      "nuclear-physics"
+    ],
+    "tags": [
+      "half-life",
+      "calculation"
+    ]
+  },
+  {
+    "id": 69,
+    "topic": "Nuclear Physics",
+    "level": "SL",
+    "difficulty": "easy",
+    "marks": 1,
+    "question": "Which type of radiation is the most penetrating?",
+    "options": [
+      "Gamma",
+      "Beta",
+      "Alpha",
+      "All penetrate equally"
+    ],
+    "correctAnswer": "Gamma",
+    "solution": "Alpha particles are stopped by paper or a few centimetres of air, beta by a few millimetres of aluminium, and gamma requires several centimetres of lead. Penetrating power runs opposite to ionising power.",
+    "lessonReferences": [
+      "nuclear-physics"
+    ],
+    "tags": [
+      "mcq",
+      "radiation"
+    ]
+  },
+  {
+    "id": 70,
+    "topic": "Nuclear Physics",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 2,
+    "question": "A radioactive isotope has a half-life of 20 s. Calculate its decay constant. Give your answer in 1/s.",
+    "answer": "0.0347 1/s",
+    "unit": "1/s",
+    "tolerance": 0.0012,
+    "solution": "The decay constant is lambda = ln2 / T(half) = 0.693/20 = 0.0347 s^-1.",
+    "lessonReferences": [
+      "nuclear-physics"
+    ],
+    "tags": [
+      "decay-constant",
+      "calculation"
+    ]
+  },
+  {
+    "id": 71,
+    "topic": "Nuclear Physics",
+    "level": "SL",
+    "difficulty": "hard",
+    "marks": 4,
+    "question": "Explain why a gamma-emitting isotope with a short half-life is preferred as a tracer in medical imaging.",
+    "answer": "Gamma radiation is penetrating enough to escape the body and be detected, while a short half-life means the activity falls quickly so the patient dose is limited",
+    "markScheme": [
+      "gamma",
+      "escape the body",
+      "short half-life",
+      "reduces the dose"
+    ],
+    "solution": "Gamma radiation is weakly ionising and highly penetrating, so it leaves the body and reaches the detector rather than depositing its energy in nearby tissue. A short half-life means the activity falls rapidly once the scan is complete, limiting the total dose. The half-life must still be long enough for the tracer to reach the organ and for the scan to finish.",
+    "lessonReferences": [
+      "nuclear-physics"
+    ],
+    "tags": [
+      "structured",
+      "medical"
+    ]
+  },
+  {
+    "id": 72,
+    "topic": "Current and Circuits",
+    "level": "SL",
+    "difficulty": "easy",
+    "marks": 2,
+    "question": "A charge of 6.0 C passes a point in a circuit in 3.0 s. Calculate the current. Give your answer in A.",
+    "answer": "2.0 A",
+    "unit": "A",
+    "tolerance": 0.05,
+    "solution": "I = Δq/Δt = 6.0/3.0 = 2.0 A. One ampere is one coulomb per second.",
+    "lessonReferences": [
+      "current-and-circuits"
+    ],
+    "tags": [
+      "current",
+      "calculation"
+    ]
+  },
+  {
+    "id": 73,
+    "topic": "Current and Circuits",
+    "level": "SL",
+    "difficulty": "easy",
+    "marks": 2,
+    "question": "Two resistors of 6.0 Ω and 3.0 Ω are connected in parallel. Calculate the combined resistance. Give your answer in ohms.",
+    "answer": "2.0 ohms",
+    "unit": "ohms",
+    "tolerance": 0.05,
+    "solution": "1/R = 1/6.0 + 1/3.0 = 0.5, so R = 2.0 Ω. A parallel combination is always smaller than the smallest branch, which is the check to apply.",
+    "lessonReferences": [
+      "current-and-circuits"
+    ],
+    "tags": [
+      "parallel",
+      "calculation"
+    ]
+  },
+  {
+    "id": 74,
+    "topic": "Current and Circuits",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "A cell of emf 12 V and internal resistance 0.50 Ω delivers a current of 2.0 A. Calculate the terminal potential difference. Give your answer in V.",
+    "answer": "11 V",
+    "unit": "V",
+    "tolerance": 0.2,
+    "solution": "V = ε − Ir = 12 − (2.0 × 0.50) = 11 V. The missing volt is dissipated inside the cell, which is why headlights dim while the starter motor turns.",
+    "lessonReferences": [
+      "current-and-circuits"
+    ],
+    "tags": [
+      "internal-resistance",
+      "calculation"
+    ]
+  },
+  {
+    "id": 75,
+    "topic": "Current and Circuits",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 2,
+    "question": "A 2.0 kΩ and a 4.0 kΩ resistor form a potential divider across a 9.0 V supply. Calculate the potential difference across the 2.0 kΩ resistor. Give your answer in V.",
+    "answer": "3.0 V",
+    "unit": "V",
+    "tolerance": 0.1,
+    "solution": "V_out = V_in × R₂/(R₁+R₂) = 9.0 × 2000/6000 = 3.0 V. The supply divides in proportion to resistance.",
+    "lessonReferences": [
+      "current-and-circuits"
+    ],
+    "tags": [
+      "potential-divider",
+      "calculation"
+    ]
+  },
+  {
+    "id": 76,
+    "topic": "Current and Circuits",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 1,
+    "type": "multiple-choice",
+    "question": "A filament lamp does not obey Ohm’s law. Which statement explains why?",
+    "options": [
+      "Its resistance rises as the filament heats, so R is not constant",
+      "Its resistance falls to zero once current flows",
+      "Current through it is not proportional to charge",
+      "It stores charge rather than conducting it"
+    ],
+    "correctAnswer": "Its resistance rises as the filament heats, so R is not constant",
+    "answer": "Its resistance rises as the filament heats, so R is not constant",
+    "solution": "R = V/I defines resistance for any component. Ohm’s law is the stronger claim that R stays constant, which needs constant temperature. A filament heats as current rises, so its I–V graph curves.",
+    "lessonReferences": [
+      "current-and-circuits"
+    ],
+    "tags": [
+      "ohms-law",
+      "concept"
+    ]
+  },
+  {
+    "id": 77,
+    "topic": "Current and Circuits",
+    "level": "SL",
+    "difficulty": "hard",
+    "marks": 3,
+    "question": "A 12 V supply drives 3.0 A through a resistor. Calculate the power dissipated. Give your answer in W.",
+    "answer": "36 W",
+    "unit": "W",
+    "tolerance": 1,
+    "solution": "P = VI = 12 × 3.0 = 36 W. Equivalently P = I²R with R = V/I = 4.0 Ω, giving 9.0 × 4.0 = 36 W.",
+    "lessonReferences": [
+      "current-and-circuits"
+    ],
+    "tags": [
+      "power",
+      "calculation"
+    ]
+  },
+  {
+    "id": 78,
+    "topic": "Current and Circuits",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "Explain why an ideal voltmeter must have infinite resistance.",
+    "answer": "So that it draws no current from the circuit and therefore does not change the potential difference it is measuring",
+    "solution": "A voltmeter is connected in parallel with the component. Any current it draws is current diverted from that component, which lowers the potential difference being measured. Infinite resistance means zero diverted current and no disturbance. Real voltmeters have very high but finite resistance, which is a standard source of systematic error.",
+    "lessonReferences": [
+      "current-and-circuits"
+    ],
+    "tags": [
+      "meters",
+      "explanation"
+    ]
+  },
+  {
+    "id": 79,
+    "topic": "Standing Waves and Resonance",
+    "level": "SL",
+    "difficulty": "easy",
+    "marks": 2,
+    "question": "A string of length 0.60 m is fixed at both ends and carries waves at 240 m/s. Calculate its fundamental frequency. Give your answer in Hz.",
+    "answer": "200 Hz",
+    "unit": "Hz",
+    "tolerance": 5,
+    "solution": "f₁ = v/2L = 240/(2 × 0.60) = 200 Hz. Both ends must be nodes, so half a wavelength fits the string at the fundamental.",
+    "lessonReferences": [
+      "standing-waves-and-resonance"
+    ],
+    "tags": [
+      "harmonics",
+      "calculation"
+    ]
+  },
+  {
+    "id": 80,
+    "topic": "Standing Waves and Resonance",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 2,
+    "question": "A pipe closed at one end is 0.85 m long. Taking the speed of sound as 340 m/s, calculate its fundamental frequency. Give your answer in Hz.",
+    "answer": "100 Hz",
+    "unit": "Hz",
+    "tolerance": 3,
+    "solution": "For a closed pipe f₁ = v/4L = 340/(4 × 0.85) = 100 Hz. Only a quarter of a wavelength fits, because the closed end is a node and the open end an antinode.",
+    "lessonReferences": [
+      "standing-waves-and-resonance"
+    ],
+    "tags": [
+      "pipes",
+      "calculation"
+    ]
+  },
+  {
+    "id": 81,
+    "topic": "Standing Waves and Resonance",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 1,
+    "type": "multiple-choice",
+    "question": "Which harmonics can a pipe closed at one end produce?",
+    "options": [
+      "Odd harmonics only",
+      "Even harmonics only",
+      "All harmonics",
+      "Only the fundamental"
+    ],
+    "correctAnswer": "Odd harmonics only",
+    "answer": "Odd harmonics only",
+    "solution": "A node at the closed end and an antinode at the open end permit only odd multiples of the fundamental. This is why a closed pipe sounds an octave lower than an open pipe of the same length and has a different timbre.",
+    "lessonReferences": [
+      "standing-waves-and-resonance"
+    ],
+    "tags": [
+      "harmonics",
+      "concept"
+    ]
+  },
+  {
+    "id": 82,
+    "topic": "Standing Waves and Resonance",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "State two differences between a standing wave and a travelling wave.",
+    "answer": "A standing wave transfers no net energy along the medium while a travelling wave does; amplitude varies with position in a standing wave but is the same everywhere in a travelling wave",
+    "solution": "Energy transfer and amplitude are the two clearest differences. A third is phase: in a standing wave every point between two nodes oscillates in phase, and the phase flips across a node, whereas in a travelling wave the phase advances steadily with distance.",
+    "lessonReferences": [
+      "standing-waves-and-resonance"
+    ],
+    "tags": [
+      "standing-waves",
+      "comparison"
+    ]
+  },
+  {
+    "id": 83,
+    "topic": "Standing Waves and Resonance",
+    "level": "SL",
+    "difficulty": "easy",
+    "marks": 2,
+    "question": "Adjacent nodes on a standing wave are 0.25 m apart. Calculate the wavelength. Give your answer in m.",
+    "answer": "0.50 m",
+    "unit": "m",
+    "tolerance": 0.02,
+    "solution": "Adjacent nodes are half a wavelength apart, so λ = 2 × 0.25 = 0.50 m.",
+    "lessonReferences": [
+      "standing-waves-and-resonance"
+    ],
+    "tags": [
+      "nodes",
+      "calculation"
+    ]
+  },
+  {
+    "id": 84,
+    "topic": "Standing Waves and Resonance",
+    "level": "SL",
+    "difficulty": "hard",
+    "marks": 3,
+    "question": "Describe the effect of increasing damping on the resonance curve of a driven oscillator.",
+    "answer": "The peak amplitude falls, the curve broadens, and the maximum shifts slightly below the natural frequency",
+    "solution": "Damping removes energy each cycle, so less can accumulate at resonance and the peak is lower. The response is spread over a wider range of driving frequencies, and the maximum moves to a frequency slightly below the undamped natural frequency.",
+    "lessonReferences": [
+      "standing-waves-and-resonance"
+    ],
+    "tags": [
+      "resonance",
+      "damping"
+    ]
+  },
+  {
+    "id": 85,
+    "topic": "Standing Waves and Resonance",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 2,
+    "type": "multiple-choice",
+    "question": "Which type of damping returns a system to equilibrium in the shortest time without oscillating?",
+    "options": [
+      "Critical damping",
+      "Light damping",
+      "Heavy damping",
+      "No damping"
+    ],
+    "correctAnswer": "Critical damping",
+    "answer": "Critical damping",
+    "solution": "Critical damping is the boundary case: any less and the system overshoots and oscillates, any more and it returns more slowly. It is what car suspension and door closers are designed for.",
+    "lessonReferences": [
+      "standing-waves-and-resonance"
+    ],
+    "tags": [
+      "damping",
+      "concept"
+    ]
+  },
+  {
+    "id": 86,
+    "topic": "The Doppler Effect",
+    "level": "SL",
+    "difficulty": "easy",
+    "marks": 1,
+    "type": "multiple-choice",
+    "question": "A source of sound moves towards a stationary observer. What does the observer hear?",
+    "options": [
+      "A higher frequency than the source emits",
+      "A lower frequency than the source emits",
+      "The same frequency, but louder",
+      "The same frequency, but quieter"
+    ],
+    "correctAnswer": "A higher frequency than the source emits",
+    "answer": "A higher frequency than the source emits",
+    "solution": "Wavefronts bunch up ahead of an approaching source, shortening the wavelength and raising the frequency reaching the observer. The source itself emits at an unchanged frequency.",
+    "lessonReferences": [
+      "doppler-effect"
+    ],
+    "tags": [
+      "doppler",
+      "concept"
+    ]
+  },
+  {
+    "id": 87,
+    "topic": "The Doppler Effect",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "A siren emitting 800 Hz approaches a stationary observer at 30 m/s. Taking the speed of sound as 340 m/s, calculate the observed frequency. Give your answer in Hz.",
+    "answer": "877 Hz",
+    "unit": "Hz",
+    "tolerance": 6,
+    "solution": "Source approaching, so f' = fv/(v − uₛ) = 800 × 340/(340 − 30) = 800 × 340/310 = 877 Hz. Check the direction: approaching must raise the frequency, and 877 > 800.",
+    "lessonReferences": [
+      "doppler-effect"
+    ],
+    "tags": [
+      "doppler",
+      "calculation"
+    ]
+  },
+  {
+    "id": 88,
+    "topic": "The Doppler Effect",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "A spectral line of wavelength 656 nm is observed from a galaxy at 660 nm. Estimate the recession speed. Give your answer in m/s.",
+    "answer": "1.8e6 m/s",
+    "unit": "m/s",
+    "tolerance": 200000,
+    "solution": "Δλ = 4 nm. Using Δλ/λ ≈ v/c, v ≈ 3.00 × 10⁸ × (4/656) ≈ 1.8 × 10⁶ m/s. The wavelength has increased, so the galaxy is receding — a redshift.",
+    "lessonReferences": [
+      "doppler-effect"
+    ],
+    "tags": [
+      "redshift",
+      "calculation"
+    ]
+  },
+  {
+    "id": 89,
+    "topic": "The Doppler Effect",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "Explain what redshift tells us about distant galaxies.",
+    "answer": "Their spectral lines are shifted to longer wavelengths, showing they are receding, and the shift grows with distance, which is evidence that the universe is expanding",
+    "solution": "Known spectral lines appear at longer wavelengths than they do in a laboratory, which by the Doppler effect means the source is moving away. Measuring many galaxies shows the recession speed increases with distance, which is the observational basis for an expanding universe.",
+    "lessonReferences": [
+      "doppler-effect"
+    ],
+    "tags": [
+      "redshift",
+      "explanation"
+    ]
+  },
+  {
+    "id": 90,
+    "topic": "The Doppler Effect",
+    "level": "HL",
+    "difficulty": "hard",
+    "marks": 4,
+    "question": "Explain why the Doppler effect for sound needs separate equations for a moving source and a moving observer, while light does not.",
+    "answer": "Sound travels through a medium that provides a rest frame, so the two cases are physically different, whereas light needs no medium and only the relative velocity matters",
+    "solution": "A source moving through still air emits each wavefront from a different point, physically changing the wavelength in the air. An observer moving through still air meets unchanged wavefronts more often. These are different mechanisms and give different results at the same relative speed. Light has no medium and no preferred frame, so only relative velocity can matter.",
+    "lessonReferences": [
+      "doppler-effect",
+      "relativity"
+    ],
+    "tags": [
+      "doppler",
+      "explanation"
+    ]
+  },
+  {
+    "id": 91,
+    "topic": "The Doppler Effect",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 2,
+    "question": "A 500 Hz source recedes from a stationary observer at 25 m/s. Taking the speed of sound as 340 m/s, calculate the observed frequency. Give your answer in Hz.",
+    "answer": "466 Hz",
+    "unit": "Hz",
+    "tolerance": 4,
+    "solution": "Source receding, so f' = fv/(v + uₛ) = 500 × 340/365 = 466 Hz. Receding must lower the frequency, and 466 < 500.",
+    "lessonReferences": [
+      "doppler-effect"
+    ],
+    "tags": [
+      "doppler",
+      "calculation"
+    ]
+  },
+  {
+    "id": 92,
+    "topic": "Gravitation",
+    "level": "SL",
+    "difficulty": "easy",
+    "marks": 2,
+    "question": "The gravitational field strength at a planet’s surface is 3.7 N/kg. Calculate the weight of a 60 kg astronaut standing on it. Give your answer in N.",
+    "answer": "222 N",
+    "unit": "N",
+    "tolerance": 5,
+    "solution": "W = mg = 60 × 3.7 = 222 N, about a fifth of their weight on Earth. Mass is unchanged at 60 kg.",
+    "lessonReferences": [
+      "fields"
+    ],
+    "tags": [
+      "field-strength",
+      "calculation"
+    ]
+  },
+  {
+    "id": 93,
+    "topic": "Gravitation",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "A satellite orbits 400 km above the Earth’s surface. Taking the Earth’s radius as 6.37 × 10^6 m and GM = 3.99 × 10^14, calculate its orbital speed. Give your answer in m/s.",
+    "answer": "7680 m/s",
+    "unit": "m/s",
+    "tolerance": 150,
+    "solution": "The orbital radius is measured from the centre: r = 6.37 × 10^6 + 4.00 × 10^5 = 6.77 × 10^6 m. Then v = sqrt(GM/r) = sqrt(3.99 × 10^14 / 6.77 × 10^6) = 7.68 × 10^3 m/s. Using the altitude alone is the standard error here.",
+    "lessonReferences": [
+      "fields"
+    ],
+    "tags": [
+      "orbits",
+      "calculation"
+    ]
+  },
+  {
+    "id": 94,
+    "topic": "Gravitation",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 1,
+    "type": "multiple-choice",
+    "question": "Why does a satellite stay in orbit?",
+    "options": [
+      "Gravity provides exactly the centripetal force needed for circular motion",
+      "There is no gravity at that altitude",
+      "The satellite’s engines continuously counteract gravity",
+      "Air resistance balances the pull of gravity"
+    ],
+    "correctAnswer": "Gravity provides exactly the centripetal force needed for circular motion",
+    "answer": "Gravity provides exactly the centripetal force needed for circular motion",
+    "solution": "The satellite is in free fall, continually falling towards the Earth while moving sideways fast enough to keep missing it. Gravity at 400 km is still about 89% of its surface value.",
+    "lessonReferences": [
+      "fields"
+    ],
+    "tags": [
+      "orbits",
+      "concept"
+    ]
+  },
+  {
+    "id": 95,
+    "topic": "Gravitation",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "Explain why the gravitational field strength at the top of a mountain is slightly less than at sea level.",
+    "answer": "Field strength is GM/r² and r is measured from the centre of the Earth, so a larger r at altitude gives a smaller g",
+    "solution": "g = GM/r². On a mountain the distance from the Earth’s centre is larger, so g is smaller. The effect is small because mountain heights are tiny compared with the Earth’s 6.37 × 10^6 m radius.",
+    "lessonReferences": [
+      "fields"
+    ],
+    "tags": [
+      "field-strength",
+      "explanation"
+    ]
+  },
+  {
+    "id": 96,
+    "topic": "Gravitation",
+    "level": "HL",
+    "difficulty": "hard",
+    "marks": 4,
+    "question": "Explain why a satellite in a lower orbit travels faster yet has less total energy.",
+    "answer": "Orbital speed is sqrt(GM/r), which rises as r falls, while total energy is −GMm/2r, which becomes more negative as r falls",
+    "solution": "Speed goes as r^(−1/2), so a smaller radius means a faster satellite. Total energy is −GMm/(2r), which becomes more negative — that is, lower — as r decreases. This is why atmospheric drag makes a satellite speed up as it spirals down: it loses energy and drops to a faster orbit.",
+    "lessonReferences": [
+      "fields"
+    ],
+    "tags": [
+      "orbits",
+      "energy"
+    ]
+  },
+  {
+    "id": 97,
+    "topic": "Gravitation",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 2,
+    "question": "State why gravitational potential is always negative.",
+    "answer": "It is defined as zero at infinity, and because gravity is attractive, work must be done on a mass to move it out to infinity",
+    "solution": "Bringing a mass from infinity to a point releases energy, so the potential there is below the zero reference. Gravity is only ever attractive, so there is no point at which the potential rises above zero.",
+    "lessonReferences": [
+      "fields"
+    ],
+    "tags": [
+      "potential",
+      "concept"
+    ]
+  },
+  {
+    "id": 98,
+    "topic": "Motion in Fields",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "An electron is accelerated from rest through 500 V. Calculate its kinetic energy in joules. Take e = 1.60 × 10^-19 C.",
+    "answer": "8.0e-17 J",
+    "unit": "J",
+    "tolerance": 5e-18,
+    "solution": "E = qV = 1.60 × 10^-19 × 500 = 8.0 × 10^-17 J. That is 500 eV, which is why the electronvolt is the convenient unit here.",
+    "lessonReferences": [
+      "motion-in-fields"
+    ],
+    "tags": [
+      "acceleration",
+      "calculation"
+    ]
+  },
+  {
+    "id": 99,
+    "topic": "Motion in Fields",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "A proton of momentum 2.0 × 10^-19 kg m/s moves perpendicular to a 0.50 T field. Calculate the radius of its path. Take q = 1.60 × 10^-19 C. Give your answer in m.",
+    "answer": "2.5 m",
+    "unit": "m",
+    "tolerance": 0.1,
+    "solution": "r = p/(qB) = 2.0 × 10^-19 / (1.60 × 10^-19 × 0.50) = 2.5 m. Equating the magnetic force qvB to the centripetal force mv²/r gives r = mv/qB.",
+    "lessonReferences": [
+      "motion-in-fields"
+    ],
+    "tags": [
+      "circular-motion",
+      "calculation"
+    ]
+  },
+  {
+    "id": 100,
+    "topic": "Motion in Fields",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 1,
+    "type": "multiple-choice",
+    "question": "A charged particle moves in a circle in a uniform magnetic field. What happens to its speed?",
+    "options": [
+      "It stays constant, because the magnetic force does no work",
+      "It increases steadily as the particle circles",
+      "It decreases as the particle loses energy to the field",
+      "It oscillates between a maximum and a minimum"
+    ],
+    "correctAnswer": "It stays constant, because the magnetic force does no work",
+    "answer": "It stays constant, because the magnetic force does no work",
+    "solution": "The magnetic force is always perpendicular to the velocity, so there is no component along the displacement and no work is done. Only the direction changes, which is why the path is a circle.",
+    "lessonReferences": [
+      "motion-in-fields"
+    ],
+    "tags": [
+      "magnetic-force",
+      "concept"
+    ]
+  },
+  {
+    "id": 101,
+    "topic": "Motion in Fields",
+    "level": "SL",
+    "difficulty": "hard",
+    "marks": 4,
+    "question": "Explain how crossed electric and magnetic fields can select particles of one particular speed.",
+    "answer": "The electric force qE and magnetic force qvB act in opposite directions and balance only when v = E/B, so only particles at that speed pass through undeflected",
+    "solution": "Setting qE = qvB gives v = E/B, independent of charge and mass. Particles faster than this are deflected by the larger magnetic force, slower ones by the electric force, so only one speed emerges straight. This is the velocity selector at the front of a mass spectrometer.",
+    "lessonReferences": [
+      "motion-in-fields"
+    ],
+    "tags": [
+      "velocity-selector",
+      "explanation"
+    ]
+  },
+  {
+    "id": 102,
+    "topic": "Motion in Fields",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "Explain why the orbital period of a charged particle in a magnetic field does not depend on its speed.",
+    "answer": "The period is 2πm/qB, which contains no speed term: a faster particle travels a proportionally larger circle in the same time",
+    "solution": "From r = mv/qB, the circumference 2πr is proportional to v. The time for one orbit is 2πr/v = 2πm/qB, and the speed cancels. This is the principle the cyclotron relies on.",
+    "lessonReferences": [
+      "motion-in-fields"
+    ],
+    "tags": [
+      "period",
+      "explanation"
+    ]
+  },
+  {
+    "id": 103,
+    "topic": "Atomic Physics",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "An electron in hydrogen falls from n = 3 to n = 2. Using Eₙ = −13.6/n² eV, calculate the energy of the emitted photon in eV.",
+    "answer": "1.89 eV",
+    "unit": "eV",
+    "tolerance": 0.05,
+    "solution": "E₃ = −13.6/9 = −1.51 eV and E₂ = −13.6/4 = −3.40 eV. The photon carries the difference: 3.40 − 1.51 = 1.89 eV. Use the difference between levels, never a level value on its own.",
+    "lessonReferences": [
+      "atomic-physics"
+    ],
+    "tags": [
+      "energy-levels",
+      "calculation"
+    ]
+  },
+  {
+    "id": 104,
+    "topic": "Atomic Physics",
+    "level": "SL",
+    "difficulty": "easy",
+    "marks": 2,
+    "question": "State the ionisation energy of hydrogen from its ground state, in eV.",
+    "answer": "13.6 eV",
+    "unit": "eV",
+    "tolerance": 0.2,
+    "solution": "The ground state sits at −13.6 eV and ionisation means raising the electron to zero energy, so 13.6 eV must be supplied.",
+    "lessonReferences": [
+      "atomic-physics"
+    ],
+    "tags": [
+      "ionisation",
+      "calculation"
+    ]
+  },
+  {
+    "id": 105,
+    "topic": "Atomic Physics",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 4,
+    "question": "State the three observations of the Geiger–Marsden–Rutherford experiment and what each shows.",
+    "answer": "Most alpha particles passed straight through, showing the atom is mostly empty space; a few deflected through large angles and a very small number reflected almost straight back, showing a tiny, massive, positively charged nucleus",
+    "solution": "Thomson’s model could account for small deflections but not for large ones. Only a concentrated positive charge with almost all the mass could reverse an alpha particle, and the rarity of that event shows the nucleus is minute compared with the atom.",
+    "lessonReferences": [
+      "atomic-physics"
+    ],
+    "tags": [
+      "rutherford",
+      "explanation"
+    ]
+  },
+  {
+    "id": 106,
+    "topic": "Atomic Physics",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 1,
+    "type": "multiple-choice",
+    "question": "What do the discrete lines of an emission spectrum show?",
+    "options": [
+      "Electrons can only occupy certain energy levels",
+      "Atoms emit light continuously at all wavelengths",
+      "Electrons are stationary within the atom",
+      "The nucleus emits the visible light"
+    ],
+    "correctAnswer": "Electrons can only occupy certain energy levels",
+    "answer": "Electrons can only occupy certain energy levels",
+    "solution": "Each line is a fixed photon energy, so only certain energy differences exist, so only certain electron energies exist. A continuous spectrum comes from a hot dense solid, not from isolated atoms.",
+    "lessonReferences": [
+      "atomic-physics"
+    ],
+    "tags": [
+      "spectra",
+      "concept"
+    ]
+  },
+  {
+    "id": 107,
+    "topic": "Atomic Physics",
+    "level": "SL",
+    "difficulty": "hard",
+    "marks": 3,
+    "question": "Explain why an absorption spectrum shows dark lines at exactly the wavelengths of the element’s emission spectrum.",
+    "answer": "Absorption raises electrons across the same energy gaps that emission drops them across, so the photon energies and therefore the wavelengths are identical",
+    "solution": "The energy levels are a property of the atom and do not change. Absorption removes photons of those energies from transmitted light, leaving dark lines; emission adds them, giving bright lines. Same gaps, same wavelengths, opposite direction.",
+    "lessonReferences": [
+      "atomic-physics"
+    ],
+    "tags": [
+      "spectra",
+      "explanation"
+    ]
+  },
+  {
+    "id": 108,
+    "topic": "Nuclear Fission",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 2,
+    "question": "A fission reaction has a mass defect of 0.215 u. Calculate the energy released. Give your answer in MeV.",
+    "answer": "200 MeV",
+    "unit": "MeV",
+    "tolerance": 8,
+    "solution": "E = Δm × 931.5 = 0.215 × 931.5 = 200 MeV. Using 931.5 MeV per u avoids converting to kilograms.",
+    "lessonReferences": [
+      "nuclear-fission"
+    ],
+    "tags": [
+      "fission",
+      "calculation"
+    ]
+  },
+  {
+    "id": 109,
+    "topic": "Nuclear Fission",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "Explain the difference in function between a moderator and a control rod in a nuclear reactor.",
+    "answer": "A moderator slows fast neutrons so uranium-235 can absorb them and fission; a control rod absorbs neutrons to reduce the number available and is raised or lowered to hold the reaction rate steady",
+    "solution": "Fission releases fast neutrons but uranium-235 absorbs slow ones far more readily, so a moderator such as water or graphite slows them through collisions. Control rods of boron or cadmium remove neutrons entirely. Swapping these two roles is the most common error in this topic.",
+    "lessonReferences": [
+      "nuclear-fission"
+    ],
+    "tags": [
+      "reactor",
+      "explanation"
+    ]
+  },
+  {
+    "id": 110,
+    "topic": "Nuclear Fission",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "Explain, using the binding energy per nucleon curve, why fission of a heavy nucleus releases energy.",
+    "answer": "The fragments lie closer to the peak of the curve than the original nucleus, so they are more tightly bound, and the excess mass is released as energy",
+    "solution": "Binding energy per nucleon peaks near iron-56. A heavy nucleus splitting produces fragments further up the curve, so the products are more tightly bound. The difference in total binding energy appears as kinetic energy of the fragments.",
+    "lessonReferences": [
+      "nuclear-fission",
+      "nuclear-physics"
+    ],
+    "tags": [
+      "binding-energy",
+      "explanation"
+    ]
+  },
+  {
+    "id": 111,
+    "topic": "Nuclear Fission",
+    "level": "SL",
+    "difficulty": "easy",
+    "marks": 1,
+    "type": "multiple-choice",
+    "question": "What is a chain reaction?",
+    "options": [
+      "A self-sustaining sequence in which neutrons from one fission cause further fissions",
+      "A reaction in which nuclei join to form heavier ones",
+      "The steady decay of an unstable nucleus over many half-lives",
+      "The absorption of all released neutrons by control rods"
+    ],
+    "correctAnswer": "A self-sustaining sequence in which neutrons from one fission cause further fissions",
+    "answer": "A self-sustaining sequence in which neutrons from one fission cause further fissions",
+    "solution": "Each fission releases two or three neutrons, more than the one it consumed. If enough go on to cause further fissions the reaction sustains itself; below the critical mass too many escape and it dies out.",
+    "lessonReferences": [
+      "nuclear-fission"
+    ],
+    "tags": [
+      "chain-reaction",
+      "concept"
+    ]
+  },
+  {
+    "id": 112,
+    "topic": "Nuclear Fission",
+    "level": "SL",
+    "difficulty": "hard",
+    "marks": 4,
+    "question": "Discuss two safety issues associated with nuclear fission power.",
+    "answer": "Spent fuel stays intensely radioactive for thousands of years and needs secure long-term storage, and decay heat continues after shutdown so loss of cooling can still damage the core",
+    "solution": "Fission fragments are neutron-rich and beta-active, some with half-lives of thousands of years, so waste must be shielded and stored far longer than the reactor operates. Decay heat means cooling cannot simply be switched off with the reaction. A third issue is that fissile material carries a weapons-proliferation risk. Against these, fission generates electricity with almost no carbon dioxide.",
+    "lessonReferences": [
+      "nuclear-fission"
+    ],
+    "tags": [
+      "safety",
+      "evaluation"
+    ]
+  },
+  {
+    "id": 113,
+    "topic": "Fusion and Stars",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 2,
+    "question": "A star has a surface temperature of 5800 K. Using Wien’s law with 2.90 × 10^-3 m K, calculate its peak emission wavelength. Give your answer in m.",
+    "answer": "5.0e-7 m",
+    "unit": "m",
+    "tolerance": 3e-8,
+    "solution": "λ_max = 2.90 × 10^-3 / 5800 = 5.0 × 10^-7 m, in the green-yellow part of the visible spectrum. Temperature must be in kelvin.",
+    "lessonReferences": [
+      "nuclear-fusion-and-stars"
+    ],
+    "tags": [
+      "wien",
+      "calculation"
+    ]
+  },
+  {
+    "id": 114,
+    "topic": "Fusion and Stars",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "Explain why fusion requires extremely high temperatures.",
+    "answer": "Both nuclei are positively charged and repel, so they need very large kinetic energies to come close enough for the strong nuclear force to bind them",
+    "solution": "The electrostatic repulsion between two positive nuclei rises steeply as they approach. Only at kinetic energies corresponding to temperatures of order 10^7 K do enough nuclei get close enough for the short-ranged strong force to take over. This is why fusion happens in stellar cores and is so hard to sustain on Earth.",
+    "lessonReferences": [
+      "nuclear-fusion-and-stars"
+    ],
+    "tags": [
+      "fusion",
+      "explanation"
+    ]
+  },
+  {
+    "id": 115,
+    "topic": "Fusion and Stars",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "Distinguish between the luminosity and the apparent brightness of a star.",
+    "answer": "Luminosity is the total power the star radiates and is a property of the star; apparent brightness is the power received per unit area at the observer and depends on distance as well",
+    "solution": "b = L/4πd². Two stars of equal luminosity appear very different in brightness if they lie at different distances, so distance must be known before luminosity can be found from brightness.",
+    "lessonReferences": [
+      "nuclear-fusion-and-stars"
+    ],
+    "tags": [
+      "luminosity",
+      "comparison"
+    ]
+  },
+  {
+    "id": 116,
+    "topic": "Fusion and Stars",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 1,
+    "type": "multiple-choice",
+    "question": "On a Hertzsprung–Russell diagram, where do red giants sit relative to the main sequence?",
+    "options": [
+      "Above and to the right: cool but very luminous",
+      "Below and to the left: hot but faint",
+      "Directly on the main sequence, at its cool end",
+      "Above and to the left: hot and very luminous"
+    ],
+    "correctAnswer": "Above and to the right: cool but very luminous",
+    "answer": "Above and to the right: cool but very luminous",
+    "solution": "Temperature increases to the left on an HR diagram, so cool stars sit right. A red giant has a low surface temperature but an enormous radius, and since L = 4πR²σT⁴ the huge area makes it very luminous.",
+    "lessonReferences": [
+      "nuclear-fusion-and-stars"
+    ],
+    "tags": [
+      "hr-diagram",
+      "concept"
+    ]
+  },
+  {
+    "id": 117,
+    "topic": "Fusion and Stars",
+    "level": "HL",
+    "difficulty": "hard",
+    "marks": 4,
+    "question": "Explain what determines whether a star ends as a white dwarf, a neutron star or a black hole.",
+    "answer": "The mass of the remnant core: below about 1.4 solar masses electron degeneracy pressure supports a white dwarf, above that collapse continues to a neutron star, and above roughly 2 to 3 solar masses not even neutron degeneracy pressure holds and a black hole forms",
+    "solution": "The Chandrasekhar limit of about 1.4 solar masses is the largest mass electron degeneracy pressure can support. The Oppenheimer–Volkoff limit of roughly 2 to 3 solar masses is the equivalent for neutrons. Both limits apply to the remnant core, not the original star: a star far heavier than 1.4 solar masses can still end as a white dwarf if it sheds enough mass first.",
+    "lessonReferences": [
+      "nuclear-fusion-and-stars"
+    ],
+    "tags": [
+      "stellar-evolution",
+      "explanation"
+    ]
+  },
+  {
+    "id": 118,
+    "topic": "Fusion and Stars",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "A red giant is cool yet very luminous. Explain how both can be true.",
+    "answer": "Luminosity depends on surface area as well as temperature, and a red giant’s enormous radius more than compensates for its low surface temperature",
+    "solution": "L = 4πR²σT⁴. Although T⁴ is small for a cool star, R is hundreds of times larger than the Sun’s, and R² grows fast enough to make the total radiated power very large.",
+    "lessonReferences": [
+      "nuclear-fusion-and-stars"
+    ],
+    "tags": [
+      "luminosity",
+      "explanation"
+    ]
+  },
+  {
+    "id": 119,
+    "topic": "Electromagnetic Waves",
+    "level": "SL",
+    "difficulty": "easy",
+    "marks": 2,
+    "question": "Calculate the wavelength of a 900 MHz radio signal. Use c = 3.00 × 10^8 m/s. Give your answer in m.",
+    "answer": "0.33 m",
+    "unit": "m",
+    "tolerance": 0.02,
+    "solution": "λ = c/f = 3.00 × 10^8 / 9.00 × 10^8 = 0.33 m.",
+    "lessonReferences": [
+      "electromagnetic-waves"
+    ],
+    "tags": [
+      "wave-equation",
+      "calculation"
+    ]
+  },
+  {
+    "id": 120,
+    "topic": "Electromagnetic Waves",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "Explain why a 900 MHz signal gives better coverage behind a hill than a 3.5 GHz signal.",
+    "answer": "Its wavelength is nearly four times longer, and diffraction is more pronounced when the wavelength is comparable to the size of the obstacle",
+    "solution": "λ = 0.33 m at 900 MHz against 0.086 m at 3.5 GHz. Waves spread most around obstacles comparable to their wavelength, so the longer wave bends further into the shadow behind the hill.",
+    "lessonReferences": [
+      "electromagnetic-waves",
+      "wave-phenomena"
+    ],
+    "tags": [
+      "diffraction",
+      "explanation"
+    ]
+  },
+  {
+    "id": 121,
+    "topic": "Electromagnetic Waves",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 1,
+    "type": "multiple-choice",
+    "question": "Which property is the same for all electromagnetic waves in a vacuum?",
+    "options": [
+      "Their speed",
+      "Their wavelength",
+      "Their frequency",
+      "Their photon energy"
+    ],
+    "correctAnswer": "Their speed",
+    "answer": "Their speed",
+    "solution": "All electromagnetic waves travel at c = 3.00 × 10^8 m/s in a vacuum. They differ in frequency and wavelength, and therefore in photon energy.",
+    "lessonReferences": [
+      "electromagnetic-waves"
+    ],
+    "tags": [
+      "spectrum",
+      "concept"
+    ]
+  },
+  {
+    "id": 122,
+    "topic": "Electromagnetic Waves",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "Signal intensity 100 m from a transmitter is 4.0 × 10^-6 W/m². Calculate the intensity at 300 m. Give your answer in W/m².",
+    "answer": "4.4e-7 W/m2",
+    "unit": "W/m2",
+    "tolerance": 5e-8,
+    "solution": "Intensity falls as 1/r². Tripling the distance divides the intensity by 9: 4.0 × 10^-6 / 9 = 4.4 × 10^-7 W/m².",
+    "lessonReferences": [
+      "electromagnetic-waves"
+    ],
+    "tags": [
+      "inverse-square",
+      "calculation"
+    ]
+  },
+  {
+    "id": 123,
+    "topic": "Electromagnetic Waves",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 2,
+    "question": "State why an electromagnetic wave can travel through a vacuum but a sound wave cannot.",
+    "answer": "An electromagnetic wave is oscillating electric and magnetic fields, which need no medium, while sound is a mechanical oscillation of particles and needs one",
+    "solution": "Sound is a longitudinal wave in matter: without particles there is nothing to compress. An electromagnetic wave is a self-sustaining oscillation of fields, so empty space is no obstacle.",
+    "lessonReferences": [
+      "electromagnetic-waves",
+      "wave-properties"
+    ],
+    "tags": [
+      "spectrum",
+      "explanation"
+    ]
+  },
+  {
+    "id": 124,
+    "topic": "Rigid Body Mechanics",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 2,
+    "question": "A net torque of 8.0 N m acts on a body of moment of inertia 2.0 kg m². Calculate its angular acceleration. Give your answer in rad/s^2.",
+    "answer": "4.0 rad/s^2",
+    "unit": "rad/s^2",
+    "tolerance": 0.2,
+    "solution": "Στ = Iα, so α = 8.0/2.0 = 4.0 rad/s². This is the rotational form of ΣF = ma.",
+    "lessonReferences": [
+      "rigid-body-mechanics"
+    ],
+    "tags": [
+      "rotational-dynamics",
+      "calculation"
+    ]
+  },
+  {
+    "id": 125,
+    "topic": "Rigid Body Mechanics",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 2,
+    "question": "A flywheel of moment of inertia 2.0 kg m² spins at 5.0 rad/s. Calculate its angular momentum. Give your answer in kg m^2/s.",
+    "answer": "10 kg m^2/s",
+    "unit": "kg m^2/s",
+    "tolerance": 0.5,
+    "solution": "L = Iω = 2.0 × 5.0 = 10 kg m² s⁻¹.",
+    "lessonReferences": [
+      "rigid-body-mechanics"
+    ],
+    "tags": [
+      "angular-momentum",
+      "calculation"
+    ]
+  },
+  {
+    "id": 126,
+    "topic": "Rigid Body Mechanics",
+    "level": "HL",
+    "difficulty": "hard",
+    "marks": 4,
+    "question": "A skater pulls their arms in and spins faster. Explain what happens to their angular momentum and rotational kinetic energy.",
+    "answer": "Angular momentum is conserved because no external torque acts, so reducing I raises ω; rotational kinetic energy increases, paid for by the work the skater does pulling their arms in",
+    "solution": "L = Iω stays constant, so a smaller I means a larger ω. Rotational kinetic energy is ½Iω² = L²/2I, which rises as I falls. The extra energy comes from the skater’s muscles doing work against the outward force needed to pull the arms inwards.",
+    "lessonReferences": [
+      "rigid-body-mechanics"
+    ],
+    "tags": [
+      "angular-momentum",
+      "explanation"
+    ]
+  },
+  {
+    "id": 127,
+    "topic": "Rigid Body Mechanics",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 1,
+    "type": "multiple-choice",
+    "question": "A body has zero resultant force but is still starting to rotate. What must be true?",
+    "options": [
+      "The forces form a couple, so the resultant torque is not zero",
+      "The body has no mass",
+      "The forces are all applied at the centre of mass",
+      "The body is in complete equilibrium"
+    ],
+    "correctAnswer": "The forces form a couple, so the resultant torque is not zero",
+    "answer": "The forces form a couple, so the resultant torque is not zero",
+    "solution": "Full equilibrium needs both ΣF = 0 and Στ = 0. Two equal and opposite forces along different lines of action give zero resultant force but a non-zero turning effect.",
+    "lessonReferences": [
+      "rigid-body-mechanics"
+    ],
+    "tags": [
+      "equilibrium",
+      "concept"
+    ]
+  },
+  {
+    "id": 128,
+    "topic": "Rigid Body Mechanics",
+    "level": "HL",
+    "difficulty": "hard",
+    "marks": 3,
+    "question": "Explain why a hoop rolls down a slope more slowly than a solid cylinder of the same mass and radius.",
+    "answer": "The hoop has a larger moment of inertia because its mass sits at the rim, so more of the released potential energy goes into rotation and less into translation",
+    "solution": "A rolling body has ½mv² of translational and ½Iω² of rotational kinetic energy. For a hoop I = mr², for a solid cylinder I = ½mr². With the same energy released, the hoop puts a larger share into spin, so its centre of mass moves more slowly.",
+    "lessonReferences": [
+      "rigid-body-mechanics"
+    ],
+    "tags": [
+      "moment-of-inertia",
+      "explanation"
+    ]
+  },
+  {
+    "id": 129,
+    "topic": "Relativity",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "A rod of proper length 2.0 m moves at 0.80c along its own length. Calculate the length measured by a stationary observer. Give your answer in m.",
+    "answer": "1.2 m",
+    "unit": "m",
+    "tolerance": 0.1,
+    "solution": "γ = 1/sqrt(1 − 0.64) = 1/0.6 = 1.667. L = L₀/γ = 2.0/1.667 = 1.2 m. Contraction happens only along the direction of motion.",
+    "lessonReferences": [
+      "relativity"
+    ],
+    "tags": [
+      "length-contraction",
+      "calculation"
+    ]
+  },
+  {
+    "id": 130,
+    "topic": "Relativity",
+    "level": "HL",
+    "difficulty": "hard",
+    "marks": 4,
+    "question": "Explain how cosmic ray muons reaching the ground provide evidence for special relativity.",
+    "answer": "Their measured lifetime is far too short to cross the atmosphere at their speed, yet they arrive; from the ground frame their lifetime is dilated, and from the muon frame the atmosphere is contracted",
+    "solution": "At their lifetime and speed a muon should decay long before reaching sea level, but large numbers arrive. In the ground frame the muon’s clock runs slow, so it survives longer. In the muon’s frame the atmosphere is length-contracted, so there is less distance to cross. Both descriptions give the same result, which is the point.",
+    "lessonReferences": [
+      "relativity"
+    ],
+    "tags": [
+      "time-dilation",
+      "evidence"
+    ]
+  },
+  {
+    "id": 131,
+    "topic": "Relativity",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 1,
+    "type": "multiple-choice",
+    "question": "Two spacecraft each travel at 0.90c towards each other. What speed does one measure for the other?",
+    "options": [
+      "About 0.994c",
+      "Exactly 1.80c",
+      "Exactly 0.90c",
+      "Exactly c"
+    ],
+    "correctAnswer": "About 0.994c",
+    "answer": "About 0.994c",
+    "solution": "Relativistic velocity addition gives u′ = (u+v)/(1+uv/c²) = 1.8c/1.81 ≈ 0.994c. Velocities never simply add, and the result can never exceed c.",
+    "lessonReferences": [
+      "relativity"
+    ],
+    "tags": [
+      "velocity-addition",
+      "concept"
+    ]
+  },
+  {
+    "id": 132,
+    "topic": "Relativity",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "State what is meant by a proper time interval and by proper length.",
+    "answer": "Proper time is the interval measured by a single clock present at both events; proper length is the length measured in the frame where the object is at rest",
+    "solution": "Every other frame measures a longer time interval and a shorter length. Identifying which quantity is the proper one is the first step in any dilation or contraction problem, because the proper value is always the one multiplied or divided by γ.",
+    "lessonReferences": [
+      "relativity"
+    ],
+    "tags": [
+      "definitions",
+      "concept"
+    ]
+  },
+  {
+    "id": 133,
+    "topic": "Greenhouse Effect",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "The solar constant is 1360 W/m² and Earth’s albedo is 0.30. Calculate the average intensity absorbed per square metre of Earth’s surface. Give your answer in W/m².",
+    "answer": "238 W/m2",
+    "unit": "W/m2",
+    "tolerance": 8,
+    "solution": "I = S(1 − α)/4 = 1360 × 0.70/4 = 238 W/m². The factor of four is geometric: the Earth intercepts over a disc πR² but radiates from a sphere 4πR².",
+    "lessonReferences": [
+      "greenhouse-effect"
+    ],
+    "tags": [
+      "energy-balance",
+      "calculation"
+    ]
+  },
+  {
+    "id": 134,
+    "topic": "Greenhouse Effect",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 2,
+    "question": "Define albedo.",
+    "answer": "The fraction of incident radiation reflected by a surface rather than absorbed",
+    "solution": "Albedo runs from 0 to 1 and has no units. It is high for ice and cloud and low for ocean and forest, which is why melting ice raises absorbed intensity and warms the planet further.",
+    "lessonReferences": [
+      "greenhouse-effect"
+    ],
+    "tags": [
+      "albedo",
+      "definition"
+    ]
+  },
+  {
+    "id": 135,
+    "topic": "Greenhouse Effect",
+    "level": "SL",
+    "difficulty": "hard",
+    "marks": 4,
+    "question": "Explain the mechanism by which greenhouse gases raise the surface temperature of the Earth.",
+    "answer": "They are transparent to incoming short-wavelength solar radiation but absorb the long-wavelength infrared the surface re-emits, because those photons match the natural vibrational frequencies of the molecules, and they re-radiate it in all directions including back to the surface",
+    "solution": "The Sun at about 5800 K peaks in the visible, which passes through. The surface at about 288 K peaks in the infrared. Greenhouse gas molecules have vibrational modes at infrared frequencies, so they absorb that radiation and re-emit it in all directions. The downward share means the surface settles at a higher temperature than the bare energy balance predicts.",
+    "lessonReferences": [
+      "greenhouse-effect"
+    ],
+    "tags": [
+      "greenhouse",
+      "explanation"
+    ]
+  },
+  {
+    "id": 136,
+    "topic": "Greenhouse Effect",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 1,
+    "type": "multiple-choice",
+    "question": "Why is nitrogen not a significant greenhouse gas despite making up most of the atmosphere?",
+    "options": [
+      "It is a symmetric diatomic molecule with no changing dipole moment, so it does not absorb infrared",
+      "It is too light to absorb radiation",
+      "It sits too high in the atmosphere to matter",
+      "It reflects infrared rather than absorbing it"
+    ],
+    "correctAnswer": "It is a symmetric diatomic molecule with no changing dipole moment, so it does not absorb infrared",
+    "answer": "It is a symmetric diatomic molecule with no changing dipole moment, so it does not absorb infrared",
+    "solution": "Absorbing infrared requires a vibration that changes the molecule’s dipole moment. A symmetric molecule such as N₂ or O₂ has none, so it is transparent to infrared however abundant it is.",
+    "lessonReferences": [
+      "greenhouse-effect"
+    ],
+    "tags": [
+      "greenhouse-gases",
+      "concept"
+    ]
+  },
+  {
+    "id": 137,
+    "topic": "Thermodynamics",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "A gas expands at a constant pressure of 1.0 × 10^5 Pa, increasing its volume by 2.0 × 10^-3 m³. Calculate the work done by the gas. Give your answer in J.",
+    "answer": "200 J",
+    "unit": "J",
+    "tolerance": 8,
+    "solution": "W = pΔV = 1.0 × 10^5 × 2.0 × 10^-3 = 200 J. The gas does work on its surroundings, so W is positive in the convention ΔU = Q − W.",
+    "lessonReferences": [
+      "thermodynamics"
+    ],
+    "tags": [
+      "work",
+      "calculation"
+    ]
+  },
+  {
+    "id": 138,
+    "topic": "Thermodynamics",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "A heat engine takes 1200 J from a hot reservoir and rejects 800 J to a cold one. Calculate its efficiency as a percentage.",
+    "answer": "33 %",
+    "unit": "%",
+    "tolerance": 2,
+    "solution": "W = 1200 − 800 = 400 J, so η = W/Q_H = 400/1200 = 0.33, which is 33%. The second law forbids converting all of the input.",
+    "lessonReferences": [
+      "thermodynamics"
+    ],
+    "tags": [
+      "heat-engines",
+      "calculation"
+    ]
+  },
+  {
+    "id": 139,
+    "topic": "Thermodynamics",
+    "level": "HL",
+    "difficulty": "hard",
+    "marks": 4,
+    "question": "An ideal gas is compressed adiabatically. Explain what happens to its temperature.",
+    "answer": "It rises, because Q = 0 so the work done on the gas goes entirely into internal energy",
+    "solution": "Adiabatic means Q = 0, so from Q = ΔU + W we get ΔU = −W. Compression means the gas has work done on it, so W (work done by the gas) is negative and ΔU is positive. Internal energy rises, and for an ideal gas that means temperature rises.",
+    "lessonReferences": [
+      "thermodynamics"
+    ],
+    "tags": [
+      "adiabatic",
+      "explanation"
+    ]
+  },
+  {
+    "id": 140,
+    "topic": "Thermodynamics",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 1,
+    "type": "multiple-choice",
+    "question": "During an isothermal expansion of an ideal gas, which statement is correct?",
+    "options": [
+      "ΔU = 0, so all the energy supplied does work",
+      "Q = 0, so the temperature falls",
+      "W = 0, so all the energy raises internal energy",
+      "Both Q and W are zero"
+    ],
+    "correctAnswer": "ΔU = 0, so all the energy supplied does work",
+    "answer": "ΔU = 0, so all the energy supplied does work",
+    "solution": "Isothermal means constant temperature, and for an ideal gas internal energy depends only on temperature, so ΔU = 0 and Q = W. The process must be slow and in good thermal contact for the temperature to stay fixed.",
+    "lessonReferences": [
+      "thermodynamics"
+    ],
+    "tags": [
+      "isothermal",
+      "concept"
+    ]
+  },
+  {
+    "id": 141,
+    "topic": "Thermodynamics",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "A freezer makes ice, lowering the entropy of the water. Explain why this does not break the second law.",
+    "answer": "The second law applies to an isolated system as a whole, and the freezer expels more entropy to the room than it removes from the water",
+    "solution": "A local entropy decrease is allowed provided it is more than offset elsewhere. The freezer does work and dumps heat into the kitchen, raising the surroundings’ entropy by more than the water’s falls, so the total still increases.",
+    "lessonReferences": [
+      "thermodynamics"
+    ],
+    "tags": [
+      "entropy",
+      "explanation"
+    ]
+  },
+  {
+    "id": 142,
+    "topic": "Wave Phenomena",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "Light passes from glass of refractive index 1.50 into air. Calculate the critical angle. Give your answer in degrees.",
+    "answer": "41.8 degrees",
+    "unit": "degrees",
+    "tolerance": 1,
+    "solution": "sin θc = n₂/n₁ = 1.00/1.50 = 0.667, so θc = 41.8°. Total internal reflection needs light going from a denser to a less dense medium.",
+    "lessonReferences": [
+      "wave-phenomena"
+    ],
+    "tags": [
+      "total-internal-reflection",
+      "calculation"
+    ]
+  },
+  {
+    "id": 143,
+    "topic": "Wave Phenomena",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "In a double-slit experiment the slits are 0.50 mm apart and the screen is 2.0 m away. Light of wavelength 600 nm is used. Calculate the fringe spacing. Give your answer in mm.",
+    "answer": "2.4 mm",
+    "unit": "mm",
+    "tolerance": 0.2,
+    "solution": "s = λD/d = (600 × 10^-9 × 2.0)/(0.50 × 10^-3) = 2.4 × 10^-3 m = 2.4 mm. Check the answer is in millimetres; an answer in metres or micrometres means d and D have been swapped.",
+    "lessonReferences": [
+      "wave-phenomena"
+    ],
+    "tags": [
+      "interference",
+      "calculation"
+    ]
+  },
+  {
+    "id": 144,
+    "topic": "Wave Phenomena",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 2,
+    "question": "State the condition on path difference for destructive interference.",
+    "answer": "The path difference is an odd number of half wavelengths, (n + 1/2)λ",
+    "solution": "Constructive interference needs a whole number of wavelengths, nλ. Destructive needs the waves to arrive antiphase, which is (n + ½)λ.",
+    "lessonReferences": [
+      "wave-phenomena"
+    ],
+    "tags": [
+      "interference",
+      "concept"
+    ]
+  },
+  {
+    "id": 145,
+    "topic": "Wave Phenomena",
+    "level": "HL",
+    "difficulty": "hard",
+    "marks": 3,
+    "question": "A single slit of width 0.10 mm is illuminated with 600 nm light. Calculate the angle to the first minimum. Give your answer in radians.",
+    "answer": "0.006 radians",
+    "unit": "radians",
+    "tolerance": 0.0008,
+    "solution": "θ = λ/b = 600 × 10^-9 / 1.0 × 10^-4 = 6.0 × 10^-3 rad. Note this gives the first minimum, not a maximum, and the central peak is twice as wide as the others.",
+    "lessonReferences": [
+      "wave-phenomena"
+    ],
+    "tags": [
+      "diffraction",
+      "calculation"
+    ]
+  },
+  {
+    "id": 146,
+    "topic": "Magnetic Fields",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 2,
+    "question": "A wire of length 0.25 m carrying 4.0 A lies at 30° to a 0.20 T magnetic field. Calculate the force on it. Give your answer in N.",
+    "answer": "0.10 N",
+    "unit": "N",
+    "tolerance": 0.01,
+    "solution": "F = BIL sinθ = 0.20 × 4.0 × 0.25 × sin30° = 0.20 × 4.0 × 0.25 × 0.5 = 0.10 N.",
+    "lessonReferences": [
+      "magnetic-fields"
+    ],
+    "tags": [
+      "motor-effect",
+      "calculation"
+    ]
+  },
+  {
+    "id": 147,
+    "topic": "Magnetic Fields",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 1,
+    "type": "multiple-choice",
+    "question": "A charged particle travels parallel to a uniform magnetic field. What is the magnetic force on it?",
+    "options": [
+      "Zero",
+      "Maximum",
+      "Half its maximum value",
+      "Directed along the field"
+    ],
+    "correctAnswer": "Zero",
+    "answer": "Zero",
+    "solution": "F = qvB sinθ, and sin0° = 0. The force is maximum when the velocity is perpendicular to the field and zero when parallel — the opposite of what many expect.",
+    "lessonReferences": [
+      "magnetic-fields"
+    ],
+    "tags": [
+      "magnetic-force",
+      "concept"
+    ]
+  },
+  {
+    "id": 148,
+    "topic": "Magnetic Fields",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "Describe the magnetic field pattern around a long straight current-carrying wire.",
+    "answer": "Concentric circles centred on the wire, in a plane perpendicular to it, with the direction given by the right-hand grip rule and the field weakening with distance",
+    "solution": "Grip the wire with the right hand, thumb along the conventional current, and the fingers curl in the field direction. The field strength falls as 1/r, so the circles are drawn further apart further from the wire.",
+    "lessonReferences": [
+      "magnetic-fields"
+    ],
+    "tags": [
+      "field-patterns",
+      "description"
+    ]
+  }
 ]
