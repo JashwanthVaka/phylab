@@ -17,7 +17,13 @@ const simulationSlugs = new Set(
 );
 
 // data/simulations.json is what the homepage counts, so it must match the studio exactly.
-assert.equal(simulationSlugs.size, 10, 'expected ten simulations in simulationStudio.js');
+assert.equal(simulationSlugs.size, 26, 'expected one simulation per lesson in simulationStudio.js');
+
+// Every lesson should have a lab. The studio covered ten of twenty-six, which
+// left most of the course with nothing to model.
+const studioSource = fs.readFileSync(path.join(ROOT, 'js', 'simulationStudio.js'), 'utf8');
+const mappedLessons = new Set([...studioSource.matchAll(/lesson: .([a-z-]+)./g)].map(m => m[1]));
+[...lessonSlugs].forEach(slug => assert.ok(mappedLessons.has(slug), `lesson ${slug} has no simulation`));
 const simulationCatalogue = read('simulations.json');
 assert.deepEqual(
   simulationCatalogue.map(item => item.slug).sort(),

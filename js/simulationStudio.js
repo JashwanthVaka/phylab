@@ -17,12 +17,29 @@ const definitions = {
   'gas-law': { title: 'Ideal Gas Law', topic: 'Thermal', engine: 'gas', fields: [['n', 'Amount', 'mol', 1, 0.01, 20], ['T', 'Temperature', 'K', 300, 1, 1000], ['V', 'Volume', 'm³', 1, 0.001, 100]], formula: 'PV = nRT', mistakes: 'Using Celsius instead of kelvin.', lesson: 'gas-laws' },
   'photon-energy': { title: 'Photon Energy', topic: 'Quantum', engine: 'photon', fields: [['f', 'Frequency', 'Hz', 1e14, 0, 1e16]], formula: 'E = hf', mistakes: 'Mixing wavelength and frequency units.', lesson: 'quantum-physics' },
   'radioactive-decay': { title: 'Radioactive Decay', topic: 'Nuclear', engine: 'decay', fields: [['N0', 'Initial nuclei', 'nuclei', 100, 1, 10000], ['halfLife', 'Half-life', 's', 5, 0.01, 1000], ['time', 'Time', 's', 5, 0, 10000]], formula: 'N = N₀(½)^(t/T½)', mistakes: 'Adding half-lives instead of halving repeatedly.', lesson: 'nuclear-physics' },
-  'lorentz-factor': { title: 'Lorentz Factor', topic: 'Relativity', engine: 'relativity', fields: [['v', 'Velocity', 'm s⁻¹', 1e8, 0, 2.99e8]], formula: 'γ = 1 / √(1 − v²/c²)', mistakes: 'Using a velocity equal to or greater than c.', lesson: 'relativity' }
+  'lorentz-factor': { title: 'Lorentz Factor', topic: 'Relativity', engine: 'relativity', fields: [['v', 'Velocity', 'm s⁻¹', 1e8, 0, 2.99e8]], formula: 'γ = 1 / √(1 − v²/c²)', mistakes: 'Using a velocity equal to or greater than c.', lesson: 'relativity' },
+  // ── Added so every lesson has a lab, not just ten of them ──────────────
+  'circuit': { title: 'Circuits and Internal Resistance', topic: 'Electricity', engine: 'circuit', sweepKey: 'R1', fields: [['emf', 'Cell emf', 'V', 12, 0.1, 50], ['r', 'Internal resistance', 'Ω', 0.5, 0, 20], ['R1', 'Resistor 1', 'Ω', 6, 0.1, 200], ['R2', 'Resistor 2', 'Ω', 3, 0.1, 200], ['mode', 'Series (0) or parallel (1)', '', 0, 0, 1]], formula: 'V = ε − Ir', mistakes: 'Forgetting to invert after adding reciprocals for a parallel pair.', lesson: 'current-and-circuits' },
+  'calorimetry': { title: 'Heating and Phase Change', topic: 'Thermal', engine: 'calorimetry', sweepKey: 'dT', fields: [['mass', 'Mass', 'kg', 0.5, 0.001, 20], ['c', 'Specific heat capacity', 'J kg⁻¹ K⁻¹', 4200, 1, 5000], ['dT', 'Temperature change', 'K', 60, -200, 500], ['L', 'Specific latent heat', 'J kg⁻¹', 0, 0, 3000000]], formula: 'Q = mcΔT + mL', mistakes: 'Using mcΔT across a phase change, where the temperature does not move.', lesson: 'thermal-physics' },
+  'greenhouse': { title: 'Planetary Energy Balance', topic: 'Thermal', engine: 'greenhouse', sweepKey: 'albedo', fields: [['S', 'Solar constant', 'W m⁻²', 1360, 100, 3000], ['albedo', 'Albedo', '', 0.3, 0, 0.9], ['emissivity', 'Emissivity', '', 1, 0.05, 1]], formula: 'S(1 − α)/4 = eσT⁴', mistakes: 'Dropping the factor of four, which comes from a disc intercepting and a sphere radiating.', lesson: 'greenhouse-effect' },
+  'first-law': { title: 'First Law of Thermodynamics', topic: 'Thermal', engine: 'firstLaw', sweepKey: 'dV', fields: [['Q', 'Energy supplied', 'J', 500, -5000, 5000], ['p', 'Pressure', 'Pa', 100000, 0, 1000000], ['dV', 'Volume change', 'm³', 0.002, -0.1, 0.1]], formula: 'ΔU = Q − W, W = pΔV', mistakes: 'Mixing the two sign conventions. Here W is the work done BY the gas.', lesson: 'thermodynamics' },
+  'wave-equation': { title: 'The Wave Equation', topic: 'Waves', engine: 'wave', sweepKey: 'wavelength', fields: [['f', 'Frequency', 'Hz', 10, 0.01, 20000], ['wavelength', 'Wavelength', 'm', 2, 0.001, 100]], formula: 'v = fλ', mistakes: 'Changing frequency when a wave enters a new medium. Frequency is fixed by the source.', lesson: 'wave-properties' },
+  'em-spectrum': { title: 'Electromagnetic Spectrum', topic: 'Waves', engine: 'emSpectrum', fields: [['f', 'Frequency', 'Hz', 5e14, 1e6, 1e20]], formula: 'c = fλ and E = hf', mistakes: 'Assuming higher frequency means faster. All electromagnetic waves travel at c in a vacuum.', lesson: 'electromagnetic-waves' },
+  'refraction': { title: 'Refraction and Total Internal Reflection', topic: 'Waves', engine: 'refraction', sweepKey: 'angle', fields: [['n1', 'Refractive index, first medium', '', 1.5, 1, 4], ['n2', 'Refractive index, second medium', '', 1, 1, 4], ['angle', 'Angle of incidence', '°', 30, 0, 89]], formula: 'n₁sinθ₁ = n₂sinθ₂', mistakes: 'Measuring angles from the surface instead of the normal.', lesson: 'wave-phenomena' },
+  'standing-wave': { title: 'Standing Waves and Harmonics', topic: 'Waves', engine: 'standingWave', sweepKey: 'harmonic', fields: [['length', 'Length', 'm', 0.85, 0.05, 5], ['speed', 'Wave speed', 'm s⁻¹', 340, 1, 5000], ['harmonic', 'Harmonic number', '', 1, 1, 9], ['mode', 'Open both ends (0) or closed one end (1)', '', 0, 0, 1]], formula: 'fₙ = nv/2L, or nv/4L with one end closed', mistakes: 'Expecting even harmonics from a pipe closed at one end. It has none.', lesson: 'standing-waves-and-resonance' },
+  'doppler': { title: 'The Doppler Effect', topic: 'Waves', engine: 'doppler', sweepKey: 'vSource', fields: [['f', 'Emitted frequency', 'Hz', 800, 1, 20000], ['vSource', 'Source speed towards observer', 'm s⁻¹', 30, -300, 330], ['vObserver', 'Observer speed towards source', 'm s⁻¹', 0, -300, 300], ['vSound', 'Speed of sound', 'm s⁻¹', 340, 1, 1500]], formula: "f' = f(v + u₀)/(v − uₛ)", mistakes: 'Choosing signs from memory. Approaching must always raise the frequency.', lesson: 'doppler-effect' },
+  'orbit': { title: 'Orbital Motion', topic: 'Fields', engine: 'orbit', sweepKey: 'radius', fields: [['mass', 'Central mass', 'kg', 5.97e24, 1e20, 2e30], ['radius', 'Orbital radius from centre', 'm', 6.77e6, 1e6, 1e12]], formula: 'v = √(GM/r)', mistakes: 'Measuring r from the surface. It is measured from the centre.', lesson: 'fields' },
+  'charged-path': { title: 'Charged Particle in a Magnetic Field', topic: 'Fields', engine: 'chargedPath', sweepKey: 'speed', fields: [['mass', 'Particle mass', 'kg', 1.67e-27, 1e-31, 1e-24], ['charge', 'Charge', 'C', 1.6e-19, -1e-17, 1e-17], ['speed', 'Speed', 'm s⁻¹', 2e6, 1, 2.9e8], ['B', 'Flux density', 'T', 0.5, 0.001, 20]], formula: 'r = mv/qB', mistakes: 'Expecting the period to depend on speed. It does not.', lesson: 'motion-in-fields' },
+  'atomic-transition': { title: 'Atomic Energy Levels', topic: 'Quantum', engine: 'atomicTransition', sweepKey: 'nHigh', fields: [['nHigh', 'Upper level n', '', 3, 2, 10], ['nLow', 'Lower level n', '', 2, 1, 9], ['Z', 'Proton number', '', 1, 1, 10]], formula: 'ΔE = 13.6Z²(1/n₁² − 1/n₂²) eV', mistakes: 'Using the level energies rather than the difference between them.', lesson: 'atomic-physics' },
+  'binding-energy': { title: 'Mass Defect and Binding Energy', topic: 'Nuclear', engine: 'binding', fields: [['deltaM', 'Mass defect', 'u', 0.215, 0.0001, 2], ['nucleons', 'Nucleon number', '', 236, 1, 260]], formula: 'E = Δm × 931.5 MeV', mistakes: 'Comparing total binding energy instead of binding energy per nucleon.', lesson: 'nuclear-fission' },
+  'stellar': { title: 'Stellar Luminosity', topic: 'Astrophysics', engine: 'star', sweepKey: 'temperature', fields: [['radius', 'Stellar radius', 'm', 6.96e8, 1e6, 1e12], ['temperature', 'Surface temperature', 'K', 5800, 100, 60000]], formula: 'L = 4πR²σT⁴', mistakes: 'Confusing luminosity with apparent brightness, which also depends on distance.', lesson: 'nuclear-fusion-and-stars' },
+  'rotation': { title: 'Rotational Dynamics', topic: 'Mechanics', engine: 'rotation', sweepKey: 'torque', fields: [['inertia', 'Moment of inertia', 'kg m²', 2, 0.01, 100], ['torque', 'Net torque', 'N m', 8, -500, 500], ['omega', 'Angular velocity', 'rad s⁻¹', 5, -100, 100]], formula: 'Στ = Iα and L = Iω', mistakes: 'Treating moment of inertia as a property of mass alone. It depends on the axis.', lesson: 'rigid-body-mechanics' },
+  'induction': { title: 'Electromagnetic Induction', topic: 'Fields', engine: 'induction', sweepKey: 'omega', fields: [['turns', 'Number of turns', '', 200, 1, 5000], ['B', 'Flux density', 'T', 0.3, 0.001, 10], ['area', 'Coil area', 'm²', 0.015, 0.0001, 5], ['dt', 'Time for the change', 's', 0.1, 0.001, 60], ['omega', 'Rotation rate', 'rad s⁻¹', 50, 0, 500]], formula: 'ε = −NΔΦ/Δt', mistakes: 'Thinking flux itself induces an emf. Only a changing flux does.', lesson: 'electromagnetic-induction' }
 };
 
 const presets = { Earth: { gravity: 9.81 }, Moon: { gravity: 1.62 }, Mars: { gravity: 3.71 }, Easy: { v: 5, force: 5, mass: 1 }, Medium: { v: 10, force: 10, mass: 2 }, Hard: { v: 30, force: 40, mass: 5 } };
-const units = { time: 's', range: 'm', maxHeight: 'm', vx: 'm s⁻¹', vy: 'm s⁻¹', acceleration: 'm s⁻²', ke: 'J', gpe: 'J', total: 'J', period: 's', frequency: 'Hz', omega: 'rad s⁻¹', force: 'N', pressure: 'Pa', energy: 'J', remaining: 'nuclei', gamma: '' };
-const labels = { time: 'Flight time', range: 'Horizontal range', maxHeight: 'Maximum height', vx: 'Horizontal velocity', vy: 'Vertical velocity', acceleration: 'Acceleration', ke: 'Kinetic energy', gpe: 'Gravitational potential energy', total: 'Total energy', period: 'Period', frequency: 'Frequency', omega: 'Angular frequency', force: 'Force', pressure: 'Pressure', energy: 'Photon energy', remaining: 'Undecayed nuclei', gamma: 'Lorentz factor γ' };
+const units = { externalR: 'Ω', current: 'A', terminalV: 'V', power: 'W', lostVolts: 'V', heating: 'J', phase: 'J', absorbed: 'W m⁻²', equilibriumT: 'K', work: 'J', deltaU: 'J', speed: 'm s⁻¹', waveNumber: 'rad m⁻¹', wavelength: 'm', energyEv: 'eV', refracted: '°', critical: '°', speed2: 'm s⁻¹', harmonicUsed: '', observed: 'Hz', shift: 'Hz', orbitalSpeed: 'm s⁻¹', escapeSpeed: 'm s⁻¹', fieldStrength: 'N kg⁻¹', radius: 'm', angularAcceleration: 'rad s⁻²', angularMomentum: 'kg m² s⁻¹', rotationalKE: 'J', flux: 'Wb', fluxLinkage: 'Wb turns', averageEmf: 'V', peakEmf: 'V', energyMeV: 'MeV', perNucleon: 'MeV', luminosity: 'W', peakWavelength: 'm', time: 's', range: 'm', maxHeight: 'm', vx: 'm s⁻¹', vy: 'm s⁻¹', acceleration: 'm s⁻²', ke: 'J', gpe: 'J', total: 'J', period: 's', frequency: 'Hz', omega: 'rad s⁻¹', force: 'N', pressure: 'Pa', energy: 'J', remaining: 'nuclei', gamma: '' };
+const labels = { externalR: 'External resistance', current: 'Current', terminalV: 'Terminal potential difference', power: 'Power dissipated', lostVolts: 'Lost volts inside the cell', heating: 'Energy to change temperature', phase: 'Energy to change phase', absorbed: 'Average absorbed intensity', equilibriumT: 'Equilibrium temperature', work: 'Work done by the gas', deltaU: 'Change in internal energy', speed: 'Wave speed', waveNumber: 'Wave number', wavelength: 'Wavelength', energyEv: 'Photon energy', refracted: 'Angle of refraction', critical: 'Critical angle', speed2: 'Speed in second medium', harmonicUsed: 'Harmonic used', observed: 'Observed frequency', shift: 'Frequency shift', orbitalSpeed: 'Orbital speed', escapeSpeed: 'Escape speed', fieldStrength: 'Gravitational field strength', radius: 'Radius of path', angularAcceleration: 'Angular acceleration', angularMomentum: 'Angular momentum', rotationalKE: 'Rotational kinetic energy', flux: 'Magnetic flux', fluxLinkage: 'Flux linkage', averageEmf: 'Average induced emf', peakEmf: 'Peak emf', energyMeV: 'Binding energy', perNucleon: 'Binding energy per nucleon', luminosity: 'Luminosity', peakWavelength: 'Peak wavelength', time: 'Flight time', range: 'Horizontal range', maxHeight: 'Maximum height', vx: 'Horizontal velocity', vy: 'Vertical velocity', acceleration: 'Acceleration', ke: 'Kinetic energy', gpe: 'Gravitational potential energy', total: 'Total energy', period: 'Period', frequency: 'Frequency', omega: 'Angular frequency', force: 'Force', pressure: 'Pressure', energy: 'Photon energy', remaining: 'Undecayed nuclei', gamma: 'Lorentz factor γ' };
 
 const card = sim => `<a class="module-card" href="/simulations/${sim}" data-route><span class="tag">${definitions[sim].topic} · SL + HL</span><h3>${definitions[sim].title}</h3><p>Change values and see the calculation and animated graph update together.</p><span class="open-module">Open lab →</span></a>`;
 
@@ -168,14 +185,99 @@ function modelFor(engine, value) {
       note: 'Decay is exponential: each half-life halves the survivors, and the decay constant is ln 2 divided by the half-life.'
     };
   }
-  const velocity = Math.min(Math.abs(number(value, 'v')), C * 0.999);
-  const span = C * 0.999;
-  const gammaAt = speed => 1 / Math.sqrt(Math.max(1 - (speed / C) ** 2, 1e-9));
+  if (engine === 'relativity') {
+    const velocity = Math.min(Math.abs(number(value, 'v')), C * 0.999);
+    const span = C * 0.999;
+    const gammaAt = speed => 1 / Math.sqrt(Math.max(1 - (speed / C) ** 2, 1e-9));
+    return {
+      graph: { id: 'relativity', title: 'Lorentz factor against speed', x: 'Speed (0 to 0.999c)', y: 'Lorentz factor γ', fn: u => gammaAt(span * u / 100) },
+      sweep: { label: 'Speed', unit: 'm s⁻¹', from: 0, to: span, seconds: 7, start: velocity },
+      at: speed => [['Speed', speed, 'm s⁻¹'], ['Fraction of c', speed / C, ''], ['Lorentz factor γ', gammaAt(speed), ''], ['Time dilation of 1 s', gammaAt(speed), 's'], ['Contraction of 1 m', 1 / gammaAt(speed), 'm']],
+      note: 'γ stays near 1 for everyday speeds and rises without limit as the speed approaches c, which is why c cannot be reached.'
+    };
+  }
+  return genericModel(engine, value);
+}
+
+/**
+ * A model for any engine without a bespoke one.
+ *
+ * It sweeps the first input that has a usable range and evaluates the engine's
+ * own function across it, so the curve is the real relationship rather than a
+ * decorative shape. Every output the engine returns is reported at the marker.
+ */
+function genericModel(engine, value) {
+  const definition = Object.values(definitions).find(item => item.engine === engine);
+  const compute = physics[engine];
+  const fields = definition?.fields || [];
+
+  // Sweep the first field whose range is wide enough to show a relationship,
+  // preferring one the reader would think of as the independent variable.
+  const named = definition?.sweepKey && fields.find(([key]) => key === definition.sweepKey);
+  const sweepField = named || fields.find(([key, , , , min, max]) =>
+    Number.isFinite(min) && Number.isFinite(max) && max > min && String(key) !== 'mode') || fields[0];
+
+  if (!compute || !sweepField) {
+    return {
+      graph: { id: engine, title: 'Model', x: 'Input', y: 'Output', fn: u => u },
+      sweep: { label: 'Input', unit: '', from: 0, to: 100, seconds: 5 },
+      at: x => [['Input', x, '']],
+      note: 'This lab reports its values directly.'
+    };
+  }
+
+  const [key, label, unit, , min, max] = sweepField;
+  const from = Number(min);
+  const to = Number(max);
+  const evaluate = at => {
+    const trial = { ...value, [key]: at };
+    const result = compute(trial);
+    if (!result) return null;
+    const rows = Object.entries(result).filter(([, v]) => Number.isFinite(v));
+    return rows.length ? rows : null;
+  };
+
+  // Plot whichever output actually changes across the sweep. Taking the first
+  // one produced flat lines — external resistance does not depend on cell emf,
+  // so a circuits graph of one against the other said nothing.
+  const samples = [0, 0.25, 0.5, 0.75, 1]
+    .map(f => evaluate(from + (to - from) * f))
+    .filter(Boolean);
+  const spread = new Map();
+  samples.forEach(rows => rows.forEach(([k, v]) => {
+    const seen = spread.get(k) || { min: v, max: v };
+    spread.set(k, { min: Math.min(seen.min, v), max: Math.max(seen.max, v) });
+  }));
+  let primaryKey = samples[0]?.[0]?.[0] || 'value';
+  let best = -1;
+  spread.forEach((range, k) => {
+    const scale = Math.max(Math.abs(range.max), Math.abs(range.min), 1e-12);
+    const variation = (range.max - range.min) / scale;
+    if (variation > best) { best = variation; primaryKey = k; }
+  });
+  const primaryLabel = labels[primaryKey] || primaryKey;
+  const primaryUnit = units[primaryKey] || '';
+
   return {
-    graph: { id: 'relativity', title: 'Lorentz factor against speed', x: 'Speed (0 to 0.999c)', y: 'Lorentz factor γ', fn: u => gammaAt(span * u / 100) },
-    sweep: { label: 'Speed', unit: 'm s⁻¹', from: 0, to: span, seconds: 7, start: velocity },
-    at: speed => [['Speed', speed, 'm s⁻¹'], ['Fraction of c', speed / C, ''], ['Lorentz factor γ', gammaAt(speed), ''], ['Time dilation of 1 s', gammaAt(speed), 's'], ['Contraction of 1 m', 1 / gammaAt(speed), 'm']],
-    note: 'γ stays near 1 for everyday speeds and rises without limit as the speed approaches c, which is why c cannot be reached.'
+    graph: {
+      id: engine,
+      title: `${primaryLabel} against ${String(label).toLowerCase()}`,
+      x: `${label} (${format(from)} to ${format(to)}${unit ? ' ' + unit : ''})`,
+      y: primaryUnit ? `${primaryLabel} (${primaryUnit})` : primaryLabel,
+      fn: u => {
+        const rows = evaluate(from + (to - from) * u / 100);
+        const row = rows?.find(([k]) => k === primaryKey);
+        return row ? row[1] : 0;
+      }
+    },
+    sweep: { label, unit: unit || '', from, to, seconds: 6, start: number(value, key) },
+    at: at => {
+      const rows = evaluate(at) || [];
+      return [[label, at, unit || ''], ...rows.map(([k, v]) => [labels[k] || k, v, units[k] || ''])];
+    },
+    note: definition?.formula
+      ? `Every value here is computed from ${definition.formula}.`
+      : 'Every value here is computed from the lesson equation.'
   };
 }
 

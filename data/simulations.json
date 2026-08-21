@@ -1,12 +1,678 @@
 [
-  { "slug": "projectile", "name": "Projectile Motion", "topic": "Mechanics", "description": "Launch a projectile and watch the parabola, flight time and range follow from the launch speed, angle, gravity and starting height.", "variables": ["Initial speed", "Launch angle", "Gravity", "Initial height"] },
-  { "slug": "newton", "name": "Newton's Second Law", "topic": "Forces", "description": "Vary the net force and mass to see the acceleration, and read displacement and momentum off a velocity–time graph.", "variables": ["Net force", "Mass"] },
-  { "slug": "energy", "name": "Kinetic & Potential Energy", "topic": "Energy", "description": "Drop a mass and watch gravitational potential energy convert to kinetic energy while the total stays constant.", "variables": ["Mass", "Height", "Initial downward speed", "Gravity"] },
-  { "slug": "shm", "name": "Mass-Spring SHM", "topic": "Waves", "description": "Oscillate a mass on a spring and track displacement, velocity, acceleration and the energy exchange over two periods.", "variables": ["Mass", "Spring constant", "Amplitude"] },
-  { "slug": "electric-field", "name": "Electric Field", "topic": "Fields", "description": "Sweep the separation between two charges to see the inverse-square fall of force, field strength and potential.", "variables": ["Source charge", "Test charge", "Separation"] },
-  { "slug": "magnetic-force", "name": "Magnetic Force", "topic": "Fields", "description": "Rotate the velocity relative to the field and watch F = Bqv sinθ peak at 90° and vanish when parallel.", "variables": ["Flux density", "Charge", "Speed", "Angle"] },
-  { "slug": "gas-law", "name": "Ideal Gas Law", "topic": "Thermal", "description": "Compress a gas at constant temperature and confirm that pressure rises as volume falls while pV stays fixed.", "variables": ["Amount", "Temperature", "Volume"] },
-  { "slug": "photon-energy", "name": "Photon Energy", "topic": "Quantum", "description": "Sweep the frequency to see photon energy rise linearly, with the Planck constant as the gradient.", "variables": ["Frequency"] },
-  { "slug": "radioactive-decay", "name": "Radioactive Decay", "topic": "Nuclear", "description": "Follow an exponential decay across five half-lives, reading undecayed nuclei, decayed nuclei and activity.", "variables": ["Initial nuclei", "Half-life", "Time"] },
-  { "slug": "lorentz-factor", "name": "Lorentz Factor", "topic": "Relativity", "description": "Increase the speed towards c and watch γ climb without limit, dilating time and contracting length.", "variables": ["Velocity"] }
+  {
+    "slug": "projectile",
+    "name": "Projectile Motion",
+    "topic": "Mechanics",
+    "description": "Adjust the inputs and KINETIQ recalculates R = vₓt; y = h + vᵧt − ½gt² from the real equation.",
+    "variables": [
+      {
+        "symbol": "v",
+        "label": "Initial speed",
+        "unit": "m s⁻¹",
+        "default": 10
+      },
+      {
+        "symbol": "angle",
+        "label": "Launch angle",
+        "unit": "°",
+        "default": 45
+      },
+      {
+        "symbol": "gravity",
+        "label": "Gravity",
+        "unit": "m s⁻²",
+        "default": 9.81
+      },
+      {
+        "symbol": "height",
+        "label": "Initial height",
+        "unit": "m",
+        "default": 0
+      }
+    ]
+  },
+  {
+    "slug": "newton",
+    "name": "Newton’s Second Law",
+    "topic": "Forces",
+    "description": "Adjust the inputs and KINETIQ recalculates F = ma from the real equation.",
+    "variables": [
+      {
+        "symbol": "force",
+        "label": "Net force",
+        "unit": "N",
+        "default": 10
+      },
+      {
+        "symbol": "mass",
+        "label": "Mass",
+        "unit": "kg",
+        "default": 2
+      }
+    ]
+  },
+  {
+    "slug": "energy",
+    "name": "Kinetic & Potential Energy",
+    "topic": "Energy",
+    "description": "Adjust the inputs and KINETIQ recalculates Eₖ = ½mv²; Eₚ = mgh from the real equation.",
+    "variables": [
+      {
+        "symbol": "mass",
+        "label": "Mass",
+        "unit": "kg",
+        "default": 1
+      },
+      {
+        "symbol": "height",
+        "label": "Height",
+        "unit": "m",
+        "default": 5
+      },
+      {
+        "symbol": "velocity",
+        "label": "Initial downward speed",
+        "unit": "m s⁻¹",
+        "default": 5
+      },
+      {
+        "symbol": "gravity",
+        "label": "Gravity",
+        "unit": "m s⁻²",
+        "default": 9.81
+      }
+    ]
+  },
+  {
+    "slug": "shm",
+    "name": "Mass-Spring SHM",
+    "topic": "Waves",
+    "description": "Adjust the inputs and KINETIQ recalculates T = 2π√(m/k) from the real equation.",
+    "variables": [
+      {
+        "symbol": "mass",
+        "label": "Mass",
+        "unit": "kg",
+        "default": 1
+      },
+      {
+        "symbol": "k",
+        "label": "Spring constant",
+        "unit": "N m⁻¹",
+        "default": 20
+      },
+      {
+        "symbol": "amplitude",
+        "label": "Amplitude",
+        "unit": "m",
+        "default": 1
+      }
+    ]
+  },
+  {
+    "slug": "electric-field",
+    "name": "Electric Field",
+    "topic": "Fields",
+    "description": "Adjust the inputs and KINETIQ recalculates F = kq₁q₂/r² from the real equation.",
+    "variables": [
+      {
+        "symbol": "q1",
+        "label": "Source charge",
+        "unit": "C",
+        "default": 1
+      },
+      {
+        "symbol": "q2",
+        "label": "Test charge",
+        "unit": "C",
+        "default": 1
+      },
+      {
+        "symbol": "r",
+        "label": "Separation",
+        "unit": "m",
+        "default": 1
+      }
+    ]
+  },
+  {
+    "slug": "magnetic-force",
+    "name": "Magnetic Force",
+    "topic": "Fields",
+    "description": "Adjust the inputs and KINETIQ recalculates F = Bqv sinθ from the real equation.",
+    "variables": [
+      {
+        "symbol": "B",
+        "label": "Flux density",
+        "unit": "T",
+        "default": 1
+      },
+      {
+        "symbol": "q",
+        "label": "Charge",
+        "unit": "C",
+        "default": 1
+      },
+      {
+        "symbol": "v",
+        "label": "Speed",
+        "unit": "m s⁻¹",
+        "default": 10
+      },
+      {
+        "symbol": "angle",
+        "label": "Angle",
+        "unit": "°",
+        "default": 90
+      }
+    ]
+  },
+  {
+    "slug": "gas-law",
+    "name": "Ideal Gas Law",
+    "topic": "Thermal",
+    "description": "Adjust the inputs and KINETIQ recalculates PV = nRT from the real equation.",
+    "variables": [
+      {
+        "symbol": "n",
+        "label": "Amount",
+        "unit": "mol",
+        "default": 1
+      },
+      {
+        "symbol": "T",
+        "label": "Temperature",
+        "unit": "K",
+        "default": 300
+      },
+      {
+        "symbol": "V",
+        "label": "Volume",
+        "unit": "m³",
+        "default": 1
+      }
+    ]
+  },
+  {
+    "slug": "photon-energy",
+    "name": "Photon Energy",
+    "topic": "Quantum",
+    "description": "Adjust the inputs and KINETIQ recalculates E = hf from the real equation.",
+    "variables": [
+      {
+        "symbol": "f",
+        "label": "Frequency",
+        "unit": "Hz",
+        "default": 100000000000000
+      }
+    ]
+  },
+  {
+    "slug": "radioactive-decay",
+    "name": "Radioactive Decay",
+    "topic": "Nuclear",
+    "description": "Adjust the inputs and KINETIQ recalculates N = N₀(½)^(t/T½) from the real equation.",
+    "variables": [
+      {
+        "symbol": "N0",
+        "label": "Initial nuclei",
+        "unit": "nuclei",
+        "default": 100
+      },
+      {
+        "symbol": "halfLife",
+        "label": "Half-life",
+        "unit": "s",
+        "default": 5
+      },
+      {
+        "symbol": "time",
+        "label": "Time",
+        "unit": "s",
+        "default": 5
+      }
+    ]
+  },
+  {
+    "slug": "lorentz-factor",
+    "name": "Lorentz Factor",
+    "topic": "Relativity",
+    "description": "Adjust the inputs and KINETIQ recalculates γ = 1 / √(1 − v²/c²) from the real equation.",
+    "variables": [
+      {
+        "symbol": "v",
+        "label": "Velocity",
+        "unit": "m s⁻¹",
+        "default": 100000000
+      }
+    ]
+  },
+  {
+    "slug": "circuit",
+    "name": "Circuits and Internal Resistance",
+    "topic": "Electricity",
+    "description": "Adjust the inputs and KINETIQ recalculates V = ε − Ir from the real equation.",
+    "variables": [
+      {
+        "symbol": "emf",
+        "label": "Cell emf",
+        "unit": "V",
+        "default": 12
+      },
+      {
+        "symbol": "r",
+        "label": "Internal resistance",
+        "unit": "Ω",
+        "default": 0.5
+      },
+      {
+        "symbol": "R1",
+        "label": "Resistor 1",
+        "unit": "Ω",
+        "default": 6
+      },
+      {
+        "symbol": "R2",
+        "label": "Resistor 2",
+        "unit": "Ω",
+        "default": 3
+      },
+      {
+        "symbol": "mode",
+        "label": "Series (0) or parallel (1)",
+        "unit": "",
+        "default": 0
+      }
+    ]
+  },
+  {
+    "slug": "calorimetry",
+    "name": "Heating and Phase Change",
+    "topic": "Thermal",
+    "description": "Adjust the inputs and KINETIQ recalculates Q = mcΔT + mL from the real equation.",
+    "variables": [
+      {
+        "symbol": "mass",
+        "label": "Mass",
+        "unit": "kg",
+        "default": 0.5
+      },
+      {
+        "symbol": "c",
+        "label": "Specific heat capacity",
+        "unit": "J kg⁻¹ K⁻¹",
+        "default": 4200
+      },
+      {
+        "symbol": "dT",
+        "label": "Temperature change",
+        "unit": "K",
+        "default": 60
+      },
+      {
+        "symbol": "L",
+        "label": "Specific latent heat",
+        "unit": "J kg⁻¹",
+        "default": 0
+      }
+    ]
+  },
+  {
+    "slug": "greenhouse",
+    "name": "Planetary Energy Balance",
+    "topic": "Thermal",
+    "description": "Adjust the inputs and KINETIQ recalculates S(1 − α)/4 = eσT⁴ from the real equation.",
+    "variables": [
+      {
+        "symbol": "S",
+        "label": "Solar constant",
+        "unit": "W m⁻²",
+        "default": 1360
+      },
+      {
+        "symbol": "albedo",
+        "label": "Albedo",
+        "unit": "",
+        "default": 0.3
+      },
+      {
+        "symbol": "emissivity",
+        "label": "Emissivity",
+        "unit": "",
+        "default": 1
+      }
+    ]
+  },
+  {
+    "slug": "first-law",
+    "name": "First Law of Thermodynamics",
+    "topic": "Thermal",
+    "description": "Adjust the inputs and KINETIQ recalculates ΔU = Q − W, W = pΔV from the real equation.",
+    "variables": [
+      {
+        "symbol": "Q",
+        "label": "Energy supplied",
+        "unit": "J",
+        "default": 500
+      },
+      {
+        "symbol": "p",
+        "label": "Pressure",
+        "unit": "Pa",
+        "default": 100000
+      },
+      {
+        "symbol": "dV",
+        "label": "Volume change",
+        "unit": "m³",
+        "default": 0.002
+      }
+    ]
+  },
+  {
+    "slug": "wave-equation",
+    "name": "The Wave Equation",
+    "topic": "Waves",
+    "description": "Adjust the inputs and KINETIQ recalculates v = fλ from the real equation.",
+    "variables": [
+      {
+        "symbol": "f",
+        "label": "Frequency",
+        "unit": "Hz",
+        "default": 10
+      },
+      {
+        "symbol": "wavelength",
+        "label": "Wavelength",
+        "unit": "m",
+        "default": 2
+      }
+    ]
+  },
+  {
+    "slug": "em-spectrum",
+    "name": "Electromagnetic Spectrum",
+    "topic": "Waves",
+    "description": "Adjust the inputs and KINETIQ recalculates c = fλ and E = hf from the real equation.",
+    "variables": [
+      {
+        "symbol": "f",
+        "label": "Frequency",
+        "unit": "Hz",
+        "default": 500000000000000
+      }
+    ]
+  },
+  {
+    "slug": "refraction",
+    "name": "Refraction and Total Internal Reflection",
+    "topic": "Waves",
+    "description": "Adjust the inputs and KINETIQ recalculates n₁sinθ₁ = n₂sinθ₂ from the real equation.",
+    "variables": [
+      {
+        "symbol": "n1",
+        "label": "Refractive index, first medium",
+        "unit": "",
+        "default": 1.5
+      },
+      {
+        "symbol": "n2",
+        "label": "Refractive index, second medium",
+        "unit": "",
+        "default": 1
+      },
+      {
+        "symbol": "angle",
+        "label": "Angle of incidence",
+        "unit": "°",
+        "default": 30
+      }
+    ]
+  },
+  {
+    "slug": "standing-wave",
+    "name": "Standing Waves and Harmonics",
+    "topic": "Waves",
+    "description": "Adjust the inputs and KINETIQ recalculates fₙ = nv/2L, or nv/4L with one end closed from the real equation.",
+    "variables": [
+      {
+        "symbol": "length",
+        "label": "Length",
+        "unit": "m",
+        "default": 0.85
+      },
+      {
+        "symbol": "speed",
+        "label": "Wave speed",
+        "unit": "m s⁻¹",
+        "default": 340
+      },
+      {
+        "symbol": "harmonic",
+        "label": "Harmonic number",
+        "unit": "",
+        "default": 1
+      },
+      {
+        "symbol": "mode",
+        "label": "Open both ends (0) or closed one end (1)",
+        "unit": "",
+        "default": 0
+      }
+    ]
+  },
+  {
+    "slug": "doppler",
+    "name": "The Doppler Effect",
+    "topic": "Waves",
+    "description": "Adjust the inputs and KINETIQ recalculates f' = f(v + u₀)/(v − uₛ) from the real equation.",
+    "variables": [
+      {
+        "symbol": "f",
+        "label": "Emitted frequency",
+        "unit": "Hz",
+        "default": 800
+      },
+      {
+        "symbol": "vSource",
+        "label": "Source speed towards observer",
+        "unit": "m s⁻¹",
+        "default": 30
+      },
+      {
+        "symbol": "vObserver",
+        "label": "Observer speed towards source",
+        "unit": "m s⁻¹",
+        "default": 0
+      },
+      {
+        "symbol": "vSound",
+        "label": "Speed of sound",
+        "unit": "m s⁻¹",
+        "default": 340
+      }
+    ]
+  },
+  {
+    "slug": "orbit",
+    "name": "Orbital Motion",
+    "topic": "Fields",
+    "description": "Adjust the inputs and KINETIQ recalculates v = √(GM/r) from the real equation.",
+    "variables": [
+      {
+        "symbol": "mass",
+        "label": "Central mass",
+        "unit": "kg",
+        "default": 5.97e+24
+      },
+      {
+        "symbol": "radius",
+        "label": "Orbital radius from centre",
+        "unit": "m",
+        "default": 6770000
+      }
+    ]
+  },
+  {
+    "slug": "charged-path",
+    "name": "Charged Particle in a Magnetic Field",
+    "topic": "Fields",
+    "description": "Adjust the inputs and KINETIQ recalculates r = mv/qB from the real equation.",
+    "variables": [
+      {
+        "symbol": "mass",
+        "label": "Particle mass",
+        "unit": "kg",
+        "default": 1.67e-27
+      },
+      {
+        "symbol": "charge",
+        "label": "Charge",
+        "unit": "C",
+        "default": 1.6e-19
+      },
+      {
+        "symbol": "speed",
+        "label": "Speed",
+        "unit": "m s⁻¹",
+        "default": 2000000
+      },
+      {
+        "symbol": "B",
+        "label": "Flux density",
+        "unit": "T",
+        "default": 0.5
+      }
+    ]
+  },
+  {
+    "slug": "atomic-transition",
+    "name": "Atomic Energy Levels",
+    "topic": "Quantum",
+    "description": "Adjust the inputs and KINETIQ recalculates ΔE = 13.6Z²(1/n₁² − 1/n₂²) eV from the real equation.",
+    "variables": [
+      {
+        "symbol": "nHigh",
+        "label": "Upper level n",
+        "unit": "",
+        "default": 3
+      },
+      {
+        "symbol": "nLow",
+        "label": "Lower level n",
+        "unit": "",
+        "default": 2
+      },
+      {
+        "symbol": "Z",
+        "label": "Proton number",
+        "unit": "",
+        "default": 1
+      }
+    ]
+  },
+  {
+    "slug": "binding-energy",
+    "name": "Mass Defect and Binding Energy",
+    "topic": "Nuclear",
+    "description": "Adjust the inputs and KINETIQ recalculates E = Δm × 931.5 MeV from the real equation.",
+    "variables": [
+      {
+        "symbol": "deltaM",
+        "label": "Mass defect",
+        "unit": "u",
+        "default": 0.215
+      },
+      {
+        "symbol": "nucleons",
+        "label": "Nucleon number",
+        "unit": "",
+        "default": 236
+      }
+    ]
+  },
+  {
+    "slug": "stellar",
+    "name": "Stellar Luminosity",
+    "topic": "Astrophysics",
+    "description": "Adjust the inputs and KINETIQ recalculates L = 4πR²σT⁴ from the real equation.",
+    "variables": [
+      {
+        "symbol": "radius",
+        "label": "Stellar radius",
+        "unit": "m",
+        "default": 696000000
+      },
+      {
+        "symbol": "temperature",
+        "label": "Surface temperature",
+        "unit": "K",
+        "default": 5800
+      }
+    ]
+  },
+  {
+    "slug": "rotation",
+    "name": "Rotational Dynamics",
+    "topic": "Mechanics",
+    "description": "Adjust the inputs and KINETIQ recalculates Στ = Iα and L = Iω from the real equation.",
+    "variables": [
+      {
+        "symbol": "inertia",
+        "label": "Moment of inertia",
+        "unit": "kg m²",
+        "default": 2
+      },
+      {
+        "symbol": "torque",
+        "label": "Net torque",
+        "unit": "N m",
+        "default": 8
+      },
+      {
+        "symbol": "omega",
+        "label": "Angular velocity",
+        "unit": "rad s⁻¹",
+        "default": 5
+      }
+    ]
+  },
+  {
+    "slug": "induction",
+    "name": "Electromagnetic Induction",
+    "topic": "Fields",
+    "description": "Adjust the inputs and KINETIQ recalculates ε = −NΔΦ/Δt from the real equation.",
+    "variables": [
+      {
+        "symbol": "turns",
+        "label": "Number of turns",
+        "unit": "",
+        "default": 200
+      },
+      {
+        "symbol": "B",
+        "label": "Flux density",
+        "unit": "T",
+        "default": 0.3
+      },
+      {
+        "symbol": "area",
+        "label": "Coil area",
+        "unit": "m²",
+        "default": 0.015
+      },
+      {
+        "symbol": "dt",
+        "label": "Time for the change",
+        "unit": "s",
+        "default": 0.1
+      },
+      {
+        "symbol": "omega",
+        "label": "Rotation rate",
+        "unit": "rad s⁻¹",
+        "default": 50
+      }
+    ]
+  }
 ]
