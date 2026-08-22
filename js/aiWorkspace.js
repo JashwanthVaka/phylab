@@ -15,6 +15,47 @@ const date = value => new Date(value || Date.now()).toLocaleString();
 const messageHTML = message => `<article class="ai-message ${message.role}" data-message-id="${escapeHTML(message.id || '')}"><header><b>${message.role === 'user' ? 'You' : 'KIT'}:</b><time>${date(message.createdAt || message.created_at)}</time></header><div>${safe(message.content)}</div>${message.metadata?.imageAttached ? '<p class="tag">Image attached to this question</p>' : ''}${message.sources?.length ? `<div class="source-cards">${message.sources.map(source => `<a href="${escapeHTML(source.href)}" data-route>${escapeHTML(source.type)}: ${escapeHTML(source.title)}</a>`).join('')}</div>` : ''}${message.role === 'assistant' ? '<footer><button type="button" data-ai-action="copy">Copy</button><button type="button" data-ai-action="simpler">Explain simpler</button><button type="button" data-ai-action="steps">Show steps</button><button type="button" data-ai-action="hint">Give hint</button><button type="button" data-ai-action="quiz">Quiz me</button><button type="button" data-ai-action="bookmark">Save</button></footer>' : ''}</article>`;
 const conversationHTML = (conversation, selected) => `<div class="ai-conversation-row"><button type="button" class="text-button ${conversation.id === selected ? 'active' : ''}" data-ai-open="${conversation.id}">${escapeHTML(conversation.title)}<small>${date(conversation.updatedAt || conversation.updated_at)}</small></button><button type="button" data-ai-rename="${conversation.id}" aria-label="Rename conversation">✎</button><button type="button" data-ai-delete="${conversation.id}" aria-label="Delete conversation">×</button></div>`;
 
+/**
+ * What KIT can see, in words.
+ *
+ * This panel used to print JSON.stringify(context) into a <pre>, so a student
+ * revising at 11pm met `"formula_slug": null` in a sidebar. The information is
+ * worth showing -- knowing the tutor can see your current lesson is the
+ * difference between trusting an answer and not -- but it has to be readable,
+ * and it should say plainly when it can see nothing.
+ */
+function contextPanel() {
+  const context = contextManager.fromRoute();
+  const pretty = slug => String(slug || '').replace(/-/g, ' ').replace(/^\w/, c => c.toUpperCase());
+  const lines = [];
+
+  if (context.lesson_slug) lines.push(['Lesson', pretty(context.lesson_slug), `/lesson/${context.lesson_slug}`]);
+  if (context.formula_slug) lines.push(['Formula', pretty(context.formula_slug), `/formulas/${context.formula_slug}`]);
+  if (context.simulation_slug) lines.push(['Lab', pretty(context.simulation_slug), `/simulations/${context.simulation_slug}`]);
+  if (context.topic) lines.push(['Topic', pretty(context.topic), null]);
+  if (context.quiz) lines.push(['Activity', 'Working through practice questions', null]);
+
+  const recent = [
+    ...(context.recent_formulas || []).slice(-3).map(item => ['formula', item]),
+    ...(context.recent_simulations || []).slice(-2).map(item => ['lab', item]),
+  ];
+
+  const body = lines.length
+    ? `<ul class="ai-context__list">${lines.map(([label, value, href]) => `<li><span>${escapeHTML(label)}</span>${href ? `<a href="${escapeHTML(href)}" data-route>${escapeHTML(value)}</a>` : `<b>${escapeHTML(value)}</b>`}</li>`).join('')}</ul>`
+    : '<p class="muted">Nothing yet. Open a lesson, formula or lab and KIT will use it to answer in context.</p>';
+
+  const recently = recent.length
+    ? `<p class="ai-context__recent">Recently opened: ${recent.map(([kind, item]) => `${escapeHTML(pretty(item))} <span class="muted">(${kind})</span>`).join(', ')}</p>`
+    : '';
+
+  return `<aside class="content-card ai-context">
+    <p class="eyebrow">WHAT KIT CAN SEE</p>
+    ${body}
+    ${recently}
+    <p class="ai-context__note muted">KIT reads your place in the course so answers match what you are studying. Your conversations stay on this device unless you sign in.</p>
+  </aside>`;
+}
+
 /** Reports which server-side AI providers are usable so the page can explain itself before a learner types. */
 async function providerStatus() {
   try {
@@ -50,7 +91,7 @@ export async function aiWorkspace() {
   const providerField = ready.length > 1
     ? `<label for="aiProvider">AI provider</label><select id="aiProvider">${ready.map(provider => `<option value="${escapeHTML(provider.id)}" ${provider.id === status.active ? 'selected' : ''}>${escapeHTML(provider.label)}</option>`).join('')}</select>`
     : '';
-  return `<section class="page ai-workspace"><p class="eyebrow">KIT AI WORKSPACE</p><h1>Ask KIT.</h1>${providerNotice(status)}<div class="ai-layout" data-ai-workspace data-ai-store="${signedIn ? 'remote' : 'guest'}"><aside class="content-card ai-sidebar"><button class="button" type="button" data-ai-new>New conversation</button><label for="aiSearch">Search conversations</label><input id="aiSearch" data-ai-search autocomplete="off"><div data-ai-list>${conversations.map(item => conversationHTML(item, selected)).join('') || '<p class="muted">Create a conversation to begin.</p>'}</div></aside><main class="ai-chat"><div id="aiMessages" class="chat" aria-live="polite" aria-label="Conversation history"></div><form id="aiForm"><label for="aiMode">Teaching mode</label><select id="aiMode">${MODES.map(mode => `<option>${mode}</option>`).join('')}</select>${providerField}<label for="aiInput">Message</label>${usable ? '' : `<p class="ai-offline" role="status">${status.static ? (status.appUrl ? `KIT runs on the full version of KINETIQ. <a href="${escapeHTML(status.appUrl)}/ai">Open it there</a> to ask a question.` : 'KIT is switched off on this published copy because it has no server. Open KINETIQ locally with <code>npm start</code> and go to <code>localhost:3000/ai</code> to use the tutor.') : 'KIT cannot answer until an AI key is configured on the server.'}</p>`}<textarea id="aiInput" required ${usable ? '' : 'disabled'} placeholder="${usable ? 'Ask about a question, formula, graph, or lab result.' : 'Tutor unavailable here'}"></textarea><label for="aiImage">Question or graph image <span class="muted">(optional, PNG/JPEG/WebP/GIF, max 1.8 MB)</span></label><input id="aiImage" type="file" accept="image/png,image/jpeg,image/webp,image/gif" data-ai-image ${usable ? '' : 'disabled'}><p class="muted" data-ai-image-status>No image selected.</p><div><button class="button" id="aiSend" ${usable ? '' : 'disabled'}>Send</button><button type="button" class="outline" data-ai-stop hidden>Stop</button><button type="button" class="outline" data-ai-regenerate>Regenerate</button></div></form></main><aside class="content-card ai-context"><p class="eyebrow">LIVE CONTEXT</p><pre data-ai-context>${escapeHTML(JSON.stringify(contextManager.fromRoute(), null, 2))}</pre></aside></div></section>`;
+  return `<section class="page ai-workspace"><p class="eyebrow">KIT AI WORKSPACE</p><h1>Ask KIT.</h1>${providerNotice(status)}<div class="ai-layout" data-ai-workspace data-ai-store="${signedIn ? 'remote' : 'guest'}"><aside class="content-card ai-sidebar"><button class="button" type="button" data-ai-new>New conversation</button><label for="aiSearch">Search conversations</label><input id="aiSearch" data-ai-search autocomplete="off"><div data-ai-list>${conversations.map(item => conversationHTML(item, selected)).join('') || '<p class="muted">Create a conversation to begin.</p>'}</div></aside><main class="ai-chat"><div id="aiMessages" class="chat" aria-live="polite" aria-label="Conversation history"></div><form id="aiForm"><label for="aiMode">Teaching mode</label><select id="aiMode">${MODES.map(mode => `<option>${mode}</option>`).join('')}</select>${providerField}<label for="aiInput">Message</label>${usable ? '' : `<p class="ai-offline" role="status">${status.static ? (status.appUrl ? `KIT runs on the full version of KINETIQ. <a href="${escapeHTML(status.appUrl)}/ai">Open it there</a> to ask a question.` : 'KIT is switched off on this published copy because it has no server. Open KINETIQ locally with <code>npm start</code> and go to <code>localhost:3000/ai</code> to use the tutor.') : 'KIT cannot answer until an AI key is configured on the server.'}</p>`}<textarea id="aiInput" required ${usable ? '' : 'disabled'} placeholder="${usable ? 'Ask about a question, formula, graph, or lab result.' : 'Tutor unavailable here'}"></textarea><label for="aiImage">Question or graph image <span class="muted">(optional, PNG/JPEG/WebP/GIF, max 1.8 MB)</span></label><input id="aiImage" type="file" accept="image/png,image/jpeg,image/webp,image/gif" data-ai-image ${usable ? '' : 'disabled'}><p class="muted" data-ai-image-status>No image selected.</p><div><button class="button" id="aiSend" ${usable ? '' : 'disabled'}>Send</button><button type="button" class="outline" data-ai-stop hidden>Stop</button><button type="button" class="outline" data-ai-regenerate>Regenerate</button></div></form></main>${contextPanel()}</div></section>`;
 }
 
 export function bindAI() {
