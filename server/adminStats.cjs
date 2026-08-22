@@ -186,4 +186,22 @@ async function adminStatsHandler(req, res, send) {
   }
 }
 
-module.exports = { adminStatsHandler, isConfigured, missingPieces, summarise, providerOf, isAdmin };
+/**
+ * Handles GET /api/admin/whoami.
+ *
+ * Lets the navigation decide whether to offer an Admin link without asking for
+ * the whole user list. It answers only about the caller and never names anyone
+ * else, so a student learns that they are not an admin and nothing more.
+ *
+ * Hiding the link is a convenience, not the protection: /api/admin/stats
+ * re-checks every request regardless of what the navigation chose to show.
+ */
+async function adminWhoamiHandler(req, res, send) {
+  if (!isConfigured()) return send(res, 200, { admin: false, configured: false });
+  const header = req.headers.authorization || '';
+  const token = header.startsWith('Bearer ') ? header.slice(7).trim() : '';
+  const user = await identify(token);
+  return send(res, 200, { admin: Boolean(user && isAdmin(user.email)), configured: true }, { 'Cache-Control': 'no-store' });
+}
+
+module.exports = { adminStatsHandler, adminWhoamiHandler, isConfigured, missingPieces, summarise, providerOf, isAdmin };

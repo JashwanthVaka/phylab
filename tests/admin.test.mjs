@@ -121,3 +121,53 @@ assert.ok(!/encrypted_password|phone|banned_until|recovery_token/.test(serialise
   'the summary must not carry raw Supabase user fields');
 
 console.log(`admin tests passed (refusals, allowlist, key isolation, ${summary.totals.users}-user aggregation)`);
+
+// ── whoami tells the caller about themselves, and nobody else ────────
+// The navigation asks this to decide whether to offer an Admin link. It must
+// never become a way to enumerate who the administrators are.
+await withEnv(CONFIGURED, async () => {
+  const realFetch = globalThis.fetch;
+  const asUser = email => async url => {
+    if (String(url).includes('/auth/v1/user')) {
+      return email
+        ? { ok: true, status: 200, json: async () => ({ email, id: 'u' }) }
+        : { ok: false, status: 401, json: async () => ({}) };
+    }
+    throw new Error('whoami must never fetch the user list');
+  };
+
+  reset();
+  globalThis.fetch = asUser('owner@example.com');
+  await admin.adminWhoamiHandler({ headers: { authorization: 'Bearer ok' } }, {}, send);
+  assert.equal(responses[0].status, 200);
+  assert.equal(responses[0].body.admin, true, 'the owner should be recognised');
+
+  reset();
+  globalThis.fetch = asUser('student@example.com');
+  await admin.adminWhoamiHandler({ headers: { authorization: 'Bearer ok' } }, {}, send);
+  assert.equal(responses[0].body.admin, false, 'a student is not an admin');
+  assert.ok(!JSON.stringify(responses[0].body).includes('owner@example.com'),
+    'whoami must not disclose the allowlist');
+
+  reset();
+  globalThis.fetch = asUser(null);
+  await admin.adminWhoamiHandler({ headers: {} }, {}, send);
+  assert.equal(responses[0].body.admin, false, 'no session is not an admin');
+
+  globalThis.fetch = realFetch;
+});
+
+// Unconfigured deployments answer without pretending to know anything.
+await withEnv({ SUPABASE_URL: '', SUPABASE_SERVICE_ROLE_KEY: '', ADMIN_EMAILS: '' }, async () => {
+  reset();
+  await admin.adminWhoamiHandler({ headers: {} }, {}, send);
+  assert.deepEqual(responses[0].body, { admin: false, configured: false });
+});
+
+// The navigation must not decide admin status for itself.
+const menuSource = fs.readFileSync(path.join(ROOT, 'js', 'accountMenu.js'), 'utf8');
+assert.ok(/admin\/whoami/.test(menuSource), 'the account menu should ask the server');
+assert.ok(!/ADMIN_EMAILS|@[a-z]+\.(com|org)/.test(menuSource),
+  'the account menu must not contain an address or allowlist');
+
+console.log('whoami tests passed (self-only answers, no allowlist disclosure)');

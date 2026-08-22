@@ -6,7 +6,7 @@ const crypto = require('node:crypto');
 const { createRetrievalEngine } = require('./server/retrievalEngine.cjs');
 const { composeAnswer } = require('./server/answerEngine.cjs');
 const { loadPrivateRecords, privateSummary } = require('./server/privateLibrary.cjs');
-const { adminStatsHandler, isConfigured: adminConfigured } = require('./server/adminStats.cjs');
+const { adminStatsHandler, adminWhoamiHandler, isConfigured: adminConfigured } = require('./server/adminStats.cjs');
 
 const ROOT = __dirname;
 
@@ -292,6 +292,7 @@ async function handleRequest(req, res) {
   // server-side allowlist, never in the browser, and the service-role key it
   // uses is never sent to a client.
   if (req.method === 'GET' && pathname === '/api/admin/stats') return adminStatsHandler(req, res, send);
+  if (req.method === 'GET' && pathname === '/api/admin/whoami') return adminWhoamiHandler(req, res, send);
   if (req.method === 'POST' && pathname === '/api/chat') return tutor(req, res);
   if (!['GET', 'HEAD'].includes(req.method)) return send(res, 405, { error: 'Method not allowed' });
   return serveAsset(res, pathname, req.method === 'HEAD');

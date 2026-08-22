@@ -261,6 +261,10 @@ async function boot() {
     indexContent(index);
     if (!routerStarted) {
       router.start();
+      // The account control reflects auth state, which can arrive after the
+      // first paint via an OAuth redirect, so it initialises itself and then
+      // listens rather than being rendered once here.
+      import("./js/accountMenu.js").then(m => m.initAccountMenu()).catch(() => {});
       routerStarted = true;
     } else {
       await router.handle();

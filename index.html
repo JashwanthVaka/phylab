@@ -64,6 +64,21 @@
           <svg class="theme-toggle__moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.2A8.2 8.2 0 1 1 9.8 4a6.6 6.6 0 0 0 10.2 10.2z"/></svg>
           <span class="visually-hidden">Switch between light and dark</span>
         </button>
+        <div class="nav-account" id="navAccount" data-account-state="loading">
+          <a class="nav-signin" href="/login" data-route data-account-signin>Sign in</a>
+          <button class="nav-avatar" id="navAvatarBtn" type="button" aria-expanded="false" aria-haspopup="true" aria-controls="navAccountMenu" hidden>
+            <span class="nav-avatar__initial" data-account-initial aria-hidden="true">·</span>
+            <span class="visually-hidden">Your account</span>
+          </button>
+          <div class="glass-menu glass nav-account__menu" id="navAccountMenu" data-glass role="menu" hidden>
+            <p class="nav-account__who"><b data-account-name>Signed in</b><span data-account-email class="muted"></span></p>
+            <a href="/progress" data-route role="menuitem">Your progress</a>
+            <a href="/revision" data-route role="menuitem">Revision</a>
+            <a href="/bookmarks" data-route role="menuitem">Saved items</a>
+            <a href="/admin" data-route role="menuitem" data-account-admin hidden>Admin dashboard</a>
+            <button type="button" role="menuitem" data-account-signout>Sign out</button>
+          </div>
+        </div>
         <button class="btn btn-primary" id="tutorButton" type="button">Ask KIT</button>
         <button class="nav-burger" id="navBurger" type="button" aria-expanded="false" aria-controls="mobileNav" aria-label="Open menu">
           <span></span><span></span>
