@@ -55,10 +55,11 @@ book, since `private/` never leaves your machine.
 npm test
 ```
 
-Seven suites: the physics engine against known cases, guest conversations, the retrieval
-engine, the uncertainty maths against hand-worked results, content cross-references
-(every case and pattern link resolves to a real lesson or simulation), the answer engine,
-and privacy boundaries.
+Nine suites: the physics engine against known cases, guest conversations, the retrieval
+engine, the uncertainty maths against hand-worked results, practice marking (partial
+credit and slip diagnosis), content cross-references (every case and pattern link
+resolves to a real lesson or simulation), the answer engine, the admin endpoint's
+refusals, and privacy boundaries.
 
 ## Publishing
 
@@ -72,6 +73,45 @@ so the same file runs under `npm start`, in Docker, and as a serverless function
 A static, server-free copy can still be produced if you ever want one — `npm run build`
 for a GitHub Pages layout, `npm run build:netlify` for a root-served one — but neither is
 published, and neither can run the tutor.
+
+## Accounts and the admin dashboard
+
+Students can sign in with Google or with an email and password. `/admin` shows
+account totals, sign-ups over the last 30 days, which method people used, and the
+newest accounts.
+
+**Only the server decides who may see `/admin`.** The page holds no allowlist,
+because anything decided in the browser can be read out of the bundle or bypassed
+by calling the endpoint directly. Every request to `/api/admin/stats` re-verifies
+the caller's token with Supabase and re-checks the address against `ADMIN_EMAILS`.
+
+### Setup
+
+1. Create a project at [supabase.com](https://supabase.com), then open
+   **Project Settings → API**.
+2. Put the **Project URL** and the **anon public** key into `public-env.js`.
+   These two are designed to be public and are safe in the browser.
+3. In **Vercel → Settings → Environment Variables**, add:
+
+   | Variable | Value |
+   | --- | --- |
+   | `SUPABASE_URL` | the same project URL |
+   | `SUPABASE_ANON_KEY` | the same anon key |
+   | `SUPABASE_SERVICE_ROLE_KEY` | **secret** — Project Settings → API → `service_role` |
+   | `ADMIN_EMAILS` | your own address, comma-separated for more than one |
+
+4. Turn on Google: in Supabase open **Authentication → Providers → Google**, enable
+   it, and paste in a client ID and secret from
+   [console.cloud.google.com](https://console.cloud.google.com). In the Google
+   console, add `https://<your-project>.supabase.co/auth/v1/callback` as an
+   authorised redirect URI, and your site's origin as an authorised JavaScript
+   origin.
+5. Redeploy. `GET /api/health` reports `adminConfigured`, and `/admin` will list
+   exactly which variables are still missing until all four are set.
+
+**The service-role key can read and modify every user in your project.** It belongs
+only in the host's environment settings — never in `public-env.js`, never in the
+repository, never in a browser. `npm test` fails if it appears in a client file.
 
 ## Enable KIT AI
 
