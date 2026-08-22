@@ -204,6 +204,10 @@ const router = new Router({
     const [index, cases] = await Promise.all([loader.getIndex(), loadPageModule('./js/casesUI.js')]);
     return { view: cases.casePage(index, slug), mount: () => cases.bindCases() };
   }, 'Opening case…'),
+  '/admin': () => transition(async () => {
+    const admin = await loadPageModule('./js/adminUI.js');
+    return { view: await admin.adminPage() };
+  }, 'Loading admin…'),
   '/patterns': () => transition(async () => {
     const [index, patterns] = await Promise.all([loader.getIndex(), loadPageModule('./js/patternsUI.js')]);
     return { view: patterns.patternsPage(index), mount: () => patterns.bindPatterns() };

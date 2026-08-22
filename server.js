@@ -6,6 +6,7 @@ const crypto = require('node:crypto');
 const { createRetrievalEngine } = require('./server/retrievalEngine.cjs');
 const { composeAnswer } = require('./server/answerEngine.cjs');
 const { loadPrivateRecords, privateSummary } = require('./server/privateLibrary.cjs');
+const { adminStatsHandler, isConfigured: adminConfigured } = require('./server/adminStats.cjs');
 
 const ROOT = __dirname;
 
@@ -280,13 +281,17 @@ async function handleRequest(req, res) {
     }
   }
 
-  if (req.method === 'GET' && pathname === '/api/health') return send(res, 200, { status: 'ok', tutorConfigured: availableProviders().length > 0, providers: availableProviders(), privateSources: privateSummary() });
+  if (req.method === 'GET' && pathname === '/api/health') return send(res, 200, { status: 'ok', tutorConfigured: availableProviders().length > 0, providers: availableProviders(), privateSources: privateSummary(), adminConfigured: adminConfigured() });
   if (req.method === 'GET' && pathname === '/api/ai/providers') return send(res, 200, {
     active: resolveProvider(),
     providers: Object.entries(PROVIDERS).map(([id, provider]) => ({ id, label: provider.label, configured: providerConfigured(id), envKey: provider.envKey, model: providerConfigured(id) ? process.env[provider.modelKey] || provider.defaultModel : null }))
   });
   if (req.method === 'GET' && pathname === '/api/content/index') { try { return send(res, 200, await contentIndex(), { 'Cache-Control': 'public, max-age=300' }); } catch (error) { return send(res, 500, { error: `Content catalogue error: ${error.message}` }); } }
   const lessonMatch = pathname.match(/^\/api\/content\/lessons\/([a-z0-9-]+)$/); if (req.method === 'GET' && lessonMatch) { try { const files = await lessonFiles(); const file = files.find(candidate => slugify(path.basename(candidate, '.json')) === lessonMatch[1]); if (!file) return send(res, 404, { error: 'Lesson not found.' }); return send(res, 200, normalizeLesson(await readLesson(file), file, files), { 'Cache-Control': 'public, max-age=300' }); } catch (error) { return send(res, 500, { error: `Lesson error: ${error.message}` }); } }
+  // Owner-only. Authorisation is decided in adminStats.cjs against a
+  // server-side allowlist, never in the browser, and the service-role key it
+  // uses is never sent to a client.
+  if (req.method === 'GET' && pathname === '/api/admin/stats') return adminStatsHandler(req, res, send);
   if (req.method === 'POST' && pathname === '/api/chat') return tutor(req, res);
   if (!['GET', 'HEAD'].includes(req.method)) return send(res, 405, { error: 'Method not allowed' });
   return serveAsset(res, pathname, req.method === 'HEAD');

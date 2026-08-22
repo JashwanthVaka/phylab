@@ -2427,3 +2427,51 @@ input, select, textarea, .stats, .facts {
   .mark-criteria__row { grid-template-columns: 22px 1fr; }
   .mark-criteria__note { grid-column: 2; }
 }
+
+/* ── Sign in with Google ─────────────────────────────────────────────── */
+.oauth-block { margin-bottom: 22px; }
+.oauth-button {
+  width: 100%; display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  min-height: 46px; padding: 12px 18px; cursor: pointer;
+  border: 1px solid var(--line-strong); border-radius: 30px;
+  background: var(--surface-raised, #fff); color: var(--ink);
+  font-weight: 600; font-size: 14px;
+  transition: border-color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
+}
+.oauth-button:hover { border-color: var(--ink); box-shadow: 0 4px 14px rgba(16,24,40,.08); }
+.oauth-divider { display: flex; align-items: center; gap: 12px; margin: 18px 0 0; color: var(--muted); font-size: 12px; }
+.oauth-divider::before, .oauth-divider::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+
+/* ── Admin dashboard ─────────────────────────────────────────────────
+   Renders only what the server agrees to return; it holds no allowlist. */
+.admin-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(168px, 1fr)); gap: 14px; margin-bottom: 26px; }
+.admin-stat {
+  display: flex; flex-direction: column; gap: 4px;
+  padding: 20px; border: 1px solid var(--line); border-radius: var(--r-lg, 20px); background: var(--surface);
+}
+.admin-stat b { font-size: 34px; letter-spacing: -.04em; line-height: 1; }
+.admin-stat__note { font-size: 12px; color: var(--muted); }
+.admin-panel { border: 1px solid var(--line); border-radius: var(--r-lg, 20px); background: var(--surface); padding: 22px; margin-bottom: 20px; }
+.admin-panel__head { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; margin-bottom: 16px; }
+.admin-panel__head h2 { font-size: 19px; margin: 0; letter-spacing: -.02em; }
+.admin-panel__note { font: 10px var(--font-mono); color: var(--muted); letter-spacing: .07em; }
+.admin-trend { display: flex; align-items: flex-end; gap: 3px; height: 130px; }
+.admin-trend__bar { flex: 1; min-height: 2px; height: var(--h); background: var(--blue); border-radius: 3px 3px 0 0; opacity: .82; }
+.admin-trend__axis { display: flex; justify-content: space-between; margin-top: 8px; font: 10px var(--font-mono); color: var(--muted); }
+.admin-providers { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.admin-providers li { display: grid; grid-template-columns: minmax(120px, 168px) 1fr auto; gap: 14px; align-items: center; border: 0; padding: 0; }
+.admin-providers__name { font-weight: 600; font-size: 14px; }
+.admin-providers__bar { background: var(--surface-alt); border-radius: 30px; height: 9px; overflow: hidden; }
+.admin-providers__bar span { display: block; height: 100%; background: var(--blue); border-radius: 30px; }
+.admin-providers__count { font: 11px var(--font-mono); color: var(--muted); white-space: nowrap; }
+.admin-notice { border-radius: var(--r-lg, 20px); }
+.admin-steps { margin: 16px 0 0; padding-left: 20px; display: grid; gap: 10px; font-size: 14px; line-height: 1.6; }
+.admin-steps code { font: 12px var(--font-mono); background: var(--surface-alt); padding: 2px 6px; border-radius: 6px; }
+.admin-generated { font-size: 12px; }
+@media (max-width: 620px) {
+  .admin-providers li { grid-template-columns: 1fr auto; }
+  .admin-providers__bar { grid-column: 1 / -1; }
+}
+/* The mark is a flex item, so it must be told not to shrink; without this it
+   collapses to zero width and the label wraps around nothing. */
+.oauth-button svg { flex: 0 0 18px; width: 18px; height: 18px; display: block; }
