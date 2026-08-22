@@ -265,7 +265,7 @@
         "S": "solar constant (W m⁻²)",
         "α": "albedo",
         "e": "emissivity",
-        "σ": "Stefan–Boltzmann constant",
+        "σ": "Stefan–Boltzmann constant (5.67 × 10⁻⁸ W m⁻² K⁻⁴)",
         "T": "equilibrium temperature (K)"
       },
       "explanation": "Setting absorbed power equal to radiated power gives the temperature the planet settles at."

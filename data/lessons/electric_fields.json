@@ -83,7 +83,7 @@
       "formula": "E = kQ/r²",
       "variables": {
         "E": "electric field strength (N/C)",
-        "k": "Coulomb constant",
+        "k": "Coulomb constant (8.99 × 10⁹ N m² C⁻²)",
         "Q": "source charge (C)",
         "r": "distance from charge (m)"
       },

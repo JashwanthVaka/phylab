@@ -70,8 +70,8 @@
       "name": "Time Dilation",
       "formula": "Δt = γΔt₀",
       "variables": {
-        "Δt": "time measured by stationary observer",
-        "Δt₀": "proper time measured by moving observer",
+        "Δt": "time measured by stationary observer (s)",
+        "Δt₀": "proper time measured by moving observer (s)",
         "γ": "Lorentz factor"
       },
       "explanation": "Time dilation describes how a moving clock appears to run slower when observed from a stationary reference frame."
@@ -80,8 +80,8 @@
       "name": "Length Contraction",
       "formula": "L = L₀/γ",
       "variables": {
-        "L": "measured length",
-        "L₀": "proper length",
+        "L": "measured length (m)",
+        "L₀": "proper length (m)",
         "γ": "Lorentz factor"
       },
       "explanation": "Objects moving close to the speed of light appear shorter in the direction of motion."

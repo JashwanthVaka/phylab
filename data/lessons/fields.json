@@ -72,7 +72,7 @@
       "explanation": "A mass creates a gravitational field around it. The field becomes weaker as distance from the mass increases.",
       "formula": "g = GM/r²",
       "variables": {
-        "G": "gravitational constant",
+        "G": "gravitational constant (6.67 × 10⁻¹¹ N m² kg⁻²)",
         "M": "mass creating the field (kg)",
         "r": "distance from centre of mass (m)"
       }
@@ -83,7 +83,7 @@
       "formula": "V = -GM/r",
       "variables": {
         "V": "gravitational potential (J/kg)",
-        "G": "gravitational constant",
+        "G": "gravitational constant (6.67 × 10⁻¹¹ N m² kg⁻²)",
         "M": "mass creating field",
         "r": "distance from mass"
       }
@@ -137,7 +137,7 @@
       "formula": "v = √GM/r",
       "variables": {
         "v": "orbital speed (m/s)",
-        "G": "gravitational constant",
+        "G": "gravitational constant (6.67 × 10⁻¹¹ N m² kg⁻²)",
         "M": "mass of central object (kg)",
         "r": "orbital radius (m)"
       },
@@ -248,7 +248,7 @@
       "name": "Gravitational Field Strength",
       "formula": "g = F/m = GM / r²",
       "variables": {
-        "g": "field strength (N kg⁻¹, equivalently m s⁻²)",
+        "g": "field strength (N kg⁻¹)",
         "M": "mass creating the field (kg)",
         "r": "distance from its centre (m)"
       },

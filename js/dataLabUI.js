@@ -78,7 +78,7 @@ export function dataLabPage() {
   return `<section class="page datalab-page">
     <p class="eyebrow">DATA LAB</p>
     <h1>Turn measurements into a result.</h1>
-    <p class="page-lead">Paste your practical data, choose how to linearise it, and KINETIQ plots it with error bars, fits a line, and works out the gradient with its uncertainty using the steepest and shallowest line method. This is the skill Paper 3 and the internal assessment are built on.</p>
+    <p class="page-lead">Paste your practical data, choose how to linearise it, and KINETIQ plots it with error bars, fits a line, and works out the gradient with its uncertainty using the steepest and shallowest line method. This is the skill Paper 1B and the internal assessment are built on.</p>
 
     <div class="dl-grid">
       <section class="content-card">

@@ -143,8 +143,8 @@
       "name": "Efficiency",
       "formula": "Efficiency = useful output energy / total input energy × 100",
       "variables": {
-        "useful output energy": "desired energy transfer",
-        "total input energy": "energy supplied to the system"
+        "useful output energy": "desired energy transfer (J)",
+        "total input energy": "energy supplied to the system (J)"
       },
       "explanation": "Efficiency shows how much input energy becomes useful output energy."
     }

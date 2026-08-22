@@ -1,5 +1,28 @@
 import { escapeHTML } from './utils.js';
 
+/**
+ * Counts in prose drift. "Ten labs" sat on this page while the studio grew to
+ * 26, because a spelled-out number survives every numeric check.
+ *
+ * So resource copy writes {{simulations}} instead of a number, and the count is
+ * resolved here from the same index the rest of the app renders from. There is
+ * one source of truth, and tests/content.test.mjs fails if any token has no
+ * matching value.
+ */
+const countTokens = index => ({
+  lessons: (index.lessonIndex || []).length,
+  simulations: (index.simulations || []).length,
+  formulas: (index.formulas || []).length,
+  questions: (index.questions || []).length,
+  cases: (index.cases || []).length,
+});
+
+export const fillCounts = (text, index) =>
+  String(text ?? '').replace(/\{\{(\w+)\}\}/g, (whole, key) => {
+    const value = countTokens(index)[key];
+    return value === undefined ? whole : String(value);
+  });
+
 const linkFor = item => {
   if (item.route) return `<a class="text-button" href="${escapeHTML(item.route)}" data-route>Open →</a>`;
   if (item.url) return `<a class="text-button" href="${escapeHTML(item.url)}" target="_blank" rel="noopener noreferrer">Visit site ↗</a>`;
@@ -18,11 +41,11 @@ export function resourcesPage(index) {
 
     ${groups.map(group => `<section class="lesson-section">
       <div class="section-title"><p class="eyebrow">${escapeHTML(String(group.category).toUpperCase())}</p><h2>${escapeHTML(group.category)}</h2></div>
-      <p class="resources-intro">${escapeHTML(group.description)}</p>
+      <p class="resources-intro">${escapeHTML(fillCounts(group.description, index))}</p>
       <div class="card-grid">
         ${(group.items || []).map(item => `<article class="content-card resource-card resource-card--${escapeHTML(item.kind || 'internal')}">
           <h3>${escapeHTML(item.title)}</h3>
-          <p>${escapeHTML(item.detail)}</p>
+          <p>${escapeHTML(fillCounts(item.detail, index))}</p>
           ${linkFor(item)}
         </article>`).join('')}
       </div>

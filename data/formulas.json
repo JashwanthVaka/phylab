@@ -77,9 +77,9 @@
     "formula": "F = GMm/r²",
     "symbols": {
       "F": "gravitational force (N)",
-      "G": "gravitational constant",
-      "M": "mass of object 1",
-      "m": "mass of object 2",
+      "G": "gravitational constant (6.67 × 10⁻¹¹ N m² kg⁻²)",
+      "M": "mass of object 1 (kg)",
+      "m": "mass of object 2 (kg)",
       "r": "distance between centres (m)"
     }
   },

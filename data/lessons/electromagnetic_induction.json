@@ -93,10 +93,10 @@
       "name": "Transformer Power Relationship",
       "formula": "VpIp = VsIs",
       "variables": {
-        "Vp": "primary voltage",
-        "Ip": "primary current",
-        "Vs": "secondary voltage",
-        "Is": "secondary current"
+        "Vp": "primary voltage (V)",
+        "Ip": "primary current (A)",
+        "Vs": "secondary voltage (V)",
+        "Is": "secondary current (A)"
       },
       "explanation": "In an ideal transformer, input power equals output power."
     }

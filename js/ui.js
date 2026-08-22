@@ -7,6 +7,7 @@ import { bindFlashcards } from './flashcards.js';
 import { bindGraphs, graphFor, renderGraph } from './graphEngine.js';
 import { bindLessonGraph } from './lessonGraphs.js';
 import { bindHeroScene, heroScene } from './heroScene.js';
+import { calculatorFits, dimensionOf, graphFits, meaningOf, unitOf } from './formulaMeta.js';
 
 export const renderLoading = message => `<section class="page"><p class="eyebrow">KINETIQ</p><h1>${escapeHTML(message)}</h1>${skeleton(6)}</section>`;
 export const renderNotFound = () => `<section class="page error-state"><p class="eyebrow">404</p><h1>That learning path does not exist.</h1><a class="button" href="/" data-route>Back to KINETIQ</a></section>`;
@@ -82,9 +83,59 @@ export function renderHome(index, progress) {
   </section>`;
 }
 
+/**
+ * One formula, in full.
+ *
+ * Two bugs lived here. Lesson formulas store their variable table under
+ * `variables` while the legacy file uses `symbols`, and this page only read
+ * `symbols` — so 122 of the 131 formulas showed "no metadata recorded" while
+ * their data sat one key away. The units and dimension columns were also
+ * literal "Not recorded" strings for every row.
+ *
+ * The calculator and graph used to render unconditionally, which put a SUVAT
+ * solver and a position-time curve under E = mc². A tool unrelated to the
+ * equation above it teaches a wrong association, so each is now shown only
+ * when it genuinely models this formula, and omitted otherwise.
+ */
+function renderFormulaPage(selected) {
+  const table = selected.symbols || selected.variables || {};
+  const rows = Object.entries(table);
+  const graph = graphFor({ title: selected.topic || selected.name, topicLabel: selected.topic || '' });
+  const showGraph = graphFits(graph, selected);
+  const showCalculator = calculatorFits({ ...selected, symbols: table });
+
+  const variableCard = rows.length
+    ? `<div class="table-wrap"><table><thead><tr><th>Variable</th><th>Meaning</th><th>SI unit</th><th>Dimension</th></tr></thead><tbody>${rows.map(([key, value]) => {
+        const unit = unitOf(value);
+        const dimension = dimensionOf(unit);
+        return `<tr><td><code>${escapeHTML(key)}</code></td><td>${escapeHTML(meaningOf(value))}</td><td>${unit ? escapeHTML(unit === 'dimensionless' ? '—' : unit) : '—'}</td><td>${dimension ? escapeHTML(dimension) : '—'}</td></tr>`;
+      }).join('')}</tbody></table></div>`
+    : '<p>Variable metadata has not yet been recorded for this formula.</p>';
+
+  return `<section class="page formula-center">
+    <a class="back-link" href="/formulas" data-route>← Formula centre</a>
+    <p class="eyebrow">PHYSICS FORMULA ENGINE</p>
+    <h1>${escapeHTML(selected.name)}</h1>
+    <div class="formula-hero"><code>${escapeHTML(selected.formula)}</code><p>${escapeHTML(selected.explanation || selected.topic || 'Use the variable table to interpret this relationship.')}</p></div>
+    <div class="formula-center-grid">
+      ${card('Variables, units and dimensions', variableCard)}
+      ${card('Physical meaning', `<p>${escapeHTML(selected.derivation || selected.explanation || 'Open the source lesson to connect this expression to its governing principle.')}</p>${selected.topic ? `<p class="muted">From <b>${escapeHTML(selected.topic)}</b>.</p>` : ''}`)}
+    </div>
+    ${showGraph ? renderGraph(graph) : ''}
+    ${showCalculator ? renderCalculator() : ''}
+    <section class="lesson-section">
+      <p class="eyebrow">EXAM TECHNIQUE</p>
+      <div class="card-grid">
+        ${card('Before you substitute', '<p>Check that the model applies, convert every quantity to SI units, and fix a sign convention for direction before putting numbers in.</p>')}
+        ${card('When you answer', '<p>State the equation, substitute with units shown, and give the result to a sensible number of significant figures with its unit.</p>')}
+      </div>
+    </section>
+  </section>`;
+}
+
 export const renderFormulaLibrary = (formulas, selectedSlug) => {
   const selected = formulas.find(item => item.name && item.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') === selectedSlug);
-  if (selected) return `<section class="page formula-center"><a class="back-link" href="/formulas" data-route>← Formula centre</a><p class="eyebrow">PHYSICS FORMULA ENGINE</p><h1>${escapeHTML(selected.name)}</h1><div class="formula-hero"><code>${escapeHTML(selected.formula)}</code><p>${escapeHTML(selected.explanation || selected.topic || 'Use the variable table and calculator to interpret this relationship.')}</p></div><div class="formula-center-grid">${card('Variables, units and dimensions', Object.keys(selected.symbols || {}).length ? `<div class="table-wrap"><table><thead><tr><th>Variable</th><th>Meaning</th><th>SI unit</th><th>Dimension</th></tr></thead><tbody>${Object.entries(selected.symbols).map(([key,value]) => `<tr><td>${escapeHTML(key)}</td><td>${escapeHTML(value)}</td><td>Not recorded</td><td>Not recorded</td></tr>`).join('')}</tbody></table></div>` : '<p>Variable metadata has not yet been recorded for this formula.</p>')}${card('Derivation and physical meaning', `<p>${escapeHTML(selected.derivation || 'A derivation has not yet been supplied in the source lesson. Use the related lesson to connect this expression to its governing principle.')}</p>`)}</div>${renderGraph(graphFor({ title:selected.topic || selected.name, topicLabel:selected.topic || '' }))}${renderCalculator()}<section class="lesson-section"><p class="eyebrow">COMMON MISTAKES & EXAM TECHNIQUE</p><div class="card-grid">${card('Common mistake', '<p>Check units, direction/sign conventions, and whether the model assumptions apply before substituting values.</p>')}${card('Exam tip', '<p>State the governing equation, substitute with SI units, and report an answer with an appropriate unit and significant figures.</p>')}</div></section></section>`;
+  if (selected) return renderFormulaPage(selected);
   return `<section class="page"><p class="eyebrow">FORMULA CENTRE</p><h1>Know what every symbol means.</h1><p class="page-lead">Select a formula to see its variables, physical meaning, calculator, graph, and exam guidance.</p><p class="formula-sheet-link"><a class="btn btn-primary" href="/formulas/print" data-route>Open the printable formula sheet →</a></p><div class="formula-grid">${formulas.map(item => `<a class="formula-block" href="/formulas/${item.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}" data-route><code>${escapeHTML(item.formula)}</code><h3>${escapeHTML(item.name)}</h3><p>${escapeHTML(item.topic || '')}</p></a>`).join('')}</div></section>`;
 };
 export const renderProgress = (index, progress) => `<section class="page"><p class="eyebrow">YOUR WORKSPACE</p><h1>Progress with purpose.</h1><div class="dash-grid"><article class="current"><span class="tag">LESSONS COMPLETE</span><h2>${progress.completedLessons.length} / ${index.lessonIndex.length}</h2><p>Your lesson completion is stored privately in this browser until account sync is introduced.</p></article>${card('Practice activity', `<p>${progress.attempts.length} solution${progress.attempts.length === 1 ? '' : 's'} revealed.</p>`)}${card('Next step', `<a class="button" href="/lesson/${index.lessonIndex.find(item => !progress.completedLessons.includes(item.slug))?.slug || index.lessonIndex[0]?.slug || ''}" data-route>Continue learning →</a>`)}</div></section>`;

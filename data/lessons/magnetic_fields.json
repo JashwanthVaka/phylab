@@ -85,7 +85,7 @@
       "formula": "B = μ₀I/2πr",
       "variables": {
         "B": "magnetic flux density (T)",
-        "μ₀": "permeability of free space",
+        "μ₀": "permeability of free space (4π × 10⁻⁷ T m A⁻¹)",
         "I": "current (A)",
         "r": "distance from wire (m)"
       },

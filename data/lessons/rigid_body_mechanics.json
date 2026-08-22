@@ -92,7 +92,7 @@
       "name": "Rotational Equilibrium",
       "formula": "Clockwise moments = Anticlockwise moments",
       "variables": {
-        "moment": "force × perpendicular distance"
+        "moment": "force × perpendicular distance (N m)"
       },
       "explanation": "For an object to remain balanced, the total turning effects in opposite directions must be equal."
     },

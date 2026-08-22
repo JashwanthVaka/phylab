@@ -113,7 +113,7 @@
       "formula": "N = N₀(1/2)ⁿ",
       "variables": {
         "N": "remaining number of nuclei",
-        "N₀": "initial number of nuclei",
+        "N₀": "initial number of nuclei (dimensionless)",
         "n": "number of half-lives"
       },
       "explanation": "The amount of radioactive material decreases by half after every half-life."
@@ -362,10 +362,10 @@
       "variables": {
         "Δm": "mass defect (kg or u)",
         "Z": "proton number",
-        "m_p": "proton mass",
+        "m_p": "proton mass (kg)",
         "N": "neutron number",
-        "m_n": "neutron mass",
-        "m_nucleus": "measured nuclear mass"
+        "m_n": "neutron mass (kg)",
+        "m_nucleus": "measured nuclear mass (kg)"
       },
       "explanation": "A nucleus always has less mass than its separated nucleons."
     },
@@ -393,7 +393,7 @@
       "formula": "N = N₀e^(−λt)",
       "variables": {
         "N": "number of undecayed nuclei remaining",
-        "N₀": "initial number of nuclei",
+        "N₀": "initial number of nuclei (dimensionless)",
         "λ": "decay constant (s⁻¹)",
         "t": "time (s)"
       },

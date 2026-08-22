@@ -84,8 +84,8 @@
       "name": "Efficiency of Heat Engine",
       "formula": "Efficiency = useful output energy / input energy × 100",
       "variables": {
-        "output energy": "useful energy produced",
-        "input energy": "energy supplied to the engine"
+        "output energy": "useful energy produced (J)",
+        "input energy": "energy supplied to the engine (J)"
       },
       "explanation": "Efficiency measures how effectively an engine converts input energy into useful work."
     },

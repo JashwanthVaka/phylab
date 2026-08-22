@@ -71,7 +71,7 @@
       "formula": "E = hc/λ",
       "variables": {
         "E": "energy (J)",
-        "h": "Planck constant",
+        "h": "Planck constant (6.63 × 10⁻³⁴ J s)",
         "c": "speed of light (m/s)",
         "λ": "wavelength (m)"
       },
@@ -81,9 +81,9 @@
       "name": "Photoelectric Equation",
       "formula": "hf = φ + Ek",
       "variables": {
-        "hf": "photon energy",
-        "φ": "work function",
-        "Ek": "maximum kinetic energy of emitted electron"
+        "hf": "photon energy (J)",
+        "φ": "work function (J)",
+        "Ek": "maximum kinetic energy of emitted electron (J)"
       },
       "explanation": "Photon energy is used to overcome the work function and provide kinetic energy to emitted electrons."
     },
