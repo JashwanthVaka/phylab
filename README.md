@@ -30,8 +30,8 @@ and ES modules on a dependency-free Node server.
   drafted locally, with each section checked against the weaknesses that cost marks.
 - **Mistake bank** (`/mistakes`) — every question you have answered wrongly, collected
   automatically and rescheduled at 1, 3, 7, 16 and 35 days.
-- **Revision planner** (`/revision`) — what is genuinely due today across flashcards and
-  the mistake bank.
+- **Revision planner** (`/revision`) — a week's plan built only from real state: elapsed
+  flashcards, banked mistakes and unstarted lessons, ordered by what costs most to leave.
 - **Case practice** (`/cases`), **question patterns** (`/patterns`), **active toolkit**
   (`/toolkit`), **exam preparation hub** (`/exam-prep`), **source library** (`/resources`),
   **formula centre** (`/formulas`), a **quiz engine** with deterministic marking, and
@@ -55,11 +55,12 @@ book, since `private/` never leaves your machine.
 npm test
 ```
 
-Nine suites: the physics engine against known cases, guest conversations, the retrieval
-engine, the uncertainty maths against hand-worked results, practice marking (partial
-credit and slip diagnosis), content cross-references (every case and pattern link
-resolves to a real lesson or simulation), the answer engine, the admin endpoint's
-refusals, and privacy boundaries.
+Thirteen suites: the physics engine against known cases, guest conversations, the
+retrieval engine, the uncertainty maths against hand-worked results, practice marking
+(partial credit and slip diagnosis), the weekly study plan, content cross-references,
+the answer engine, progress export and import, the database schema (row-level security
+and the locked role column), the admin endpoint's refusals, the whoami endpoint, and
+privacy boundaries.
 
 ## Publishing
 
@@ -87,11 +88,23 @@ the caller's token with Supabase and re-checks the address against `ADMIN_EMAILS
 
 ### Setup
 
-1. Create a project at [supabase.com](https://supabase.com), then open
-   **Project Settings → API**.
-2. Put the **Project URL** and the **anon public** key into `public-env.js`.
-   These two are designed to be public and are safe in the browser.
-3. In **Vercel → Settings → Environment Variables**, add:
+Create a project at [supabase.com](https://supabase.com), open **Project Settings →
+API**, then run:
+
+```bash
+npm run setup:accounts -- --url https://YOURPROJECT.supabase.co --anon ANON_KEY --service SERVICE_ROLE_KEY --admin you@gmail.com
+```
+
+That writes the browser-safe values to `public-env.js` and the secrets to a
+git-ignored `.env`. It refuses to run if `.env` is not ignored, or if the two keys
+are the same string.
+
+Then two things happen outside this machine:
+
+1. Run **both** migrations in the Supabase SQL editor, in filename order. The second
+   closes a privilege escalation; without it any signed-in student can make themselves
+   an administrator and read every other user's data.
+2. Put the same four values into **Vercel → Settings → Environment Variables**:
 
    | Variable | Value |
    | --- | --- |
@@ -100,13 +113,13 @@ the caller's token with Supabase and re-checks the address against `ADMIN_EMAILS
    | `SUPABASE_SERVICE_ROLE_KEY` | **secret** — Project Settings → API → `service_role` |
    | `ADMIN_EMAILS` | your own address, comma-separated for more than one |
 
-4. Turn on Google: in Supabase open **Authentication → Providers → Google**, enable
+3. Turn on Google: in Supabase open **Authentication → Providers → Google**, enable
    it, and paste in a client ID and secret from
    [console.cloud.google.com](https://console.cloud.google.com). In the Google
    console, add `https://<your-project>.supabase.co/auth/v1/callback` as an
    authorised redirect URI, and your site's origin as an authorised JavaScript
    origin.
-5. Redeploy. `GET /api/health` reports `adminConfigured`, and `/admin` will list
+4. Redeploy. `GET /api/health` reports `adminConfigured`, and `/admin` will list
    exactly which variables are still missing until all four are set.
 
 **The service-role key can read and modify every user in your project.** It belongs
