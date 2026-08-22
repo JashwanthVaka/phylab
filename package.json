@@ -8,7 +8,8 @@
     "test": "node tests/physicsEngine.test.mjs && node tests/guestConversation.test.mjs && node tests/retrievalEngine.test.cjs && node tests/uncertainty.test.mjs && node tests/assessment.test.mjs && node tests/content.test.mjs && node tests/answer.test.mjs && node tests/progressTransfer.test.mjs && node tests/schema.test.mjs && node tests/admin.test.mjs && node tests/privacy.test.mjs",
     "build": "node tools/build-static.mjs",
     "ingest": "node tools/ingest-book.mjs",
-    "build:netlify": "KINETIQ_TARGET=netlify node tools/build-static.mjs"
+    "build:netlify": "KINETIQ_TARGET=netlify node tools/build-static.mjs",
+    "setup:accounts": "node tools/setup-accounts.mjs"
   },
   "engines": {
     "node": ">=18"
