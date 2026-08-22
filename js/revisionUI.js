@@ -9,6 +9,8 @@
 import { escapeHTML } from './utils.js';
 import { lessonFlashcards } from './flashcards.js';
 import { collectMistakes } from './mistakeBank.js';
+import { buildWeeklyPlan } from './studyPlan.js';
+import { getProgress } from './utils.js';
 
 const CARD_KEY = 'phylab_flashcards_v1';
 const DAY = 86400000;
@@ -61,12 +63,53 @@ const dueLabel = card => {
   return days <= 1 ? 'Due tomorrow' : `In ${days} days`;
 };
 
+
+/**
+ * Renders the week ahead. Shown only when there is genuinely something to do,
+ * because an empty plan padded with filler is worse than no plan.
+ */
+function weeklyPlanHTML(plan) {
+  if (!plan.items.length) {
+    return plan.exhausted
+      ? `<section class="lesson-section"><div class="section-title"><p class="eyebrow">THIS WEEK</p><h2>Nothing outstanding</h2></div><p class="muted">Every lesson is complete and nothing is due for review. Practise a past topic, or come back when a card elapses.</p></section>`
+      : "";
+  }
+  const hours = (plan.minutes / 60).toFixed(1).replace(/\.0$/, "");
+  return `<section class="lesson-section plan-section">
+    <div class="section-title">
+      <p class="eyebrow">THIS WEEK</p>
+      <h2>About ${hours} hour${plan.minutes === 60 ? "" : "s"} of work</h2>
+    </div>
+    <p class="page-lead">Ordered by what costs you most to leave: overdue review first, then the next lesson, then practice aimed at a measured weakness.</p>
+    <ol class="plan-list">
+      ${plan.items.map((item, position) => `<li class="plan-item">
+        <span class="plan-item__num">${String(position + 1).padStart(2, "0")}</span>
+        <div class="plan-item__body">
+          <span class="plan-item__kind">${escapeHTML(item.kind)}</span>
+          <a href="${escapeHTML(item.href)}" data-route><b>${escapeHTML(item.title)}</b></a>
+          <span class="plan-item__detail">${escapeHTML(item.detail)}</span>
+        </div>
+        <span class="plan-item__time">${Math.round(item.minutes)} min</span>
+      </li>`).join("")}
+    </ol>
+  </section>`;
+}
+
 export function revisionPage(index, lessons) {
   const cards = scheduleFor(lessons);
   const due = cards.filter(card => card.isDue);
   const scheduled = cards.filter(card => !card.isDue).sort((a, b) => a.due - b.due);
   const mistakes = collectMistakes();
   const mistakesDue = mistakes.filter(item => item.due).length;
+  const completed = getProgress().completedLessons || [];
+  const plan = buildWeeklyPlan({
+    lessons: index.lessonIndex || [],
+    completed,
+    dueCards: due.length,
+    dueMistakes: mistakesDue,
+    weakTopics: [],
+    weeklyMinutes: 180,
+  });
 
   return `<section class="page revision-page">
     <p class="eyebrow">REVISION PLANNER</p>
@@ -88,6 +131,8 @@ export function revisionPage(index, lessons) {
         <p class="muted">rate a card once and it enters the schedule</p>
       </article>
     </div>
+
+    ${weeklyPlanHTML(plan)}
 
     ${due.length ? `<section class="lesson-section">
       <div class="section-title"><p class="eyebrow">START HERE</p><h2>Flashcards due now</h2></div>

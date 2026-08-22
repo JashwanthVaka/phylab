@@ -2553,3 +2553,27 @@ input, select, textarea, .stats, .facts {
 .account-status { min-height: 1.2em; margin: 0; }
 .account-status[data-tone="ok"] { color: var(--teal, #0F766E); font-weight: 600; }
 .account-note { font-size: 12.5px; margin-top: 26px; max-width: 62ch; line-height: 1.55; }
+
+/* ── Weekly plan ─────────────────────────────────────────────────────
+   Built only from real state: elapsed cards, banked mistakes, unstarted
+   lessons. Shown only when there is genuinely something to do. */
+.plan-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; counter-reset: plan; }
+.plan-item {
+  display: grid; grid-template-columns: 34px 1fr auto; gap: 14px; align-items: center;
+  padding: 16px 18px; border: 1px solid var(--line); border-radius: var(--r-lg, 20px);
+  background: var(--surface);
+  transition: border-color var(--t-fast) var(--ease), transform var(--t-fast) var(--ease);
+}
+.plan-item:hover { border-color: var(--blue); transform: translateY(-1px); }
+.plan-item__num { font: 12px var(--font-mono); color: var(--muted); }
+.plan-item__body { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.plan-item__kind { font: 10px var(--font-mono); letter-spacing: .09em; text-transform: uppercase; color: var(--blue); }
+.plan-item__body a { text-decoration: none; color: var(--ink); }
+.plan-item__body a:hover b { text-decoration: underline; }
+.plan-item__body b { font-size: 15.5px; font-weight: 650; letter-spacing: -.01em; }
+.plan-item__detail { font-size: 13px; color: var(--muted); line-height: 1.5; }
+.plan-item__time { font: 11px var(--font-mono); color: var(--muted); white-space: nowrap; }
+@media (max-width: 620px) {
+  .plan-item { grid-template-columns: 28px 1fr; }
+  .plan-item__time { grid-column: 2; }
+}
