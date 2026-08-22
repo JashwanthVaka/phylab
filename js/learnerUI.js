@@ -111,6 +111,20 @@ export function dashboardView(summary, extra = {}) {
         <article class="content-card"><h3>Apply it</h3><p>Case practice puts the current unit into a real context.</p><a class="text-button" href="/cases" data-route>Open case practice →</a></article>
       </div>
     </section>
+
+    <section class="lesson-section" data-progress-transfer>
+      <div class="section-title"><p class="eyebrow">YOUR DATA</p><h2>Move your progress</h2></div>
+      <p class="page-lead">Progress is stored in this browser, so a new device or a cleared cache would lose it. Save a file and you keep it yourself.</p>
+      <div class="transfer-row">
+        <button type="button" class="button" data-export-progress>Save my progress</button>
+        <label class="outline transfer-import">
+          Restore from a file
+          <input type="file" accept="application/json,.json" data-import-progress hidden>
+        </label>
+      </div>
+      <p class="muted transfer-status" role="status" data-transfer-status></p>
+      <p class="muted transfer-note">The file holds lessons completed, flashcard and mistake schedules, saved answers, past attempts and your IA draft. It does not include your KIT conversations.</p>
+    </section>
   </section>`;
 }
 
@@ -122,3 +136,63 @@ export const masteryView = summary => `<section class="page">
   <div class="card-grid">${[...(summary.strongestTopics || []), ...(summary.weakestTopics || [])].map(topic => `<article class="content-card"><h3>${escapeHTML(topic.topic_slug)}</h3><div class="bar"><i style="width:${topic.mastery_score || 0}%"></i></div><p>${topic.mastery_score || 0}% · ${escapeHTML(masteryService.level(topic.mastery_score || 0))}</p><a class="text-button" href="/quiz" data-route>Practise →</a></article>`).join('')
     || '<div class="empty-state"><h3>No mastery data yet</h3><p>Mastery scores are recorded against a signed-in account as you complete questions and quizzes. Guest practice results appear on your progress page instead.</p><a class="button" href="/progress" data-route>Open progress</a></div>'}</div>
 </section>`;
+
+/**
+ * Wires saving and restoring progress.
+ *
+ * Import replaces rather than merges: two half-merged review schedules would
+ * be worse than either one alone, and a student restoring a backup expects
+ * the backup. It is confirmed first, because it overwrites real work.
+ */
+export function bindProgressTransfer() {
+  const section = document.querySelector('[data-progress-transfer]');
+  if (!section) return undefined;
+  const controller = new AbortController();
+  const status = section.querySelector('[data-transfer-status]');
+  const say = (message, tone = '') => {
+    if (!status) return;
+    status.textContent = message;
+    status.dataset.tone = tone;
+  };
+
+  section.querySelector('[data-export-progress]')?.addEventListener('click', async () => {
+    const { collectProgress, describe, exportFilename } = await import('./progressTransfer.js');
+    const payload = collectProgress();
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = exportFilename();
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    // Revoked on the next turn so the download has certainly started.
+    setTimeout(() => URL.revokeObjectURL(url), 0);
+    say(`Saved ${exportFilename()} — ${describe(payload)}.`, 'ok');
+  }, { signal: controller.signal });
+
+  section.querySelector('[data-import-progress]')?.addEventListener('change', async event => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    const { applyProgress, describe, validate } = await import('./progressTransfer.js');
+    try {
+      const payload = JSON.parse(await file.text());
+      const problem = validate(payload);
+      if (problem) throw new Error(problem);
+      const saved = payload.exportedAt ? new Date(payload.exportedAt).toLocaleDateString() : 'an unknown date';
+      const proceed = window.confirm(
+        `Restore progress saved on ${saved}?\n\nIt contains ${describe(payload)}.\n\nThis replaces the progress currently in this browser.`
+      );
+      if (!proceed) { say('Nothing was changed.'); event.target.value = ''; return; }
+      const restored = applyProgress(payload);
+      say(`Restored ${restored.length} item${restored.length === 1 ? '' : 's'}. Reloading…`, 'ok');
+      setTimeout(() => location.reload(), 700);
+    } catch (error) {
+      say(error.message || 'That file could not be read.', 'bad');
+    } finally {
+      event.target.value = '';
+    }
+  }, { signal: controller.signal });
+
+  return () => controller.abort();
+}

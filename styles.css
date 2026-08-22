@@ -2475,3 +2475,23 @@ input, select, textarea, .stats, .facts {
 /* The mark is a flex item, so it must be told not to shrink; without this it
    collapses to zero width and the label wraps around nothing. */
 .oauth-button svg { flex: 0 0 18px; width: 18px; height: 18px; display: block; }
+
+/* ── Data lab empty state ────────────────────────────────────────────
+   The lab used to arrive pre-filled with a pendulum experiment, so the
+   first thing a student saw was a finished analysis that looked like
+   their own result. It starts blank now, and offers the example. */
+.dl-example-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; margin: 10px 0 0; font-size: 13px; }
+.dl-empty { border-radius: var(--r-lg, 20px); }
+.dl-empty p { margin: 8px 0 0; line-height: 1.6; }
+.dl-empty .text-button { font-size: inherit; text-decoration: underline; }
+@media (pointer: coarse) { .dl-example-row .text-button { min-height: 44px; display: inline-flex; align-items: center; } }
+
+/* ── Move your progress ──────────────────────────────────────────────
+   Progress lives in one browser, so a file the student keeps is the
+   honest answer until account sync is configured. */
+.transfer-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.transfer-import { cursor: pointer; }
+.transfer-status { margin: 14px 0 0; font-size: 13.5px; min-height: 1.2em; }
+.transfer-status[data-tone="ok"] { color: var(--teal, #0F766E); font-weight: 600; }
+.transfer-status[data-tone="bad"] { color: var(--danger, #B91C1C); font-weight: 600; }
+.transfer-note { font-size: 12.5px; line-height: 1.55; margin: 6px 0 0; max-width: 62ch; }

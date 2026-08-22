@@ -23,7 +23,7 @@ import { progressService } from './js/services/progressService.js';
 import { bookmarkService } from './js/services/bookmarkService.js';
 import { offlineSyncService } from './js/services/offlineSyncService.js';
 import { dashboardService } from './js/services/dashboardService.js';
-import { dashboardView, masteryView } from './js/learnerUI.js';
+import { dashboardView, masteryView , bindProgressTransfer } from './js/learnerUI.js';
 
 const app = document.querySelector('#app');
 const loader = new ContentLoader();
@@ -232,7 +232,7 @@ const router = new Router({
     const [index, resources] = await Promise.all([loader.getIndex(), loadPageModule('./js/resourcesUI.js')]);
     return { view: resources.resourcesPage(index) };
   }, 'Loading the source library…'),
-  '/progress': () => transition(async () => ({ view: dashboardView(...(await dashboardContext())) }), 'Loading progress…'),
+  '/progress': () => transition(async () => ({ view: dashboardView(...(await dashboardContext())), mount: () => bindProgressTransfer() }), 'Loading progress…'),
   '/mastery': () => transition(async () => ({ view: masteryView(await dashboardService.summary()) }), 'Loading mastery…'),
   '/activity': () => transition(async () => ({ view: dashboardView(...(await dashboardContext())) }), 'Loading activity…'),
   '/login': () => transition(async () => ({ view: authPage('login') }), 'Opening sign in…'),

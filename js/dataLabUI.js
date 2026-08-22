@@ -84,18 +84,22 @@ export function dataLabPage() {
       <section class="content-card">
         <h2>Your data</h2>
         <label for="dlData">Paste columns: x, y, and optionally the uncertainty in x and in y</label>
-        <textarea id="dlData" rows="9" spellcheck="false" aria-describedby="dlDataHelp">${SAMPLE}</textarea>
+        <textarea id="dlData" rows="9" spellcheck="false" aria-describedby="dlDataHelp" placeholder="0.200&#10;0.400&#10;0.600"></textarea>
+        <p class="dl-example-row">
+          <button type="button" class="text-button" data-load-example>Load a worked example →</button>
+          <span class="muted">A pendulum experiment, so you can see what a finished analysis looks like.</span>
+        </p>
         <p id="dlDataHelp" class="muted">One row per line, separated by spaces, tabs or commas. A first line of words is treated as a header. Example: <code>0.20 0.897 0.001 0.01</code></p>
 
         <label for="dlTransform">Plot</label>
         <select id="dlTransform">${Object.entries(TRANSFORMS).map(([key, value]) => `<option value="${key}">${escapeHTML(value.label)}</option>`).join('')}</select>
 
         <div class="dl-fields">
-          <label>x-axis label <input id="dlXLabel" value="length / m"></label>
-          <label>y-axis label <input id="dlYLabel" value="period / s"></label>
+          <label>x-axis label <input id="dlXLabel" placeholder="e.g. length / m"></label>
+          <label>y-axis label <input id="dlYLabel" placeholder="e.g. period / s"></label>
         </div>
         <div class="dl-fields">
-          <label>Gradient should equal <input id="dlRelation" value="4π²/g" aria-label="What the gradient represents"></label>
+          <label>Gradient should equal <input id="dlRelation" placeholder="e.g. 4π²/g" aria-label="What the gradient represents"></label>
           <label>Accepted value <input id="dlAccepted" inputmode="decimal" placeholder="e.g. 9.81"></label>
         </div>
         <p class="muted">Enter an accepted value to have KINETIQ judge whether your result agrees within its uncertainty.</p>
@@ -152,10 +156,41 @@ export function bindDataLab() {
   const plotHolder = page.querySelector('#dlPlot');
   const note = page.querySelector('#dlNote');
 
+  /**
+   * Fills the lab with a complete pendulum experiment, labels and all, so a
+   * student can see a finished analysis before trusting it with their own
+   * numbers. Delegated from the page, because the button also appears inside
+   * the result panel, which is re-rendered on every keystroke.
+   */
+  const loadExample = () => {
+    dataInput.value = SAMPLE;
+    xLabel.value = "length / m";
+    yLabel.value = "period / s";
+    relation.value = "4\u03C0\u00B2/g";
+    accepted.value = "9.81";
+    // T = 2π√(L/g), so T² against L is the straight line, with gradient 4π²/g.
+    if (transformSelect.querySelector(`option[value="y2-x"]`)) transformSelect.value = "y2-x";
+    render();
+    dataInput.focus();
+  };
+  page.addEventListener("click", event => {
+    if (event.target.closest("[data-load-example]")) { event.preventDefault(); loadExample(); }
+  }, { signal: controller.signal });
+
   const render = () => {
     const { rows, problems } = parseTable(dataInput.value);
     if (rows.length < 2) {
-      result.innerHTML = `<p class="dl-warn">Enter at least two rows of data.${problems.length ? ` ${escapeHTML(problems[0])}` : ''}</p>`;
+      // An empty lab used to arrive pre-filled with a pendulum experiment, so
+      // the first thing a student saw was a finished analysis that looked like
+      // their own result. It now starts blank and says what it is waiting for.
+      const untouched = !dataInput.value.trim();
+      result.innerHTML = untouched
+        ? `<div class="empty-state dl-empty">
+             <h3>Nothing plotted yet</h3>
+             <p>Paste two or more rows of measurements on the left. KINETIQ will plot them with error bars, fit a line, and work out the gradient with its uncertainty.</p>
+             <p class="muted">No data of your own yet? <button type="button" class="text-button" data-load-example>Load a worked example</button>.</p>
+           </div>`
+        : `<p class="dl-warn">Enter at least two rows of data.${problems.length ? ` ${escapeHTML(problems[0])}` : ''}</p>`;
       plotHolder.innerHTML = '';
       note.textContent = '';
       return;
