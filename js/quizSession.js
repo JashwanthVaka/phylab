@@ -168,10 +168,32 @@ function sessionView(session) {
     <footer><button type="button" data-prev ${session.currentIndex === 0 ? 'disabled' : ''}>Previous</button><button type="button" data-flag>${session.flags.includes(question.id) ? 'Remove flag' : 'Flag for review'}</button><button type="button" data-next ${session.currentIndex === session.questions.length - 1 ? 'disabled' : ''}>Next</button><button type="button" data-review>Review flags (${session.flags.length})</button><button type="button" data-submit class="button">Submit quiz</button></footer></section>`;
 }
 
+/**
+ * The mark broken down by criterion.
+ *
+ * A single score tells a student what they got, not where it went. Showing
+ * value, unit and significant figures separately means a right answer written
+ * without "m s⁻¹" reads as one lost mark on a named criterion rather than as
+ * a blank result they have to reverse-engineer.
+ *
+ * Advisory criteria are marked as such, because significant figures are
+ * reported here but not penalised.
+ */
+const criteriaHTML = result => {
+  const criteria = result?.criteria || [];
+  if (!criteria.length) return '';
+  return `<ul class="mark-criteria">${criteria.map(item => `
+    <li class="mark-criteria__row ${item.met ? 'is-met' : 'is-missed'}${item.advisory ? ' is-advisory' : ''}">
+      <span class="mark-criteria__mark" aria-hidden="true">${item.met ? '✓' : (item.advisory ? '!' : '✕')}</span>
+      <span class="mark-criteria__name">${escapeHTML(item.name)}<span class="visually-hidden">: ${item.met ? 'met' : 'not met'}</span></span>
+      <span class="mark-criteria__note">${escapeHTML(item.note || '')}</span>
+    </li>`).join('')}</ul>`;
+};
+
 export const resultView = report => `<section class="page"><p class="eyebrow">PRACTICE RESULTS</p><h1>${report.marksEarned}/${report.maxMarks} marks</h1><p class="page-lead">${report.analytics.percentage}% overall · ${report.analytics.accuracy}% question accuracy · ${formatTime(report.elapsedSeconds)} used</p>
   <p class="practice-note"><b>KINETIQ practice marking.</b> Marks are awarded by KINETIQ’s own deterministic marker against the recorded answer, tolerance and unit. This is study feedback, not an official IB mark or an IB mark scheme.</p>
   <div class="card-grid"><article class="content-card"><h3>Strongest topics</h3><p>${report.analytics.strongTopics.map(topic => `${escapeHTML(topic.label)} (${topic.percentage}%)`).join('<br>') || 'Complete more questions to identify a strength.'}</p></article><article class="content-card"><h3>Review next</h3><p>${report.analytics.weakTopics.map(topic => `${escapeHTML(topic.label)} (${topic.percentage}%)`).join('<br>') || 'Complete more questions to identify a review target.'}</p></article></div>
-  <section class="lesson-section"><h2>Question review</h2>${report.review.map((item, index) => `<article class="content-card"><span class="tag">QUESTION ${index + 1} · ${escapeHTML(item.q.topic)} · ${item.r.marks}/${item.q.marks} MARKS</span><h3>${escapeHTML(item.q.question)}</h3><p><b>Your answer:</b> ${escapeHTML(item.a || 'No answer')}</p><p><b>Model answer:</b> ${escapeHTML(item.q.correct_answer)}</p><p>${escapeHTML(item.r.reason || '')}</p>${item.q.solution ? `<details><summary>View worked solution</summary><p>${escapeHTML(item.q.solution)}</p></details>` : ''}${item.q.lessonReferences?.[0] ? `<a href="/lesson/${encodeURIComponent(item.q.lessonReferences[0])}" data-route>Review lesson →</a>` : ''}</article>`).join('')}</section><a class="button" href="/quiz" data-route>Practise again</a></section>`;
+  <section class="lesson-section"><h2>Question review</h2>${report.review.map((item, index) => `<article class="content-card"><span class="tag">QUESTION ${index + 1} · ${escapeHTML(item.q.topic)} · ${item.r.marks}/${item.q.marks} MARKS</span><h3>${escapeHTML(item.q.question)}</h3><p><b>Your answer:</b> ${escapeHTML(item.a || 'No answer')}</p><p><b>Model answer:</b> ${escapeHTML(item.q.correct_answer)}</p><p>${escapeHTML(item.r.reason || '')}</p>${criteriaHTML(item.r)}${item.q.solution ? `<details><summary>View worked solution</summary><p>${escapeHTML(item.q.solution)}</p></details>` : ''}${item.q.lessonReferences?.[0] ? `<a href="/lesson/${encodeURIComponent(item.q.lessonReferences[0])}" data-route>Review lesson →</a>` : ''}</article>`).join('')}</section><a class="button" href="/quiz" data-route>Practise again</a></section>`;
 
 export function bindQuizSession(data, initialOptions = {}) {
   const root = document.querySelector('#quizMount');

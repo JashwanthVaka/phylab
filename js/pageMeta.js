@@ -146,6 +146,9 @@ export function applyRouteMeta(path) {
     formulas: [pretty, `${pretty}: what every symbol means, its SI unit and dimension, and how to use the relationship.`],
     simulations: [`${pretty} lab`, `Model ${pretty.toLowerCase()} from the real equation. Change a variable and watch the result respond.`],
     cases: [pretty, `${pretty}: a real-world physics context with an exam-style question and its mark points.`],
+    // A results page belongs to one attempt on one device, so it gets a title
+    // for the tab and history but nothing worth describing to a search engine.
+    results: ['Practice results', 'Your marks for this practice attempt, broken down by criterion.'],
   };
   const fallback = byKind[kind];
   if (fallback && slug) return setPageMeta({ title: fallback[0], description: fallback[1], path: clean });

@@ -2404,3 +2404,26 @@ input, select, textarea, .stats, .facts {
 .connected-tile b { font-size: 15.5px; font-weight: 650; letter-spacing: -.01em; line-height: 1.3; }
 .connected-tile__note { font-size: 13px; color: var(--muted); line-height: 1.5; }
 @media (pointer: coarse) { .connected-tile { min-height: 96px; } }
+
+/* ── Mark criteria ───────────────────────────────────────────────────
+   A single score says what you got, not where it went. Value, unit and
+   significant figures are listed separately so a lost mark is named. */
+.mark-criteria { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 8px; }
+.mark-criteria__row {
+  display: grid; grid-template-columns: 22px minmax(0, auto) 1fr; gap: 10px; align-items: baseline;
+  padding: 10px 12px; border-radius: var(--r-md, 12px); background: var(--surface-alt);
+  border-left: 3px solid var(--line-strong); font-size: 13.5px;
+}
+.mark-criteria__row.is-met { border-left-color: var(--teal, #0F766E); }
+.mark-criteria__row.is-missed { border-left-color: var(--danger, #B91C1C); }
+.mark-criteria__row.is-advisory { border-left-color: var(--accent, #F4B942); }
+.mark-criteria__mark { font-weight: 700; text-align: center; }
+.is-met .mark-criteria__mark { color: var(--teal, #0F766E); }
+.is-missed .mark-criteria__mark { color: var(--danger, #B91C1C); }
+.is-advisory .mark-criteria__mark { color: var(--blue); }
+.mark-criteria__name { font-weight: 650; white-space: nowrap; }
+.mark-criteria__note { color: var(--muted); line-height: 1.5; }
+@media (max-width: 620px) {
+  .mark-criteria__row { grid-template-columns: 22px 1fr; }
+  .mark-criteria__note { grid-column: 2; }
+}
