@@ -27,13 +27,22 @@ function lessonRecords(lesson) {
   return records;
 }
 
+
+/**
+ * Formulas carry no slug of their own; the formula centre derives one from the
+ * name. Retrieval must derive it the same way, or every formula KIT cites
+ * links to the index instead of to that formula.
+ */
+const formulaSlug = name => String(name || "").toLowerCase()
+  .replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+
 function buildRecords(catalogue) {
   const records = (catalogue.lessons || []).flatMap(lessonRecords);
-  (catalogue.formulas || []).forEach(item => records.push(record('Formula', item.name || item.formula, compact(item), `/formulas/${item.slug || ''}`, { topic: item.topic })));
+  (catalogue.formulas || []).forEach(item => records.push(record('Formula', item.name || item.formula, compact(item), `/formulas/${item.slug || formulaSlug(item.name || item.formula)}`, { topic: item.topic })));
   (catalogue.examples || []).forEach(item => records.push(record('Worked example', item.title || item.topic || 'KINETIQ example', compact(item), item.lesson_slug ? `/lesson/${item.lesson_slug}` : '/formulas', { topic: item.topic })));
   (catalogue.glossary || []).forEach(item => records.push(record('Glossary', item.term || item.word, compact(item), item.lesson_slug ? `/lesson/${item.lesson_slug}` : '/search', { topic: item.topic })));
   (catalogue.questions || []).forEach(item => records.push(record('Question', item.topic || 'Practice question', `${item.question || ''} ${item.solution || ''} ${item.answer || ''}`, '/quiz', { topic: item.topic, level: item.level, type: item.type })));
-  (catalogue.simulations || []).forEach(item => records.push(record('Simulation', item.name || item.title, `${item.description || ''} ${compact(item.variables)}`, '/simulations', { topic: item.topic })));
+  (catalogue.simulations || []).forEach(item => records.push(record('Simulation', item.name || item.title, `${item.description || ''} ${compact(item.variables)}`, item.slug ? `/simulations/${item.slug}` : '/simulations', { topic: item.topic })));
   // Method and context material was never indexed, so questions about how to
   // do something ("find the gradient uncertainty", "structure an evaluation")
   // had nothing to match against.
