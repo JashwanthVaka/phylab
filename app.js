@@ -238,7 +238,10 @@ const router = new Router({
   '/login': () => transition(async () => ({ view: authPage('login') }), 'Opening sign in…'),
   '/signup': () => transition(async () => ({ view: authPage('signup') }), 'Opening sign up…'),
   '/onboarding': () => transition(async () => ({ view: onboardingPage() }), 'Preparing onboarding…'),
-  '/account': () => transition(async () => ({ view: accountPage(await profileService.get()) }), 'Loading account…'),
+  '/account': () => transition(async () => {
+    const [profile, account] = await Promise.all([profileService.get(), loadPageModule('./js/accountPage.js')]);
+    return { view: await account.accountPage(profile), mount: () => bindAccount(router) };
+  }, 'Loading account…'),
   '/bookmarks': () => transition(async () => ({ view: bookmarkPage(await bookmarkService.list()) }), 'Loading bookmarks…'),
   '/revision': () => transition(async () => {
     const [index, planner] = await Promise.all([loader.getIndex(), loadPageModule('./js/revisionUI.js')]);

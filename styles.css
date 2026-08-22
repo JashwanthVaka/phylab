@@ -2529,3 +2529,27 @@ input, select, textarea, .stats, .facts {
 /* `display: grid` outranks the hidden attribute's default display:none, so a
    hidden avatar still painted as an empty circle next to "Sign in". */
 .nav-avatar[hidden], .nav-signin[hidden], .nav-account__menu [hidden] { display: none; }
+
+/* ── Account page ────────────────────────────────────────────────────
+   The previous version was three fields with no context: it never said
+   who you were, how you signed in, or whether anything was syncing. */
+.account-identity { display: flex; align-items: center; gap: 16px; margin-bottom: 26px; }
+.account-identity__avatar {
+  width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--pale); color: var(--blue-strong); border: 1px solid var(--line-strong);
+  font-size: 22px; font-weight: 700;
+}
+.account-identity div { display: flex; flex-direction: column; gap: 2px; }
+.account-identity b { font-size: 19px; letter-spacing: -.02em; }
+.account-identity span { font-size: 13.5px; word-break: break-all; }
+.account-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin: 0 0 32px; }
+.account-facts > div { border: 1px solid var(--line); border-radius: var(--r-lg, 20px); background: var(--surface); padding: 16px 18px; }
+.account-facts dt { font: 10px var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 5px; }
+.account-facts dd { margin: 0; font-size: 15px; font-weight: 600; }
+.account-page .account-form { max-width: 520px; display: grid; gap: 16px; }
+.account-page .account-form h2 { font-size: 20px; margin: 0; letter-spacing: -.02em; }
+.account-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.account-signout { color: var(--danger, #B91C1C); }
+.account-status { min-height: 1.2em; margin: 0; }
+.account-status[data-tone="ok"] { color: var(--teal, #0F766E); font-weight: 600; }
+.account-note { font-size: 12.5px; margin-top: 26px; max-width: 62ch; line-height: 1.55; }
