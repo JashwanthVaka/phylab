@@ -10,7 +10,7 @@ and ES modules on a dependency-free Node server.
 | | |
 | --- | --- |
 | Lessons | 26, in syllabus order across the five course units |
-| Practice questions | 178 original, 40 of them multiple choice |
+| Practice questions | 218 original, 43 of them multiple choice, 88 at HL |
 | Applied cases | 19 real-world contexts |
 | Command terms | 15, with method and model answers |
 | Simulations | 26 labs, one per lesson, driven by the real equations |
@@ -152,6 +152,4 @@ local-only for the same reason.
 
 - Supabase is fully wired but unconfigured, so progress is stored per browser. Filling in
   `public-env.js` with a project URL and anon key enables cross-device sync.
-- The question bank is 178 items across all 26 lessons. HL is the thinner half at 45, so
-  that is where the next batch should go.
 - Applied cases are uneven by unit: A has five, B and C four each, D and E three.

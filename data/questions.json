@@ -3518,5 +3518,780 @@
       "binding-energy",
       "explanation"
     ]
+  },
+  {
+    "topic": "Gravitation",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "Calculate the gravitational potential at the surface of the Earth. Use G = 6.67 × 10⁻¹¹ N m² kg⁻², mass of Earth = 5.97 × 10²⁴ kg and radius = 6.37 × 10⁶ m.",
+    "answer": "-6.25 × 10^7",
+    "unit": "J kg⁻¹",
+    "tolerance": 2000000,
+    "solution": "Vg = -GM/r = -(6.67 × 10⁻¹¹ × 5.97 × 10²⁴) / (6.37 × 10⁶) = -(3.98 × 10¹⁴) / (6.37 × 10⁶) = -6.25 × 10⁷ J kg⁻¹. The sign is negative because gravitational potential is defined as zero at infinity and work must be done on a mass to move it out to there.",
+    "lessonReferences": [
+      "fields"
+    ],
+    "tags": [
+      "gravitational potential",
+      "calculation"
+    ],
+    "id": 179
+  },
+  {
+    "topic": "Gravitation",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "Calculate the escape speed from the surface of the Earth. Use G = 6.67 × 10⁻¹¹ N m² kg⁻², mass = 5.97 × 10²⁴ kg and radius = 6.37 × 10⁶ m.",
+    "answer": "1.12 × 10^4",
+    "unit": "m s⁻¹",
+    "tolerance": 400,
+    "solution": "Escape requires the kinetic energy to equal the depth of the potential well: ½mv² = GMm/r, so v = √(2GM/r) = √(2 × 3.98 × 10¹⁴ / 6.37 × 10⁶) = √(1.25 × 10⁸) = 1.12 × 10⁴ m s⁻¹, about 11.2 km s⁻¹. The mass of the escaping object cancels.",
+    "lessonReferences": [
+      "fields"
+    ],
+    "tags": [
+      "escape speed",
+      "calculation"
+    ],
+    "id": 180
+  },
+  {
+    "topic": "Gravitation",
+    "level": "HL",
+    "difficulty": "hard",
+    "marks": 4,
+    "question": "A 1200 kg satellite is in a circular orbit of radius 7.0 × 10⁶ m about the Earth. Calculate its total energy. Use GM = 3.98 × 10¹⁴ N m² kg⁻¹.",
+    "answer": "-3.41 × 10^10",
+    "unit": "J",
+    "tolerance": 1500000000,
+    "solution": "For a circular orbit the kinetic energy is +GMm/2r and the potential energy is -GMm/r, so the total is E = -GMm/2r. E = -(3.98 × 10¹⁴ × 1200) / (2 × 7.0 × 10⁶) = -(4.78 × 10¹⁷) / (1.4 × 10⁷) = -3.41 × 10¹⁰ J. The total energy is negative, which is what makes the orbit bound.",
+    "lessonReferences": [
+      "fields"
+    ],
+    "tags": [
+      "orbital energy",
+      "calculation"
+    ],
+    "id": 181
+  },
+  {
+    "topic": "Gravitation",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "Calculate the orbital speed of a satellite in a circular orbit of radius 7.0 × 10⁶ m about the Earth. Use GM = 3.98 × 10¹⁴ N m² kg⁻¹.",
+    "answer": "7.54 × 10^3",
+    "unit": "m s⁻¹",
+    "tolerance": 250,
+    "solution": "The gravitational force provides the centripetal force: GMm/r² = mv²/r, so v = √(GM/r) = √(3.98 × 10¹⁴ / 7.0 × 10⁶) = √(5.69 × 10⁷) = 7.54 × 10³ m s⁻¹. The satellite mass cancels, so all satellites at this radius orbit at the same speed.",
+    "lessonReferences": [
+      "fields"
+    ],
+    "tags": [
+      "orbital speed",
+      "calculation"
+    ],
+    "id": 182
+  },
+  {
+    "topic": "Electric Fields",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "Calculate the electric potential 0.30 m from a point charge of +2.0 × 10⁻⁶ C. Use k = 8.99 × 10⁹ N m² C⁻².",
+    "answer": "6.0 × 10^4",
+    "unit": "V",
+    "tolerance": 2000,
+    "solution": "Ve = kQ/r = (8.99 × 10⁹ × 2.0 × 10⁻⁶) / 0.30 = (1.80 × 10⁴) / 0.30 = 6.0 × 10⁴ V. Unlike field strength, potential is a scalar, so there is no direction to resolve.",
+    "lessonReferences": [
+      "electric-fields"
+    ],
+    "tags": [
+      "electric potential",
+      "calculation"
+    ],
+    "id": 183
+  },
+  {
+    "topic": "Electric Fields",
+    "level": "HL",
+    "difficulty": "easy",
+    "marks": 2,
+    "question": "A charge of 3.0 × 10⁻⁶ C is moved through a potential difference of 250 V. Calculate the work done on the charge.",
+    "answer": "7.5 × 10^-4",
+    "unit": "J",
+    "tolerance": 0.00003,
+    "solution": "W = qΔV = 3.0 × 10⁻⁶ × 250 = 7.5 × 10⁻⁴ J. Potential difference is defined as work done per unit charge, so this follows directly from the definition.",
+    "lessonReferences": [
+      "electric-fields"
+    ],
+    "tags": [
+      "potential difference",
+      "work"
+    ],
+    "id": 184
+  },
+  {
+    "topic": "Electric Fields",
+    "level": "HL",
+    "difficulty": "hard",
+    "marks": 3,
+    "question": "Two point charges of +2.0 × 10⁻⁶ C and +3.0 × 10⁻⁶ C are held 0.50 m apart. Calculate the electric potential energy of the pair. Use k = 8.99 × 10⁹ N m² C⁻².",
+    "answer": "0.108",
+    "unit": "J",
+    "tolerance": 0.006,
+    "solution": "Ep = kQ₁Q₂/r = (8.99 × 10⁹ × 2.0 × 10⁻⁶ × 3.0 × 10⁻⁶) / 0.50 = (5.39 × 10⁻²) / 0.50 = 0.108 J. The value is positive because both charges have the same sign, so work was done against repulsion to assemble them.",
+    "lessonReferences": [
+      "electric-fields"
+    ],
+    "tags": [
+      "electric potential energy",
+      "calculation"
+    ],
+    "id": 185
+  },
+  {
+    "topic": "Motion in Fields",
+    "level": "HL",
+    "difficulty": "hard",
+    "marks": 3,
+    "question": "An electron travelling at 2.0 × 10⁶ m s⁻¹ enters a magnetic field of 0.50 T at right angles. Calculate the radius of its circular path. Use m = 9.11 × 10⁻³¹ kg and q = 1.6 × 10⁻¹⁹ C.",
+    "answer": "2.3 × 10^-5",
+    "unit": "m",
+    "tolerance": 0.000002,
+    "solution": "The magnetic force provides the centripetal force: qvB = mv²/r, so r = mv/(qB) = (9.11 × 10⁻³¹ × 2.0 × 10⁶) / (1.6 × 10⁻¹⁹ × 0.50) = (1.82 × 10⁻²⁴) / (8.0 × 10⁻²⁰) = 2.3 × 10⁻⁵ m.",
+    "lessonReferences": [
+      "motion-in-fields"
+    ],
+    "tags": [
+      "charged particle",
+      "circular motion"
+    ],
+    "id": 186
+  },
+  {
+    "topic": "Motion in Fields",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "In a velocity selector the electric field is 3.0 × 10⁴ V m⁻¹ and the magnetic field is 0.20 T. Calculate the speed of the particles that pass through undeflected.",
+    "answer": "1.5 × 10^5",
+    "unit": "m s⁻¹",
+    "tolerance": 5000,
+    "solution": "A particle passes undeflected when the electric and magnetic forces balance: qE = qvB, so v = E/B = (3.0 × 10⁴) / 0.20 = 1.5 × 10⁵ m s⁻¹. The charge cancels, so the selected speed is the same for every particle regardless of charge or mass.",
+    "lessonReferences": [
+      "motion-in-fields"
+    ],
+    "tags": [
+      "velocity selector",
+      "calculation"
+    ],
+    "id": 187
+  },
+  {
+    "topic": "Motion in Fields",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 1,
+    "question": "A charged particle moves in a circle in a uniform magnetic field. If its speed is doubled, the radius of its path:",
+    "options": [
+      "doubles",
+      "stays the same",
+      "halves",
+      "quadruples"
+    ],
+    "correctAnswer": "doubles",
+    "answer": "doubles",
+    "solution": "From r = mv/(qB), the radius is directly proportional to speed when m, q and B are fixed. Doubling v doubles r. The period T = 2πm/(qB) is independent of speed, which is the principle the cyclotron relies on.",
+    "lessonReferences": [
+      "motion-in-fields"
+    ],
+    "tags": [
+      "charged particle",
+      "conceptual"
+    ],
+    "id": 188
+  },
+  {
+    "topic": "Magnetic Fields",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "A charge of 1.6 × 10⁻¹⁹ C moves at 5.0 × 10⁶ m s⁻¹ perpendicular to a magnetic field of 0.30 T. Calculate the magnitude of the force on it.",
+    "answer": "2.4 × 10^-13",
+    "unit": "N",
+    "tolerance": 1e-14,
+    "solution": "F = qvB sin θ with θ = 90°, so F = 1.6 × 10⁻¹⁹ × 5.0 × 10⁶ × 0.30 = 2.4 × 10⁻¹³ N. The force is perpendicular to both v and B, so it changes direction but never speed.",
+    "lessonReferences": [
+      "magnetic-fields"
+    ],
+    "tags": [
+      "magnetic force",
+      "calculation"
+    ],
+    "id": 189
+  },
+  {
+    "topic": "Magnetic Fields",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "Calculate the magnetic flux density 0.10 m from a long straight wire carrying a current of 5.0 A. Use μ₀ = 4π × 10⁻⁷ T m A⁻¹.",
+    "answer": "1.0 × 10^-5",
+    "unit": "T",
+    "tolerance": 0.000001,
+    "solution": "B = μ₀I/(2πr) = (4π × 10⁻⁷ × 5.0) / (2π × 0.10) = (6.28 × 10⁻⁶) / 0.628 = 1.0 × 10⁻⁵ T. The 2π and the π in μ₀ partly cancel, which is why the arithmetic comes out clean.",
+    "lessonReferences": [
+      "magnetic-fields"
+    ],
+    "tags": [
+      "magnetic flux density",
+      "calculation"
+    ],
+    "id": 190
+  },
+  {
+    "topic": "Magnetic Fields",
+    "level": "HL",
+    "difficulty": "easy",
+    "marks": 1,
+    "question": "A wire carries current north in a magnetic field directed vertically downwards. The force on the wire is directed:",
+    "options": [
+      "east",
+      "west",
+      "upwards",
+      "south"
+    ],
+    "correctAnswer": "east",
+    "answer": "east",
+    "solution": "Using F = IL × B with the left-hand or right-hand rule as taught: current north, field down, gives a force to the east. The force is always perpendicular to both the current and the field, so it can never be along either of them.",
+    "lessonReferences": [
+      "magnetic-fields"
+    ],
+    "tags": [
+      "magnetic force",
+      "direction"
+    ],
+    "id": 191
+  },
+  {
+    "topic": "Atomic Physics",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 2,
+    "question": "Calculate the energy of the n = 3 level in a hydrogen atom, using En = -13.6/n² eV.",
+    "answer": "-1.51",
+    "unit": "eV",
+    "tolerance": 0.05,
+    "solution": "E₃ = -13.6/3² = -13.6/9 = -1.51 eV. The levels get closer together as n rises and converge on zero, which is the ionisation limit.",
+    "lessonReferences": [
+      "atomic-physics"
+    ],
+    "tags": [
+      "energy levels",
+      "calculation"
+    ],
+    "id": 192
+  },
+  {
+    "topic": "Atomic Physics",
+    "level": "HL",
+    "difficulty": "hard",
+    "marks": 3,
+    "question": "An electron in a hydrogen atom falls from n = 3 to n = 2. Calculate the energy of the emitted photon in electronvolts. Use En = -13.6/n² eV.",
+    "answer": "1.89",
+    "unit": "eV",
+    "tolerance": 0.06,
+    "solution": "E₃ = -13.6/9 = -1.51 eV and E₂ = -13.6/4 = -3.40 eV. The photon carries the difference: ΔE = -1.51 - (-3.40) = 1.89 eV. Because the levels are discrete, only certain photon energies appear, which is why the spectrum is a line spectrum rather than continuous.",
+    "lessonReferences": [
+      "atomic-physics"
+    ],
+    "tags": [
+      "energy levels",
+      "photon emission"
+    ],
+    "id": 193
+  },
+  {
+    "topic": "Atomic Physics",
+    "level": "HL",
+    "difficulty": "hard",
+    "marks": 3,
+    "question": "A photon of energy 1.89 eV is emitted by a hydrogen atom. Calculate its wavelength. Use h = 6.63 × 10⁻³⁴ J s, c = 3.00 × 10⁸ m s⁻¹ and 1 eV = 1.60 × 10⁻¹⁹ J.",
+    "answer": "6.6 × 10^-7",
+    "unit": "m",
+    "tolerance": 3e-8,
+    "solution": "Convert first: E = 1.89 × 1.60 × 10⁻¹⁹ = 3.02 × 10⁻¹⁹ J. Then λ = hc/E = (6.63 × 10⁻³⁴ × 3.00 × 10⁸) / (3.02 × 10⁻¹⁹) = (1.99 × 10⁻²⁵) / (3.02 × 10⁻¹⁹) = 6.6 × 10⁻⁷ m. This is 656 nm, the red line in the hydrogen spectrum.",
+    "lessonReferences": [
+      "atomic-physics"
+    ],
+    "tags": [
+      "photon",
+      "wavelength"
+    ],
+    "id": 194
+  },
+  {
+    "topic": "Quantum Physics",
+    "level": "HL",
+    "difficulty": "hard",
+    "marks": 3,
+    "question": "Calculate the de Broglie wavelength of an electron travelling at 1.0 × 10⁶ m s⁻¹. Use h = 6.63 × 10⁻³⁴ J s and m = 9.11 × 10⁻³¹ kg.",
+    "answer": "7.3 × 10^-10",
+    "unit": "m",
+    "tolerance": 4e-11,
+    "solution": "λ = h/p = h/(mv) = (6.63 × 10⁻³⁴) / (9.11 × 10⁻³¹ × 1.0 × 10⁶) = (6.63 × 10⁻³⁴) / (9.11 × 10⁻²⁵) = 7.3 × 10⁻¹⁰ m. This is comparable to atomic spacing in a crystal, which is why electrons diffract from crystals.",
+    "lessonReferences": [
+      "quantum-physics"
+    ],
+    "tags": [
+      "de Broglie",
+      "calculation"
+    ],
+    "id": 195
+  },
+  {
+    "topic": "Quantum Physics",
+    "level": "HL",
+    "difficulty": "hard",
+    "marks": 3,
+    "question": "Light of frequency 1.0 × 10¹⁵ Hz falls on a metal of work function 2.3 eV. Calculate the maximum kinetic energy of the emitted electrons in joules. Use h = 6.63 × 10⁻³⁴ J s and 1 eV = 1.60 × 10⁻¹⁹ J.",
+    "answer": "2.95 × 10^-19",
+    "unit": "J",
+    "tolerance": 1.5e-20,
+    "solution": "The photon energy is hf = 6.63 × 10⁻³⁴ × 1.0 × 10¹⁵ = 6.63 × 10⁻¹⁹ J. The work function is φ = 2.3 × 1.60 × 10⁻¹⁹ = 3.68 × 10⁻¹⁹ J. Einstein’s equation gives Ek(max) = hf - φ = 6.63 × 10⁻¹⁹ - 3.68 × 10⁻¹⁹ = 2.95 × 10⁻¹⁹ J.",
+    "lessonReferences": [
+      "quantum-physics"
+    ],
+    "tags": [
+      "photoelectric effect",
+      "calculation"
+    ],
+    "id": 196
+  },
+  {
+    "topic": "Quantum Physics",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 2,
+    "question": "A metal has a work function of 3.68 × 10⁻¹⁹ J. Calculate its threshold frequency. Use h = 6.63 × 10⁻³⁴ J s.",
+    "answer": "5.55 × 10^14",
+    "unit": "Hz",
+    "tolerance": 20000000000000,
+    "solution": "At the threshold the photon energy exactly equals the work function and no kinetic energy is left over: f₀ = φ/h = (3.68 × 10⁻¹⁹) / (6.63 × 10⁻³⁴) = 5.55 × 10¹⁴ Hz. Below this frequency no electrons are emitted however intense the light.",
+    "lessonReferences": [
+      "quantum-physics"
+    ],
+    "tags": [
+      "threshold frequency",
+      "calculation"
+    ],
+    "id": 197
+  },
+  {
+    "topic": "Nuclear Physics",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "A sample contains 8.0 × 10²⁰ undecayed nuclei of an isotope with a half-life of 5.0 days. Calculate the number remaining after 15 days.",
+    "answer": "1.0 × 10^20",
+    "unit": "nuclei",
+    "tolerance": 5000000000000000000,
+    "solution": "15 days is exactly three half-lives, so the number remaining is N = N₀(½)³ = 8.0 × 10²⁰ / 8 = 1.0 × 10²⁰ nuclei. Using the decay law N = N₀e^(-λt) gives the same result.",
+    "lessonReferences": [
+      "nuclear-physics"
+    ],
+    "tags": [
+      "half-life",
+      "decay law"
+    ],
+    "id": 198
+  },
+  {
+    "topic": "Nuclear Physics",
+    "level": "HL",
+    "difficulty": "hard",
+    "marks": 3,
+    "question": "An isotope has a half-life of 5.0 days. Calculate its decay constant in s⁻¹.",
+    "answer": "1.6 × 10^-6",
+    "unit": "s⁻¹",
+    "tolerance": 1e-7,
+    "solution": "λ = ln2 / T½. Convert the half-life to seconds first: 5.0 × 24 × 3600 = 4.32 × 10⁵ s. So λ = 0.693 / (4.32 × 10⁵) = 1.6 × 10⁻⁶ s⁻¹. Forgetting to convert to seconds is the most common way to lose this mark.",
+    "lessonReferences": [
+      "nuclear-physics"
+    ],
+    "tags": [
+      "decay constant",
+      "calculation"
+    ],
+    "id": 199
+  },
+  {
+    "topic": "Nuclear Physics",
+    "level": "HL",
+    "difficulty": "hard",
+    "marks": 3,
+    "question": "A sample contains 1.0 × 10²⁰ undecayed nuclei and has a decay constant of 1.6 × 10⁻⁶ s⁻¹. Calculate its activity.",
+    "answer": "1.6 × 10^14",
+    "unit": "Bq",
+    "tolerance": 8000000000000,
+    "solution": "A = λN = 1.6 × 10⁻⁶ × 1.0 × 10²⁰ = 1.6 × 10¹⁴ Bq. Activity is the rate of decay, so it falls with exactly the same half-life as the number of nuclei.",
+    "lessonReferences": [
+      "nuclear-physics"
+    ],
+    "tags": [
+      "activity",
+      "calculation"
+    ],
+    "id": 200
+  },
+  {
+    "topic": "Simple Harmonic Motion",
+    "level": "HL",
+    "difficulty": "hard",
+    "marks": 4,
+    "question": "A 0.20 kg mass oscillates with SHM of period 0.40 s and amplitude 0.050 m. Calculate the total energy of the oscillation.",
+    "answer": "6.2 × 10^-2",
+    "unit": "J",
+    "tolerance": 0.004,
+    "solution": "First find the angular frequency: ω = 2π/T = 2π/0.40 = 15.7 rad s⁻¹. Then E = ½mω²x₀² = 0.5 × 0.20 × (15.7)² × (0.050)² = 0.5 × 0.20 × 247 × 2.5 × 10⁻³ = 6.2 × 10⁻² J. The total energy depends on the square of the amplitude.",
+    "lessonReferences": [
+      "simple-harmonic-motion"
+    ],
+    "tags": [
+      "SHM energy",
+      "calculation"
+    ],
+    "id": 201
+  },
+  {
+    "topic": "Simple Harmonic Motion",
+    "level": "HL",
+    "difficulty": "hard",
+    "marks": 3,
+    "question": "A mass oscillates with SHM of angular frequency 15.7 rad s⁻¹ and amplitude 0.050 m. Calculate its speed when the displacement is 0.030 m.",
+    "answer": "0.63",
+    "unit": "m s⁻¹",
+    "tolerance": 0.04,
+    "solution": "v = ω√(x₀² - x²) = 15.7 × √(0.050² - 0.030²) = 15.7 × √(2.5 × 10⁻³ - 9.0 × 10⁻⁴) = 15.7 × √(1.6 × 10⁻³) = 15.7 × 0.040 = 0.63 m s⁻¹. The speed is greatest at the centre and zero at the extremes.",
+    "lessonReferences": [
+      "simple-harmonic-motion"
+    ],
+    "tags": [
+      "SHM",
+      "velocity"
+    ],
+    "id": 202
+  },
+  {
+    "topic": "Simple Harmonic Motion",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 2,
+    "question": "A mass oscillates with SHM of angular frequency 15.7 rad s⁻¹. Calculate the magnitude of its acceleration at a displacement of 0.030 m.",
+    "answer": "7.4",
+    "unit": "m s⁻²",
+    "tolerance": 0.4,
+    "solution": "a = -ω²x, so the magnitude is ω²x = (15.7)² × 0.030 = 247 × 0.030 = 7.4 m s⁻². The minus sign shows the acceleration always points back towards the equilibrium position, which is the defining condition for SHM.",
+    "lessonReferences": [
+      "simple-harmonic-motion"
+    ],
+    "tags": [
+      "SHM",
+      "acceleration"
+    ],
+    "id": 203
+  },
+  {
+    "topic": "Wave Phenomena",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "Light of wavelength 6.0 × 10⁻⁷ m passes through a single slit of width 2.0 × 10⁻⁴ m. Calculate the angle of the first diffraction minimum in radians.",
+    "answer": "3.0 × 10^-3",
+    "unit": "rad",
+    "tolerance": 0.0002,
+    "solution": "For a single slit the first minimum is at θ = λ/b = (6.0 × 10⁻⁷) / (2.0 × 10⁻⁴) = 3.0 × 10⁻³ rad. Note this is the first *minimum*, not a maximum -- the central maximum is twice this wide.",
+    "lessonReferences": [
+      "wave-phenomena"
+    ],
+    "tags": [
+      "single slit",
+      "diffraction"
+    ],
+    "id": 204
+  },
+  {
+    "topic": "Wave Phenomena",
+    "level": "HL",
+    "difficulty": "hard",
+    "marks": 3,
+    "question": "A telescope of aperture 0.10 m observes light of wavelength 5.5 × 10⁻⁷ m. Calculate the smallest angular separation it can resolve, using the Rayleigh criterion.",
+    "answer": "6.7 × 10^-6",
+    "unit": "rad",
+    "tolerance": 4e-7,
+    "solution": "The Rayleigh criterion gives θ = 1.22λ/D = (1.22 × 5.5 × 10⁻⁷) / 0.10 = (6.71 × 10⁻⁷) / 0.10 = 6.7 × 10⁻⁶ rad. Two sources closer than this cannot be told apart, which is why larger apertures resolve finer detail.",
+    "lessonReferences": [
+      "wave-phenomena"
+    ],
+    "tags": [
+      "resolution",
+      "Rayleigh criterion"
+    ],
+    "id": 205
+  },
+  {
+    "topic": "Wave Phenomena",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "Polarised light of intensity 12 W m⁻² passes through an analyser whose axis is at 30° to the plane of polarisation. Calculate the transmitted intensity.",
+    "answer": "9.0",
+    "unit": "W m⁻²",
+    "tolerance": 0.5,
+    "solution": "Malus’s law gives I = I₀cos²θ = 12 × cos²(30°) = 12 × (0.866)² = 12 × 0.75 = 9.0 W m⁻². Note the cosine is squared -- using cos θ rather than cos²θ is the usual error here.",
+    "lessonReferences": [
+      "wave-phenomena"
+    ],
+    "tags": [
+      "polarisation",
+      "Malus law"
+    ],
+    "id": 206
+  },
+  {
+    "topic": "The Doppler Effect",
+    "level": "HL",
+    "difficulty": "hard",
+    "marks": 3,
+    "question": "A source emitting sound at 500 Hz moves towards a stationary observer at 30 m s⁻¹. Calculate the observed frequency. Take the speed of sound as 340 m s⁻¹.",
+    "answer": "548",
+    "unit": "Hz",
+    "tolerance": 8,
+    "solution": "For a source moving towards a stationary observer, f′ = f × v/(v - us) = 500 × 340/(340 - 30) = 500 × 340/310 = 548 Hz. The observed frequency rises because successive wavefronts are emitted from closer positions.",
+    "lessonReferences": [
+      "doppler-effect"
+    ],
+    "tags": [
+      "Doppler effect",
+      "calculation"
+    ],
+    "id": 207
+  },
+  {
+    "topic": "The Doppler Effect",
+    "level": "HL",
+    "difficulty": "hard",
+    "marks": 3,
+    "question": "A galaxy recedes at 3.0 × 10⁶ m s⁻¹. Light emitted at 656 nm is observed. Calculate the shift in wavelength. Use c = 3.00 × 10⁸ m s⁻¹.",
+    "answer": "6.6",
+    "unit": "nm",
+    "tolerance": 0.4,
+    "solution": "For light with v much smaller than c, Δλ/λ = v/c, so Δλ = λv/c = (656 × 10⁻⁹ × 3.0 × 10⁶) / (3.00 × 10⁸) = 656 × 10⁻⁹ × 0.010 = 6.6 × 10⁻⁹ m = 6.6 nm. The shift is towards longer wavelengths because the source is receding, which is a redshift.",
+    "lessonReferences": [
+      "doppler-effect"
+    ],
+    "tags": [
+      "Doppler effect",
+      "redshift"
+    ],
+    "id": 208
+  },
+  {
+    "topic": "Fusion and Stars",
+    "level": "HL",
+    "difficulty": "hard",
+    "marks": 4,
+    "question": "A star has radius 7.0 × 10⁸ m and surface temperature 5800 K. Calculate its luminosity. Use σ = 5.67 × 10⁻⁸ W m⁻² K⁻⁴.",
+    "answer": "4.0 × 10^26",
+    "unit": "W",
+    "tolerance": 3e+25,
+    "solution": "The Stefan-Boltzmann law gives L = σAT⁴ with A = 4πr². A = 4π(7.0 × 10⁸)² = 6.16 × 10¹⁸ m². T⁴ = 5800⁴ = 1.13 × 10¹⁵ K⁴. So L = 5.67 × 10⁻⁸ × 6.16 × 10¹⁸ × 1.13 × 10¹⁵ = 4.0 × 10²⁶ W. The fourth power means a small temperature change alters luminosity dramatically.",
+    "lessonReferences": [
+      "nuclear-fusion-and-stars"
+    ],
+    "tags": [
+      "luminosity",
+      "Stefan-Boltzmann"
+    ],
+    "id": 209
+  },
+  {
+    "topic": "Fusion and Stars",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 2,
+    "question": "A star has a surface temperature of 5800 K. Calculate the wavelength at which it emits most strongly. Use Wien’s constant = 2.9 × 10⁻³ m K.",
+    "answer": "5.0 × 10^-7",
+    "unit": "m",
+    "tolerance": 3e-8,
+    "solution": "Wien’s displacement law gives λmax = (2.9 × 10⁻³) / T = (2.9 × 10⁻³) / 5800 = 5.0 × 10⁻⁷ m, which is 500 nm in the green part of the visible spectrum. Hotter stars peak at shorter wavelengths and look bluer.",
+    "lessonReferences": [
+      "nuclear-fusion-and-stars"
+    ],
+    "tags": [
+      "Wien law",
+      "calculation"
+    ],
+    "id": 210
+  },
+  {
+    "topic": "Fusion and Stars",
+    "level": "HL",
+    "difficulty": "hard",
+    "marks": 3,
+    "question": "A star of luminosity 3.85 × 10²⁶ W is observed from a distance of 1.5 × 10¹¹ m. Calculate its apparent brightness.",
+    "answer": "1.36 × 10^3",
+    "unit": "W m⁻²",
+    "tolerance": 100,
+    "solution": "The power spreads over a sphere: b = L/(4πd²) = (3.85 × 10²⁶) / (4π × (1.5 × 10¹¹)²) = (3.85 × 10²⁶) / (2.83 × 10²³) = 1.36 × 10³ W m⁻². This is the solar constant, the power per square metre arriving at the Earth.",
+    "lessonReferences": [
+      "nuclear-fusion-and-stars"
+    ],
+    "tags": [
+      "apparent brightness",
+      "inverse square"
+    ],
+    "id": 211
+  },
+  {
+    "topic": "Current and Circuits",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "A cell of emf 12 V and internal resistance 1.0 Ω is connected to a 5.0 Ω resistor. Calculate the current in the circuit.",
+    "answer": "2.0",
+    "unit": "A",
+    "tolerance": 0.1,
+    "solution": "The emf is shared between the external and internal resistance: ε = I(R + r), so I = ε/(R + r) = 12/(5.0 + 1.0) = 12/6.0 = 2.0 A. Ignoring the internal resistance would give 2.4 A, which is the usual error.",
+    "lessonReferences": [
+      "current-and-circuits"
+    ],
+    "tags": [
+      "internal resistance",
+      "calculation"
+    ],
+    "id": 212
+  },
+  {
+    "topic": "Current and Circuits",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 2,
+    "question": "A cell of emf 12 V and internal resistance 1.0 Ω delivers a current of 2.0 A. Calculate the terminal potential difference.",
+    "answer": "10",
+    "unit": "V",
+    "tolerance": 0.4,
+    "solution": "V = ε - Ir = 12 - (2.0 × 1.0) = 10 V. The terminal potential difference is always less than the emf while current flows, because some energy is dissipated inside the cell itself.",
+    "lessonReferences": [
+      "current-and-circuits"
+    ],
+    "tags": [
+      "terminal pd",
+      "internal resistance"
+    ],
+    "id": 213
+  },
+  {
+    "topic": "Current and Circuits",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 2,
+    "question": "A current of 2.0 A flows through a cell of internal resistance 1.0 Ω. Calculate the power dissipated inside the cell.",
+    "answer": "4.0",
+    "unit": "W",
+    "tolerance": 0.2,
+    "solution": "P = I²r = (2.0)² × 1.0 = 4.0 W. This is energy lost as heat inside the cell rather than delivered to the external circuit, which is why a cell warms up when it supplies a large current.",
+    "lessonReferences": [
+      "current-and-circuits"
+    ],
+    "tags": [
+      "power",
+      "internal resistance"
+    ],
+    "id": 214
+  },
+  {
+    "topic": "Forces and Momentum",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 2,
+    "question": "A force of 250 N acts on a ball for 0.040 s. Calculate the impulse delivered.",
+    "answer": "10",
+    "unit": "N s",
+    "tolerance": 0.5,
+    "solution": "Impulse = FΔt = 250 × 0.040 = 10 N s. Impulse equals the change in momentum, so the ball’s momentum changes by 10 kg m s⁻¹. The unit N s and kg m s⁻¹ are equivalent.",
+    "lessonReferences": [
+      "forces"
+    ],
+    "tags": [
+      "impulse",
+      "momentum"
+    ],
+    "id": 215
+  },
+  {
+    "topic": "Work, Energy and Power",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 2,
+    "question": "A car experiences a total resistive force of 400 N while travelling at a constant 25 m s⁻¹. Calculate the useful output power of the engine.",
+    "answer": "1.0 × 10^4",
+    "unit": "W",
+    "tolerance": 500,
+    "solution": "At constant speed the driving force equals the resistive force, so P = Fv = 400 × 25 = 1.0 × 10⁴ W, or 10 kW. Because the speed is constant there is no change in kinetic energy, and all the work done goes against resistance.",
+    "lessonReferences": [
+      "energy"
+    ],
+    "tags": [
+      "power",
+      "calculation"
+    ],
+    "id": 216
+  },
+  {
+    "topic": "Gas Laws",
+    "level": "HL",
+    "difficulty": "hard",
+    "marks": 3,
+    "question": "Calculate the average random kinetic energy of a molecule in an ideal gas at 300 K. Use the Boltzmann constant k = 1.38 × 10⁻²³ J K⁻¹.",
+    "answer": "6.2 × 10^-21",
+    "unit": "J",
+    "tolerance": 3e-22,
+    "solution": "The average translational kinetic energy is Ek = (3/2)kT = 1.5 × 1.38 × 10⁻²³ × 300 = 6.2 × 10⁻²¹ J. It depends only on temperature, so at a given temperature every ideal gas has the same average molecular kinetic energy regardless of the mass of its molecules.",
+    "lessonReferences": [
+      "gas-laws"
+    ],
+    "tags": [
+      "kinetic theory",
+      "calculation"
+    ],
+    "id": 217
+  },
+  {
+    "topic": "Gas Laws",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 1,
+    "question": "The absolute temperature of an ideal gas is doubled. The average random kinetic energy of its molecules:",
+    "options": [
+      "doubles",
+      "stays the same",
+      "quadruples",
+      "halves"
+    ],
+    "correctAnswer": "doubles",
+    "answer": "doubles",
+    "solution": "Since Ek = (3/2)kT, the average kinetic energy is directly proportional to absolute temperature. Doubling T doubles Ek. Note the root mean square speed only increases by a factor of √2, because energy depends on the square of speed.",
+    "lessonReferences": [
+      "gas-laws"
+    ],
+    "tags": [
+      "kinetic theory",
+      "conceptual"
+    ],
+    "id": 218
   }
 ]
