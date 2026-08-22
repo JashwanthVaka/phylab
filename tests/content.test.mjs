@@ -243,3 +243,25 @@ calculatorPages.forEach(item => {
 });
 
 console.log(`formula metadata verified (${everyFormula.length} formulas, ${rowCount} variables, calculator on ${calculatorPages.length})`);
+
+// ── Page metadata ────────────────────────────────────────────────────
+// Every route shipped as "KINETIQ — IBDP Physics" with one generic
+// description, because document.title was never assigned after the initial
+// HTML. Titles must stay distinct or history, tabs and search results all
+// collapse into the same entry.
+const metaSource = fs.readFileSync(path.join(ROOT, 'js', 'pageMeta.js'), 'utf8');
+const staticTitles = [...metaSource.matchAll(/^\s*'([^']+)':\s*\['([^']+)',/gm)]
+  .map(([, route, title]) => ({ route, title }));
+assert.ok(staticTitles.length >= 15, 'expected metadata for the main routes');
+const titleSet = new Set(staticTitles.map(item => item.title));
+assert.equal(titleSet.size, staticTitles.length, 'two routes share a page title');
+staticTitles.forEach(({ route, title }) => {
+  assert.ok(!/KINETIQ/.test(title) || route === '/',
+    `title for ${route} repeats the brand; it is appended automatically`);
+});
+// The router must actually apply it, or the module is dead code.
+const routerSource = fs.readFileSync(path.join(ROOT, 'js', 'router.js'), 'utf8');
+assert.ok(/applyRouteMeta\(/.test(routerSource), 'router never applies page metadata');
+assert.ok(/rememberPlace\(/.test(routerSource), 'router never records the learner context KIT reads');
+
+console.log(`page metadata verified (${staticTitles.length} routes, all titles distinct)`);

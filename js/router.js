@@ -1,5 +1,6 @@
 import { markActiveRoute } from './navShell.js';
 import { contextManager } from './services/contextManager.js';
+import { applyRouteMeta } from './pageMeta.js';
 
 /**
  * Records where the learner has been, so KIT can answer in context.
@@ -35,6 +36,7 @@ export class Router {
     const path = location.pathname.replace(/\/$/, '') || '/';
     markActiveRoute(path);
     rememberPlace(path);
+    applyRouteMeta(path);
     for (const [pattern, handler] of Object.entries(this.routes)) {
       if (pattern === '*') continue;
       const names = []; const regex = new RegExp(`^${pattern.replace(/:([^/]+)/g, (_, name) => { names.push(name); return '([^/]+)'; })}/?$`);
