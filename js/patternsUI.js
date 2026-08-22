@@ -20,7 +20,7 @@ export function patternsPage(index) {
     <p class="library-count" data-pattern-count aria-live="polite"></p>
 
     <div class="patterns-list">
-      ${patterns.map(pattern => `<article class="pattern-card" data-pattern data-group="${escapeHTML(pattern.group || 'Other')}" data-text="${escapeHTML(`${pattern.command} ${pattern.meaning} ${pattern.group || ''}`.toLowerCase())}">
+      ${patterns.map(pattern => `<article class="pattern-card" id="${escapeHTML(pattern.slug)}" data-pattern data-group="${escapeHTML(pattern.group || 'Other')}" data-text="${escapeHTML(`${pattern.command} ${pattern.meaning} ${pattern.group || ''}`.toLowerCase())}">
         <header class="pattern-card__head">
           <h2>${escapeHTML(pattern.command)}</h2>
           <span class="pattern-card__marks">${escapeHTML(pattern.marks || '')} marks · ${escapeHTML(pattern.group || '')}</span>

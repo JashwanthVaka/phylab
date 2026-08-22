@@ -27,6 +27,34 @@ function rememberPlace(path) {
   }
 }
 
+/**
+ * Scrolls to a #fragment once the route has rendered.
+ *
+ * The browser resolves a fragment at load, long before this app has painted
+ * anything, so a link like /patterns#define would land at the top of an empty
+ * page. Deep links into a list -- one command term among fifteen -- only work
+ * if the scroll happens after the content exists.
+ */
+function revealHash() {
+  const id = location.hash.slice(1);
+  if (!id) return;
+  // Not requestAnimationFrame: it is paused while the tab is hidden, so a
+  // link opened in a background tab would never scroll. The route has already
+  // been awaited, so the element exists; a task turn is enough to let layout
+  // settle.
+  setTimeout(() => {
+    const target = document.getElementById(id);
+    if (!target) return;
+    // No explicit behavior: the stylesheet sets scroll-behavior and already
+    // switches it to auto under prefers-reduced-motion. Passing 'smooth' here
+    // would override that and scroll a user who asked for no motion.
+    target.scrollIntoView({ block: 'start' });
+    // Announce it, so the reason the page jumped is not purely visual.
+    target.setAttribute('tabindex', '-1');
+    target.focus({ preventScroll: true });
+  }, 0);
+}
+
 /** Small History API router with deep-link and browser-navigation support. */
 export class Router {
   constructor(routes) { this.routes = routes; this.handle = this.handle.bind(this); }
@@ -41,7 +69,11 @@ export class Router {
       if (pattern === '*') continue;
       const names = []; const regex = new RegExp(`^${pattern.replace(/:([^/]+)/g, (_, name) => { names.push(name); return '([^/]+)'; })}/?$`);
       const match = path.match(regex);
-      if (match) return handler({ ...Object.fromEntries(names.map((name, i) => [name, decodeURIComponent(match[i + 1])])), query: new URLSearchParams(location.search).get('q') });
+      if (match) {
+        const result = await handler({ ...Object.fromEntries(names.map((name, i) => [name, decodeURIComponent(match[i + 1])])), query: new URLSearchParams(location.search).get('q') });
+        revealHash();
+        return result;
+      }
     }
     return this.routes['*']();
   }

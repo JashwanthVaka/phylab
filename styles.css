@@ -2388,3 +2388,19 @@ input, select, textarea, .stats, .facts {
 .ai-context__list a:hover { text-decoration: underline; }
 .ai-context__recent { font-size: 13px; color: var(--muted); margin: 0 0 12px; line-height: 1.5; }
 .ai-context__note { font-size: 12.5px; line-height: 1.5; border-top: 1px solid var(--line); padding-top: 12px; margin: 0; }
+
+/* ── Take it further ─────────────────────────────────────────────────
+   Links a lesson to its lab, cases, formulae and practice. These were
+   already connected in the data; nothing surfaced it where it helped. */
+.connected-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; }
+.connected-tile {
+  display: flex; flex-direction: column; gap: 6px;
+  padding: 18px; border: 1px solid var(--line); border-radius: var(--r-lg);
+  background: var(--surface); text-decoration: none; color: inherit;
+  transition: transform var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease);
+}
+.connected-tile:hover { transform: translateY(-2px); border-color: var(--blue); box-shadow: 0 10px 28px rgba(16,24,40,.09); }
+.connected-tile__kind { font: 10px var(--font-mono); letter-spacing: .09em; text-transform: uppercase; color: var(--blue); }
+.connected-tile b { font-size: 15.5px; font-weight: 650; letter-spacing: -.01em; line-height: 1.3; }
+.connected-tile__note { font-size: 13px; color: var(--muted); line-height: 1.5; }
+@media (pointer: coarse) { .connected-tile { min-height: 96px; } }

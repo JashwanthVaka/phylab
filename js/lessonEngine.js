@@ -6,9 +6,73 @@ import { lessonGraph } from './lessonGraphs.js';
 import { lessonFlashcards, renderFlashcards } from './flashcards.js';
 import { renderCalculator } from './calculatorEngine.js';
 import { KnowledgeGraph } from './knowledgeGraph.js';
+import { meaningOf, unitOf } from './formulaMeta.js';
 
 const optional = (title, items, render, options) => items?.length ? section(title, `<div class="card-grid">${items.map(render).join('')}</div>`, options) : '';
-const variables = lesson => lesson.formulas.flatMap(item => Object.entries(item.symbols || {}).map(([symbol, description]) => [symbol, description, item.units?.[symbol] || 'Not specified']));
+/**
+ * The variables and units table under a lesson's formula sheet.
+ *
+ * This read `item.symbols`, but lesson formulas store their table under
+ * `variables`, so every one of the 26 lessons fell through to "Variable
+ * details unavailable" while the data sat one key away. Units come from the
+ * symbol text the lessons already write, the same source the formula centre
+ * parses, so the two can never disagree.
+ */
+const variables = lesson => lesson.formulas.flatMap(item =>
+  Object.entries(item.symbols || item.variables || {}).map(([symbol, description]) => {
+    const unit = unitOf(description);
+    return [symbol, meaningOf(description), unit === 'dimensionless' ? '—' : (unit || '—')];
+  }));
+
+/**
+ * Everything else on the site that belongs to this lesson.
+ *
+ * The lesson page linked only to other lessons, so the lab that models the
+ * equation you have just read, the real-world cases that use it and the
+ * practice that tests it were all reachable only by going back to a hub and
+ * searching. The pieces were already connected in the data; nothing surfaced
+ * the connection at the point it was useful.
+ */
+function connectedWork(lesson, index) {
+  const slug = lesson.slug;
+  const simulation = (index.simulations || []).find(item => item.lesson === slug);
+  const cases = (index.cases || []).filter(item => (item.lessons || []).includes(slug));
+  const questions = (index.questions || []).filter(item => (item.lessonReferences || []).includes(slug));
+  const patterns = (index.questionPatterns || []).filter(item => (item.lessons || []).includes(slug));
+  const formulaCount = (lesson.formulas || []).length;
+
+  const tiles = [];
+  if (simulation) {
+    tiles.push(['Model it', `/simulations/${escapeHTML(simulation.slug)}`, escapeHTML(simulation.name),
+      'Run the equation with your own numbers and watch the result respond.']);
+  }
+  if (formulaCount) {
+    tiles.push(['Formulae', '/formulas', `${formulaCount} in this lesson`,
+      'Every symbol with its SI unit, dimension and physical meaning.']);
+  }
+  if (cases.length) {
+    tiles.push(['Apply it', `/cases/${escapeHTML(cases[0].slug)}`, escapeHTML(cases[0].title),
+      cases.length > 1 ? `One of ${cases.length} real-world cases using this lesson.` : 'A real-world context with an exam-style question.']);
+  }
+  if (questions.length) {
+    tiles.push(['Practise', `/quiz?topic=${encodeURIComponent(slug)}`, `${questions.length} question${questions.length === 1 ? '' : 's'}`,
+      `${questions.filter(item => item.level === 'HL').length} at HL, marked with worked solutions.`]);
+  }
+  if (patterns.length) {
+    // There is no per-pattern route, so deep-link to the card's anchor
+    // rather than inventing a URL that 404s.
+    tiles.push(['Answer shape', `/patterns#${escapeHTML(patterns[0].slug)}`, escapeHTML(patterns[0].command),
+      'What this command term expects, and a model answer.']);
+  }
+  if (!tiles.length) return '';
+
+  return section('Take it further', `<div class="connected-grid">${tiles.map(([kind, href, title, note]) =>
+    `<a class="connected-tile" href="${href}" data-route>
+      <span class="connected-tile__kind">${escapeHTML(kind)}</span>
+      <b>${title}</b>
+      <span class="connected-tile__note">${escapeHTML(note)}</span>
+    </a>`).join('')}</div>`, { eyebrow: 'THE REST OF THIS TOPIC' });
+}
 
 /** Renders normalized dynamic lesson JSON without hard-coded lesson content. */
 export function renderLesson(lesson, index = { lessonIndex: [] }) {
@@ -35,6 +99,7 @@ export function renderLesson(lesson, index = { lessonIndex: [] }) {
     ${section('Practical, IA and TOK connections', `<div class="card-grid">${card('Practical investigation', `<p>${escapeHTML(lesson.practical_experiment || 'Use this topic to design a controlled measurement, identify uncertainties, and evaluate evidence.')}</p>`)}${card('Internal assessment connection', `<p>${escapeHTML(lesson.ia_connection || 'Connect a measurable independent variable to a justified physical model and uncertainty treatment.')}</p>`)}${card('TOK connection', `<p>${escapeHTML(lesson.tok_connection || 'Consider how models, assumptions, and measurement limits shape what physics can claim.')}</p>`)}</div>`, { eyebrow: 'CONNECT THE KNOWLEDGE' })}
     ${section('Summary', `<div class="summary-card"><p>${escapeHTML(lesson.summary || 'Summary not yet supplied.')}</p></div>`, { id: 'summary', eyebrow: 'TAKEAWAY' })}
     ${section('Flashcards', renderFlashcards(lessonFlashcards(lesson)), { eyebrow: 'SPACED REVISION' })}
+    ${connectedWork(lesson, index)}
     ${section('Knowledge pathways', `<div class="pathway-grid">${graph.previous ? `<a href="/lesson/${graph.previous.slug}" data-route>← Previous<br><b>${escapeHTML(graph.previous.title)}</b></a>` : '<span></span>'}${graph.next ? `<a href="/lesson/${graph.next.slug}" data-route>Next →<br><b>${escapeHTML(graph.next.title)}</b></a>` : '<span></span>'}</div>${graph.related.length ? `<div class="related-links">${graph.related.map(item => `<a href="/lesson/${escapeHTML(item.slug)}" data-route>${escapeHTML(item.title)}</a>`).join('')}</div>` : ''}${graph.advanced.length ? `<p><b>Advanced:</b> ${escapeHTML(graph.advanced.join(' · '))}</p>` : ''}`, { eyebrow: 'CONTINUE LEARNING' })}
     <section class="lesson-ask" data-lesson-ask data-topic="${escapeHTML(lesson.topicLabel || lesson.title)}">
       <p class="eyebrow">STUCK ON SOMETHING?</p>

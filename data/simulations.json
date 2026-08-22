@@ -29,7 +29,8 @@
         "unit": "m",
         "default": 0
       }
-    ]
+    ],
+    "lesson": "kinematics"
   },
   {
     "slug": "newton",
@@ -49,7 +50,8 @@
         "unit": "kg",
         "default": 2
       }
-    ]
+    ],
+    "lesson": "forces"
   },
   {
     "slug": "energy",
@@ -81,7 +83,8 @@
         "unit": "m s⁻²",
         "default": 9.81
       }
-    ]
+    ],
+    "lesson": "energy"
   },
   {
     "slug": "shm",
@@ -107,7 +110,8 @@
         "unit": "m",
         "default": 1
       }
-    ]
+    ],
+    "lesson": "simple-harmonic-motion"
   },
   {
     "slug": "electric-field",
@@ -133,7 +137,8 @@
         "unit": "m",
         "default": 1
       }
-    ]
+    ],
+    "lesson": "electric-fields"
   },
   {
     "slug": "magnetic-force",
@@ -165,7 +170,8 @@
         "unit": "°",
         "default": 90
       }
-    ]
+    ],
+    "lesson": "magnetic-fields"
   },
   {
     "slug": "gas-law",
@@ -191,7 +197,8 @@
         "unit": "m³",
         "default": 1
       }
-    ]
+    ],
+    "lesson": "gas-laws"
   },
   {
     "slug": "photon-energy",
@@ -205,7 +212,8 @@
         "unit": "Hz",
         "default": 100000000000000
       }
-    ]
+    ],
+    "lesson": "quantum-physics"
   },
   {
     "slug": "radioactive-decay",
@@ -231,7 +239,8 @@
         "unit": "s",
         "default": 5
       }
-    ]
+    ],
+    "lesson": "nuclear-physics"
   },
   {
     "slug": "lorentz-factor",
@@ -245,7 +254,8 @@
         "unit": "m s⁻¹",
         "default": 100000000
       }
-    ]
+    ],
+    "lesson": "relativity"
   },
   {
     "slug": "circuit",
@@ -283,7 +293,8 @@
         "unit": "",
         "default": 0
       }
-    ]
+    ],
+    "lesson": "current-and-circuits"
   },
   {
     "slug": "calorimetry",
@@ -315,7 +326,8 @@
         "unit": "J kg⁻¹",
         "default": 0
       }
-    ]
+    ],
+    "lesson": "thermal-physics"
   },
   {
     "slug": "greenhouse",
@@ -341,7 +353,8 @@
         "unit": "",
         "default": 1
       }
-    ]
+    ],
+    "lesson": "greenhouse-effect"
   },
   {
     "slug": "first-law",
@@ -367,7 +380,8 @@
         "unit": "m³",
         "default": 0.002
       }
-    ]
+    ],
+    "lesson": "thermodynamics"
   },
   {
     "slug": "wave-equation",
@@ -387,7 +401,8 @@
         "unit": "m",
         "default": 2
       }
-    ]
+    ],
+    "lesson": "wave-properties"
   },
   {
     "slug": "em-spectrum",
@@ -401,7 +416,8 @@
         "unit": "Hz",
         "default": 500000000000000
       }
-    ]
+    ],
+    "lesson": "electromagnetic-waves"
   },
   {
     "slug": "refraction",
@@ -427,7 +443,8 @@
         "unit": "°",
         "default": 30
       }
-    ]
+    ],
+    "lesson": "wave-phenomena"
   },
   {
     "slug": "standing-wave",
@@ -459,7 +476,8 @@
         "unit": "",
         "default": 0
       }
-    ]
+    ],
+    "lesson": "standing-waves-and-resonance"
   },
   {
     "slug": "doppler",
@@ -491,7 +509,8 @@
         "unit": "m s⁻¹",
         "default": 340
       }
-    ]
+    ],
+    "lesson": "doppler-effect"
   },
   {
     "slug": "orbit",
@@ -511,7 +530,8 @@
         "unit": "m",
         "default": 6770000
       }
-    ]
+    ],
+    "lesson": "fields"
   },
   {
     "slug": "charged-path",
@@ -543,7 +563,8 @@
         "unit": "T",
         "default": 0.5
       }
-    ]
+    ],
+    "lesson": "motion-in-fields"
   },
   {
     "slug": "atomic-transition",
@@ -569,7 +590,8 @@
         "unit": "",
         "default": 1
       }
-    ]
+    ],
+    "lesson": "atomic-physics"
   },
   {
     "slug": "binding-energy",
@@ -589,7 +611,8 @@
         "unit": "",
         "default": 236
       }
-    ]
+    ],
+    "lesson": "nuclear-fission"
   },
   {
     "slug": "stellar",
@@ -609,7 +632,8 @@
         "unit": "K",
         "default": 5800
       }
-    ]
+    ],
+    "lesson": "nuclear-fusion-and-stars"
   },
   {
     "slug": "rotation",
@@ -635,7 +659,8 @@
         "unit": "rad s⁻¹",
         "default": 5
       }
-    ]
+    ],
+    "lesson": "rigid-body-mechanics"
   },
   {
     "slug": "induction",
@@ -673,6 +698,7 @@
         "unit": "rad s⁻¹",
         "default": 50
       }
-    ]
+    ],
+    "lesson": "electromagnetic-induction"
   }
 ]
