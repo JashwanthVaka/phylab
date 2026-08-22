@@ -268,6 +268,19 @@ async function boot() {
       // first paint via an OAuth redirect, so it initialises itself and then
       // listens rather than being rendered once here.
       import("./js/accountMenu.js").then(m => m.initAccountMenu()).catch(() => {});
+      // Google returns to the site root, so the destination is decided here
+      // once the session exists. Only a sign-in this tab actually started
+      // leaves a stored return path, which is what keeps this from firing on
+      // an ordinary page load that happens to restore a session.
+      import("./js/services/authService.js").then(({ authService }) => {
+        if (!authService.enabled()) return;
+        authService.onChange(async (event, session) => {
+          if (event !== "SIGNED_IN" || !session?.user) return;
+          const { destinationFor } = await import("./js/authFlow.js");
+          const target = destinationFor(session.user);
+          if (target && target !== location.pathname) router.go(target);
+        });
+      }).catch(() => {});
       routerStarted = true;
     } else {
       await router.handle();
