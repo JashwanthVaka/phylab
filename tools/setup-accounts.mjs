@@ -62,7 +62,9 @@ if (problems.length) {
   process.exit(1);
 }
 
-// 1. Browser-safe values, committed.
+// 1. Browser-safe values. These are optional now -- the browser falls back to
+//    /api/config, which reads the same environment -- but writing them keeps a
+//    static export working and costs nothing.
 const envFile = path.join(ROOT, 'public-env.js');
 fs.writeFileSync(envFile,
   `window.PHYLAB_ENV = window.PHYLAB_ENV || { SUPABASE_URL: '${url}', SUPABASE_ANON_KEY: '${anon}' };\n`);
@@ -105,8 +107,9 @@ ${migrations.map(name => `     supabase/migrations/${name}`).join('\n')}
    The second one closes a privilege escalation: without it any signed-in
    student can make themselves an administrator and read everyone's data.
 
-2. Put the same four values into Vercel -> Settings -> Environment Variables,
-   so the deployed site has them too:
+2. Put the same four values into Vercel -> Settings -> Environment Variables.
+   This is the only step the live site needs: the browser reads the two public
+   ones from /api/config, so no file has to be edited or redeployed by hand.
 
      SUPABASE_URL=${url}
      SUPABASE_ANON_KEY=${anon.slice(0, 12)}...

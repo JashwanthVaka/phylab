@@ -2577,3 +2577,29 @@ input, select, textarea, .stats, .facts {
   .plan-item { grid-template-columns: 28px 1fr; }
   .plan-item__time { grid-column: 2; }
 }
+
+/* ── Sign in and sign up form ────────────────────────────────────────
+   The labels sat inline with the inputs, which left the fields narrow
+   and the two of them crowded together on one line. */
+.auth-page .account-form { max-width: 420px; display: grid; gap: 18px; }
+.auth-page .account-form label {
+  display: grid; gap: 6px;
+  font-size: 13px; font-weight: 600; color: var(--muted);
+  letter-spacing: .01em;
+}
+.auth-page .account-form input {
+  width: 100%; min-height: 46px; padding: 12px 14px;
+  border: 1px solid var(--line-strong); border-radius: 12px;
+  background: var(--surface-raised, #fff); color: var(--ink); font-size: 15px;
+  transition: border-color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
+}
+.auth-page .account-form input:focus {
+  outline: none; border-color: var(--blue);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--blue) 18%, transparent);
+}
+.auth-page .account-form .button { min-height: 46px; width: 100%; }
+.auth-page #authError { color: var(--danger, #B91C1C); font-size: 13.5px; margin: 0; min-height: 1.2em; font-weight: 600; }
+.auth-page [data-reset] { justify-self: start; font-size: 13px; color: var(--muted); }
+.auth-page [data-reset]:hover { color: var(--ink); text-decoration: underline; }
+.auth-page .oauth-block { max-width: 420px; }
+@media (pointer: coarse) { .auth-page [data-reset] { min-height: 44px; display: inline-flex; align-items: center; } }

@@ -95,16 +95,17 @@ API**, then run:
 npm run setup:accounts -- --url https://YOURPROJECT.supabase.co --anon ANON_KEY --service SERVICE_ROLE_KEY --admin you@gmail.com
 ```
 
-That writes the browser-safe values to `public-env.js` and the secrets to a
-git-ignored `.env`. It refuses to run if `.env` is not ignored, or if the two keys
-are the same string.
+That writes the secrets to a git-ignored `.env` for local development. It refuses to
+run if `.env` is not ignored, or if the anon and service keys are the same string.
 
 Then two things happen outside this machine:
 
 1. Run **both** migrations in the Supabase SQL editor, in filename order. The second
    closes a privilege escalation; without it any signed-in student can make themselves
    an administrator and read every other user's data.
-2. Put the same four values into **Vercel → Settings → Environment Variables**:
+2. Put the same four values into **Vercel → Settings → Environment Variables**. This is
+   the only step the live site needs — the browser reads the two public ones from
+   `/api/config`, so no file has to be edited or redeployed by hand:
 
    | Variable | Value |
    | --- | --- |

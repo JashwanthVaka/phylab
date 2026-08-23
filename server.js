@@ -281,6 +281,22 @@ async function handleRequest(req, res) {
     }
   }
 
+  // Browser-safe Supabase settings, read from the server environment.
+  //
+  // These used to live only in public-env.js, a committed file, so the app had
+  // to be configured twice: once there for the browser and once in the host
+  // environment for the server. That is one more step to get wrong, and it
+  // gave the service-role key a committed file to be pasted into by mistake.
+  // Serving them here makes the host environment the single place anything is
+  // configured. Only the two values designed to be public are ever sent; the
+  // service-role key is not read in this handler at all.
+  if (req.method === 'GET' && pathname === '/api/config') {
+    return send(res, 200, {
+      supabaseUrl: process.env.SUPABASE_URL || '',
+      supabaseAnonKey: process.env.SUPABASE_ANON_KEY || '',
+    }, { 'Cache-Control': 'no-store' });
+  }
+
   if (req.method === 'GET' && pathname === '/api/health') return send(res, 200, { status: 'ok', tutorConfigured: availableProviders().length > 0, providers: availableProviders(), privateSources: privateSummary(), adminConfigured: adminConfigured() });
   if (req.method === 'GET' && pathname === '/api/ai/providers') return send(res, 200, {
     active: resolveProvider(),

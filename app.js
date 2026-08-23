@@ -259,7 +259,17 @@ const router = new Router({
 async function boot() {
   setLoading(true, 'Preparing your physics workspace…');
   try {
-    const index = await loader.getIndex();
+    // Account settings are resolved before the first render, so pages that ask
+    // "are accounts available?" while building their markup get a true answer
+    // rather than assuming no and rendering a dead end. It runs alongside the
+    // content load and never blocks it: if it fails, the app is simply in
+    // guest mode, which is a valid state.
+    const [index] = await Promise.all([
+      loader.getIndex(),
+      import('./js/services/supabaseClient.js')
+        .then(m => m.getSupabaseSettings())
+        .catch(() => null),
+    ]);
     searchIndex = new SearchIndex(index);
     indexContent(index);
     if (!routerStarted) {
