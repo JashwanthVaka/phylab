@@ -235,20 +235,21 @@ const router = new Router({
   '/progress': () => transition(async () => ({ view: dashboardView(...(await dashboardContext())), mount: () => bindProgressTransfer() }), 'Loading progress…'),
   '/mastery': () => transition(async () => ({ view: masteryView(await dashboardService.summary()) }), 'Loading mastery…'),
   '/activity': () => transition(async () => ({ view: dashboardView(...(await dashboardContext())) }), 'Loading activity…'),
-  // With an account service configured this is the real sign-in page. Without
-  // one it was a dead end, so it offers a device-local profile instead.
-  '/login': () => transition(async () => {
-    const { authService } = await import('./js/services/authService.js');
-    if (authService.enabled()) return { view: authPage('login') };
-    const local = await loadPageModule('./js/localProfileUI.js');
-    return { view: local.localProfilePage(), mount: () => local.bindLocalProfile(router) };
-  }, 'Opening sign in…'),
-  '/signup': () => transition(async () => {
-    const { authService } = await import('./js/services/authService.js');
-    if (authService.enabled()) return { view: authPage('signup') };
-    const local = await loadPageModule('./js/localProfileUI.js');
-    return { view: local.localProfilePage(), mount: () => local.bindLocalProfile(router) };
-  }, 'Opening sign up…'),
+  // Email and password sign-in, with Google offered only when the project
+  // actually has it switched on. Falls back to a device-local profile when no
+  // account service is configured, so the page is never a dead end.
+  ...["login","signup","reset"].reduce((routes, mode) => {
+    routes["/" + mode] = () => transition(async () => {
+      const { authService } = await import("./js/services/authService.js");
+      if (authService.enabled()) {
+        const auth = await loadPageModule("./js/authUI.js");
+        return { view: await auth.authPage(mode), mount: () => auth.bindAuth(router) };
+      }
+      const local = await loadPageModule("./js/localProfileUI.js");
+      return { view: local.localProfilePage(), mount: () => local.bindLocalProfile(router) };
+    }, "Opening account…");
+    return routes;
+  }, {}),
   '/onboarding': () => transition(async () => ({ view: onboardingPage() }), 'Preparing onboarding…'),
   // Owner-facing: the only steps that cannot be done from inside the app,
   // with each value checked against the real project as it is pasted.

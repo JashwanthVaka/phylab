@@ -2686,3 +2686,40 @@ input, select, textarea, .stats, .facts {
   color: var(--muted); margin: 0 0 8px;
 }
 @media (max-width: 560px) { .signin-pending { flex-direction: column; gap: 12px; } }
+
+/* ── Sign in, register, reset ────────────────────────────────────────
+   Email and password first, because that needs only an account service
+   where Google additionally needs an OAuth client registered with it. */
+.auth-lead { max-width: 46ch; }
+.auth-card {
+  max-width: 430px; padding: 28px 30px;
+  border: 1px solid var(--line); border-radius: var(--r-lg, 20px); background: var(--surface);
+}
+.auth-card #authForm { display: grid; gap: 18px; }
+.auth-card label { display: grid; gap: 6px; font-size: 13px; font-weight: 600; color: var(--muted); }
+.auth-card input {
+  width: 100%; min-height: 46px; padding: 12px 14px;
+  border: 1px solid var(--line-strong); border-radius: 12px;
+  background: var(--surface-raised, #fff); color: var(--ink); font-size: 15px;
+}
+.auth-card input:focus {
+  outline: none; border-color: var(--blue);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--blue) 18%, transparent);
+}
+.auth-hint { font-size: 11.5px; font-weight: 500; color: var(--muted); }
+.auth-error, .auth-notice { margin: 0; font-size: 13px; line-height: 1.55; font-weight: 600; }
+.auth-error { color: var(--danger, #B91C1C); }
+.auth-error:empty, .auth-notice:empty { display: none; }
+.auth-notice { color: var(--teal, #0F766E); }
+.auth-actions { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.auth-link { font-size: 13.5px; font-weight: 600; color: var(--blue); text-decoration: none; }
+.auth-link:hover { text-decoration: underline; }
+.auth-submit { margin-left: auto; min-height: 46px; padding: 0 30px; }
+.auth-submit[data-busy="true"] { opacity: .6; cursor: progress; }
+.auth-card .oauth-button { margin-bottom: 0; }
+@media (max-width: 460px) {
+  .auth-actions { flex-direction: column; align-items: stretch; }
+  .auth-submit { margin-left: 0; width: 100%; }
+  .auth-link { text-align: center; }
+}
+@media (pointer: coarse) { .auth-link { min-height: 44px; display: inline-flex; align-items: center; } }

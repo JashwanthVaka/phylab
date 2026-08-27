@@ -44,6 +44,7 @@ const STATIC = {
   '/setup': ['Site setup', 'Turn on real accounts for KINETIQ.'],
   '/admin': ['Admin', 'Account statistics for the site owner.'],
   '/login': ['Sign in', 'Sign in to sync your progress across devices.'],
+  '/reset': ['Reset your password', 'Send yourself a link to set a new KINETIQ password.'],
   '/signup': ['Create an account', 'Create a KINETIQ account to sync your progress across devices.'],
   '/activity': ['Activity', 'What you have studied recently.'],
 };
