@@ -21,6 +21,7 @@ export const TRANSFERABLE = {
   phylab_mistake_state_v1: 'Mistake bank and its review dates',
   phylab_saved_answers_v1: 'Answers you saved for review',
   phylab_ia_draft_v1: 'Internal assessment draft',
+  phylab_local_profile_v1: 'Your name and course level',
 };
 
 /**
@@ -93,6 +94,7 @@ export function describe(payload) {
   if (attempts) lines.push(`${attempts} practice attempt${attempts === 1 ? '' : 's'}`);
 
   if (data.phylab_ia_draft_v1) lines.push('an IA draft');
+  if (data.phylab_local_profile_v1?.name) lines.push('your profile');
 
   return lines.length ? lines.join(' · ') : 'no progress recorded yet';
 }

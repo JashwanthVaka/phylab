@@ -61,14 +61,26 @@ async function paint() {
   const adminLink = root.querySelector('[data-account-admin]');
 
   if (!authService.enabled()) {
-    // Without Supabase there are no accounts yet. The control still shows,
-    // because the sign-in page explains that plainly rather than presenting a
-    // form that only fails once you have typed into it.
-    root.dataset.accountState = 'unconfigured';
+    // Without an account service there is nobody to sign in. The control shows
+    // the device-local profile instead, so it reflects something real rather
+    // than offering a sign-in that cannot happen.
+    const { getLocalProfile, initial } = await import('./localProfile.js');
+    const local = getLocalProfile();
+    root.dataset.accountState = local ? 'local' : 'unconfigured';
     root.hidden = false;
-    signIn.hidden = false;
-    button.hidden = true;
-    closeMenu();
+    adminLink.hidden = true;
+    if (!local) {
+      signIn.hidden = false;
+      button.hidden = true;
+      closeMenu();
+      return;
+    }
+    signIn.hidden = true;
+    button.hidden = false;
+    root.querySelector('[data-account-initial]').textContent = initial();
+    root.querySelector('[data-account-name]').textContent = local.name;
+    root.querySelector('[data-account-email]').textContent = 'Saved on this device';
+    button.title = local.name;
     return;
   }
   root.hidden = false;
@@ -110,7 +122,12 @@ export async function initAccountMenu() {
     });
     root.querySelector('[data-account-signout]').addEventListener('click', async () => {
       closeMenu();
-      await authService.signOut();
+      if (!authService.enabled()) {
+        const { clearLocalProfile } = await import('./localProfile.js');
+        clearLocalProfile();
+      } else {
+        await authService.signOut();
+      }
       await paint();
       location.assign('/');
     });
@@ -121,6 +138,9 @@ export async function initAccountMenu() {
     // Signing in happens through a redirect, so the menu has to react to the
     // session appearing rather than assume the state it saw at load.
     authService.onChange(() => { void paint(); });
+    // A device-local profile changes without any auth event, so the control
+    // has to be told directly or it keeps showing the previous state.
+    window.addEventListener("kinetiq:profile-changed", () => { void paint(); });
   }
 
   await paint();

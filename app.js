@@ -235,8 +235,20 @@ const router = new Router({
   '/progress': () => transition(async () => ({ view: dashboardView(...(await dashboardContext())), mount: () => bindProgressTransfer() }), 'Loading progress…'),
   '/mastery': () => transition(async () => ({ view: masteryView(await dashboardService.summary()) }), 'Loading mastery…'),
   '/activity': () => transition(async () => ({ view: dashboardView(...(await dashboardContext())) }), 'Loading activity…'),
-  '/login': () => transition(async () => ({ view: authPage('login') }), 'Opening sign in…'),
-  '/signup': () => transition(async () => ({ view: authPage('signup') }), 'Opening sign up…'),
+  // With an account service configured this is the real sign-in page. Without
+  // one it was a dead end, so it offers a device-local profile instead.
+  '/login': () => transition(async () => {
+    const { authService } = await import('./js/services/authService.js');
+    if (authService.enabled()) return { view: authPage('login') };
+    const local = await loadPageModule('./js/localProfileUI.js');
+    return { view: local.localProfilePage(), mount: () => local.bindLocalProfile(router) };
+  }, 'Opening sign in…'),
+  '/signup': () => transition(async () => {
+    const { authService } = await import('./js/services/authService.js');
+    if (authService.enabled()) return { view: authPage('signup') };
+    const local = await loadPageModule('./js/localProfileUI.js');
+    return { view: local.localProfilePage(), mount: () => local.bindLocalProfile(router) };
+  }, 'Opening sign up…'),
   '/onboarding': () => transition(async () => ({ view: onboardingPage() }), 'Preparing onboarding…'),
   '/account': () => transition(async () => {
     const [profile, account] = await Promise.all([profileService.get(), loadPageModule('./js/accountPage.js')]);
