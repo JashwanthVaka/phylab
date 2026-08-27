@@ -41,6 +41,7 @@ const STATIC = {
   '/bookmarks': ['Saved items', 'Everything you have saved to come back to.'],
   '/mastery': ['Mastery', 'Where you are strong and where the marks are still going missing.'],
   '/account': ['Your account', 'Your KINETIQ account, how you signed in, and your study settings.'],
+  '/setup': ['Site setup', 'Turn on real accounts for KINETIQ.'],
   '/admin': ['Admin', 'Account statistics for the site owner.'],
   '/login': ['Sign in', 'Sign in to sync your progress across devices.'],
   '/signup': ['Create an account', 'Create a KINETIQ account to sync your progress across devices.'],

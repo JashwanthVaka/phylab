@@ -250,6 +250,12 @@ const router = new Router({
     return { view: local.localProfilePage(), mount: () => local.bindLocalProfile(router) };
   }, 'Opening sign up…'),
   '/onboarding': () => transition(async () => ({ view: onboardingPage() }), 'Preparing onboarding…'),
+  // Owner-facing: the only steps that cannot be done from inside the app,
+  // with each value checked against the real project as it is pasted.
+  '/setup': () => transition(async () => {
+    const setup = await loadPageModule('./js/setupUI.js');
+    return { view: setup.setupPage(), mount: () => setup.bindSetup() };
+  }, 'Opening setup…'),
   '/account': () => transition(async () => {
     const [profile, account] = await Promise.all([profileService.get(), loadPageModule('./js/accountPage.js')]);
     return { view: await account.accountPage(profile), mount: () => bindAccount(router) };

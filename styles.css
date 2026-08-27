@@ -2626,3 +2626,41 @@ input, select, textarea, .stats, .facts {
 .lp-note h2 { font-size: 16px; margin: 0 0 10px; letter-spacing: -.01em; }
 .lp-note p { font-size: 13.5px; line-height: 1.65; margin: 0 0 10px; }
 .lp-note p:last-child { margin-bottom: 0; }
+
+/* ── Site setup ──────────────────────────────────────────────────────
+   Owner-facing. The work cannot be removed, but the guessing can, so
+   the checked-value panel carries the visual weight. */
+.setup-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; counter-reset: setup; max-width: 720px; }
+.setup-step { border: 1px solid var(--line); border-radius: var(--r-lg, 20px); background: var(--surface); padding: 24px 26px; }
+.setup-step h2 { display: flex; align-items: center; gap: 12px; font-size: 18px; margin: 0 0 12px; letter-spacing: -.02em; }
+.setup-step h2 span {
+  width: 26px; height: 26px; flex: 0 0 26px; border-radius: 50%;
+  display: grid; place-items: center; background: var(--blue); color: #fff;
+  font: 600 13px var(--font-sans);
+}
+.setup-step p { font-size: 14px; line-height: 1.65; margin: 0 0 12px; }
+.setup-step label { display: grid; gap: 6px; margin-bottom: 14px; font-size: 13px; font-weight: 600; color: var(--muted); }
+.setup-step input {
+  width: 100%; min-height: 44px; padding: 11px 13px;
+  border: 1px solid var(--line-strong); border-radius: 10px;
+  background: var(--surface-raised, #fff); color: var(--ink);
+  font: 13px var(--font-mono);
+}
+.setup-step input:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px color-mix(in srgb, var(--blue) 18%, transparent); }
+.setup-warn { border-left: 3px solid var(--blue); padding-left: 14px; }
+.setup-copy { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; background: var(--surface-alt); border-radius: 10px; padding: 10px 14px; margin-bottom: 12px; }
+.setup-copy code { font: 12px var(--font-mono); word-break: break-all; flex: 1; min-width: 0; }
+.setup-result, .setup-live { border-radius: 12px; padding: 0; margin-top: 4px; }
+.setup-result[data-tone], .setup-live[data-tone] { padding: 14px 16px; border: 1px solid var(--line); }
+.setup-result[data-tone="ok"], .setup-live[data-tone="ok"] { border-color: var(--teal, #0F766E); background: var(--surface-ok, #F0FDF9); }
+.setup-result[data-tone="bad"] { border-color: var(--danger, #B91C1C); background: #FEF2F2; }
+.setup-result[data-tone="warn"], .setup-live[data-tone="warn"] { border-color: var(--accent, #F4B942); background: #FFFBEB; }
+.setup-result[data-tone="busy"] { border-color: var(--line-strong); }
+.setup-result b, .setup-live b { display: block; font-size: 14.5px; margin-bottom: 4px; }
+.setup-result p, .setup-live p { font-size: 13px; line-height: 1.6; margin: 0; }
+.setup-var-table { width: 100%; border-collapse: collapse; margin-bottom: 12px; }
+.setup-var-table th, .setup-var-table td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); font-weight: 500; }
+.setup-var-table code { font: 12px var(--font-mono); word-break: break-all; }
+.setup-files { margin: 0 0 12px; padding-left: 20px; }
+.setup-files code { font: 12px var(--font-mono); }
+.setup-live { margin-top: 24px; max-width: 720px; }
