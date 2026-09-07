@@ -65,7 +65,7 @@
       ]
     },
     "mistakes": [
-      "Saying a crumple zone \"absorbs the momentum\" — momentum change is fixed; it is the time that changes.",
+      "Saying a crumple zone \"absorbs the momentum\": momentum change is fixed; it is the time that changes.",
       "Assuming stopping distance doubles when speed doubles, forgetting the squared dependence of the braking term.",
       "Forgetting that thinking distance is at constant velocity, so no acceleration equation applies to it."
     ]
@@ -208,7 +208,7 @@
     },
     "mistakes": [
       "Treating centripetal force as an extra force rather than the resultant of the real forces.",
-      "Claiming energy is \"lost\" — it is transferred to thermal energy and sound, not destroyed.",
+      "Claiming energy is \"lost\": it is transferred to thermal energy and sound, not destroyed.",
       "Using the loop diameter instead of the radius in v² / r."
     ]
   },
@@ -280,7 +280,7 @@
     "mistakes": [
       "Assuming a heavier satellite needs a greater orbital speed at the same radius.",
       "Using the altitude above the surface instead of the distance from the Earth's centre.",
-      "Saying a satellite in orbit has \"no gravity\" — gravity is precisely what keeps it in orbit."
+      "Saying a satellite in orbit has \"no gravity\": gravity is precisely what keeps it in orbit."
     ]
   },
   {
@@ -353,7 +353,7 @@
     "mistakes": [
       "Using the blade length as the swept area rather than calculating πr².",
       "Treating the power–wind speed relationship as linear or square rather than cubic.",
-      "Claiming 100% efficiency is possible with better engineering — it is forbidden by the physics of the flow."
+      "Claiming 100% efficiency is possible with better engineering: it is forbidden by the physics of the flow."
     ]
   },
   {
@@ -365,7 +365,7 @@
       "Radiation",
       "Energy balance"
     ],
-    "context": "The Sun's surface is hot, so it emits mainly short-wavelength radiation that passes through the atmosphere. The Earth's surface is far cooler, so it re-radiates in the infrared. Greenhouse gases — carbon dioxide, methane, water vapour, nitrous oxide — have molecular vibration and rotation modes with natural frequencies in the infrared, so they resonate with and absorb this outgoing radiation, then re-emit it in all directions. The result is a warmer surface than radiative balance alone would predict.",
+    "context": "The Sun's surface is hot, so it emits mainly short-wavelength radiation that passes through the atmosphere. The Earth's surface is far cooler, so it re-radiates in the infrared. Greenhouse gases, carbon dioxide, methane, water vapour, nitrous oxide, have molecular vibration and rotation modes with natural frequencies in the infrared, so they resonate with and absorb this outgoing radiation, then re-emit it in all directions. The result is a warmer surface than radiative balance alone would predict.",
     "concepts": [
       "Black-body radiation",
       "Wien's displacement law",
@@ -424,7 +424,7 @@
       ]
     },
     "mistakes": [
-      "Confusing the greenhouse effect with ozone depletion — these are different mechanisms and different wavelengths.",
+      "Confusing the greenhouse effect with ozone depletion: these are different mechanisms and different wavelengths.",
       "Saying greenhouse gases \"trap heat\" without naming absorption and re-emission of infrared radiation.",
       "Forgetting that the natural greenhouse effect is essential; the concern is its enhancement."
     ]
@@ -449,7 +449,7 @@
       {
         "name": "First law",
         "formula": "ΔU = Q − W",
-        "meaning": "The internal energy change equals the thermal energy supplied minus the work done by the gas. Keep this sign convention — W is work done BY the gas, matching the IB data booklet."
+        "meaning": "The internal energy change equals the thermal energy supplied minus the work done by the gas. Keep this sign convention: W is work done BY the gas, matching the IB data booklet."
       },
       {
         "name": "Energy balance",
@@ -495,9 +495,9 @@
       ]
     },
     "mistakes": [
-      "Saying a fridge \"produces cold\" — it removes thermal energy rather than creating a substance called cold.",
+      "Saying a fridge \"produces cold\": it removes thermal energy rather than creating a substance called cold.",
       "Forgetting that the work input is also delivered to the room, so Q_hot > Q_cold.",
-      "Confusing the temperature change during a phase change — temperature is constant while latent heat is transferred."
+      "Confusing the temperature change during a phase change: temperature is constant while latent heat is transferred."
     ]
   },
   {
@@ -561,12 +561,12 @@
         "Absolute temperature is proportional to the mean kinetic energy of the molecules",
         "Raising the temperature therefore raises the mean molecular speed",
         "Faster molecules collide with the container walls more frequently",
-        "Each collision transfers a greater change of momentum, so the mean force per unit area — the pressure — increases"
+        "Each collision transfers a greater change of momentum, so the mean force per unit area, the pressure, increases"
       ]
     },
     "mistakes": [
       "Substituting Celsius temperatures into pV = nRT or p₁/T₁ = p₂/T₂.",
-      "Saying molecules \"expand\" when heated — the molecules do not change size, their speeds change.",
+      "Saying molecules \"expand\" when heated: the molecules do not change size, their speeds change.",
       "Assuming tyre volume is exactly constant; it increases slightly, so the real pressure rise is a little smaller."
     ]
   },
@@ -652,7 +652,7 @@
       "Superposition",
       "Interference"
     ],
-    "context": "Active noise cancellation uses a microphone to sample incoming sound, then generates a second wave of equal amplitude and frequency but shifted by half a wavelength — a phase difference of π. Where the two superpose, destructive interference reduces the resultant amplitude. It works best on steady low-frequency noise such as engine hum, because long wavelengths make the required timing and positioning far less critical than for high-frequency sound.",
+    "context": "Active noise cancellation uses a microphone to sample incoming sound, then generates a second wave of equal amplitude and frequency but shifted by half a wavelength, a phase difference of π. Where the two superpose, destructive interference reduces the resultant amplitude. It works best on steady low-frequency noise such as engine hum, because long wavelengths make the required timing and positioning far less critical than for high-frequency sound.",
     "concepts": [
       "Principle of superposition",
       "Path and phase difference",
@@ -710,7 +710,7 @@
       ]
     },
     "mistakes": [
-      "Saying the waves \"destroy energy\" — energy is redistributed, not destroyed.",
+      "Saying the waves \"destroy energy\": energy is redistributed, not destroyed.",
       "Confusing destructive interference with absorption or damping by padding.",
       "Forgetting that coherence is required, not merely equal amplitude."
     ]
@@ -724,7 +724,7 @@
       "Reflection",
       "Resolution"
     ],
-    "context": "Ultrasound imaging sends pulses of high-frequency longitudinal sound waves into the body and times the echoes returning from boundaries between tissues of different acoustic impedance. Depth follows from the speed of sound in tissue and the round-trip time. Higher frequencies give better resolution because resolution is limited by wavelength, but they are absorbed more strongly and so cannot penetrate as deeply — a direct trade-off the operator must manage.",
+    "context": "Ultrasound imaging sends pulses of high-frequency longitudinal sound waves into the body and times the echoes returning from boundaries between tissues of different acoustic impedance. Depth follows from the speed of sound in tissue and the round-trip time. Higher frequencies give better resolution because resolution is limited by wavelength, but they are absorbed more strongly and so cannot penetrate as deeply, a direct trade-off the operator must manage.",
     "concepts": [
       "Longitudinal waves",
       "Reflection at boundaries",
@@ -782,7 +782,7 @@
     },
     "mistakes": [
       "Forgetting the factor of 2 for the return journey when calculating depth.",
-      "Describing ultrasound as a transverse or electromagnetic wave — it is a longitudinal mechanical wave.",
+      "Describing ultrasound as a transverse or electromagnetic wave: it is a longitudinal mechanical wave.",
       "Claiming higher frequency is simply better, without addressing the loss of penetration."
     ]
   },
@@ -855,7 +855,7 @@
       ]
     },
     "mistakes": [
-      "Confusing microwaves with ionising radiation — microwave photon energies are far too low to ionise.",
+      "Confusing microwaves with ionising radiation: microwave photon energies are far too low to ionise.",
       "Assuming intensity falls linearly with distance instead of with the inverse square.",
       "Saying higher frequency always gives worse coverage without explaining diffraction."
     ]
@@ -911,7 +911,7 @@
       },
       {
         "prompt": "List the first three harmonics of the closed pipe.",
-        "answer": "142 Hz, 425 Hz and 708 Hz — the odd multiples 1, 3 and 5 of the fundamental."
+        "answer": "142 Hz, 425 Hz and 708 Hz, the odd multiples 1, 3 and 5 of the fundamental."
       }
     ],
     "examQuestion": {
@@ -941,7 +941,7 @@
       "Faraday's law",
       "Lenz's law"
     ],
-    "context": "A generator rotates a coil in a magnetic field, so the flux linkage through the coil changes continuously and an emf is induced. Faraday's law gives the magnitude from the rate of change of flux linkage, and Lenz's law fixes the direction: the induced current opposes the change producing it. That opposition is why a generator becomes physically harder to turn as more current is drawn — the electrical energy is paid for with mechanical work.",
+    "context": "A generator rotates a coil in a magnetic field, so the flux linkage through the coil changes continuously and an emf is induced. Faraday's law gives the magnitude from the rate of change of flux linkage, and Lenz's law fixes the direction: the induced current opposes the change producing it. That opposition is why a generator becomes physically harder to turn as more current is drawn: the electrical energy is paid for with mechanical work.",
     "concepts": [
       "Magnetic flux and flux linkage",
       "Faraday's law",
@@ -999,7 +999,7 @@
       ]
     },
     "mistakes": [
-      "Saying emf is largest when flux is largest — it is largest when the rate of change of flux is largest.",
+      "Saying emf is largest when flux is largest: it is largest when the rate of change of flux is largest.",
       "Omitting the minus sign or failing to explain what Lenz's law means physically.",
       "Confusing flux Φ with flux linkage NΦ."
     ]
@@ -1067,12 +1067,12 @@
         "X-rays have photon energies of order 10⁻¹⁵ J, some 10¹¹ times greater",
         "X-ray photons exceed typical ionisation energies and so can ionise atoms and damage DNA",
         "Radio photons are far below the ionisation threshold and cannot ionise, whatever the intensity",
-        "MRI risks are therefore mechanical rather than radiological — chiefly the strong field attracting ferromagnetic objects"
+        "MRI risks are therefore mechanical rather than radiological, chiefly the strong field attracting ferromagnetic objects"
       ]
     },
     "mistakes": [
       "Calling MRI radiation \"dangerous radiation\" without distinguishing ionising from non-ionising.",
-      "Assuming higher intensity can compensate for low photon energy in causing ionisation — it cannot.",
+      "Assuming higher intensity can compensate for low photon energy in causing ionisation: it cannot.",
       "Confusing superconductivity with simply having very low resistance."
     ]
   },
@@ -1143,7 +1143,7 @@
       ]
     },
     "mistakes": [
-      "Saying a magnetic field accelerates the particle in the everyday sense — it changes direction, not speed.",
+      "Saying a magnetic field accelerates the particle in the everyday sense: it changes direction, not speed.",
       "Using the non-relativistic ½mv² for particles near the speed of light.",
       "Confusing the electronvolt, a unit of energy, with a unit of potential difference."
     ]
@@ -1215,7 +1215,7 @@
       ]
     },
     "mistakes": [
-      "Saying brighter light gives electrons more energy — it gives more electrons, each with the same maximum energy.",
+      "Saying brighter light gives electrons more energy: it gives more electrons, each with the same maximum energy.",
       "Mixing electronvolts and joules within one calculation.",
       "Describing E_max as the energy of every emitted electron rather than the maximum."
     ]

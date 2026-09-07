@@ -9,9 +9,14 @@
     "build": "node tools/build-static.mjs",
     "ingest": "node tools/ingest-book.mjs",
     "build:netlify": "KINETIQ_TARGET=netlify node tools/build-static.mjs",
-    "setup:accounts": "node tools/setup-accounts.mjs"
+    "setup:accounts": "node tools/setup-accounts.mjs",
+    "test:e2e": "playwright test",
+    "test:all": "npm test && npm run test:e2e"
   },
   "engines": {
     "node": ">=18"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0"
   }
 }

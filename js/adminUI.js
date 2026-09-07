@@ -43,7 +43,7 @@ const SETUP = `
   </ol>`;
 
 const number = value => Number(value ?? 0).toLocaleString();
-const when = value => (value ? new Date(value).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' }) : '—');
+const when = value => (value ? new Date(value).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' }) : 'Not recorded');
 
 const PROVIDER_LABEL = { google: 'Google', email: 'Email and password', github: 'GitHub', apple: 'Apple' };
 

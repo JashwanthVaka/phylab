@@ -5,7 +5,7 @@ const write = value => localStorage.setItem(KEY, JSON.stringify(value));
 export function lessonFlashcards(lesson) {
   return [
     ...lesson.definitions.map((item, index) => ({ id: `${lesson.slug}:definition:${index}`, front: item.term, back: item.meaning })),
-    ...lesson.formulas.map((item, index) => ({ id: `${lesson.slug}:formula:${index}`, front: item.name, back: `${item.formula}${item.explanation ? ` — ${item.explanation}` : ''}` }))
+    ...lesson.formulas.map((item, index) => ({ id: `${lesson.slug}:formula:${index}`, front: item.name, back: `${item.formula}${item.explanation ? `: ${item.explanation}` : ''}` }))
   ];
 }
 export function renderFlashcards(cards) {

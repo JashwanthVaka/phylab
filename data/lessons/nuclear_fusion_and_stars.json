@@ -40,7 +40,7 @@
   "core_concepts": [
     {
       "heading": "Why Fusion Releases Energy",
-      "explanation": "Light nuclei sit low on the binding-energy-per-nucleon curve. Joining them moves the system up towards the peak near iron-56, so the product is more tightly bound and the lost mass appears as energy — more per nucleon than fission gives."
+      "explanation": "Light nuclei sit low on the binding-energy-per-nucleon curve. Joining them moves the system up towards the peak near iron-56, so the product is more tightly bound and the lost mass appears as energy, more per nucleon than fission gives."
     },
     {
       "heading": "The Coulomb Barrier",
@@ -52,7 +52,7 @@
     },
     {
       "heading": "Luminosity and Brightness",
-      "explanation": "Luminosity depends on the star’s surface area and the fourth power of its surface temperature. What we actually measure is apparent brightness, which is the luminosity spread over a sphere of radius equal to the star’s distance — so distance must be known before luminosity can be found."
+      "explanation": "Luminosity depends on the star’s surface area and the fourth power of its surface temperature. What we actually measure is apparent brightness, which is the luminosity spread over a sphere of radius equal to the star’s distance, so distance must be known before luminosity can be found."
     },
     {
       "heading": "Reading the HR Diagram",
@@ -126,7 +126,7 @@
   ],
   "common_mistakes": [
     "Reading the HR diagram left to right as increasing temperature; the axis is reversed.",
-    "Confusing luminosity with apparent brightness — the second depends on distance, the first does not.",
+    "Confusing luminosity with apparent brightness: the second depends on distance, the first does not.",
     "Forgetting to square the distance in the inverse-square law.",
     "Using celsius in Wien’s law or the Stefan–Boltzmann law; both need kelvin.",
     "Applying the Chandrasekhar limit to the original mass of the star rather than to the remnant core.",

@@ -25,7 +25,7 @@ const SECTIONS = [
       'A question that cannot be answered with a graph is too vague.'
     ],
     checks: [
-      { test: value => /\b(how|what|to what extent)\b/i.test(value), hint: 'Phrase it as a question — "How does… affect…" is the safest form.' },
+      { test: value => /\b(how|what|to what extent)\b/i.test(value), hint: 'Phrase it as a question. "How does… affect…" is the safest form.' },
       { test: value => /\d/.test(value), hint: 'Include the numerical range of your independent variable.' },
       { test: value => /\baffect|depend|vary|relationship\b/i.test(value), hint: 'Make the relationship explicit: which variable affects which.' }
     ]
@@ -38,7 +38,7 @@ const SECTIONS = [
     placeholder: 'Independent: pendulum length, 0.20–1.00 m in 0.20 m steps, measured with a metre rule to ±1 mm.\nDependent: period, from timing 20 oscillations with a stopwatch and dividing by 20.\nControlled: bob mass (same bob throughout), amplitude (released from 10° each time, set with a protractor), location (same lab bench, so g is constant).',
     guidance: [
       'Give the precision of every measuring instrument.',
-      'For each controlled variable, say HOW you keep it constant — not just that you do.',
+      'For each controlled variable, say HOW you keep it constant, not just that you do.',
       'Five or more values of the independent variable, with repeats.'
     ],
     checks: [
@@ -73,7 +73,7 @@ const SECTIONS = [
     placeholder: 'Raw: length / m (±0.001), time for 20 oscillations / s (±0.2)…\nProcessed: period T = t/20, then T² so that T² = (4π²/g)L gives a straight line through the origin.\nUncertainty in T is half the range of the three repeats.',
     guidance: [
       'Consistent decimal places, with an uncertainty on every measured column.',
-      'Linearise so the gradient means something — plot T² against L, not T against L.',
+      'Linearise so the gradient means something: plot T² against L, not T against L.',
       'Say where each uncertainty came from.'
     ],
     checks: [
@@ -113,7 +113,7 @@ const SECTIONS = [
     checks: [
       { test: value => /systematic|random/i.test(value), hint: 'Say whether your errors were random or systematic, and how you know.' },
       { test: value => /improv|instead|replace|use a/i.test(value), hint: 'Propose a specific improvement.' },
-      { test: value => !/human error|carele/i.test(value), hint: '"Human error" is not creditable — name the physical cause instead.' }
+      { test: value => !/human error|carele/i.test(value), hint: '"Human error" is not creditable. Name the physical cause instead.' }
     ]
   }
 ];

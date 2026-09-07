@@ -97,7 +97,7 @@
         "m": "mass (kg)",
         "v": "speed (m s⁻¹)"
       },
-      "explanation": "Every particle has a wavelength set by its momentum — negligible for everyday objects, comparable to atomic spacings for electrons."
+      "explanation": "Every particle has a wavelength set by its momentum, negligible for everyday objects, comparable to atomic spacings for electrons."
     }
   ],
   "photoelectric_effect": [

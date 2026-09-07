@@ -30,7 +30,7 @@ export function setupPage() {
     <ol class="setup-steps">
       <li class="setup-step">
         <h2><span>1</span> Create the project</h2>
-        <p>Open <a href="https://supabase.com/dashboard" target="_blank" rel="noopener noreferrer">supabase.com/dashboard</a> and sign in with GitHub — you already have an account there, so there is no new password. Choose <b>New project</b>, give it any name, pick the nearest region, and let it finish starting up.</p>
+        <p>Open <a href="https://supabase.com/dashboard" target="_blank" rel="noopener noreferrer">supabase.com/dashboard</a> and sign in with GitHub. You already have an account there, so there is no new password. Choose <b>New project</b>, give it any name, pick the nearest region, and let it finish starting up.</p>
       </li>
 
       <li class="setup-step">
@@ -89,7 +89,7 @@ function varsHTML(url, anon) {
   const rows = [
     ['SUPABASE_URL', url || 'https://YOURPROJECT.supabase.co'],
     ['SUPABASE_ANON_KEY', anon || '(the anon public key)'],
-    ['SUPABASE_SERVICE_ROLE_KEY', '(the service_role key — secret)'],
+    ['SUPABASE_SERVICE_ROLE_KEY', '(the service_role key, secret)'],
     ['ADMIN_EMAILS', 'your@gmail.com'],
   ];
   return `<table class="setup-var-table"><tbody>${rows.map(([name, value]) =>
@@ -139,7 +139,7 @@ export function bindSetup() {
       return say('bad', 'That does not look like a project URL.', 'It should look like <code>https://abcdefgh.supabase.co</code>, with no path after it.');
     }
     if (anon.length < 30) {
-      return say('bad', 'That key looks too short.', 'Copy the whole <b>anon public</b> value — it is long and usually starts <code>eyJ</code>.');
+      return say('bad', 'That key looks too short.', 'Copy the whole <b>anon public</b> value. It is long and usually starts <code>eyJ</code>.');
     }
     if (/service_role/i.test(anon)) {
       return say('bad', 'That is the service_role key.', 'It must never go in a browser. Use the <b>anon public</b> key here, and keep the other one for Vercel only.');

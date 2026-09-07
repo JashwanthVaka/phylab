@@ -49,7 +49,7 @@ const STATIC = {
   '/activity': ['Activity', 'What you have studied recently.'],
 };
 
-const titleTag = value => (value === SITE ? SITE : `${value} — ${SITE}`);
+const titleTag = value => (value === SITE ? SITE : `${value} | ${SITE}`);
 
 function upsert(selector, create) {
   let node = document.head.querySelector(selector);

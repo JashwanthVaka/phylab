@@ -15,7 +15,7 @@ const K_E = 8.9875517923e9;
 const R_GAS = 8.314462618;
 
 const round = (value, digits = 4) => {
-  if (!Number.isFinite(value)) return '—';
+  if (!Number.isFinite(value)) return 'n/a';
   const size = Math.abs(value);
   if (size !== 0 && (size < 1e-3 || size >= 1e6)) return value.toExponential(3);
   return String(Number(value.toPrecision(digits)));
@@ -45,7 +45,7 @@ const MODELS = {
       graph: { id: 'forces', title: 'Momentum against time', x: `Time (0 to ${round(v.t)} s)`, y: 'Momentum (kg m/s)', fn: u => v.F * (v.t * u / 100) },
       sweep: { label: 'Time', unit: 's', from: 0, to: v.t },
       at: t => [['Time', t, 's'], ['Momentum', v.F * t, 'kg m/s'], ['Velocity', v.F * t / v.m, 'm/s'], ['Kinetic energy', (v.F * t) ** 2 / (2 * v.m), 'J']],
-      meaning: `The gradient of momentum against time is the net force, ${round(v.F)} N — that is Newton's second law in its momentum form. The change in momentum over the whole interval is the impulse, ${round(v.F * v.t)} N s.`
+      meaning: `The gradient of momentum against time is the net force, ${round(v.F)} N. That is Newton's second law in its momentum form. The change in momentum over the whole interval is the impulse, ${round(v.F * v.t)} N s.`
     })
   },
   energy: {
@@ -56,7 +56,7 @@ const MODELS = {
       graph: { id: 'energy', title: 'Kinetic energy against distance fallen', x: `Distance fallen (0 to ${round(v.h)} m)`, y: 'Kinetic energy (J)', fn: u => v.m * v.g * (v.h * u / 100) },
       sweep: { label: 'Distance fallen', unit: 'm', from: 0, to: v.h },
       at: d => [['Distance fallen', d, 'm'], ['Kinetic energy', v.m * v.g * d, 'J'], ['Potential energy', v.m * v.g * (v.h - d), 'J'], ['Total', v.m * v.g * v.h, 'J'], ['Speed', Math.sqrt(2 * v.g * d), 'm/s']],
-      meaning: `The gradient is mg, ${round(v.m * v.g)} N — the weight. Kinetic energy gained always equals potential energy lost, so the total stays at ${round(v.m * v.g * v.h)} J throughout.`
+      meaning: `The gradient is mg, ${round(v.m * v.g)} N, the weight. Kinetic energy gained always equals potential energy lost, so the total stays at ${round(v.m * v.g * v.h)} J throughout.`
     })
   },
   'simple-harmonic-motion': {
@@ -117,7 +117,7 @@ const MODELS = {
           const angle = v.omega * t;
           return [['Time', t, 's'], ['emf', peak * Math.sin(angle), 'V'], ['Flux linkage', v.N * v.B * v.A * Math.cos(angle), 'Wb'], ['Coil angle', angle * 180 / Math.PI, '°'], ['Peak emf', peak, 'V']];
         },
-        meaning: `Peak emf is NBAω = ${round(peak)} V. The emf is largest when the flux linkage is changing fastest — as the coil passes through the plane of the field, where the flux itself is momentarily zero. That quarter-cycle offset between flux and emf is Faraday's law: emf depends on the rate of change of flux, not on the flux.`
+        meaning: `Peak emf is NBAω = ${round(peak)} V. The emf is largest when the flux linkage is changing fastest, as the coil passes through the plane of the field, where the flux itself is momentarily zero. That quarter-cycle offset between flux and emf is Faraday's law: emf depends on the rate of change of flux, not on the flux.`
       };
     }
   },
@@ -192,7 +192,7 @@ const MODELS = {
         graph: { id: 'relativity', title: 'Lorentz factor against speed', x: `Speed (0 to ${round(v.vmax)}c)`, y: 'Lorentz factor γ', fn: u => gamma(top * u / 100) },
         sweep: { label: 'Speed', unit: 'm/s', from: 0, to: top },
         at: speed => [['Speed', speed, 'm/s'], ['Fraction of c', speed / C, ''], ['γ', gamma(speed), ''], ['1 s becomes', gamma(speed), 's'], ['1 m becomes', 1 / gamma(speed), 'm']],
-        meaning: `γ stays close to 1 for everyday speeds, which is why relativity is invisible day to day. It rises without limit as v approaches c — the reason no massive object can reach the speed of light.`
+        meaning: `γ stays close to 1 for everyday speeds, which is why relativity is invisible day to day. It rises without limit as v approaches c, which is the reason no massive object can reach the speed of light.`
       };
     }
   }

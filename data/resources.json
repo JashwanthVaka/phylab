@@ -31,10 +31,10 @@
   },
   {
     "category": "Official and external references",
-    "description": "Links only. KINETIQ does not host or redistribute copyrighted material — use your school's licensed copies for past papers, mark schemes and coursebooks.",
+    "description": "Links only. KINETIQ does not host or redistribute copyrighted material: use your school's licensed copies for past papers, mark schemes and coursebooks.",
     "items": [
       { "title": "IB Physics subject page", "detail": "Official subject information and the current syllabus outline from the IB.", "url": "https://www.ibo.org/programmes/diploma-programme/curriculum/sciences/", "kind": "external" },
-      { "title": "IB physics data booklet", "detail": "Provided in your examinations. Obtain your copy through your school's IB coordinator or the IB programme resource centre — it is copyrighted and is not reproduced here.", "kind": "note" },
+      { "title": "IB physics data booklet", "detail": "Provided in your examinations. Obtain your copy through your school's IB coordinator or the IB programme resource centre: it is copyrighted and is not reproduced here.", "kind": "note" },
       { "title": "Your coursebook", "detail": "Use the edition your school has licensed. KINETIQ deliberately does not host coursebook PDFs; uploading one would breach copyright.", "kind": "note" },
       { "title": "NIST fundamental constants", "detail": "Authoritative reference values for physical constants, freely published.", "url": "https://physics.nist.gov/cuu/Constants/", "kind": "external" },
       { "title": "PhET interactive simulations", "detail": "Free, open-licensed physics simulations from the University of Colorado Boulder.", "url": "https://phet.colorado.edu/en/simulations/filter?subjects=physics", "kind": "external" }

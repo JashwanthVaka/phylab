@@ -21,7 +21,7 @@ const optional = (title, items, render, options) => items?.length ? section(titl
 const variables = lesson => lesson.formulas.flatMap(item =>
   Object.entries(item.symbols || item.variables || {}).map(([symbol, description]) => {
     const unit = unitOf(description);
-    return [symbol, meaningOf(description), unit === 'dimensionless' ? '—' : (unit || '—')];
+    return [symbol, meaningOf(description), unit === 'dimensionless' ? 'none' : (unit || 'Not recorded')];
   }));
 
 /**

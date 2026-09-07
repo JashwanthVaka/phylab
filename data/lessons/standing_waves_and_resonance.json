@@ -2,7 +2,7 @@
   "title": "C.5 Standing Waves and Resonance",
   "subject": "IBDP Physics",
   "level": "SL and HL",
-  "introduction": "When two identical waves travel in opposite directions they superpose into a pattern that does not move. This lesson explains how standing waves form, why only certain frequencies are allowed on a string or in a pipe, and how a system driven at its natural frequency responds with a large amplitude — resonance, the effect behind every musical instrument and a few structural disasters.",
+  "introduction": "When two identical waves travel in opposite directions they superpose into a pattern that does not move. This lesson explains how standing waves form, why only certain frequencies are allowed on a string or in a pipe, and how a system driven at its natural frequency responds with a large amplitude: resonance, the effect behind every musical instrument and a few structural disasters.",
   "learning_objectives": [
     "Explain the formation of standing waves using superposition.",
     "Distinguish standing waves from travelling waves.",
@@ -132,14 +132,14 @@
   "common_mistakes": [
     "Forgetting that a pipe closed at one end has no even harmonics.",
     "Using 2L instead of 4L for a closed pipe, which doubles the fundamental frequency.",
-    "Claiming a standing wave transfers energy along the medium — it does not.",
+    "Claiming a standing wave transfers energy along the medium: it does not.",
     "Saying every point on a standing wave oscillates with the same amplitude.",
     "Forgetting that points either side of a node oscillate in antiphase.",
     "Describing resonance as simply \"a loud sound\" instead of a maximum-amplitude response at the natural frequency."
   ],
   "ib_exam_tips": [
     "Sketch the standing-wave pattern before calculating; count half wavelengths directly from the diagram.",
-    "State the boundary condition first — node at a fixed or closed end, antinode at a free or open end.",
+    "State the boundary condition first: node at a fixed or closed end, antinode at a free or open end.",
     "When asked to compare standing and travelling waves, give energy transfer, amplitude variation and phase.",
     "For a damping question, name which type of damping is wanted and justify it from the required behaviour.",
     "Remember that increasing damping reduces the peak amplitude and broadens the resonance curve."

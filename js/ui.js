@@ -29,7 +29,7 @@ export function renderHome(index, progress) {
         <a href="/lesson/${escapeHTML(next?.slug || '')}" class="button" data-route>Start learning <b>→</b></a>
         <a href="/exam-prep" class="outline" data-route>Test your knowledge</a>
       </div>
-      <p class="hero-note">Every part of KINETIQ works with no account. Asking a question needs no API key either — only the generative tutor does.</p>
+      <p class="hero-note">Every part of KINETIQ works with no account. Asking a question needs no API key either. Only the generative tutor does.</p>
     </div>
     ${heroScene()}
   </section>
@@ -108,7 +108,7 @@ function renderFormulaPage(selected) {
     ? `<div class="table-wrap"><table><thead><tr><th>Variable</th><th>Meaning</th><th>SI unit</th><th>Dimension</th></tr></thead><tbody>${rows.map(([key, value]) => {
         const unit = unitOf(value);
         const dimension = dimensionOf(unit);
-        return `<tr><td><code>${escapeHTML(key)}</code></td><td>${escapeHTML(meaningOf(value))}</td><td>${unit ? escapeHTML(unit === 'dimensionless' ? '—' : unit) : '—'}</td><td>${dimension ? escapeHTML(dimension) : '—'}</td></tr>`;
+        return `<tr><td><code>${escapeHTML(key)}</code></td><td>${escapeHTML(meaningOf(value))}</td><td>${unit ? escapeHTML(unit === 'dimensionless' ? 'none' : unit) : 'Not recorded'}</td><td>${dimension ? escapeHTML(dimension) : 'Not recorded'}</td></tr>`;
       }).join('')}</tbody></table></div>`
     : '<p>Variable metadata has not yet been recorded for this formula.</p>';
 
@@ -136,7 +136,7 @@ function renderFormulaPage(selected) {
 export const renderFormulaLibrary = (formulas, selectedSlug) => {
   const selected = formulas.find(item => item.name && item.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') === selectedSlug);
   if (selected) return renderFormulaPage(selected);
-  return `<section class="page"><p class="eyebrow">FORMULA CENTRE</p><h1>Know what every symbol means.</h1><p class="page-lead">Select a formula to see its variables, physical meaning, calculator, graph, and exam guidance.</p><p class="formula-sheet-link"><a class="btn btn-primary" href="/formulas/print" data-route>Open the printable formula sheet →</a></p><div class="formula-grid">${formulas.map(item => `<a class="formula-block" href="/formulas/${item.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}" data-route><code>${escapeHTML(item.formula)}</code><h3>${escapeHTML(item.name)}</h3><p>${escapeHTML(item.topic || '')}</p></a>`).join('')}</div></section>`;
+  return `<section class="page"><p class="eyebrow">FORMULA CENTRE</p><h1>Know what every symbol means.</h1><p class="page-lead">Select a formula to see its variables, physical meaning, calculator, graph, and exam guidance.</p><p class="formula-sheet-link"><a class="btn btn-primary" href="/formulas/print" data-route>Open the printable formula sheet →</a></p><h2 class="visually-hidden">All formulae</h2><div class="formula-grid">${formulas.map(item => `<a class="formula-block" href="/formulas/${item.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}" data-route><code>${escapeHTML(item.formula)}</code><h3>${escapeHTML(item.name)}</h3><p>${escapeHTML(item.topic || '')}</p></a>`).join('')}</div></section>`;
 };
 export const renderProgress = (index, progress) => `<section class="page"><p class="eyebrow">YOUR WORKSPACE</p><h1>Progress with purpose.</h1><div class="dash-grid"><article class="current"><span class="tag">LESSONS COMPLETE</span><h2>${progress.completedLessons.length} / ${index.lessonIndex.length}</h2><p>Your lesson completion is stored privately in this browser until account sync is introduced.</p></article>${card('Practice activity', `<p>${progress.attempts.length} solution${progress.attempts.length === 1 ? '' : 's'} revealed.</p>`)}${card('Next step', `<a class="button" href="/lesson/${index.lessonIndex.find(item => !progress.completedLessons.includes(item.slug))?.slug || index.lessonIndex[0]?.slug || ''}" data-route>Continue learning →</a>`)}</div></section>`;
 export const renderSearch = (results, query) => `<section class="page"><p class="eyebrow">GLOBAL SEARCH</p><h1>Search KINETIQ.</h1><label class="search large-search"><span>⌕</span><input id="searchPageInput" value="${escapeHTML(query)}" autofocus placeholder="Search lessons, definitions, formulae, questions…"></label><p class="page-lead">${query ? `${results.length} result${results.length === 1 ? '' : 's'} for “${escapeHTML(query)}”` : 'Start typing to search the entire learning catalogue.'}</p>${query ? searchResults(results) : emptyState('What are you looking for?', 'Try “momentum”, “Coulomb”, or “interference”.')}</section>`;

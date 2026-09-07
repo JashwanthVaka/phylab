@@ -50,7 +50,7 @@ export function localProfilePage() {
     <h2 class="signin-meanwhile">In the meantime</h2>
     <p class="page-lead">${profile
       ? 'This is your profile on this device. Change it whenever you like.'
-      : 'Set a name and KINETIQ will greet you and tailor what it suggests. It needs no password — and no account, because there is not one yet.'}</p>
+      : 'Set a name and KINETIQ will greet you and tailor what it suggests. It needs no password, and no account, because there is not one yet.'}</p>
 
     <form id="localProfileForm" class="account-form local-profile-form">
       <label for="lpName">Your name

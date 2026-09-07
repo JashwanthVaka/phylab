@@ -55,7 +55,7 @@ export function askPage(query = '') {
   return `<section class="page ask-page">
     <p class="eyebrow">ASK KINETIQ</p>
     <h1>Ask a question.</h1>
-    <p class="page-lead">Answers come from KINETIQ's own lessons, formulae, worked examples and cases — every passage carries the lesson it came from, so you can always check it. No account and no API key needed.</p>
+    <p class="page-lead">Answers come from KINETIQ's own lessons, formulae, worked examples and cases. Every passage carries the lesson it came from, so you can always check it. No account and no API key needed.</p>
 
     <form class="ask-form" data-ask-form>
       <label class="search large-search">

@@ -48,7 +48,7 @@
     },
     {
       "heading": "Why Sound Is Different",
-      "explanation": "Sound travels through a medium, and that medium provides a rest frame. A source moving through still air is therefore physically different from an observer moving through it, so the two cases need different equations — unlike light, where only the relative velocity matters."
+      "explanation": "Sound travels through a medium, and that medium provides a rest frame. A source moving through still air is therefore physically different from an observer moving through it, so the two cases need different equations, unlike light, where only the relative velocity matters."
     }
   ],
   "formulas": [
@@ -112,7 +112,7 @@
     "Choosing the sign from memory rather than checking that approach raises the frequency.",
     "Using the light equation for sound, or ignoring that sound has a medium.",
     "Treating a moving source and a moving observer as identical situations for sound.",
-    "Saying the source changes its emitted frequency — it does not; only the observed frequency changes.",
+    "Saying the source changes its emitted frequency: it does not; only the observed frequency changes.",
     "Confusing redshift with the source being red in colour.",
     "Mixing wavelength and frequency shifts: they move in opposite directions."
   ],

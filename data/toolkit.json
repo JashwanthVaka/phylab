@@ -4,13 +4,13 @@
     "title": "Five-step numerical problem method",
     "purpose": "Use this on any question that asks you to calculate, determine or find a value.",
     "steps": [
-      { "heading": "List known values", "detail": "Write every given quantity with its symbol and unit. Convert to SI now — grams to kilograms, centimetres to metres, Celsius to kelvin — so you never convert mid-calculation." },
+      { "heading": "List known values", "detail": "Write every given quantity with its symbol and unit. Convert to SI now, grams to kilograms, centimetres to metres, Celsius to kelvin, so you never convert mid-calculation." },
       { "heading": "Identify the unknown", "detail": "State exactly what you are solving for and its expected unit. This tells you which equation you need." },
       { "heading": "Select the equation", "detail": "Choose a relationship that links your knowns to your unknown. Quote it from the data booklet before substituting, because the equation itself often earns a mark." },
       { "heading": "Substitute with SI units", "detail": "Put numbers in with units attached, then rearrange. Rearranging after substitution makes slips easier for an examiner to follow and for you to spot." },
       { "heading": "Check significant figures and reasonableness", "detail": "Match the significant figures of the least precise datum, attach the correct unit, and ask whether the size and sign make physical sense." }
     ],
-    "example": "A 1200 kg car decelerates from 25 m s⁻¹ to rest in 40 m. Knowns: m = 1200 kg, u = 25 m s⁻¹, v = 0, s = 40 m. Unknown: braking force F. Equation: v² = u² + 2as, then F = ma. a = −7.8 m s⁻², so F = −9.4 kN — negative because it opposes motion, and a few kilonewtons is a sensible braking force."
+    "example": "A 1200 kg car decelerates from 25 m s⁻¹ to rest in 40 m. Knowns: m = 1200 kg, u = 25 m s⁻¹, v = 0, s = 40 m. Unknown: braking force F. Equation: v² = u² + 2as, then F = ma. a = −7.8 m s⁻², so F = −9.4 kN, negative because it opposes motion, and a few kilonewtons is a sensible braking force."
   },
   {
     "slug": "graph-interpretation-method",
@@ -31,7 +31,7 @@
     "purpose": "Use this for questions built on a table of experimental measurements.",
     "steps": [
       { "heading": "Identify the variables", "detail": "Name the independent, dependent and controlled variables. Say which one the experimenter chose and which one they measured." },
-      { "heading": "Use the data correctly", "detail": "Process before you plot. If the expected relationship is not linear, linearise it — plot T² against l rather than T against l — so the gradient means something." },
+      { "heading": "Use the data correctly", "detail": "Process before you plot. If the expected relationship is not linear, linearise it, plot T² against l rather than T against l, so the gradient means something." },
       { "heading": "Calculate uncertainty where needed", "detail": "Combine absolute uncertainties when adding or subtracting, and fractional uncertainties when multiplying or dividing. Use the steepest and shallowest acceptable lines to get the uncertainty in a gradient." },
       { "heading": "Explain the relationship", "detail": "State the relationship in words and in symbols, supported by the gradient and intercept. \"Proportional\" requires a straight line through the origin; otherwise say \"linear\"." },
       { "heading": "Evaluate limitations", "detail": "Distinguish random scatter from systematic offset, identify the largest source of uncertainty, and propose one specific, testable improvement rather than \"be more careful\"." }
@@ -49,7 +49,7 @@
       { "heading": "Data handling", "detail": "Tabulate raw data with consistent decimal places and uncertainties. Process it, plot a linearised graph with error bars, and extract a gradient with its uncertainty." },
       { "heading": "Evaluation and improvements", "detail": "Compare with the accepted value, decide whether errors are random or systematic, and give improvements that target your largest identified weakness." }
     ],
-    "example": "If your measured g is 9.2 m s⁻² with an uncertainty of ±0.4 m s⁻², the accepted 9.81 m s⁻² lies outside your range — that points to a systematic error such as an unaccounted length to the centre of mass, not to random scatter."
+    "example": "If your measured g is 9.2 m s⁻² with an uncertainty of ±0.4 m s⁻², the accepted 9.81 m s⁻² lies outside your range: that points to a systematic error such as an unaccounted length to the centre of mass, not to random scatter."
   },
   {
     "slug": "extended-response-method",
@@ -57,7 +57,7 @@
     "purpose": "Use this on discuss, evaluate and explain questions worth several marks.",
     "steps": [
       { "heading": "Define the concept", "detail": "Open with a precise definition of the central quantity or principle. Definitions are cheap marks and they anchor everything that follows." },
-      { "heading": "State the relevant principle", "detail": "Name the law or relationship you are applying — conservation of momentum, Lenz's law, the first law of thermodynamics — and quote it." },
+      { "heading": "State the relevant principle", "detail": "Name the law or relationship you are applying, conservation of momentum, Lenz's law, the first law of thermodynamics, and quote it." },
       { "heading": "Apply it to the context", "detail": "Connect the principle to the specific situation in the question. Use the question's own nouns; a generic answer scores generically." },
       { "heading": "Show working or a diagram", "detail": "Support the argument with a calculation, a labelled force diagram, or a sketch graph. One clear diagram often replaces a paragraph." },
       { "heading": "Reach a clear conclusion", "detail": "Answer the question actually asked, in one sentence, with a justification. If asked to evaluate, commit to a judgement rather than listing both sides and stopping." }

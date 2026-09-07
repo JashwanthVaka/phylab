@@ -104,10 +104,24 @@ function notify(message, type = 'information', options = {}) {
   return dismiss;
 }
 
+/**
+ * Moving focus into main is right for a client-side route change: it tells a
+ * screen reader the page changed, which no browser does for you when the URL
+ * moves without a document load.
+ *
+ * It is wrong on the very first paint. The browser has already announced the
+ * document, and focusing main there parks the caret past the header, so the
+ * first Tab lands inside the page content and the skip link and the whole
+ * navigation become unreachable going forwards. On load, focus is left on the
+ * body where the browser put it.
+ */
+let hasRenderedOnce = false;
+
 function render(view) {
   app.innerHTML = view;
   app.setAttribute('tabindex', '-1');
-  app.focus({ preventScroll: true });
+  if (hasRenderedOnce) app.focus({ preventScroll: true });
+  hasRenderedOnce = true;
   bindUI({ loader, router, searchIndex, render });
   bindAccount(router);
 }

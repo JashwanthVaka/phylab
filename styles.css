@@ -1157,7 +1157,13 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible,
 }
 
 @media (max-width: 1080px) {
-  .nav-primary { display: none; }
+  /* Scoped to .site-header on purpose. The legacy block at the top of this
+     file still carries `.site-header nav { display: flex }`, which outranks a
+     bare `.nav-primary` and kept the full desktop nav visible from 761px to
+     1080px. The nav then pushed .nav-actions past the viewport, so every page
+     scrolled sideways by about 260px on a tablet. Matching that specificity
+     is what actually collapses the nav. */
+  .site-header .nav-primary { display: none; }
   .nav-burger { display: block; }
   .module-grid, .card-grid, .formula-grid { grid-template-columns: 1fr 1fr; }
 }
@@ -1179,12 +1185,19 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible,
   .chip { flex: none; }
   /* Touch targets */
   .btn, .button, .outline, .chip, .lesson-nav a, .nav-primary > a { min-height: 44px; }
+
+  /* The header carries brand, theme toggle, sign-in, tutor and burger. At 375px
+     that row is about 42px wider than the viewport, which is what pushed the
+     whole page sideways. KIT keeps its own route and sits in the mobile menu,
+     so dropping the shortcut here costs no access and buys the room back. */
+  #tutorButton { display: none; }
 }
 
 @media (max-width: 400px) {
   .page h1 { font-size: 32px; }
   .hero h1 { font-size: 38px; }
 }
+
 
 /* Nothing may push the page sideways.
    Note: overflow-x:clip/hidden on the root breaks painting in Chromium when a
@@ -2503,7 +2516,7 @@ input, select, textarea, .stats, .facts {
 .nav-account { position: relative; display: flex; align-items: center; }
 .nav-signin {
   display: inline-flex; align-items: center; justify-content: center;
-  min-height: 40px; padding: 0 16px; border-radius: 30px;
+  min-height: 40px; padding: 0 16px; border-radius: var(--r-pill);
   border: 1px solid var(--line-strong); text-decoration: none;
   font-size: 13px; font-weight: 600; color: var(--ink); white-space: nowrap;
   transition: border-color var(--t-fast) var(--ease), background var(--t-fast) var(--ease);
@@ -2723,3 +2736,37 @@ input, select, textarea, .stats, .facts {
   .auth-link { text-align: center; }
 }
 @media (pointer: coarse) { .auth-link { min-height: 44px; display: inline-flex; align-items: center; } }
+
+
+/* ── Touch targets ───────────────────────────────────────────────────────
+   Keyed to the input device rather than the viewport, because a 19px text
+   link is a coin toss for a thumb at any width. inline-flex is what lets
+   min-height apply to something that is otherwise an inline box. Placed last
+   deliberately: several component rules below the responsive section set a
+   40px height and would otherwise win.
+
+   Links sitting inline inside a sentence are left alone. WCAG 2.5.5 exempts
+   them, and padding them out would break the line box around them. */
+@media (pointer: coarse) {
+  .text-button,
+  .footer-nav a,
+  .back-link,
+  .library-card h3 a,
+  .home-unit__head a,
+  .module-card .open-module {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .brand, .nav-signin { min-height: 44px; }
+  .theme-toggle, .nav-avatar, .nav-burger { min-width: 44px; min-height: 44px; }
+  .nav-avatar { width: 44px; height: 44px; }
+  .search { min-height: 44px; align-items: center; }
+  /* Matching on type= would miss every input that omits the attribute and
+     falls back to text, which is most of the data lab. Excluding the few
+     types that must keep their own size is the reliable way round. */
+  select, textarea, .search input,
+  input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="file"]) {
+    min-height: 44px;
+  }
+}

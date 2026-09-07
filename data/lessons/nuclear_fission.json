@@ -2,7 +2,7 @@
   "title": "E.4 Nuclear Fission",
   "subject": "IBDP Physics",
   "level": "SL and HL",
-  "introduction": "A heavy nucleus struck by a slow neutron can split into two lighter fragments, releasing around 200 MeV — millions of times more per atom than any chemical reaction. The spare neutrons released can trigger further splits, and controlling that chain reaction is what a nuclear reactor is for.",
+  "introduction": "A heavy nucleus struck by a slow neutron can split into two lighter fragments, releasing around 200 MeV, millions of times more per atom than any chemical reaction. The spare neutrons released can trigger further splits, and controlling that chain reaction is what a nuclear reactor is for.",
   "learning_objectives": [
     "Describe the process of nuclear fission.",
     "Explain why fission releases energy using the binding-energy curve.",
@@ -111,7 +111,7 @@
     }
   ],
   "common_mistakes": [
-    "Swapping the roles of the moderator and the control rods — the moderator slows neutrons, the rods absorb them.",
+    "Swapping the roles of the moderator and the control rods: the moderator slows neutrons, the rods absorb them.",
     "Saying fission releases energy because the products are lighter, without linking it to binding energy per nucleon.",
     "Forgetting that the neutron absorbed must be slow for uranium-235.",
     "Failing to balance nucleon number and proton number in a fission equation.",
@@ -128,7 +128,7 @@
   "hl_extension": [
     {
       "topic": "Neutron Economy and Criticality",
-      "explanation": "The multiplication factor is the average number of neutrons from one fission that go on to cause another. Below one the reaction dies out, above one it grows, and a reactor is held at exactly one — the critical condition — by continuous adjustment of the control rods."
+      "explanation": "The multiplication factor is the average number of neutrons from one fission that go on to cause another. Below one the reaction dies out, above one it grows, and a reactor is held at exactly one, the critical condition, by continuous adjustment of the control rods."
     },
     {
       "topic": "Fission Products and Waste",

@@ -23,7 +23,7 @@ function ticks(min, max, target = 6) {
 }
 
 const short = value => {
-  if (!Number.isFinite(value)) return '—';
+  if (!Number.isFinite(value)) return 'n/a';
   const size = Math.abs(value);
   if (size !== 0 && (size < 1e-3 || size >= 1e5)) return value.toExponential(1);
   return String(Number(value.toPrecision(4)));

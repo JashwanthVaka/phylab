@@ -114,7 +114,7 @@ export function revisionPage(index, lessons) {
   return `<section class="page revision-page">
     <p class="eyebrow">REVISION PLANNER</p>
     <h1>What to study today.</h1>
-    <p class="page-lead">Built from what you have actually done on this device: flashcards whose interval has elapsed, and questions you have answered wrongly. Nothing here is invented — an empty planner means there is genuinely nothing due.</p>
+    <p class="page-lead">Built from what you have actually done on this device: flashcards whose interval has elapsed, and questions you have answered wrongly. Nothing here is invented. An empty planner means there is genuinely nothing due.</p>
 
     <div class="rev-summary">
       <article class="rev-stat ${due.length ? 'is-due' : ''}">

@@ -76,10 +76,10 @@ function providerNotice(status) {
     const where = status.appUrl
       ? `<a href="${escapeHTML(status.appUrl)}/ai">open KINETIQ where the tutor is running</a>`
       : 'run KINETIQ locally with <code>npm start</code>';
-    return `<p class="ai-status">This published copy has no server, so KIT is switched off here. Everything else — lessons, the course library, cases, question patterns, graphs, simulations and quizzes — works exactly as it does in the full app. To ask KIT a question, ${where}.</p>`;
+    return `<p class="ai-status">This published copy has no server, so KIT is switched off here. Everything else works exactly as it does in the full app: lessons, the course library, cases, question patterns, graphs, simulations and quizzes. To ask KIT a question, ${where}.</p>`;
   }
   const keys = status.providers.map(provider => `<code>${escapeHTML(provider.envKey)}</code>`).join(', ') || '<code>GROQ_API_KEY</code>';
-  return `<p class="ai-status">KIT is installed and ready, but no AI key is configured on the server yet, so it cannot answer. Add one of ${keys} to your <code>.env</code> file (or your host’s environment settings) and restart KINETIQ. Everything else — lessons, formulae, graphs, simulations and quizzes — works without a key.</p>`;
+  return `<p class="ai-status">KIT is installed and ready, but no AI key is configured on the server yet, so it cannot answer. Add one of ${keys} to your <code>.env</code> file (or your host’s environment settings) and restart KINETIQ. Everything else works without a key: lessons, formulae, graphs, simulations and quizzes.</p>`;
 }
 
 export async function aiWorkspace() {
