@@ -95,13 +95,13 @@ function weeklyPlanHTML(plan) {
   </section>`;
 }
 
-export function revisionPage(index, lessons) {
+export function revisionPage(index, lessons, completedSlugs = null) {
   const cards = scheduleFor(lessons);
   const due = cards.filter(card => card.isDue);
   const scheduled = cards.filter(card => !card.isDue).sort((a, b) => a.due - b.due);
   const mistakes = collectMistakes();
   const mistakesDue = mistakes.filter(item => item.due).length;
-  const completed = getProgress().completedLessons || [];
+  const completed = completedSlugs || getProgress().completedLessons || [];
   const plan = buildWeeklyPlan({
     lessons: index.lessonIndex || [],
     completed,
@@ -114,7 +114,7 @@ export function revisionPage(index, lessons) {
   return `<section class="page revision-page">
     <p class="eyebrow">REVISION PLANNER</p>
     <h1>What to study today.</h1>
-    <p class="page-lead">Built from what you have actually done on this device: flashcards whose interval has elapsed, and questions you have answered wrongly. Nothing here is invented. An empty planner means there is genuinely nothing due.</p>
+    <p class="page-lead">Built from what you have actually done: lessons you have completed, flashcards whose interval has elapsed, and questions you have answered wrongly. Nothing here is invented. An empty planner means there is genuinely nothing due.</p>
 
     <div class="rev-summary">
       <article class="rev-stat ${due.length ? 'is-due' : ''}">

@@ -2,6 +2,14 @@
 // that it photographs well.
 import { test, expect } from '@playwright/test';
 
+test.beforeEach(async ({ page }) => {
+  // Unreachable from the build container, and it hangs rather than failing,
+  // which delays DOMContentLoaded because app.js is a module script waiting on
+  // the CSSOM. Failing it immediately keeps these runs deterministic. The site
+  // renders in its fallback stack, so layout measurements still hold.
+  await page.route('https://fonts.googleapis.com/**', route => route.abort());
+});
+
 test.describe('desktop', () => {
   test.use({ viewport: { width: 1440, height: 900 } });
 

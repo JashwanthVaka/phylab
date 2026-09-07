@@ -82,6 +82,37 @@ export function dashboardView(summary, extra = {}) {
     </div>
 
     <section class="lesson-section">
+      <div class="section-title">
+        <p class="eyebrow">LESSON BY LESSON</p>
+        <h2>Everything you have completed</h2>
+      </div>
+      <p class="muted completion-note">${summary.guest
+        ? 'Stored in this browser. Sign in to keep this across your devices.'
+        : 'Stored on your KINETIQ account, so it follows you to any device you sign in on.'}</p>
+      ${(extra.units || []).map(unit => {
+        const unitLessons = lessons.filter(lesson => (lesson.unit || String(lesson.title).charAt(0)) === unit.id);
+        if (!unitLessons.length) return '';
+        const doneHere = unitLessons.filter(lesson => completedSlugs.includes(lesson.slug)).length;
+        return `<div class="completion-unit">
+          <div class="completion-unit__head">
+            <h3><span>${escapeHTML(unit.id)}</span> ${escapeHTML(unit.title)}</h3>
+            <span class="completion-unit__count">${doneHere} of ${unitLessons.length} complete</span>
+          </div>
+          <ul class="completion-list">
+            ${unitLessons.map(lesson => {
+              const done = completedSlugs.includes(lesson.slug);
+              return `<li class="completion-row ${done ? 'is-done' : ''}">
+                <span class="completion-mark" aria-hidden="true">${done ? '✓' : ''}</span>
+                <a href="/lesson/${escapeHTML(lesson.slug)}" data-route>${escapeHTML(lesson.title)}</a>
+                <span class="completion-status">${done ? 'Completed' : 'Not started'}</span>
+              </li>`;
+            }).join('')}
+          </ul>
+        </div>`;
+      }).join('')}
+    </section>
+
+    <section class="lesson-section">
       <div class="section-title"><p class="eyebrow">WHERE YOU ARE STRONG</p><h2>Strong topics</h2></div>
       ${strong.length
         ? `<div class="card-grid">${strong.map(topic => `<article class="content-card"><h3>${escapeHTML(topic.label || topic.topic_slug || '')}</h3><div class="bar"><i style="width:${topic.percentage ?? topic.mastery_score ?? 0}%"></i></div><p>${topic.percentage ?? topic.mastery_score ?? 0}%</p></article>`).join('')}</div>`

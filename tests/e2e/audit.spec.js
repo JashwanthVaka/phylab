@@ -2,14 +2,31 @@
 // built and reports, so a fix can be judged against real numbers.
 import { test, expect } from '@playwright/test';
 
+test.beforeEach(async ({ page }) => {
+  // Unreachable from the build container, and it hangs rather than failing,
+  // which delays DOMContentLoaded because app.js is a module script waiting on
+  // the CSSOM. Failing it immediately keeps these runs deterministic. The site
+  // renders in its fallback stack, so layout measurements still hold.
+  await page.route('https://fonts.googleapis.com/**', route => route.abort());
+});
+
 const ROUTES = ['/', '/library', '/simulations', '/exam-prep', '/ask', '/data', '/login', '/formulas'];
 // hasTouch matters: the touch-target rules are written against
 // `@media (pointer: coarse)`, so without it the browser reports a fine pointer
 // and the very rules under test never apply.
+// KINETIQ is used mainly on a Mac or a laptop, so the desktop range is
+// covered at several real widths rather than one. 1512 is a 14-inch MacBook
+// Pro, 1440 a 15-inch Air, 1280 a smaller laptop or a MacBook at its default
+// scaled resolution, and 1024 a browser window at half screen. That last one
+// matters: the header overflow this suite caught lived between 761 and 1080,
+// which is exactly a side-by-side window, not only a tablet.
 const SIZES = [
   { name: 'mobile', width: 375, height: 812, touch: true },
   { name: 'tablet', width: 834, height: 1112, touch: true },
-  { name: 'desktop', width: 1440, height: 900, touch: false }
+  { name: 'laptop-half', width: 1024, height: 900, touch: false },
+  { name: 'laptop', width: 1280, height: 800, touch: false },
+  { name: 'macbook-air', width: 1440, height: 900, touch: false },
+  { name: 'macbook-pro', width: 1512, height: 982, touch: false }
 ];
 
 // A tap target smaller than this is hard to hit reliably on a touch screen.
@@ -42,6 +59,16 @@ for (const size of SIZES) {
             if (getComputedStyle(el).visibility === 'hidden') continue;
             // WCAG 2.5.5 exempts a link sitting inline inside a sentence:
             // it cannot be padded out without breaking the line it lives in.
+            // A stretched link: the element paints a ::after over its whole
+            // card, so the card is the real target and the anchor's own box
+            // says nothing about how easy it is to hit.
+            const after = getComputedStyle(el, '::after');
+            if (after.position === 'absolute' && after.content !== 'none') {
+              const host = el.closest('[class*="card"]') || el.parentElement;
+              const hostBox = host ? host.getBoundingClientRect() : null;
+              if (hostBox && hostBox.height >= min && hostBox.width >= min) continue;
+            }
+
             const parent = el.parentElement;
             const inlineInProse = el.tagName === 'A' && parent &&
               ['P', 'LI', 'SPAN', 'TD', 'DD', 'SMALL'].includes(parent.tagName) &&

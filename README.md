@@ -111,7 +111,7 @@ Then two things happen outside this machine:
    | --- | --- |
    | `SUPABASE_URL` | the same project URL |
    | `SUPABASE_ANON_KEY` | the same anon key |
-   | `SUPABASE_SERVICE_ROLE_KEY` | **secret** — Project Settings → API → `service_role` |
+   | `SUPABASE_SERVICE_ROLE_KEY` | **secret**, Project Settings → API → `service_role` |
    | `ADMIN_EMAILS` | your own address, comma-separated for more than one |
 
 3. Turn on Google: in Supabase open **Authentication → Providers → Google**, enable

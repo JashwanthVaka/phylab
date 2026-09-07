@@ -165,10 +165,15 @@ function bookmarkPage(rows) {
 const router = new Router({
   // Answers from KINETIQ's own content, so it works with no AI key configured.
   '/ask': ({ query }) => transition(async () => ({ view: askPage(query || ''), mount: bindAsk }), 'Opening Ask KINETIQ…'),
-  '/': () => transition(async () => ({ view: renderHome(await loader.getIndex(), getProgress()) }), 'Preparing your physics workspace…'),
+  '/': () => transition(async () => {
+    const [index, state] = await Promise.all([loader.getIndex(), progressService.list()]);
+    return { view: renderHome(index, { completedLessons: state.completed }) };
+  }, 'Preparing your physics workspace…'),
   '/lesson/:slug': ({ slug }) => transition(async () => {
-    const [lesson, index] = await Promise.all([loader.getLesson(slug), loader.getIndex()]);
-    return { view: renderLesson(lesson, index), mount: bindLessonAsk };
+    const [lesson, index, state] = await Promise.all([
+      loader.getLesson(slug), loader.getIndex(), progressService.list()
+    ]);
+    return { view: renderLesson(lesson, index, state.completed), mount: bindLessonAsk };
   }, 'Opening lesson…'),
   // One page, every formula, grouped by unit — built for printing.
   '/formulas/print': () => transition(async () => ({ view: formulaSheetPage(await loader.getIndex()) }), 'Building the formula sheet…'),
@@ -277,9 +282,11 @@ const router = new Router({
   }, 'Loading account…'),
   '/bookmarks': () => transition(async () => ({ view: bookmarkPage(await bookmarkService.list()) }), 'Loading bookmarks…'),
   '/revision': () => transition(async () => {
-    const [index, planner] = await Promise.all([loader.getIndex(), loadPageModule('./js/revisionUI.js')]);
+    const [index, planner, state] = await Promise.all([
+      loader.getIndex(), loadPageModule('./js/revisionUI.js'), progressService.list()
+    ]);
     const lessons = await Promise.all(index.lessonIndex.map(item => loader.getLesson(item.slug)));
-    return { view: planner.revisionPage(index, lessons), mount: () => planner.bindRevision() };
+    return { view: planner.revisionPage(index, lessons, state.completed), mount: () => planner.bindRevision() };
   }, 'Building your revision plan…'),
   '/ai': () => transition(async () => {
     const workspace = await loadPageModule('./js/aiWorkspace.js');

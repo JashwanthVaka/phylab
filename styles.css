@@ -2738,6 +2738,44 @@ input, select, textarea, .stats, .facts {
 @media (pointer: coarse) { .auth-link { min-height: 44px; display: inline-flex; align-items: center; } }
 
 
+/* ── Completed lessons, on the progress page ─────────────────────────────
+   A plain list beats a card grid here. The learner is scanning for what is
+   left, so rows stay short and the completed ones read as settled rather
+   than shouting. */
+.completion-note { margin: 0 0 var(--s5); font-size: 14px; }
+.completion-unit { margin-bottom: var(--s6); }
+.completion-unit__head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: var(--s4); flex-wrap: wrap;
+  padding-bottom: var(--s3); border-bottom: 1px solid var(--line);
+}
+.completion-unit__head h3 { margin: 0; font-size: 18px; letter-spacing: -.01em; }
+.completion-unit__head h3 span { font: 500 12px/1 var(--font-mono); color: var(--muted); margin-right: var(--s2); }
+.completion-unit__count { font: 500 12px/1 var(--font-mono); color: var(--muted); white-space: nowrap; }
+.completion-list { list-style: none; margin: 0; padding: 0; }
+.completion-row {
+  display: grid; grid-template-columns: 22px minmax(0, 1fr) auto;
+  align-items: center; gap: var(--s3);
+  padding: var(--s3) 0; border-bottom: 1px solid var(--line);
+}
+.completion-row a { text-decoration: none; color: var(--ink); font-weight: 500; }
+.completion-row a:hover { text-decoration: underline; }
+.completion-mark {
+  display: grid; place-items: center;
+  width: 22px; height: 22px; border-radius: 50%;
+  border: 1px solid var(--line-strong); color: transparent; font-size: 12px; font-weight: 700;
+}
+.completion-row.is-done .completion-mark {
+  background: var(--accent-3); border-color: var(--accent-3); color: #fff;
+}
+.completion-status { font: 500 11px/1 var(--font-mono); color: var(--muted); white-space: nowrap; }
+.completion-row.is-done .completion-status { color: var(--accent-3); }
+
+@media (max-width: 560px) {
+  .completion-row { grid-template-columns: 22px minmax(0, 1fr); }
+  .completion-status { grid-column: 2; font-size: 10px; }
+}
+
 /* ── Touch targets ───────────────────────────────────────────────────────
    Keyed to the input device rather than the viewport, because a 19px text
    link is a coin toss for a thumb at any width. inline-flex is what lets
@@ -2751,8 +2789,8 @@ input, select, textarea, .stats, .facts {
   .text-button,
   .footer-nav a,
   .back-link,
-  .library-card h3 a,
   .home-unit__head a,
+  .completion-row a,
   .module-card .open-module {
     min-height: 44px;
     display: inline-flex;

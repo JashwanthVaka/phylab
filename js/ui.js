@@ -1,7 +1,8 @@
 import { card, emptyState, formula, skeleton } from './renderer.js';
 import { searchResults } from './search.js';
 import { bindQuiz } from './quiz.js';
-import { completeLesson, debounce, escapeHTML, getProgress, orderLessons } from './utils.js';
+import { debounce, escapeHTML, getProgress, orderLessons } from './utils.js';
+import { progressService } from './services/progressService.js';
 import { bindCalculator, renderCalculator } from './calculatorEngine.js';
 import { bindFlashcards } from './flashcards.js';
 import { bindGraphs, graphFor, renderGraph } from './graphEngine.js';
@@ -141,6 +142,23 @@ export const renderFormulaLibrary = (formulas, selectedSlug) => {
 export const renderProgress = (index, progress) => `<section class="page"><p class="eyebrow">YOUR WORKSPACE</p><h1>Progress with purpose.</h1><div class="dash-grid"><article class="current"><span class="tag">LESSONS COMPLETE</span><h2>${progress.completedLessons.length} / ${index.lessonIndex.length}</h2><p>Your lesson completion is stored privately in this browser until account sync is introduced.</p></article>${card('Practice activity', `<p>${progress.attempts.length} solution${progress.attempts.length === 1 ? '' : 's'} revealed.</p>`)}${card('Next step', `<a class="button" href="/lesson/${index.lessonIndex.find(item => !progress.completedLessons.includes(item.slug))?.slug || index.lessonIndex[0]?.slug || ''}" data-route>Continue learning →</a>`)}</div></section>`;
 export const renderSearch = (results, query) => `<section class="page"><p class="eyebrow">GLOBAL SEARCH</p><h1>Search KINETIQ.</h1><label class="search large-search"><span>⌕</span><input id="searchPageInput" value="${escapeHTML(query)}" autofocus placeholder="Search lessons, definitions, formulae, questions…"></label><p class="page-lead">${query ? `${results.length} result${results.length === 1 ? '' : 's'} for “${escapeHTML(query)}”` : 'Start typing to search the entire learning catalogue.'}</p>${query ? searchResults(results) : emptyState('What are you looking for?', 'Try “momentum”, “Coulomb”, or “interference”.')}</section>`;
 
+/**
+ * Says out loud that a completion did not save. Silence here is the worst
+ * outcome: the learner walks away believing the lesson was recorded.
+ */
+function notifyCompletionFailure() {
+  const region = document.querySelector('#phylab-notifications');
+  if (!region) return;
+  const notice = document.createElement('div');
+  notice.className = 'notification notification--error';
+  notice.setAttribute('role', 'alert');
+  notice.innerHTML = '<span class="notification__message"></span>';
+  notice.querySelector('.notification__message').textContent =
+    'That completion did not save. Check your connection and try again.';
+  region.append(notice);
+  window.setTimeout(() => notice.remove(), 6000);
+}
+
 export function showTutor() {
   const root = document.querySelector('#modalRoot');
   root.innerHTML = `<div class="modal show" role="dialog" aria-modal="true" aria-labelledby="tutorTitle"><div class="modal-card"><button class="modal-close" data-close-modal aria-label="Close KIT tutor">×</button><p class="eyebrow">KIT, YOUR AI STUDY PARTNER</p><h2 id="tutorTitle">Ask a better physics question.</h2><p>Open the dedicated KIT workspace for teaching modes, source-aware answers, saved conversations, images, and streamed explanations.</p><a class="button" href="/ai" data-route>Open KIT workspace →</a></div></div>`;
@@ -151,7 +169,30 @@ export function bindUI({ loader, router, searchIndex, render }) {
   const search = document.querySelector('#globalSearch');
   search?.addEventListener('input', debounce(event => router.go(`/search?q=${encodeURIComponent(event.target.value)}`), 220));
   document.querySelector('#searchPageInput')?.addEventListener('input', debounce(event => router.go(`/search?q=${encodeURIComponent(event.target.value)}`), 180));
-  document.querySelectorAll('[data-complete-lesson]').forEach(button => button.addEventListener('click', () => { completeLesson(button.dataset.completeLesson); button.textContent = 'Lesson completed ✓'; button.disabled = true; }));
+  document.querySelectorAll('[data-complete-lesson]').forEach(button => button.addEventListener('click', async () => {
+    // This used to call completeLesson() from utils, which writes to this
+    // browser and nowhere else. A signed-in learner marked a lesson done and
+    // the account never heard about it, so the work vanished on their next
+    // device. progressService writes to the account when there is one and
+    // falls back to this device when there is not.
+    const slug = button.dataset.completeLesson;
+    const done = button.getAttribute('aria-pressed') === 'true';
+    button.disabled = true;
+    const previous = button.textContent;
+    button.textContent = done ? 'Removing…' : 'Saving…';
+    try {
+      const result = done ? await progressService.clear(slug) : await progressService.complete(slug);
+      const nowDone = result.completed.includes(slug);
+      button.setAttribute('aria-pressed', String(nowDone));
+      button.textContent = nowDone ? 'Completed ✓' : 'Mark lesson complete';
+    } catch (error) {
+      console.warn('KINETIQ could not save that completion.', error);
+      button.textContent = previous;
+      notifyCompletionFailure();
+    } finally {
+      button.disabled = false;
+    }
+  }));
   document.querySelectorAll('[data-open-tutor]').forEach(button => button.addEventListener('click', () => showTutor()));
   document.querySelectorAll('button[data-quiz-topic]').forEach(button => button.addEventListener('click', () => router.go('/quiz')));
   document.querySelector('[data-close-modal]')?.addEventListener('click', () => { document.querySelector('#modalRoot').innerHTML = ''; document.querySelector('#tutorButton').focus(); });
