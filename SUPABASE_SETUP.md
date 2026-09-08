@@ -9,7 +9,10 @@ each value against the real project as you paste it.
 
 ## Steps
 
-1. Create a Supabase project and enable Email auth.
+1. Create a Supabase project. Enable **Google** under Authentication → Providers.
+   Apple is optional and needs a paid Apple Developer account; until it is
+   enabled, its button is not shown. Email auth is not used: KINETIQ signs
+   people in through a provider and holds no password of its own.
 2. Run **both** migrations in the SQL editor, in filename order:
    - `supabase/migrations/20260808_phylab_foundation.sql` creates the 18 tables,
      the row-level security policies, and the trigger that gives every new

@@ -254,19 +254,23 @@ const router = new Router({
   '/progress': () => transition(async () => ({ view: dashboardView(...(await dashboardContext())), mount: () => bindProgressTransfer() }), 'Loading progress…'),
   '/mastery': () => transition(async () => ({ view: masteryView(await dashboardService.summary()) }), 'Loading mastery…'),
   '/activity': () => transition(async () => ({ view: dashboardView(...(await dashboardContext())) }), 'Loading activity…'),
-  // Email and password sign-in, with Google offered only when the project
-  // actually has it switched on. Falls back to a device-local profile when no
-  // account service is configured, so the page is never a dead end.
-  ...["login","signup","reset"].reduce((routes, mode) => {
-    routes["/" + mode] = () => transition(async () => {
+  // Sign in with Google or Apple. There is no separate registration: the
+  // first time a provider returns a learner, the account is created. /signup
+  // and /reset are kept as aliases so old links and bookmarks still land
+  // somewhere useful rather than on a 404, and /reset has nothing to reset
+  // because KINETIQ holds no password.
+  ...["login", "signup", "reset"].reduce((routes, alias) => {
+    routes["/" + alias] = () => transition(async () => {
       const { authService } = await import("./js/services/authService.js");
       if (authService.enabled()) {
         const auth = await loadPageModule("./js/authUI.js");
-        return { view: await auth.authPage(mode), mount: () => auth.bindAuth(router) };
+        return { view: await auth.authPage(), mount: () => auth.bindAuth() };
       }
+      // No account service configured: a device-local profile, so the page is
+      // never a dead end.
       const local = await loadPageModule("./js/localProfileUI.js");
       return { view: local.localProfilePage(), mount: () => local.bindLocalProfile(router) };
-    }, "Opening account…");
+    }, "Opening sign-in…");
     return routes;
   }, {}),
   '/onboarding': () => transition(async () => ({ view: onboardingPage() }), 'Preparing onboarding…'),

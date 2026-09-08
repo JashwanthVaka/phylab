@@ -5,6 +5,10 @@
  * a Supabase project and a Google OAuth client. Both live in accounts only the
  * owner can open, so the work cannot be removed -- but the guessing can.
  *
+ * Since sign-in is providers only, there is nothing to configure for email,
+ * confirmation messages or password resets, which is why this is four steps
+ * rather than the six it used to take.
+ *
  * The value here is the checking. Pasting a key and finding out days later
  * that it was the wrong one is the failure this page exists to prevent: it
  * calls Supabase with what you paste and tells you immediately whether the
@@ -25,12 +29,18 @@ export function setupPage() {
   return `<section class="page setup-page">
     <p class="eyebrow">SITE SETUP</p>
     <h1>Turn on real accounts.</h1>
-    <p class="page-lead">Google will only sign people in to an app it knows about, so KINETIQ needs a project of its own. This page checks each value as you paste it, so nothing is left to guess.</p>
+    <p class="page-lead">Google will only sign people in to an app it knows about, so KINETIQ needs a project of its own. This page checks each value as you paste it, so nothing is left to guess. Four steps, and the last one is copy and paste.</p>
 
     <ol class="setup-steps">
       <li class="setup-step">
-        <h2><span>1</span> Create the project</h2>
-        <p>Open <a href="https://supabase.com/dashboard" target="_blank" rel="noopener noreferrer">supabase.com/dashboard</a> and sign in with GitHub. You already have an account there, so there is no new password. Choose <b>New project</b>, give it any name, pick the nearest region, and let it finish starting up.</p>
+        <h2><span>1</span> Create the project and its tables</h2>
+        <p>Open <a href="https://supabase.com/dashboard" target="_blank" rel="noopener noreferrer">supabase.com/dashboard</a> and sign in with GitHub. Choose <b>New project</b>, give it any name, pick the nearest region, and let it finish starting up.</p>
+        <p>Then open the <b>SQL Editor</b> and run both migration files from this repository, in filename order:</p>
+        <ul class="setup-files">
+          <li><code>supabase/migrations/20260808_phylab_foundation.sql</code></li>
+          <li><code>supabase/migrations/20260822_lock_profile_role.sql</code></li>
+        </ul>
+        <p class="setup-warn">Run <b>both</b>. The second closes a hole in the first: without it any signed-in student can make themselves an administrator and read every other student's work.</p>
       </li>
 
       <li class="setup-step">
@@ -54,29 +64,21 @@ export function setupPage() {
       </li>
 
       <li class="setup-step">
-        <h2><span>3</span> Switch on Google</h2>
+        <h2><span>3</span> Switch on the sign-in providers</h2>
+        <p>KINETIQ signs people in with Google or Apple and holds no password of its own. <b>Google is the one that matters</b>, and it is free.</p>
         <p>In Supabase open <b>Authentication → Providers → Google</b> and enable it. It asks for a client ID and secret, which you make at <a href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noopener noreferrer">console.cloud.google.com</a> under <b>Create credentials → OAuth client ID → Web application</b>.</p>
-        <p>Google will ask for an authorised redirect URI. Paste this one, which Supabase also shows on the same screen:</p>
+        <p>Google asks for an authorised redirect URI. Paste this one, which Supabase also shows on the same screen:</p>
         <div class="setup-copy"><code data-setup-callback>Fill in the Project URL above first</code><button type="button" class="text-button" data-copy="callback">Copy</button></div>
         <p>And add your site as an authorised JavaScript origin:</p>
         <div class="setup-copy"><code data-setup-origin>${escapeHTML(location.origin)}</code><button type="button" class="text-button" data-copy="origin">Copy</button></div>
+        <p class="muted"><b>Apple is optional and costs money.</b> Sign in with Apple needs a paid Apple Developer account, currently around 99 USD a year. Until you enable it in <b>Authentication → Providers → Apple</b>, the Apple button simply does not appear, so nobody sees an option that fails. Google alone is enough to launch.</p>
       </li>
 
       <li class="setup-step">
         <h2><span>4</span> Give the values to the site</h2>
         <p>Open your project on <a href="https://vercel.com/dashboard" target="_blank" rel="noopener noreferrer">vercel.com</a>, then <b>Settings → Environment Variables</b>, and add these four. The first two are the values you checked above; the third is the secret <code>service_role</code> key from the same Supabase page; the fourth is your own address, which decides who may open the admin dashboard.</p>
         <div class="setup-vars" data-setup-vars></div>
-        <p class="muted">Redeploy after saving them. This page will then say accounts are live, and <code>/login</code> becomes a real sign-in with a Google button.</p>
-      </li>
-
-      <li class="setup-step">
-        <h2><span>5</span> Protect the database</h2>
-        <p>In Supabase open the <b>SQL Editor</b> and run both migration files from this repository, in filename order:</p>
-        <ul class="setup-files">
-          <li><code>supabase/migrations/20260808_phylab_foundation.sql</code></li>
-          <li><code>supabase/migrations/20260822_lock_profile_role.sql</code></li>
-        </ul>
-        <p class="setup-warn">Run <b>both</b>. The second closes a hole in the first: without it any signed-in student can make themselves an administrator and read every other student's work.</p>
+        <p class="muted">Redeploy after saving them. This page will then say accounts are live, and <code>/login</code> shows a real sign-in button.</p>
       </li>
     </ol>
 
@@ -155,12 +157,19 @@ export function bindSetup() {
         return say('bad', `The project answered with ${response.status}.`, 'If the project was only just created it may still be starting. Wait a minute and try again.');
       }
       const settings = await response.json();
-      const googleOn = Boolean(settings?.external?.google);
-      return say(googleOn ? 'ok' : 'warn',
-        googleOn ? 'These values work, and Google is switched on.' : 'These values work. Google is not switched on yet.',
-        googleOn
-          ? 'Put them into Vercel in step 4, redeploy, and sign-in will be live.'
-          : 'Finish step 3 to enable the Google provider, then put these into Vercel in step 4.');
+      const external = settings?.external || {};
+      const googleOn = Boolean(external.google);
+      const appleOn = Boolean(external.apple);
+      // Google is what decides whether sign-in works. Apple is a bonus, and
+      // saying so keeps its absence from reading as a fault.
+      if (!googleOn) {
+        return say('warn', 'These values work. Google is not switched on yet.',
+          'Finish step 3 to enable the Google provider, then put these into Vercel in step 4.');
+      }
+      return say('ok', 'These values work, and Google is switched on.',
+        appleOn
+          ? 'Apple is on as well, so both buttons will show. Put these into Vercel in step 4, redeploy, and sign-in is live.'
+          : 'Put them into Vercel in step 4, redeploy, and sign-in is live. Apple is not enabled, so only the Google button shows, which is fine.');
     } catch {
       return say('bad', 'Could not reach that project.',
         'Check the URL for typos. A project that has been paused for inactivity also has to be resumed from the Supabase dashboard first.');
@@ -197,7 +206,7 @@ export function bindSetup() {
       const on = Boolean(body?.supabaseUrl && body?.supabaseAnonKey);
       live.dataset.tone = on ? 'ok' : 'warn';
       live.innerHTML = on
-        ? '<b>Accounts are live on this deployment.</b><p>Sign-in is working. If Google is not offered, finish step 3.</p>'
+        ? '<b>Accounts are live on this deployment.</b><p>Sign-in is working. If no button is offered on /login, finish step 3.</p>'
         : '<b>Accounts are not switched on for this deployment yet.</b><p>Everything on KINETIQ works without them; progress is kept per browser until they are.</p>';
     })
     .catch(() => { live.hidden = true; });
