@@ -43,6 +43,13 @@ not. `tests/accountProgress.test.mjs` enforces that, because a module writing
 completion directly to local storage fails silently: nothing errors, and the
 work simply is not there on the next device.
 
+`tests/accountIsolation.test.mjs` runs the account path itself against a
+stand-in for Supabase that applies the same `user_id = auth.uid()` rule the
+database does. It checks that writes carry the signed-in user id, that one
+learner never sees another's completions, that repeating a completion updates
+a single row rather than adding another, and that work done signed out is
+carried into the account on first sign-in.
+
 ## Validation
 
 Create one student and one teacher. Verify that a student can read only their

@@ -1,11 +1,11 @@
 /**
  * Completing a lesson and seeing it recorded.
  *
- * Supabase is not configured in this environment, so these run the guest path.
- * That is still the path that was broken: the lesson page wrote to a store
- * nothing else read. What is verified here is that one action is reflected
- * everywhere the learner looks, which is the property the account path needs
- * too, since both go through progressService.
+ * Supabase is not configured in this environment, so these run the guest path
+ * through a real browser: one action, reflected everywhere the learner looks.
+ * The account path is covered separately by tests/accountIsolation.test.mjs,
+ * which runs progressService against a stand-in that enforces the same
+ * per-user rule the database does.
  */
 import { test, expect } from '@playwright/test';
 
