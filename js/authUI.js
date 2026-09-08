@@ -18,6 +18,7 @@ import { escapeHTML } from './utils.js';
 import { authService, PROVIDERS } from './services/authService.js';
 import { getSupabase } from './services/supabaseClient.js';
 import { rememberReturnPath } from './authFlow.js';
+import { localProfileSection, bindLocalProfile } from './localProfileUI.js';
 
 const MARK = {
   google: `<svg viewBox="0 0 18 18" width="19" height="19" aria-hidden="true" fill="currentColor"><path d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.8 2.72v2.26h2.92c1.7-1.57 2.68-3.88 2.68-6.62zM9 18c2.43 0 4.47-.8 5.96-2.18l-2.92-2.26c-.81.54-1.84.86-3.04.86-2.34 0-4.32-1.58-5.03-3.7H.96v2.33A9 9 0 0 0 9 18zM3.97 10.72a5.41 5.41 0 0 1 0-3.44V4.95H.96a9 9 0 0 0 0 8.1l3.01-2.33zM9 3.58c1.32 0 2.5.45 3.44 1.35l2.58-2.58C13.46.9 11.43 0 9 0A9 9 0 0 0 .96 4.95l3.01 2.33C4.68 5.16 6.66 3.58 9 3.58z"/></svg>`,
@@ -58,21 +59,24 @@ export async function authPage() {
   const providers = await enabledProviders();
 
   return `<section class="page auth-page" data-auth-mode="provider">
-    <div class="auth-column">
+    <div class="auth-column${providers.length ? '' : ' is-unavailable'}">
       <p class="eyebrow">KINETIQ ACCOUNT</p>
       <h1>Sign in</h1>
-      <p class="auth-lead">Use an account you already have. KINETIQ never asks you for a new password, and your completed lessons follow you to any device you sign in on.</p>
+      <p class="auth-lead">${providers.length
+        ? 'Use an account you already have. KINETIQ never asks you for a new password, and your completed lessons follow you to any device you sign in on.'
+        : 'When sign-in is switched on it will use an account you already have, with no new password to remember.'}</p>
 
       ${providers.length
         ? `<div class="auth-providers">${providers.map(button).join('')}</div>
            <p id="authError" class="auth-error" role="alert"></p>
-           <p class="auth-fineprint">Signing in for the first time creates your account. There is no separate registration step.</p>`
-        : `<div class="empty-state">
-             <h3>Accounts are not switched on yet</h3>
-             <p>KINETIQ is running without its account service, so signing in is unavailable. Everything else works, and your progress is saved in this browser. You can carry it to another device from <a href="/progress" data-route>your progress page</a>.</p>
-           </div>`}
+           <p class="auth-fineprint">Signing in for the first time creates your account. There is no separate registration step.</p>
 
-      <p class="auth-guest">Not ready to sign in? <a href="/library" data-route>Carry on studying as a guest.</a> Nothing is locked behind an account.</p>
+           <p class="auth-guest">Not ready to sign in? <a href="/library" data-route>Carry on studying as a guest.</a> Nothing is locked behind an account.</p>`
+        : `<div class="empty-state auth-unavailable">
+             <h3>Sign-in is not switched on yet</h3>
+             <p>KINETIQ is running without its account service, so there is nothing to sign in with. Everything else works, and your progress is saved safely in this browser.</p>
+           </div>
+           ${localProfileSection()}`}
     </div>
   </section>`;
 }
@@ -104,11 +108,15 @@ function explain(error) {
   return `We could not sign you in: ${error?.message || 'unknown error'}.`;
 }
 
-export function bindAuth() {
+export function bindAuth(router) {
   const page = document.querySelector('.auth-page[data-auth-mode]');
   if (!page) return undefined;
   const controller = new AbortController();
   const error = page.querySelector('#authError');
+
+  // Present only while sign-in is unavailable; binding it here keeps one
+  // binder for the page rather than two that have to agree on which is live.
+  const releaseProfile = bindLocalProfile(router);
 
   page.querySelectorAll('[data-provider]').forEach(control => {
     control.addEventListener('click', async () => {
@@ -139,5 +147,5 @@ export function bindAuth() {
     }, { signal: controller.signal });
   });
 
-  return () => controller.abort();
+  return () => { controller.abort(); releaseProfile?.(); };
 }

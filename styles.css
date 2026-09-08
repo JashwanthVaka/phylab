@@ -2655,15 +2655,15 @@ input, select, textarea, .stats, .facts {
 }
 .signin-pending b { display: block; font-size: 15.5px; margin-bottom: 6px; letter-spacing: -.01em; }
 .signin-pending p { font-size: 13.5px; line-height: 1.65; color: var(--muted); margin: 0 0 14px; }
-.signin-meanwhile {
+.auth-page h2.signin-meanwhile {
   font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
-  color: var(--muted); margin: 0 0 8px;
+  line-height: 1.4; color: var(--muted); margin: 0 0 var(--s2);
 }
 @media (max-width: 560px) { .signin-pending { flex-direction: column; gap: 12px; } }
 
-/* ── Sign in, register, reset ────────────────────────────────────────
-   Email and password first, because that needs only an account service
-   where Google additionally needs an OAuth client registered with it. */
+/* ── Sign in ─────────────────────────────────────────────────────────
+   Two provider buttons when sign-in works, and an honest panel plus the
+   device profile when it does not. The page renders either way. */
 .auth-lead { max-width: 46ch; }
 .auth-card {
   max-width: 430px; padding: 28px 30px;
@@ -2710,6 +2710,12 @@ input, select, textarea, .stats, .facts {
    solid fills. The primary provider takes the site's own primary colour
    rather than Google's blue, which would be the only blue on a warm site. */
 .auth-column { max-width: 440px; margin: 0 auto; }
+.auth-column.is-unavailable { max-width: 560px; }
+.auth-unavailable { padding: var(--s5) var(--s6); margin-bottom: var(--s7); }
+.auth-unavailable h3 { margin: 0 0 var(--s3); font-size: 17px; letter-spacing: -.01em; }
+.auth-unavailable p { margin: 0; font-size: 14px; line-height: 1.65; color: var(--muted); }
+.local-profile-section .local-profile-form { max-width: 100%; }
+.local-profile-section .lp-note { margin-top: var(--s6); }
 .auth-column h1 { font-size: clamp(38px, 5vw, 52px); margin: 0 0 var(--s4); }
 .auth-lead { color: var(--muted); font-size: 15px; line-height: 1.6; margin: 0 0 var(--s6); }
 

@@ -145,3 +145,44 @@ test.describe('the owner-facing setup page is gone', () => {
     }
   });
 });
+
+test.describe('the sign-in page with no account service', () => {
+  test.use({ viewport: { width: 1440, height: 900 } });
+
+  test.beforeEach(async ({ page }) => {
+    await page.route('https://fonts.googleapis.com/**', route => route.abort());
+  });
+
+  /**
+   * This is what the live site and every preview actually show, because no
+   * Supabase project is connected to them. /login used to divert to a
+   * separate device-profile page here, which meant the sign-in page was never
+   * seen at all: the buttons existed only in the code.
+   */
+  test('still renders as a sign-in page, and says why it cannot sign anyone in', async ({ page }) => {
+    await page.goto('/login', { waitUntil: 'domcontentloaded' });
+    await page.locator('#app h1').first().waitFor();
+
+    await expect(page.locator('#app h1').first()).toHaveText(/sign in/i);
+    await expect(page.locator('.auth-unavailable')).toContainText(/not switched on yet/i);
+    await expect(page.locator('[data-provider]')).toHaveCount(0);
+  });
+
+  test('offers the device profile underneath rather than a dead end', async ({ page }) => {
+    await page.goto('/login', { waitUntil: 'domcontentloaded' });
+    await page.locator('#localProfileForm').waitFor();
+
+    await page.locator('#lpName').fill('Test Learner');
+    await page.locator('#localProfileForm button[type="submit"]').click();
+    await expect(page).toHaveURL(/\/progress$/);
+  });
+
+  test('the section heading is not rendered at display size', async ({ page }) => {
+    // `.page h2` in the legacy block outranks a bare class, which rendered
+    // this label at 42px. The same specificity trap as the header nav.
+    await page.goto('/login', { waitUntil: 'domcontentloaded' });
+    const size = await page.locator('.signin-meanwhile')
+      .evaluate(el => parseFloat(getComputedStyle(el).fontSize));
+    expect(size).toBeLessThan(20);
+  });
+});

@@ -261,15 +261,13 @@ const router = new Router({
   // because KINETIQ holds no password.
   ...["login", "signup", "reset"].reduce((routes, alias) => {
     routes["/" + alias] = () => transition(async () => {
-      const { authService } = await import("./js/services/authService.js");
-      if (authService.enabled()) {
-        const auth = await loadPageModule("./js/authUI.js");
-        return { view: await auth.authPage(), mount: () => auth.bindAuth() };
-      }
-      // No account service configured: a device-local profile, so the page is
-      // never a dead end.
-      const local = await loadPageModule("./js/localProfileUI.js");
-      return { view: local.localProfilePage(), mount: () => local.bindLocalProfile(router) };
+      // Always the sign-in page. It used to divert to a device-profile page
+      // whenever no account service was configured, which meant the sign-in
+      // page was never seen at all: /login showed a name form and the buttons
+      // existed only in the code. The page now renders either way and says
+      // which state it is in, with the device profile below when it must.
+      const auth = await loadPageModule("./js/authUI.js");
+      return { view: await auth.authPage(), mount: () => auth.bindAuth(router) };
     }, "Opening sign-in…");
     return routes;
   }, {}),
