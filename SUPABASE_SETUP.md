@@ -4,8 +4,9 @@ Accounts are optional. Everything in KINETIQ works signed out, with progress
 kept in the browser. Turning Supabase on adds accounts, and makes a learner's
 completed lessons follow them to any device they sign in on.
 
-There is a guided version of this at `/setup` in the running app, which checks
-each value against the real project as you paste it.
+This file is the whole guide. There used to be a `/setup` page inside the app
+that walked through it, but publishing a site's configuration steps to anyone
+who visits is not something a public site should do, so it was removed.
 
 ## Steps
 
@@ -19,14 +20,32 @@ each value against the real project as you paste it.
      account its profile and settings rows.
    - `supabase/migrations/20260822_lock_profile_role.sql` stops an account from
      editing its own role.
-3. Set `SUPABASE_URL` and `SUPABASE_ANON_KEY` in your deployment environment.
+3. Under **Authentication → Providers → Google**, Google asks for two values.
+   The **authorised redirect URI** is your project URL with `/auth/v1/callback`
+   on the end, which Supabase also prints on that same screen:
+
+   ```
+   https://YOURPROJECT.supabase.co/auth/v1/callback
+   ```
+
+   The **authorised JavaScript origin** is your site, with no path:
+
+   ```
+   https://getkinetiq.vercel.app
+   ```
+
+   Make the client ID and secret at
+   [console.cloud.google.com](https://console.cloud.google.com/apis/credentials)
+   under **Create credentials → OAuth client ID → Web application**.
+
+4. Set `SUPABASE_URL` and `SUPABASE_ANON_KEY` in your deployment environment.
    These two reach the browser and are designed to: the anon key grants exactly
    what row-level security allows and nothing more. Never expose a service-role
    key this way.
-4. For local static development, copy the URL and anon key into `public-env.js`
+5. For local static development, copy the URL and anon key into `public-env.js`
    on your machine. Do not commit populated values. For production, generate
    that public config during deployment.
-5. Optional, for the admin dashboard only: set `SUPABASE_SERVICE_ROLE_KEY` and
+6. Optional, for the admin dashboard only: set `SUPABASE_SERVICE_ROLE_KEY` and
    `ADMIN_EMAILS` in the server environment. The service-role key stays on the
    server and is never copied into `public-env.js`.
 
@@ -61,3 +80,16 @@ relationships, and that an unaffiliated account receives no rows.
 
 Then, as a signed-in student: complete a lesson, sign in on a second browser,
 and confirm `/progress` lists it as completed there too.
+
+## Checking a provider is really on
+
+Supabase publishes which providers are enabled, so you can confirm it without
+attempting a sign-in. Replace both values and open it in a browser:
+
+```
+https://YOURPROJECT.supabase.co/auth/v1/settings?apikey=YOUR_ANON_KEY
+```
+
+`external.google` should be `true`. The sign-in page reads exactly this, which
+is why a provider that is off shows no button at all rather than a button that
+fails.

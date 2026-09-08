@@ -112,12 +112,36 @@ test.describe('signing in', () => {
     await page.goto('/login', { waitUntil: 'domcontentloaded' });
 
     await expect(page.locator('[data-provider]')).toHaveCount(0);
-    await expect(page.locator('.auth-card')).toContainText(/not switched on yet/i);
+    await expect(page.locator('.auth-column')).toContainText(/not switched on yet/i);
   });
 
   test('makes clear that studying without an account still works', async ({ page }) => {
     await withProviders(page, { google: true });
     await page.goto('/login', { waitUntil: 'domcontentloaded' });
     await expect(page.locator('.auth-guest')).toContainText(/guest/i);
+  });
+});
+
+test.describe('the owner-facing setup page is gone', () => {
+  test.use({ viewport: { width: 1440, height: 900 } });
+
+  test('/setup is no longer a page', async ({ page }) => {
+    await page.route('https://fonts.googleapis.com/**', route => route.abort());
+    await page.goto('/setup', { waitUntil: 'domcontentloaded' });
+    await page.locator('#app h1').first().waitFor();
+
+    // It used to publish the project's configuration steps to anyone who
+    // asked. Those belong in SUPABASE_SETUP.md, not on the public site.
+    await expect(page.locator('.setup-step, .setup-steps')).toHaveCount(0);
+    await expect(page.locator('#app h1').first()).toContainText(/does not exist/i);
+  });
+
+  test('no page still links to it', async ({ page }) => {
+    await page.route('https://fonts.googleapis.com/**', route => route.abort());
+    for (const route of ['/', '/login', '/progress']) {
+      await page.goto(route, { waitUntil: 'domcontentloaded' });
+      await page.locator('#app h1').first().waitFor();
+      await expect(page.locator('a[href="/setup"]')).toHaveCount(0);
+    }
   });
 });

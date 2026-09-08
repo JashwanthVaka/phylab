@@ -2640,49 +2640,10 @@ input, select, textarea, .stats, .facts {
 .lp-note p { font-size: 13.5px; line-height: 1.65; margin: 0 0 10px; }
 .lp-note p:last-child { margin-bottom: 0; }
 
-/* ── Site setup ──────────────────────────────────────────────────────
-   Owner-facing. The work cannot be removed, but the guessing can, so
-   the checked-value panel carries the visual weight. */
-.setup-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; counter-reset: setup; max-width: 720px; }
-.setup-step { border: 1px solid var(--line); border-radius: var(--r-lg, 20px); background: var(--surface); padding: 24px 26px; }
-.setup-step h2 { display: flex; align-items: center; gap: 12px; font-size: 18px; margin: 0 0 12px; letter-spacing: -.02em; }
-.setup-step h2 span {
-  width: 26px; height: 26px; flex: 0 0 26px; border-radius: 50%;
-  display: grid; place-items: center; background: var(--blue); color: #fff;
-  font: 600 13px var(--font-sans);
-}
-.setup-step p { font-size: 14px; line-height: 1.65; margin: 0 0 12px; }
-.setup-step label { display: grid; gap: 6px; margin-bottom: 14px; font-size: 13px; font-weight: 600; color: var(--muted); }
-.setup-step input {
-  width: 100%; min-height: 44px; padding: 11px 13px;
-  border: 1px solid var(--line-strong); border-radius: 10px;
-  background: var(--surface-raised, #fff); color: var(--ink);
-  font: 13px var(--font-mono);
-}
-.setup-step input:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px color-mix(in srgb, var(--blue) 18%, transparent); }
-.setup-warn { border-left: 3px solid var(--blue); padding-left: 14px; }
-.setup-copy { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; background: var(--surface-alt); border-radius: 10px; padding: 10px 14px; margin-bottom: 12px; }
-.setup-copy code { font: 12px var(--font-mono); word-break: break-all; flex: 1; min-width: 0; }
-.setup-result, .setup-live { border-radius: 12px; padding: 0; margin-top: 4px; }
-.setup-result[data-tone], .setup-live[data-tone] { padding: 14px 16px; border: 1px solid var(--line); }
-.setup-result[data-tone="ok"], .setup-live[data-tone="ok"] { border-color: var(--teal, #0F766E); background: var(--surface-ok, #F0FDF9); }
-.setup-result[data-tone="bad"] { border-color: var(--danger, #B91C1C); background: #FEF2F2; }
-.setup-result[data-tone="warn"], .setup-live[data-tone="warn"] { border-color: var(--accent, #F4B942); background: #FFFBEB; }
-.setup-result[data-tone="busy"] { border-color: var(--line-strong); }
-.setup-result b, .setup-live b { display: block; font-size: 14.5px; margin-bottom: 4px; }
-.setup-result p, .setup-live p { font-size: 13px; line-height: 1.6; margin: 0; }
-.setup-var-table { width: 100%; border-collapse: collapse; margin-bottom: 12px; }
-.setup-var-table th, .setup-var-table td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); font-weight: 500; }
-.setup-var-table code { font: 12px var(--font-mono); word-break: break-all; }
-.setup-files { margin: 0 0 12px; padding-left: 20px; }
-.setup-files code { font: 12px var(--font-mono); }
-.setup-live { margin-top: 24px; max-width: 720px; }
-
 /* ── Sign-in pending ─────────────────────────────────────────────────
-   Real Google sign-in is built; it needs a project before Google will
-   authenticate anyone. This leads the page so the route to switching it
-   on is the first thing seen, with the local profile below as a
-   stopgap rather than the offer. */
+   Shown when no account service is configured. It says so plainly and
+   leaves the local profile below as the working alternative, rather
+   than putting owner-facing configuration steps in front of a student. */
 .signin-pending {
   display: flex; gap: 16px; align-items: flex-start;
   border: 1px solid var(--line-strong); border-radius: var(--r-lg, 20px);
@@ -2744,24 +2705,53 @@ input, select, textarea, .stats, .facts {
    its button inverts rather than sitting on white like Google's: Apple's own
    guidance is a solid black or white button, and black reads as the more
    deliberate of the two against this warm ground. */
+/* One narrow column. The two buttons are the whole page, so they are sized
+   like a decision rather than like form furniture: full width, 52px tall,
+   solid fills. The primary provider takes the site's own primary colour
+   rather than Google's blue, which would be the only blue on a warm site. */
+.auth-column { max-width: 440px; margin: 0 auto; }
+.auth-column h1 { font-size: clamp(38px, 5vw, 52px); margin: 0 0 var(--s4); }
+.auth-lead { color: var(--muted); font-size: 15px; line-height: 1.6; margin: 0 0 var(--s6); }
+
 .auth-providers { display: grid; gap: var(--s3); }
-.auth-providers .oauth-button { margin: 0; }
-.oauth-button[data-provider="apple"] {
-  background: #000; color: #fff; border-color: #000;
+.auth-providers .oauth-button {
+  margin: 0;
+  width: 100%;
+  min-height: 52px;
+  font-size: 15.5px;
+  gap: var(--s3);
 }
+
+.oauth-button[data-provider="google"] {
+  background: var(--blue); color: #fff; border-color: var(--blue);
+  box-shadow: 0 1px 2px rgba(16,24,40,.12), inset 0 1px 0 rgba(255,255,255,.18);
+}
+.oauth-button[data-provider="google"]:hover {
+  background: var(--blue-strong); border-color: var(--blue-strong);
+  box-shadow: 0 4px 14px rgba(194, 65, 12, .28), inset 0 1px 0 rgba(255,255,255,.18);
+}
+/* The dark theme lightens the primary to #F97D4A so it reads on a dark
+   ground. White on that is 2.61:1, which fails AA, so the label flips to the
+   same near-black the brand mark uses: 6.8:1. The button that carries every
+   sign-in is not the place to lose contrast. */
+:root[data-theme="dark"] .oauth-button[data-provider="google"] { color: #201703; }
+:root[data-theme="dark"] .oauth-button[data-provider="google"]:hover { color: #201703; }
+
+/* Apple asks for a solid black or solid white button, so it inverts with the
+   theme rather than following the palette. */
+.oauth-button[data-provider="apple"] { background: #000; color: #fff; border-color: #000; }
 .oauth-button[data-provider="apple"]:hover {
   background: #1a1a1a; border-color: #1a1a1a;
   box-shadow: 0 4px 14px rgba(0, 0, 0, .22);
 }
-:root[data-theme="dark"] .oauth-button[data-provider="apple"] {
-  background: #fff; color: #000; border-color: #fff;
-}
+:root[data-theme="dark"] .oauth-button[data-provider="apple"] { background: #fff; color: #000; border-color: #fff; }
 :root[data-theme="dark"] .oauth-button[data-provider="apple"]:hover { background: #e8e8e8; border-color: #e8e8e8; }
+
 .oauth-button[disabled] { opacity: .55; cursor: progress; }
 .oauth-button[data-busy="true"] { cursor: progress; }
 
 .auth-fineprint { margin: var(--s4) 0 0; font-size: 13px; color: var(--muted); text-align: center; }
-.auth-guest { margin-top: var(--s5); font-size: 14px; color: var(--muted); }
+.auth-guest { margin-top: var(--s6); font-size: 14px; color: var(--muted); line-height: 1.6; }
 .auth-guest a { color: var(--blue); font-weight: 600; }
 
 /* ── Completed lessons, on the progress page ─────────────────────────────

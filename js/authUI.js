@@ -20,7 +20,7 @@ import { getSupabase } from './services/supabaseClient.js';
 import { rememberReturnPath } from './authFlow.js';
 
 const MARK = {
-  google: `<svg viewBox="0 0 18 18" width="18" height="18" aria-hidden="true"><path fill="#4285F4" d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.8 2.72v2.26h2.92c1.7-1.57 2.68-3.88 2.68-6.62z"/><path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.92-2.26c-.81.54-1.84.86-3.04.86-2.34 0-4.32-1.58-5.03-3.7H.96v2.33A9 9 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.97 10.72a5.41 5.41 0 0 1 0-3.44V4.95H.96a9 9 0 0 0 0 8.1l3.01-2.33z"/><path fill="#EA4335" d="M9 3.58c1.32 0 2.5.45 3.44 1.35l2.58-2.58C13.46.9 11.43 0 9 0A9 9 0 0 0 .96 4.95l3.01 2.33C4.68 5.16 6.66 3.58 9 3.58z"/></svg>`,
+  google: `<svg viewBox="0 0 18 18" width="19" height="19" aria-hidden="true" fill="currentColor"><path d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.8 2.72v2.26h2.92c1.7-1.57 2.68-3.88 2.68-6.62zM9 18c2.43 0 4.47-.8 5.96-2.18l-2.92-2.26c-.81.54-1.84.86-3.04.86-2.34 0-4.32-1.58-5.03-3.7H.96v2.33A9 9 0 0 0 9 18zM3.97 10.72a5.41 5.41 0 0 1 0-3.44V4.95H.96a9 9 0 0 0 0 8.1l3.01-2.33zM9 3.58c1.32 0 2.5.45 3.44 1.35l2.58-2.58C13.46.9 11.43 0 9 0A9 9 0 0 0 .96 4.95l3.01 2.33C4.68 5.16 6.66 3.58 9 3.58z"/></svg>`,
   apple: `<svg viewBox="0 0 16 20" width="16" height="19" aria-hidden="true" fill="currentColor"><path d="M13.2 10.6c0-2.2 1.8-3.3 1.9-3.3-1-1.5-2.6-1.7-3.2-1.7-1.4-.1-2.7.8-3.3.8-.7 0-1.7-.8-2.8-.8-1.5 0-2.8.8-3.5 2.1-1.5 2.6-.4 6.5 1.1 8.6.7 1 1.6 2.2 2.7 2.2 1.1 0 1.5-.7 2.8-.7s1.6.7 2.8.7c1.1 0 1.9-1 2.6-2.1.8-1.2 1.1-2.4 1.2-2.4-.1 0-2.3-.9-2.3-3.4zM11 4.1c.6-.7 1-1.7.9-2.7-.9 0-1.9.6-2.5 1.3-.6.6-1 1.6-.9 2.6 1 .1 2-.5 2.5-1.2z"/></svg>`
 };
 
@@ -58,11 +58,11 @@ export async function authPage() {
   const providers = await enabledProviders();
 
   return `<section class="page auth-page" data-auth-mode="provider">
-    <p class="eyebrow">KINETIQ ACCOUNT</p>
-    <h1>Sign in to keep your work.</h1>
-    <p class="page-lead auth-lead">Use an account you already have. KINETIQ never asks you for a new password, and your completed lessons follow you to any device you sign in on.</p>
+    <div class="auth-column">
+      <p class="eyebrow">KINETIQ ACCOUNT</p>
+      <h1>Sign in</h1>
+      <p class="auth-lead">Use an account you already have. KINETIQ never asks you for a new password, and your completed lessons follow you to any device you sign in on.</p>
 
-    <div class="auth-card">
       ${providers.length
         ? `<div class="auth-providers">${providers.map(button).join('')}</div>
            <p id="authError" class="auth-error" role="alert"></p>
@@ -71,9 +71,9 @@ export async function authPage() {
              <h3>Accounts are not switched on yet</h3>
              <p>KINETIQ is running without its account service, so signing in is unavailable. Everything else works, and your progress is saved in this browser. You can carry it to another device from <a href="/progress" data-route>your progress page</a>.</p>
            </div>`}
-    </div>
 
-    <p class="auth-guest">Not ready to sign in? <a href="/library" data-route>Carry on studying as a guest.</a> Nothing is locked behind an account.</p>
+      <p class="auth-guest">Not ready to sign in? <a href="/library" data-route>Carry on studying as a guest.</a> Nothing is locked behind an account.</p>
+    </div>
   </section>`;
 }
 

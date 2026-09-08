@@ -41,7 +41,6 @@ const STATIC = {
   '/bookmarks': ['Saved items', 'Everything you have saved to come back to.'],
   '/mastery': ['Mastery', 'Where you are strong and where the marks are still going missing.'],
   '/account': ['Your account', 'Your KINETIQ account, how you signed in, and your study settings.'],
-  '/setup': ['Site setup', 'Turn on real accounts for KINETIQ.'],
   '/admin': ['Admin', 'Account statistics for the site owner.'],
   '/login': ['Sign in', 'Sign in with Google or Apple to keep your progress across devices.'],
   // Kept only so an old bookmark lands on sign-in rather than a 404. There
