@@ -5,14 +5,14 @@ import { escapeHTML } from './utils.js';
  * card starts a real session rather than a placeholder.
  */
 const FORMATS = [
-  { title: 'Paper 1A style — multiple choice', route: '/quiz', time: '5–8 min', marks: '5 marks', level: 'SL + HL', type: 'Recall and quick application', skills: ['Rapid recall', 'Unit awareness', 'Eliminating distractors'], detail: 'Short, single-mark questions to check that definitions and standard relationships are secure.' },
-  { title: 'Paper 2 style — structured response', route: '/quiz', time: '12–18 min', marks: '10 marks', level: 'SL + HL', type: 'Multi-step written answers', skills: ['Method setting out', 'Unit conversion', 'Explanation chains'], detail: 'Longer questions where working and reasoning carry the marks, not just the final number.' },
-  { title: 'Data-based questions', route: '/quiz', time: '10–15 min', marks: '6 marks', level: 'SL + HL', type: 'Graph and table analysis', skills: ['Gradient interpretation', 'Linearisation', 'Uncertainty'], detail: 'Read values, process them, and say what the gradient and intercept mean physically.' },
-  { title: 'Practical and experimental', route: '/toolkit', time: '15–20 min', marks: 'Method-based', level: 'SL + HL', type: 'Investigation design and evaluation', skills: ['Variable control', 'Uncertainty treatment', 'Evaluation'], detail: 'Work through the practical method, then design or critique an investigation.' },
-  { title: 'HL extension practice', route: '/quiz', time: '12–16 min', marks: '8 marks', level: 'HL only', type: 'Higher-level content', skills: ['Rotational dynamics', 'Relativity', 'Advanced fields'], detail: 'Questions drawn from the HL-only material, filtered to level HL.' },
+  { title: 'Paper 1A style: multiple choice', route: '/quiz', time: '5-8 min', marks: '5 marks', level: 'SL + HL', type: 'Recall and quick application', skills: ['Rapid recall', 'Unit awareness', 'Eliminating distractors'], detail: 'Short, single-mark questions to check that definitions and standard relationships are secure.' },
+  { title: 'Paper 2 style: structured response', route: '/quiz', time: '12-18 min', marks: '10 marks', level: 'SL + HL', type: 'Multi-step written answers', skills: ['Method setting out', 'Unit conversion', 'Explanation chains'], detail: 'Longer questions where working and reasoning carry the marks, not just the final number.' },
+  { title: 'Data-based questions', route: '/quiz', time: '10-15 min', marks: '6 marks', level: 'SL + HL', type: 'Graph and table analysis', skills: ['Gradient interpretation', 'Linearisation', 'Uncertainty'], detail: 'Read values, process them, and say what the gradient and intercept mean physically.' },
+  { title: 'Practical and experimental', route: '/toolkit', time: '15-20 min', marks: 'Method-based', level: 'SL + HL', type: 'Investigation design and evaluation', skills: ['Variable control', 'Uncertainty treatment', 'Evaluation'], detail: 'Work through the practical method, then design or critique an investigation.' },
+  { title: 'HL extension practice', route: '/quiz', time: '12-16 min', marks: '8 marks', level: 'HL only', type: 'Higher-level content', skills: ['Rotational dynamics', 'Relativity', 'Advanced fields'], detail: 'Questions drawn from the HL-only material, filtered to level HL.' },
   { title: 'Timed exam mode', route: '/exam', time: '30 min', marks: 'Full session', level: 'SL + HL', type: 'Whole-session pacing', skills: ['Time management', 'Working under pressure', 'Prioritising'], detail: 'A single timed sitting with a countdown, navigator and flagging, closest to a real paper.' },
-  { title: 'Weak-topic practice', route: '/quiz', time: '10–15 min', marks: '6 marks', level: 'SL + HL', type: 'Targeted revision', skills: ['Closing gaps', 'Spaced repetition'], detail: 'Focuses on topics your results show need another pass. Falls back to a mixed set until you have results.' },
-  { title: 'Formula recall', route: '/formulas', time: '10–15 min', marks: '6 marks', level: 'SL + HL', type: 'Equation selection', skills: ['Choosing the right equation', 'Symbol meaning', 'Units and dimensions'], detail: 'Practise selecting and interpreting equations rather than substituting into a given one.' }
+  { title: 'Weak-topic practice', route: '/quiz', time: '10-15 min', marks: '6 marks', level: 'SL + HL', type: 'Targeted revision', skills: ['Closing gaps', 'Spaced repetition'], detail: 'Focuses on topics your results show need another pass. Falls back to a mixed set until you have results.' },
+  { title: 'Formula recall', route: '/formulas', time: '10-15 min', marks: '6 marks', level: 'SL + HL', type: 'Equation selection', skills: ['Choosing the right equation', 'Symbol meaning', 'Units and dimensions'], detail: 'Practise selecting and interpreting equations rather than substituting into a given one.' }
 ];
 
 export function examPrepPage(index) {
@@ -34,7 +34,7 @@ export function examPrepPage(index) {
           <div><dt>Level</dt><dd>${escapeHTML(format.level)}</dd></div>
         </dl>
         <p class="exam-card__skills"><b>Skills assessed:</b> ${format.skills.map(skill => escapeHTML(skill)).join(' · ')}</p>
-        <a class="button" href="${escapeHTML(format.route)}" data-route>Start ${escapeHTML(format.title.split(' — ')[0].toLowerCase())} →</a>
+        <a class="button" href="${escapeHTML(format.route)}" data-route>Start ${escapeHTML(format.title.split(':')[0].toLowerCase())} →</a>
       </article>`).join('')}
     </div>
 

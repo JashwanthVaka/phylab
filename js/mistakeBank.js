@@ -151,7 +151,7 @@ function mistakeCard(entry) {
     <h3>${escapeHTML(question.question || 'Question unavailable')}</h3>
     <div class="mistake-card__answers">
       <p><b>You answered:</b> <span class="mistake-wrong">${escapeHTML(entry.lastAnswer || 'no answer')}</span></p>
-      <p><b>Correct answer:</b> <span class="mistake-right">${escapeHTML(question.correct_answer || '—')}</span></p>
+      <p><b>Correct answer:</b> <span class="mistake-right">${escapeHTML(question.correct_answer || 'Not recorded')}</span></p>
       ${entry.lastReason ? `<p class="muted">${escapeHTML(entry.lastReason)}</p>` : ''}
     </div>
     ${question.solution ? `<details><summary>Worked solution</summary><p>${escapeHTML(question.solution)}</p></details>` : ''}

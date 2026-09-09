@@ -2,7 +2,7 @@
   "title": "D.1 Gravitation",
   "subject": "IBDP Physics",
   "level": "SL and HL",
-  "introduction": "Gravitation is the force every mass exerts on every other mass, and the field is the way that influence is described at a distance. This lesson builds from the inverse-square law to field strength, then applies both to orbits — why a satellite stays up, what sets its speed, and how Kepler’s laws follow from Newton’s.",
+  "introduction": "Gravitation is the force every mass exerts on every other mass, and the field is the way that influence is described at a distance. This lesson builds from the inverse-square law to field strength, then applies both to orbits, why a satellite stays up, what sets its speed, and how Kepler’s laws follow from Newton’s.",
   "learning_objectives": [
     "Understand the concept of a field as action at a distance.",
     "Apply Newton’s law of gravitation.",
@@ -161,11 +161,11 @@
     "Medical MRI machines use strong magnetic fields."
   ],
   "common_mistakes": [
-    "Confusing gravitational field strength with gravitational potential — one is force per unit mass, the other energy per unit mass.",
+    "Confusing gravitational field strength with gravitational potential: one is force per unit mass, the other energy per unit mass.",
     "Measuring r from the surface of a planet instead of from its centre.",
     "Forgetting that gravitational potential and potential energy are negative, because they are defined as zero at infinity.",
     "Using the 1/r² dependence for potential; the field goes as 1/r² but the potential goes as 1/r.",
-    "Thinking a satellite in a lower orbit moves more slowly — it actually moves faster, though it has less total energy.",
+    "Thinking a satellite in a lower orbit moves more slowly: it actually moves faster, though it has less total energy.",
     "Assuming escape speed depends on the mass of the escaping object; it does not."
   ],
   "ib_exam_tips": [

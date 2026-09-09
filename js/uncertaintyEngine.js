@@ -112,7 +112,7 @@ export function propagateSum(terms) {
 
 /** Rounds an uncertainty to one significant figure and the value to match, as IB expects. */
 export function formatWithUncertainty(value, uncertainty) {
-  if (!Number.isFinite(value)) return { value: '—', uncertainty: '—' };
+  if (!Number.isFinite(value)) return { value: 'n/a', uncertainty: 'n/a' };
   if (!Number.isFinite(uncertainty) || uncertainty === 0) return { value: String(Number(value.toPrecision(4))), uncertainty: null };
   const magnitude = Math.floor(Math.log10(Math.abs(uncertainty)));
   const rounded = Number(uncertainty.toPrecision(1));

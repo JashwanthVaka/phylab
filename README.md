@@ -77,9 +77,18 @@ published, and neither can run the tutor.
 
 ## Accounts and the admin dashboard
 
-Students can sign in with Google or with an email and password. `/admin` shows
-account totals, sign-ups over the last 30 days, which method people used, and the
-newest accounts.
+Students sign in with Google or Apple. KINETIQ stores no password of its own, so
+there is nothing to reset and no confirmation email to wait for: the first time a
+provider returns a student, the account is created and the database trigger gives
+it a profile.
+
+A provider button is drawn only when that provider is actually enabled in the
+Supabase project. Google is free. Apple needs a paid Apple Developer account, so
+its button stays hidden until someone enables it, and Google alone is enough to
+launch.
+
+`/admin` shows account totals, sign-ups over the last 30 days, which method people
+used, and the newest accounts.
 
 **Only the server decides who may see `/admin`.** The page holds no allowlist,
 because anything decided in the browser can be read out of the bundle or bypassed
@@ -111,7 +120,7 @@ Then two things happen outside this machine:
    | --- | --- |
    | `SUPABASE_URL` | the same project URL |
    | `SUPABASE_ANON_KEY` | the same anon key |
-   | `SUPABASE_SERVICE_ROLE_KEY` | **secret** — Project Settings → API → `service_role` |
+   | `SUPABASE_SERVICE_ROLE_KEY` | **secret**, Project Settings → API → `service_role` |
    | `ADMIN_EMAILS` | your own address, comma-separated for more than one |
 
 3. Turn on Google: in Supabase open **Authentication → Providers → Google**, enable

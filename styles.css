@@ -1157,7 +1157,13 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible,
 }
 
 @media (max-width: 1080px) {
-  .nav-primary { display: none; }
+  /* Scoped to .site-header on purpose. The legacy block at the top of this
+     file still carries `.site-header nav { display: flex }`, which outranks a
+     bare `.nav-primary` and kept the full desktop nav visible from 761px to
+     1080px. The nav then pushed .nav-actions past the viewport, so every page
+     scrolled sideways by about 260px on a tablet. Matching that specificity
+     is what actually collapses the nav. */
+  .site-header .nav-primary { display: none; }
   .nav-burger { display: block; }
   .module-grid, .card-grid, .formula-grid { grid-template-columns: 1fr 1fr; }
 }
@@ -1179,12 +1185,19 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible,
   .chip { flex: none; }
   /* Touch targets */
   .btn, .button, .outline, .chip, .lesson-nav a, .nav-primary > a { min-height: 44px; }
+
+  /* The header carries brand, theme toggle, sign-in, tutor and burger. At 375px
+     that row is about 42px wider than the viewport, which is what pushed the
+     whole page sideways. KIT keeps its own route and sits in the mobile menu,
+     so dropping the shortcut here costs no access and buys the room back. */
+  #tutorButton { display: none; }
 }
 
 @media (max-width: 400px) {
   .page h1 { font-size: 32px; }
   .hero h1 { font-size: 38px; }
 }
+
 
 /* Nothing may push the page sideways.
    Note: overflow-x:clip/hidden on the root breaks painting in Chromium when a
@@ -2433,7 +2446,7 @@ input, select, textarea, .stats, .facts {
 .oauth-button {
   width: 100%; display: inline-flex; align-items: center; justify-content: center; gap: 10px;
   min-height: 46px; padding: 12px 18px; cursor: pointer;
-  border: 1px solid var(--line-strong); border-radius: 30px;
+  border: 1px solid var(--line-strong); border-radius: var(--r-pill);
   background: var(--surface-raised, #fff); color: var(--ink);
   font-weight: 600; font-size: 14px;
   transition: border-color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
@@ -2503,7 +2516,7 @@ input, select, textarea, .stats, .facts {
 .nav-account { position: relative; display: flex; align-items: center; }
 .nav-signin {
   display: inline-flex; align-items: center; justify-content: center;
-  min-height: 40px; padding: 0 16px; border-radius: 30px;
+  min-height: 40px; padding: 0 16px; border-radius: var(--r-pill);
   border: 1px solid var(--line-strong); text-decoration: none;
   font-size: 13px; font-weight: 600; color: var(--ink); white-space: nowrap;
   transition: border-color var(--t-fast) var(--ease), background var(--t-fast) var(--ease);
@@ -2627,49 +2640,10 @@ input, select, textarea, .stats, .facts {
 .lp-note p { font-size: 13.5px; line-height: 1.65; margin: 0 0 10px; }
 .lp-note p:last-child { margin-bottom: 0; }
 
-/* ── Site setup ──────────────────────────────────────────────────────
-   Owner-facing. The work cannot be removed, but the guessing can, so
-   the checked-value panel carries the visual weight. */
-.setup-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; counter-reset: setup; max-width: 720px; }
-.setup-step { border: 1px solid var(--line); border-radius: var(--r-lg, 20px); background: var(--surface); padding: 24px 26px; }
-.setup-step h2 { display: flex; align-items: center; gap: 12px; font-size: 18px; margin: 0 0 12px; letter-spacing: -.02em; }
-.setup-step h2 span {
-  width: 26px; height: 26px; flex: 0 0 26px; border-radius: 50%;
-  display: grid; place-items: center; background: var(--blue); color: #fff;
-  font: 600 13px var(--font-sans);
-}
-.setup-step p { font-size: 14px; line-height: 1.65; margin: 0 0 12px; }
-.setup-step label { display: grid; gap: 6px; margin-bottom: 14px; font-size: 13px; font-weight: 600; color: var(--muted); }
-.setup-step input {
-  width: 100%; min-height: 44px; padding: 11px 13px;
-  border: 1px solid var(--line-strong); border-radius: 10px;
-  background: var(--surface-raised, #fff); color: var(--ink);
-  font: 13px var(--font-mono);
-}
-.setup-step input:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px color-mix(in srgb, var(--blue) 18%, transparent); }
-.setup-warn { border-left: 3px solid var(--blue); padding-left: 14px; }
-.setup-copy { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; background: var(--surface-alt); border-radius: 10px; padding: 10px 14px; margin-bottom: 12px; }
-.setup-copy code { font: 12px var(--font-mono); word-break: break-all; flex: 1; min-width: 0; }
-.setup-result, .setup-live { border-radius: 12px; padding: 0; margin-top: 4px; }
-.setup-result[data-tone], .setup-live[data-tone] { padding: 14px 16px; border: 1px solid var(--line); }
-.setup-result[data-tone="ok"], .setup-live[data-tone="ok"] { border-color: var(--teal, #0F766E); background: var(--surface-ok, #F0FDF9); }
-.setup-result[data-tone="bad"] { border-color: var(--danger, #B91C1C); background: #FEF2F2; }
-.setup-result[data-tone="warn"], .setup-live[data-tone="warn"] { border-color: var(--accent, #F4B942); background: #FFFBEB; }
-.setup-result[data-tone="busy"] { border-color: var(--line-strong); }
-.setup-result b, .setup-live b { display: block; font-size: 14.5px; margin-bottom: 4px; }
-.setup-result p, .setup-live p { font-size: 13px; line-height: 1.6; margin: 0; }
-.setup-var-table { width: 100%; border-collapse: collapse; margin-bottom: 12px; }
-.setup-var-table th, .setup-var-table td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); font-weight: 500; }
-.setup-var-table code { font: 12px var(--font-mono); word-break: break-all; }
-.setup-files { margin: 0 0 12px; padding-left: 20px; }
-.setup-files code { font: 12px var(--font-mono); }
-.setup-live { margin-top: 24px; max-width: 720px; }
-
 /* ── Sign-in pending ─────────────────────────────────────────────────
-   Real Google sign-in is built; it needs a project before Google will
-   authenticate anyone. This leads the page so the route to switching it
-   on is the first thing seen, with the local profile below as a
-   stopgap rather than the offer. */
+   Shown when no account service is configured. It says so plainly and
+   leaves the local profile below as the working alternative, rather
+   than putting owner-facing configuration steps in front of a student. */
 .signin-pending {
   display: flex; gap: 16px; align-items: flex-start;
   border: 1px solid var(--line-strong); border-radius: var(--r-lg, 20px);
@@ -2681,15 +2655,15 @@ input, select, textarea, .stats, .facts {
 }
 .signin-pending b { display: block; font-size: 15.5px; margin-bottom: 6px; letter-spacing: -.01em; }
 .signin-pending p { font-size: 13.5px; line-height: 1.65; color: var(--muted); margin: 0 0 14px; }
-.signin-meanwhile {
+.auth-page h2.signin-meanwhile {
   font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
-  color: var(--muted); margin: 0 0 8px;
+  line-height: 1.4; color: var(--muted); margin: 0 0 var(--s2);
 }
 @media (max-width: 560px) { .signin-pending { flex-direction: column; gap: 12px; } }
 
-/* ── Sign in, register, reset ────────────────────────────────────────
-   Email and password first, because that needs only an account service
-   where Google additionally needs an OAuth client registered with it. */
+/* ── Sign in ─────────────────────────────────────────────────────────
+   Two provider buttons when sign-in works, and an honest panel plus the
+   device profile when it does not. The page renders either way. */
 .auth-lead { max-width: 46ch; }
 .auth-card {
   max-width: 430px; padding: 28px 30px;
@@ -2723,3 +2697,171 @@ input, select, textarea, .stats, .facts {
   .auth-link { text-align: center; }
 }
 @media (pointer: coarse) { .auth-link { min-height: 44px; display: inline-flex; align-items: center; } }
+
+
+/* ── Provider sign-in ────────────────────────────────────────────────────
+   The whole sign-in page is two buttons now, so they carry the weight the
+   form used to. Apple's mark is a single path in currentColor, which is why
+   its button inverts rather than sitting on white like Google's: Apple's own
+   guidance is a solid black or white button, and black reads as the more
+   deliberate of the two against this warm ground. */
+/* One narrow column. The two buttons are the whole page, so they are sized
+   like a decision rather than like form furniture: full width, 52px tall,
+   solid fills. The primary provider takes the site's own primary colour
+   rather than Google's blue, which would be the only blue on a warm site. */
+.auth-column { max-width: 440px; margin: 0 auto; }
+/* The unavailable state carries the device-profile form underneath, which
+   needs more room than two buttons do. */
+.auth-page[data-auth-available="false"] .auth-column { max-width: 560px; }
+
+/* The reason the buttons cannot work, sitting directly under them rather than
+   above: the buttons are what the page is for, and an explanation that pushes
+   them below the fold is how the sign-in went missing in the first place. */
+.auth-unavailable-note {
+  margin: var(--s4) 0 0;
+  padding: var(--s4) var(--s5);
+  /* A faint wash of the brand rust rather than --surface-alt, which is cool
+     blue and reads lilac against this warm ground. The note is a status, so
+     it should sit in the palette rather than beside it. */
+  border: 1px solid rgba(194, 65, 12, .18);
+  border-radius: var(--r-md, 12px);
+  background: rgba(194, 65, 12, .05);
+  font-size: 14px; line-height: 1.65; color: var(--muted);
+}
+.auth-unavailable-note b { color: var(--ink); font-weight: 650; }
+:root[data-theme="dark"] .auth-unavailable-note {
+  border-color: rgba(249, 125, 74, .28);
+  background: rgba(249, 125, 74, .09);
+}
+
+/* Disabled providers are inert, not loading, so they must not borrow the
+   busy cursor the pressed state uses. */
+.oauth-button[data-unavailable][disabled] {
+  opacity: 1;
+  background: var(--surface-raised, #fff);
+  color: var(--muted);
+  border-color: var(--line);
+  border-style: dashed;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+.oauth-button[data-unavailable][disabled]:hover { border-color: var(--line); box-shadow: none; }
+.oauth-button[data-unavailable][disabled] svg { opacity: .5; }
+
+.local-profile-section { margin-top: var(--s7); padding-top: var(--s6); border-top: 1px solid var(--line); }
+.local-profile-section .local-profile-form { max-width: 100%; }
+.local-profile-section .lp-note { margin-top: var(--s6); }
+.auth-column h1 { font-size: clamp(38px, 5vw, 52px); margin: 0 0 var(--s4); }
+.auth-lead { color: var(--muted); font-size: 15px; line-height: 1.6; margin: 0 0 var(--s6); }
+
+.auth-providers { display: grid; gap: var(--s3); }
+.auth-providers .oauth-button {
+  margin: 0;
+  width: 100%;
+  min-height: 52px;
+  font-size: 15.5px;
+  gap: var(--s3);
+}
+
+.oauth-button[data-provider="google"] {
+  background: var(--blue); color: #fff; border-color: var(--blue);
+  box-shadow: 0 1px 2px rgba(16,24,40,.12), inset 0 1px 0 rgba(255,255,255,.18);
+}
+.oauth-button[data-provider="google"]:hover {
+  background: var(--blue-strong); border-color: var(--blue-strong);
+  box-shadow: 0 4px 14px rgba(194, 65, 12, .28), inset 0 1px 0 rgba(255,255,255,.18);
+}
+/* The dark theme lightens the primary to #F97D4A so it reads on a dark
+   ground. White on that is 2.61:1, which fails AA, so the label flips to the
+   same near-black the brand mark uses: 6.8:1. The button that carries every
+   sign-in is not the place to lose contrast. */
+:root[data-theme="dark"] .oauth-button[data-provider="google"] { color: #201703; }
+:root[data-theme="dark"] .oauth-button[data-provider="google"]:hover { color: #201703; }
+
+/* Apple asks for a solid black or solid white button, so it inverts with the
+   theme rather than following the palette. */
+.oauth-button[data-provider="apple"] { background: #000; color: #fff; border-color: #000; }
+.oauth-button[data-provider="apple"]:hover {
+  background: #1a1a1a; border-color: #1a1a1a;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .22);
+}
+:root[data-theme="dark"] .oauth-button[data-provider="apple"] { background: #fff; color: #000; border-color: #fff; }
+:root[data-theme="dark"] .oauth-button[data-provider="apple"]:hover { background: #e8e8e8; border-color: #e8e8e8; }
+
+.oauth-button[disabled] { opacity: .55; cursor: progress; }
+.oauth-button[data-busy="true"] { cursor: progress; }
+
+.auth-fineprint { margin: var(--s4) 0 0; font-size: 13px; color: var(--muted); text-align: center; }
+.auth-guest { margin-top: var(--s6); font-size: 14px; color: var(--muted); line-height: 1.6; }
+.auth-guest a { color: var(--blue); font-weight: 600; }
+
+/* ── Completed lessons, on the progress page ─────────────────────────────
+   A plain list beats a card grid here. The learner is scanning for what is
+   left, so rows stay short and the completed ones read as settled rather
+   than shouting. */
+.completion-note { margin: 0 0 var(--s5); font-size: 14px; }
+.completion-unit { margin-bottom: var(--s6); }
+.completion-unit__head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: var(--s4); flex-wrap: wrap;
+  padding-bottom: var(--s3); border-bottom: 1px solid var(--line);
+}
+.completion-unit__head h3 { margin: 0; font-size: 18px; letter-spacing: -.01em; }
+.completion-unit__head h3 span { font: 500 12px/1 var(--font-mono); color: var(--muted); margin-right: var(--s2); }
+.completion-unit__count { font: 500 12px/1 var(--font-mono); color: var(--muted); white-space: nowrap; }
+.completion-list { list-style: none; margin: 0; padding: 0; }
+.completion-row {
+  display: grid; grid-template-columns: 22px minmax(0, 1fr) auto;
+  align-items: center; gap: var(--s3);
+  padding: var(--s3) 0; border-bottom: 1px solid var(--line);
+}
+.completion-row a { text-decoration: none; color: var(--ink); font-weight: 500; }
+.completion-row a:hover { text-decoration: underline; }
+.completion-mark {
+  display: grid; place-items: center;
+  width: 22px; height: 22px; border-radius: 50%;
+  border: 1px solid var(--line-strong); color: transparent; font-size: 12px; font-weight: 700;
+}
+.completion-row.is-done .completion-mark {
+  background: var(--accent-3); border-color: var(--accent-3); color: #fff;
+}
+.completion-status { font: 500 11px/1 var(--font-mono); color: var(--muted); white-space: nowrap; }
+.completion-row.is-done .completion-status { color: var(--accent-3); }
+
+@media (max-width: 560px) {
+  .completion-row { grid-template-columns: 22px minmax(0, 1fr); }
+  .completion-status { grid-column: 2; font-size: 10px; }
+}
+
+/* ── Touch targets ───────────────────────────────────────────────────────
+   Keyed to the input device rather than the viewport, because a 19px text
+   link is a coin toss for a thumb at any width. inline-flex is what lets
+   min-height apply to something that is otherwise an inline box. Placed last
+   deliberately: several component rules below the responsive section set a
+   40px height and would otherwise win.
+
+   Links sitting inline inside a sentence are left alone. WCAG 2.5.5 exempts
+   them, and padding them out would break the line box around them. */
+@media (pointer: coarse) {
+  .text-button,
+  .footer-nav a,
+  .back-link,
+  .home-unit__head a,
+  .completion-row a,
+  .module-card .open-module {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .brand, .nav-signin { min-height: 44px; }
+  .theme-toggle, .nav-avatar, .nav-burger { min-width: 44px; min-height: 44px; }
+  .nav-avatar { width: 44px; height: 44px; }
+  .search { min-height: 44px; align-items: center; }
+  /* Matching on type= would miss every input that omits the attribute and
+     falls back to text, which is most of the data lab. Excluding the few
+     types that must keep their own size is the reliable way round. */
+  select, textarea, .search input,
+  input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="file"]) {
+    min-height: 44px;
+  }
+}

@@ -48,7 +48,7 @@
     },
     {
       "heading": "Period Independent of Speed",
-      "explanation": "The orbital period of a charged particle in a magnetic field depends only on its mass, charge and the field strength. Faster particles simply travel larger circles in the same time — the principle the cyclotron exploits."
+      "explanation": "The orbital period of a charged particle in a magnetic field depends only on its mass, charge and the field strength. Faster particles simply travel larger circles in the same time, the principle the cyclotron exploits."
     },
     {
       "heading": "Crossed Fields",
@@ -144,7 +144,7 @@
     }
   ],
   "common_mistakes": [
-    "Claiming a magnetic field speeds a particle up — it does no work and cannot change the speed.",
+    "Claiming a magnetic field speeds a particle up: it does no work and cannot change the speed.",
     "Using the maximum magnetic force when the velocity is parallel to the field, where the force is actually zero.",
     "Forgetting that a stationary charge feels no magnetic force at all.",
     "Assuming the period in a magnetic field depends on speed; it does not.",
@@ -177,7 +177,7 @@
     {
       "level": "Medium",
       "question": "Describe the path of a positive charge entering a uniform electric field at right angles to the field lines.",
-      "answer": "It follows a parabola, keeping constant velocity perpendicular to the field while accelerating uniformly along the field direction — the same shape as a projectile under gravity."
+      "answer": "It follows a parabola, keeping constant velocity perpendicular to the field while accelerating uniformly along the field direction, the same shape as a projectile under gravity."
     },
     {
       "level": "Medium",

@@ -159,7 +159,7 @@ export function bindLibrary() {
       applyFilters();
     } catch (error) {
       console.warn('KINETIQ could not save that completion.', error);
-      button.textContent = 'Could not save — retry';
+      button.textContent = 'Could not save. Retry';
     } finally {
       button.disabled = false;
     }

@@ -14,3 +14,7 @@ dist/
 
 # Static build output. Vercel runs the real server; these are only for a static fallback.
 docs/
+
+# Playwright output. Screenshots and traces are build artefacts.
+test-results/
+playwright-report/

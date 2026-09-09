@@ -74,12 +74,43 @@ export function dashboardView(summary, extra = {}) {
     <div class="dash-grid">
       ${statCard('LESSONS COMPLETE', `${completed}/${lessons.length}`)}
       ${statCard('PRACTICE ATTEMPTS', results.length || summary.recentQuizScores?.length || 0, summary.guest ? 'Saved on this device' : 'From your account')}
-      ${statCard('PRACTICE ACCURACY', accuracy === null || accuracy === undefined ? '—' : `${accuracy}%`, accuracy === null || accuracy === undefined ? 'Complete a quiz to measure this' : 'Marks earned over marks available')}
+      ${statCard('PRACTICE ACCURACY', accuracy === null || accuracy === undefined ? 'n/a' : `${accuracy}%`, accuracy === null || accuracy === undefined ? 'Complete a quiz to measure this' : 'Marks earned over marks available')}
       ${summary.guest ? '' : statCard('AVERAGE MASTERY', `${summary.averageMastery || 0}%`)}
       ${summary.guest ? '' : statCard('FLASHCARDS DUE', summary.flashcardsDue || 0)}
       ${summary.guest ? '' : statCard('REVISION TASKS DUE', summary.revisionTasksDue || 0)}
       ${summary.guest ? '' : statCard('BOOKMARKS', summary.bookmarksCount || 0)}
     </div>
+
+    <section class="lesson-section">
+      <div class="section-title">
+        <p class="eyebrow">LESSON BY LESSON</p>
+        <h2>Everything you have completed</h2>
+      </div>
+      <p class="muted completion-note">${summary.guest
+        ? 'Stored in this browser. Sign in to keep this across your devices.'
+        : 'Stored on your KINETIQ account, so it follows you to any device you sign in on.'}</p>
+      ${(extra.units || []).map(unit => {
+        const unitLessons = lessons.filter(lesson => (lesson.unit || String(lesson.title).charAt(0)) === unit.id);
+        if (!unitLessons.length) return '';
+        const doneHere = unitLessons.filter(lesson => completedSlugs.includes(lesson.slug)).length;
+        return `<div class="completion-unit">
+          <div class="completion-unit__head">
+            <h3><span>${escapeHTML(unit.id)}</span> ${escapeHTML(unit.title)}</h3>
+            <span class="completion-unit__count">${doneHere} of ${unitLessons.length} complete</span>
+          </div>
+          <ul class="completion-list">
+            ${unitLessons.map(lesson => {
+              const done = completedSlugs.includes(lesson.slug);
+              return `<li class="completion-row ${done ? 'is-done' : ''}">
+                <span class="completion-mark" aria-hidden="true">${done ? '✓' : ''}</span>
+                <a href="/lesson/${escapeHTML(lesson.slug)}" data-route>${escapeHTML(lesson.title)}</a>
+                <span class="completion-status">${done ? 'Completed' : 'Not started'}</span>
+              </li>`;
+            }).join('')}
+          </ul>
+        </div>`;
+      }).join('')}
+    </section>
 
     <section class="lesson-section">
       <div class="section-title"><p class="eyebrow">WHERE YOU ARE STRONG</p><h2>Strong topics</h2></div>
@@ -128,7 +159,7 @@ export function dashboardView(summary, extra = {}) {
   </section>`;
 }
 
-const SIM_BY_UNIT = { A: { slug: 'projectile', label: 'Projectile motion — vary the launch angle and watch the trajectory and flight time change.' }, B: { slug: 'gas-law', label: 'Ideal gas law — sweep the volume and watch pressure follow the inverse relationship.' }, C: { slug: 'shm', label: 'Mass-spring SHM — see displacement, velocity and the energy exchange over two full periods.' }, D: { slug: 'radioactive-decay', label: 'Radioactive decay — watch the exponential fall across five half-lives.' } };
+const SIM_BY_UNIT = { A: { slug: 'projectile', label: 'Projectile motion. Vary the launch angle and watch the trajectory and flight time change.' }, B: { slug: 'gas-law', label: 'Ideal gas law. Sweep the volume and watch pressure follow the inverse relationship.' }, C: { slug: 'shm', label: 'Mass-spring SHM. See displacement, velocity and the energy exchange over two full periods.' }, D: { slug: 'radioactive-decay', label: 'Radioactive decay. Watch the exponential fall across five half-lives.' } };
 const recommendedSimulation = unit => SIM_BY_UNIT[unit] || SIM_BY_UNIT.A;
 
 export const masteryView = summary => `<section class="page">
@@ -168,7 +199,7 @@ export function bindProgressTransfer() {
     link.remove();
     // Revoked on the next turn so the download has certainly started.
     setTimeout(() => URL.revokeObjectURL(url), 0);
-    say(`Saved ${exportFilename()} — ${describe(payload)}.`, 'ok');
+    say(`Saved ${exportFilename()}: ${describe(payload)}.`, 'ok');
   }, { signal: controller.signal });
 
   section.querySelector('[data-import-progress]')?.addEventListener('change', async event => {

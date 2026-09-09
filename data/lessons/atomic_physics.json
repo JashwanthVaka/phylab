@@ -44,7 +44,7 @@
     },
     {
       "heading": "What the Results Force",
-      "explanation": "Because almost all alphas passed undeflected, the atom must be mostly empty space. Because a very few reversed direction, they must have met something extremely small, very massive and strongly positive — a nucleus containing essentially all of the atom’s mass and all of its positive charge."
+      "explanation": "Because almost all alphas passed undeflected, the atom must be mostly empty space. Because a very few reversed direction, they must have met something extremely small, very massive and strongly positive, a nucleus containing essentially all of the atom’s mass and all of its positive charge."
     },
     {
       "heading": "Discrete Spectra",
@@ -118,7 +118,7 @@
     "Saying the alpha-scattering experiment proved the atom is mostly empty space without mentioning the large-angle deflections that reveal the nucleus.",
     "Forgetting to convert electronvolts to joules before using E = hc/λ.",
     "Treating energy levels as positive; bound levels are negative by convention.",
-    "Claiming a continuous spectrum comes from isolated atoms — it comes from hot dense solids.",
+    "Claiming a continuous spectrum comes from isolated atoms: it comes from hot dense solids.",
     "Confusing the direction of a transition: emission is a drop to a lower level, absorption a jump to a higher one.",
     "Assuming the largest energy gap gives the longest wavelength; it gives the shortest."
   ],
@@ -148,7 +148,7 @@
     {
       "level": "Medium",
       "question": "Explain how an emission spectrum provides evidence for discrete energy levels.",
-      "answer": "Only certain wavelengths are emitted, giving sharp lines rather than a continuous band. Each line corresponds to a fixed photon energy, so only certain energy differences — and therefore only certain electron energies — can exist."
+      "answer": "Only certain wavelengths are emitted, giving sharp lines rather than a continuous band. Each line corresponds to a fixed photon energy, so only certain energy differences, and therefore only certain electron energies, can exist."
     },
     {
       "level": "Medium",
@@ -158,7 +158,7 @@
     {
       "level": "Hard",
       "question": "Explain why an absorption spectrum shows dark lines at exactly the wavelengths of the emission spectrum of the same element.",
-      "answer": "Absorption raises electrons across the same energy gaps that emission drops them across. Since the gaps are identical, the photon energies — and so the wavelengths — are identical; they are removed from the transmitted light instead of being added to it."
+      "answer": "Absorption raises electrons across the same energy gaps that emission drops them across. Since the gaps are identical, the photon energies, and so the wavelengths, are identical; they are removed from the transmitted light instead of being added to it."
     }
   ],
   "summary": "Alpha scattering revealed that the atom is mostly empty space with a tiny, massive, positively charged nucleus. Line emission and absorption spectra show that electron energies are quantised, with each transition emitting or absorbing a photon of energy exactly equal to the level difference. Bound levels are negative, and the energy needed to reach zero is the ionisation energy."

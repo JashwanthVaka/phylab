@@ -2,7 +2,7 @@
   "title": "B.5 Current and Circuits",
   "subject": "IBDP Physics",
   "level": "SL and HL",
-  "introduction": "An electric circuit is a closed path that lets charge flow and deliver energy where it is wanted. This lesson builds the three quantities everything else rests on — current, potential difference and resistance — then combines components in series and parallel, and finishes with the internal resistance that makes a real cell behave differently from an ideal one.",
+  "introduction": "An electric circuit is a closed path that lets charge flow and deliver energy where it is wanted. This lesson builds the three quantities everything else rests on, current, potential difference and resistance, then combines components in series and parallel, and finishes with the internal resistance that makes a real cell behave differently from an ideal one.",
   "learning_objectives": [
     "Define electric current as the rate of flow of charge.",
     "Define potential difference as energy transferred per unit charge.",
@@ -57,7 +57,7 @@
     },
     {
       "heading": "Real Cells",
-      "explanation": "A real cell has internal resistance, so some of its emf is dropped inside it. The terminal potential difference delivered to the circuit therefore falls as the current drawn rises — which is why a car’s headlights dim while the starter motor turns."
+      "explanation": "A real cell has internal resistance, so some of its emf is dropped inside it. The terminal potential difference delivered to the circuit therefore falls as the current drawn rises, which is why a car’s headlights dim while the starter motor turns."
     },
     {
       "heading": "Potential Dividers",
@@ -188,10 +188,10 @@
   "common_mistakes": [
     "Treating every component as ohmic. Ohm’s law only holds at constant temperature for an ohmic conductor.",
     "Forgetting to invert after adding reciprocals for a parallel combination.",
-    "Producing a parallel resistance larger than one of the branches — always a sign of the error above.",
+    "Producing a parallel resistance larger than one of the branches, always a sign of the error above.",
     "Confusing emf with terminal potential difference; they are only equal when no current flows.",
     "Placing an ammeter in parallel or a voltmeter in series.",
-    "Assuming current is used up as it flows round a circuit — charge is conserved, energy is what is transferred."
+    "Assuming current is used up as it flows round a circuit: charge is conserved, energy is what is transferred."
   ],
   "ib_exam_tips": [
     "Quote units carefully: 1 A = 1 C s⁻¹ and 1 V = 1 J C⁻¹.",
@@ -237,5 +237,5 @@
       "answer": "Current heats the filament, raising its temperature and therefore its resistance, so R is not constant. The I–V graph curves towards the voltage axis as the gradient falls with increasing current."
     }
   ],
-  "summary": "Current is the rate of flow of charge, potential difference is energy transferred per unit charge, and resistance is their ratio. Resistances add in series and add reciprocally in parallel. Real sources have internal resistance, so terminal potential difference falls as current rises, and potential dividers split a supply in proportion to resistance — the basis of most simple sensor circuits."
+  "summary": "Current is the rate of flow of charge, potential difference is energy transferred per unit charge, and resistance is their ratio. Resistances add in series and add reciprocally in parallel. Real sources have internal resistance, so terminal potential difference falls as current rises, and potential dividers split a supply in proportion to resistance, the basis of most simple sensor circuits."
 }

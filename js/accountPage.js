@@ -27,7 +27,7 @@ function providerOf(user) {
 
 const when = value => (value
   ? new Date(value).toLocaleDateString(undefined, { day: 'numeric', month: 'long', year: 'numeric' })
-  : '—');
+  : 'Not recorded');
 
 export async function accountPage(profile) {
   if (!authService.enabled()) {
@@ -45,7 +45,7 @@ export async function accountPage(profile) {
   if (!user) {
     return shell(`<div class="empty-state">
       <h3>You are not signed in</h3>
-      <p>Sign in to sync your progress across devices. Everything on KINETIQ works without an account too — your work is simply kept in this browser.</p>
+      <p>Sign in to sync your progress across devices. Everything on KINETIQ works without an account too. Your work is simply kept in this browser.</p>
       <p><a class="button" href="/login" data-route>Sign in</a></p>
     </div>`);
   }

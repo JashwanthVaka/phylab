@@ -21,7 +21,7 @@ const optional = (title, items, render, options) => items?.length ? section(titl
 const variables = lesson => lesson.formulas.flatMap(item =>
   Object.entries(item.symbols || item.variables || {}).map(([symbol, description]) => {
     const unit = unitOf(description);
-    return [symbol, meaningOf(description), unit === 'dimensionless' ? '—' : (unit || '—')];
+    return [symbol, meaningOf(description), unit === 'dimensionless' ? 'none' : (unit || 'Not recorded')];
   }));
 
 /**
@@ -75,7 +75,8 @@ function connectedWork(lesson, index) {
 }
 
 /** Renders normalized dynamic lesson JSON without hard-coded lesson content. */
-export function renderLesson(lesson, index = { lessonIndex: [] }) {
+export function renderLesson(lesson, index = { lessonIndex: [] }, completedSlugs = []) {
+  const isComplete = completedSlugs.includes(lesson.slug);
   const graph = new KnowledgeGraph(index).forLesson(lesson);
   const variableRows = variables(lesson);
   return `<article class="page lesson-page">
@@ -114,6 +115,6 @@ export function renderLesson(lesson, index = { lessonIndex: [] }) {
       </form>
       <div class="lesson-ask__result" aria-live="polite"></div>
     </section>
-    <div class="lesson-actions"><button class="button" data-complete-lesson="${escapeHTML(lesson.slug)}">Mark lesson complete</button><a class="outline" href="/quiz" data-route>Practise now</a><button class="outline" data-open-tutor>Ask KIT about this lesson</button></div>
+    <div class="lesson-actions"><button class="button" data-complete-lesson="${escapeHTML(lesson.slug)}" aria-pressed="${isComplete}">${isComplete ? 'Completed ✓' : 'Mark lesson complete'}</button><a class="outline" href="/quiz" data-route>Practise now</a><button class="outline" data-open-tutor>Ask KIT about this lesson</button></div>
   </article>`;
 }

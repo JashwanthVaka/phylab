@@ -41,6 +41,27 @@ function loadPageModule(path) {
   return moduleCache.get(path);
 }
 
+/**
+ * Warms the sign-in module before it is asked for.
+ *
+ * Clicking "Sign in" has to fetch js/authUI.js before it can draw anything,
+ * and the pointer is usually over the link for a moment first. Starting the
+ * import on hover or keyboard focus spends that moment, and a failure here is
+ * deliberately ignored: this is an optimisation, and the click path fetches
+ * the module itself anyway.
+ */
+function warmSignIn() {
+  loadPageModule('./js/authUI.js').catch(() => {});
+}
+
+document.addEventListener('pointerenter', event => {
+  if (event.target instanceof Element && event.target.closest?.('a[href="/login"]')) warmSignIn();
+}, { capture: true, passive: true });
+
+document.addEventListener('focusin', event => {
+  if (event.target instanceof Element && event.target.closest?.('a[href="/login"]')) warmSignIn();
+}, { passive: true });
+
 /** Runs registered page clean-up callbacks before a new route mounts. */
 function cleanupPage() {
   pageCleanups.forEach(cleanup => {
@@ -104,10 +125,24 @@ function notify(message, type = 'information', options = {}) {
   return dismiss;
 }
 
+/**
+ * Moving focus into main is right for a client-side route change: it tells a
+ * screen reader the page changed, which no browser does for you when the URL
+ * moves without a document load.
+ *
+ * It is wrong on the very first paint. The browser has already announced the
+ * document, and focusing main there parks the caret past the header, so the
+ * first Tab lands inside the page content and the skip link and the whole
+ * navigation become unreachable going forwards. On load, focus is left on the
+ * body where the browser put it.
+ */
+let hasRenderedOnce = false;
+
 function render(view) {
   app.innerHTML = view;
   app.setAttribute('tabindex', '-1');
-  app.focus({ preventScroll: true });
+  if (hasRenderedOnce) app.focus({ preventScroll: true });
+  hasRenderedOnce = true;
   bindUI({ loader, router, searchIndex, render });
   bindAccount(router);
 }
@@ -151,10 +186,15 @@ function bookmarkPage(rows) {
 const router = new Router({
   // Answers from KINETIQ's own content, so it works with no AI key configured.
   '/ask': ({ query }) => transition(async () => ({ view: askPage(query || ''), mount: bindAsk }), 'Opening Ask KINETIQ…'),
-  '/': () => transition(async () => ({ view: renderHome(await loader.getIndex(), getProgress()) }), 'Preparing your physics workspace…'),
+  '/': () => transition(async () => {
+    const [index, state] = await Promise.all([loader.getIndex(), progressService.list()]);
+    return { view: renderHome(index, { completedLessons: state.completed }) };
+  }, 'Preparing your physics workspace…'),
   '/lesson/:slug': ({ slug }) => transition(async () => {
-    const [lesson, index] = await Promise.all([loader.getLesson(slug), loader.getIndex()]);
-    return { view: renderLesson(lesson, index), mount: bindLessonAsk };
+    const [lesson, index, state] = await Promise.all([
+      loader.getLesson(slug), loader.getIndex(), progressService.list()
+    ]);
+    return { view: renderLesson(lesson, index, state.completed), mount: bindLessonAsk };
   }, 'Opening lesson…'),
   // One page, every formula, grouped by unit — built for printing.
   '/formulas/print': () => transition(async () => ({ view: formulaSheetPage(await loader.getIndex()) }), 'Building the formula sheet…'),
@@ -235,37 +275,35 @@ const router = new Router({
   '/progress': () => transition(async () => ({ view: dashboardView(...(await dashboardContext())), mount: () => bindProgressTransfer() }), 'Loading progress…'),
   '/mastery': () => transition(async () => ({ view: masteryView(await dashboardService.summary()) }), 'Loading mastery…'),
   '/activity': () => transition(async () => ({ view: dashboardView(...(await dashboardContext())) }), 'Loading activity…'),
-  // Email and password sign-in, with Google offered only when the project
-  // actually has it switched on. Falls back to a device-local profile when no
-  // account service is configured, so the page is never a dead end.
-  ...["login","signup","reset"].reduce((routes, mode) => {
-    routes["/" + mode] = () => transition(async () => {
-      const { authService } = await import("./js/services/authService.js");
-      if (authService.enabled()) {
-        const auth = await loadPageModule("./js/authUI.js");
-        return { view: await auth.authPage(mode), mount: () => auth.bindAuth(router) };
-      }
-      const local = await loadPageModule("./js/localProfileUI.js");
-      return { view: local.localProfilePage(), mount: () => local.bindLocalProfile(router) };
-    }, "Opening account…");
+  // Sign in with Google or Apple. There is no separate registration: the
+  // first time a provider returns a learner, the account is created. /signup
+  // and /reset are kept as aliases so old links and bookmarks still land
+  // somewhere useful rather than on a 404, and /reset has nothing to reset
+  // because KINETIQ holds no password.
+  ...["login", "signup", "reset"].reduce((routes, alias) => {
+    routes["/" + alias] = () => transition(async () => {
+      // Always the sign-in page. It used to divert to a device-profile page
+      // whenever no account service was configured, which meant the sign-in
+      // page was never seen at all: /login showed a name form and the buttons
+      // existed only in the code. The page now renders either way and says
+      // which state it is in, with the device profile below when it must.
+      const auth = await loadPageModule("./js/authUI.js");
+      return { view: await auth.authPage(), mount: () => auth.bindAuth(router) };
+    }, "Opening sign-in…");
     return routes;
   }, {}),
   '/onboarding': () => transition(async () => ({ view: onboardingPage() }), 'Preparing onboarding…'),
-  // Owner-facing: the only steps that cannot be done from inside the app,
-  // with each value checked against the real project as it is pasted.
-  '/setup': () => transition(async () => {
-    const setup = await loadPageModule('./js/setupUI.js');
-    return { view: setup.setupPage(), mount: () => setup.bindSetup() };
-  }, 'Opening setup…'),
   '/account': () => transition(async () => {
     const [profile, account] = await Promise.all([profileService.get(), loadPageModule('./js/accountPage.js')]);
     return { view: await account.accountPage(profile), mount: () => bindAccount(router) };
   }, 'Loading account…'),
   '/bookmarks': () => transition(async () => ({ view: bookmarkPage(await bookmarkService.list()) }), 'Loading bookmarks…'),
   '/revision': () => transition(async () => {
-    const [index, planner] = await Promise.all([loader.getIndex(), loadPageModule('./js/revisionUI.js')]);
+    const [index, planner, state] = await Promise.all([
+      loader.getIndex(), loadPageModule('./js/revisionUI.js'), progressService.list()
+    ]);
     const lessons = await Promise.all(index.lessonIndex.map(item => loader.getLesson(item.slug)));
-    return { view: planner.revisionPage(index, lessons), mount: () => planner.bindRevision() };
+    return { view: planner.revisionPage(index, lessons, state.completed), mount: () => planner.bindRevision() };
   }, 'Building your revision plan…'),
   '/ai': () => transition(async () => {
     const workspace = await loadPageModule('./js/aiWorkspace.js');

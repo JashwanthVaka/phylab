@@ -43,7 +43,7 @@ const labels = { externalR: 'External resistance', current: 'Current', terminalV
 
 const card = sim => `<a class="module-card" href="/simulations/${sim}" data-route><span class="tag">${definitions[sim].topic} · SL + HL</span><h3>${definitions[sim].title}</h3><p>Change values and see the calculation and animated graph update together.</p><span class="open-module">Open lab →</span></a>`;
 
-export const catalogue = () => `<section class="page"><p class="eyebrow">SIMULATION STUDIO</p><h1>Model the physics.</h1><p class="page-lead">Every lab is driven by the real equation. Change an input and the answer, the graph, and the animated marker all update from the same model.</p><div class="module-grid">${Object.keys(definitions).map(card).join('')}</div></section>`;
+export const catalogue = () => `<section class="page"><p class="eyebrow">SIMULATION STUDIO</p><h1>Model the physics.</h1><p class="page-lead">Every lab is driven by the real equation. Change an input and the answer, the graph, and the animated marker all update from the same model.</p><h2 class="visually-hidden">All simulations</h2><div class="module-grid">${Object.keys(definitions).map(card).join('')}</div></section>`;
 
 const number = (value, key) => Number(value[key]) || 0;
 const clampAbove = (value, floor) => (Math.abs(value) < floor ? floor : value);
@@ -282,7 +282,7 @@ function genericModel(engine, value) {
 }
 
 function format(value) {
-  if (!Number.isFinite(value)) return '—';
+  if (!Number.isFinite(value)) return 'n/a';
   const size = Math.abs(value);
   if (size !== 0 && (size < 1e-3 || size >= 1e6)) return value.toExponential(3);
   return Number(value.toPrecision(5)).toString();
@@ -336,7 +336,7 @@ export function bindStudio() {
     const rows = model.at(value);
     statePanel.innerHTML = `<p class="sim-sweep">${escapeHTML(model.sweep.label)}: <b>${withUnit(value, model.sweep.unit)}</b></p><dl class="sim-readout">${rows.map(([label, quantity, unit]) => `<div><dt>${escapeHTML(label)}</dt><dd>${withUnit(quantity, unit)}</dd></div>`).join('')}</dl>`;
     const range = model.sweep.to - model.sweep.from;
-    seekGraph(graphRoot, range === 0 ? 0 : (value - model.sweep.from) / range, `${model.sweep.label} ${withUnit(value, model.sweep.unit)} — the marker follows the plotted relationship.`);
+    seekGraph(graphRoot, range === 0 ? 0 : (value - model.sweep.from) / range, `${model.sweep.label} ${withUnit(value, model.sweep.unit)}. The marker follows the plotted relationship.`);
   };
 
   const stopPlayback = () => { playing = false; cancelAnimationFrame(frame); frame = 0; };

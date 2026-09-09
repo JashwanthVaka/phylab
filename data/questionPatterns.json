@@ -8,7 +8,7 @@
     "method": [
       "State the quantity in words, not as a formula alone.",
       "Name what it depends on and, where relevant, its unit.",
-      "Keep it to one sentence — extra material cannot earn extra marks here."
+      "Keep it to one sentence: extra material cannot earn extra marks here."
     ],
     "mistakes": [
       "Giving an example instead of a definition.",
@@ -28,7 +28,7 @@
     "method": [
       "Answer directly in one short sentence.",
       "Include a unit if the answer is a quantity.",
-      "Do not justify — justification is not required and wastes time."
+      "Do not justify: justification is not required and wastes time."
     ],
     "mistakes": [
       "Writing a paragraph when one line is asked for.",
@@ -48,7 +48,7 @@
     "method": [
       "Say what happens, in order, from start to finish.",
       "Use physics vocabulary rather than everyday words.",
-      "Quote specific features — values, turning points, directions — rather than generalities.",
+      "Quote specific features, values, turning points, directions, rather than generalities.",
       "Do not explain why unless the question also asks."
     ],
     "mistakes": [
@@ -68,14 +68,14 @@
     "meaning": "Give a detailed account including reasons or causes.",
     "method": [
       "Name the physical principle or law you are applying.",
-      "Link cause to effect explicitly — use \"because\", \"so\", \"therefore\".",
+      "Link cause to effect explicitly: use \"because\", \"so\", \"therefore\".",
       "Refer to the specific context in the question, not a generic case.",
       "Aim for roughly one distinct linked statement per mark."
     ],
     "mistakes": [
       "Describing what happens without saying why.",
       "Listing facts that are individually true but not connected into a chain of reasoning.",
-      "Leaving the key step implicit — examiners cannot award what is not written."
+      "Leaving the key step implicit: examiners cannot award what is not written."
     ],
     "example": "Explain why the acceleration of an object in simple harmonic motion is always directed towards the equilibrium position. [3]",
     "answer": "In SHM the resultant force obeys F = −kx, so the force is proportional to displacement and opposite in sign. By Newton's second law a = F/m, so the acceleration is also opposite in sign to displacement. Whenever the object is displaced, the acceleration therefore points back towards equilibrium.",
@@ -88,7 +88,7 @@
     "marks": "2–4",
     "meaning": "Obtain a numerical answer, showing the relevant working.",
     "method": [
-      "Quote the equation before substituting — this often carries a mark on its own.",
+      "Quote the equation before substituting: this often carries a mark on its own.",
       "Substitute values in SI units, with the substitution visible.",
       "Give the final answer with a unit and appropriate significant figures.",
       "Show intermediate steps so method marks survive an arithmetic slip."
@@ -151,7 +151,7 @@
     "marks": "3–5",
     "meaning": "Give an account of similarities and differences between two or more situations.",
     "method": [
-      "Address both items in every point you make — never describe one then the other separately.",
+      "Address both items in every point you make: never describe one then the other separately.",
       "Use comparative language: larger, smaller, whereas, in contrast.",
       "Cover both similarities and differences unless told otherwise.",
       "Choose points that are physically significant, not incidental."
@@ -173,7 +173,7 @@
     "meaning": "Draw the shape of a relationship, showing the key features but not necessarily to scale.",
     "method": [
       "Label both axes with quantity and unit.",
-      "Get the shape right — linear, curved, asymptotic, periodic.",
+      "Get the shape right: linear, curved, asymptotic, periodic.",
       "Mark intercepts, maxima, minima and asymptotes.",
       "Show whether the line passes through the origin, since that is often the marked point."
     ],

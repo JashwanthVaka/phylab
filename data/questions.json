@@ -1785,7 +1785,7 @@
     "answer": "1.8e6 m/s",
     "unit": "m/s",
     "tolerance": 200000,
-    "solution": "Δλ = 4 nm. Using Δλ/λ ≈ v/c, v ≈ 3.00 × 10⁸ × (4/656) ≈ 1.8 × 10⁶ m/s. The wavelength has increased, so the galaxy is receding — a redshift.",
+    "solution": "Δλ = 4 nm. Using Δλ/λ ≈ v/c, v ≈ 3.00 × 10⁸ × (4/656) ≈ 1.8 × 10⁶ m/s. The wavelength has increased, so the galaxy is receding, a redshift.",
     "lessonReferences": [
       "doppler-effect"
     ],
@@ -1936,7 +1936,7 @@
     "marks": 4,
     "question": "Explain why a satellite in a lower orbit travels faster yet has less total energy.",
     "answer": "Orbital speed is sqrt(GM/r), which rises as r falls, while total energy is −GMm/2r, which becomes more negative as r falls",
-    "solution": "Speed goes as r^(−1/2), so a smaller radius means a faster satellite. Total energy is −GMm/(2r), which becomes more negative — that is, lower — as r decreases. This is why atmospheric drag makes a satellite speed up as it spirals down: it loses energy and drops to a faster orbit.",
+    "solution": "Speed goes as r^(−1/2), so a smaller radius means a faster satellite. Total energy is −GMm/(2r), which becomes more negative, that is, lower, as r decreases. This is why atmospheric drag makes a satellite speed up as it spirals down: it loses energy and drops to a faster orbit.",
     "lessonReferences": [
       "fields"
     ],
@@ -2922,7 +2922,7 @@
     ],
     "correctAnswer": "Zero",
     "answer": "Zero",
-    "solution": "F = qvB sinθ, and sin0° = 0. The force is maximum when the velocity is perpendicular to the field and zero when parallel — the opposite of what many expect.",
+    "solution": "F = qvB sinθ, and sin0° = 0. The force is maximum when the velocity is perpendicular to the field and zero when parallel, the opposite of what many expect.",
     "lessonReferences": [
       "magnetic-fields"
     ],
@@ -3002,7 +3002,7 @@
     ],
     "correctAnswer": "Radiation",
     "answer": "Radiation",
-    "solution": "Radiation is electromagnetic, so it crosses a vacuum — which is how the Sun heats the Earth. Conduction needs particles in contact and convection needs a fluid to move.",
+    "solution": "Radiation is electromagnetic, so it crosses a vacuum, which is how the Sun heats the Earth. Conduction needs particles in contact and convection needs a fluid to move.",
     "lessonReferences": [
       "thermal-physics"
     ],

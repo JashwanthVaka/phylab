@@ -221,7 +221,7 @@ export function bindQuizSession(data, initialOptions = {}) {
     session = create(pick.questions, settings);
     save(session);
     renderSession();
-    if (pick.questions.length < settings.count) root.insertAdjacentHTML('afterbegin', `<p class="practice-note">This selection has ${pick.questions.length} matching question${pick.questions.length === 1 ? '' : 's'} in the KINETIQ bank rather than the ${settings.count} this mode usually uses. Every question shown is a real one — none are generated to pad the set.</p>`);
+    if (pick.questions.length < settings.count) root.insertAdjacentHTML('afterbegin', `<p class="practice-note">This selection has ${pick.questions.length} matching question${pick.questions.length === 1 ? '' : 's'} in the KINETIQ bank rather than the ${settings.count} this mode usually uses. Every question shown is a real one. None are generated to pad the set.</p>`);
     clearTimer();
     interval = window.setInterval(() => {
       if (!session || session.submitted) return clearTimer();
