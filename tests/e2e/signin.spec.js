@@ -107,11 +107,14 @@ test.describe('signing in', () => {
     }
   });
 
-  test('says so plainly when no provider is switched on', async ({ page }) => {
+  test('says so plainly when no provider is switched on, without losing the buttons', async ({ page }) => {
     await withProviders(page, {});
     await page.goto('/login', { waitUntil: 'domcontentloaded' });
 
-    await expect(page.locator('[data-provider]')).toHaveCount(0);
+    // The page must still read as a sign-in. Both buttons are drawn and
+    // disabled, and the reason sits with them rather than replacing them.
+    await expect(page.locator('[data-provider="google"]')).toBeDisabled();
+    await expect(page.locator('[data-provider="apple"]')).toBeDisabled();
     await expect(page.locator('.auth-column')).toContainText(/not switched on yet/i);
   });
 
@@ -119,6 +122,58 @@ test.describe('signing in', () => {
     await withProviders(page, { google: true });
     await page.goto('/login', { waitUntil: 'domcontentloaded' });
     await expect(page.locator('.auth-guest')).toContainText(/guest/i);
+  });
+});
+
+test.describe('how fast the sign-in page arrives', () => {
+  test.use({ viewport: { width: 1440, height: 900 } });
+
+  /**
+   * The page must not wait on the Supabase library to render.
+   *
+   * Checking which providers are enabled used to build a Supabase client
+   * purely to check it was not null, and building one imports the whole
+   * library from a CDN. The sign-in page therefore could not paint until a
+   * third-party bundle had downloaded: on a slow or blocked connection there
+   * was no sign-in page at all. The settings endpoint needs the project URL
+   * and the anon key, and the library is only needed once a button is pressed.
+   *
+   * So the CDN is made unreachable here. The buttons must still arrive.
+   */
+  test('renders even when the Supabase CDN never answers', async ({ page }) => {
+    await withProviders(page, { google: true, apple: true });
+    await page.unroute('https://esm.sh/**');
+    await page.route('https://esm.sh/**', route => route.abort());
+
+    await page.goto('/login', { waitUntil: 'domcontentloaded' });
+
+    // Enabled, not merely present. A page that fell back to the disabled pair
+    // would still be "visible" while having quietly lost real sign-in, which
+    // is exactly the failure this guards.
+    await expect(page.locator('[data-provider="google"]')).toBeEnabled({ timeout: 5000 });
+    await expect(page.locator('[data-provider="apple"]')).toBeEnabled();
+  });
+
+  test('asks the settings endpoint once per session, not once per visit', async ({ page }) => {
+    let settingsCalls = 0;
+    await page.route('https://fonts.googleapis.com/**', route => route.abort());
+    await page.addInitScript(url => {
+      window.PHYLAB_ENV = { SUPABASE_URL: url, SUPABASE_ANON_KEY: 'anon-key-that-is-long-enough-to-pass' };
+    }, PROJECT);
+    await page.route(`${PROJECT}/auth/v1/settings`, route => {
+      settingsCalls += 1;
+      route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ external: { google: true } }) });
+    });
+
+    await page.goto('/login', { waitUntil: 'domcontentloaded' });
+    await expect(page.locator('[data-provider="google"]')).toBeVisible();
+    // Leaving and coming back is the common case: a learner reads the guest
+    // note, wanders off to the library, then comes back to sign in.
+    await page.goto('/library', { waitUntil: 'domcontentloaded' });
+    await page.goto('/login', { waitUntil: 'domcontentloaded' });
+    await expect(page.locator('[data-provider="google"]')).toBeVisible();
+
+    expect(settingsCalls).toBe(1);
   });
 });
 
@@ -164,8 +219,14 @@ test.describe('the sign-in page with no account service', () => {
     await page.locator('#app h1').first().waitFor();
 
     await expect(page.locator('#app h1').first()).toHaveText(/sign in/i);
-    await expect(page.locator('.auth-unavailable')).toContainText(/not switched on yet/i);
-    await expect(page.locator('[data-provider]')).toHaveCount(0);
+    await expect(page.locator('.auth-unavailable-note')).toContainText(/not switched on yet/i);
+
+    // Clicking "Sign in" used to land here on a page with no sign-in on it.
+    // The buttons lead now, inert and labelled, so the page is legible as the
+    // place you sign in even before a project is connected.
+    await expect(page.locator('[data-provider="google"]')).toBeVisible();
+    await expect(page.locator('[data-provider="google"]')).toBeDisabled();
+    await expect(page.locator('[data-provider="apple"]')).toBeDisabled();
   });
 
   test('offers the device profile underneath rather than a dead end', async ({ page }) => {

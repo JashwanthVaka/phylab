@@ -41,6 +41,27 @@ function loadPageModule(path) {
   return moduleCache.get(path);
 }
 
+/**
+ * Warms the sign-in module before it is asked for.
+ *
+ * Clicking "Sign in" has to fetch js/authUI.js before it can draw anything,
+ * and the pointer is usually over the link for a moment first. Starting the
+ * import on hover or keyboard focus spends that moment, and a failure here is
+ * deliberately ignored: this is an optimisation, and the click path fetches
+ * the module itself anyway.
+ */
+function warmSignIn() {
+  loadPageModule('./js/authUI.js').catch(() => {});
+}
+
+document.addEventListener('pointerenter', event => {
+  if (event.target instanceof Element && event.target.closest?.('a[href="/login"]')) warmSignIn();
+}, { capture: true, passive: true });
+
+document.addEventListener('focusin', event => {
+  if (event.target instanceof Element && event.target.closest?.('a[href="/login"]')) warmSignIn();
+}, { passive: true });
+
 /** Runs registered page clean-up callbacks before a new route mounts. */
 function cleanupPage() {
   pageCleanups.forEach(cleanup => {

@@ -16,7 +16,7 @@
 
 import { escapeHTML } from './utils.js';
 import { authService, PROVIDERS } from './services/authService.js';
-import { getSupabase } from './services/supabaseClient.js';
+import { getSupabaseSettings } from './services/supabaseClient.js';
 import { rememberReturnPath } from './authFlow.js';
 import { localProfileSection, bindLocalProfile } from './localProfileUI.js';
 
@@ -29,53 +29,104 @@ const MARK = {
  * Which providers the project actually has enabled.
  *
  * Supabase publishes this on its settings endpoint, so the page asks rather
- * than guesses. A failure here means no buttons, which is the safe direction:
- * the learner is told accounts are unavailable instead of being sent into a
- * provider that will reject them.
+ * than guesses. A failure here means no working buttons, which is the safe
+ * direction: the learner is told sign-in is unavailable instead of being sent
+ * into a provider that will reject them.
+ *
+ * This deliberately does NOT build a Supabase client. It used to, only to
+ * check the client was not null, and building one downloads the whole
+ * Supabase library from a CDN. That put a third-party bundle plus two more
+ * round trips in front of the first pixel of the sign-in page. The endpoint
+ * needs the project URL and the anon key and nothing else, and the library is
+ * only genuinely needed once somebody presses a button.
  */
-export async function enabledProviders() {
+const CACHE_KEY = 'kinetiq:auth-providers';
+
+/** Reads a provider list resolved earlier this session, if there is one. */
+function cachedProviderIds() {
   try {
-    const supabase = await getSupabase();
-    if (!supabase) return [];
-    const url = window.PHYLAB_ENV?.SUPABASE_URL;
-    const key = window.PHYLAB_ENV?.SUPABASE_ANON_KEY;
-    if (!url || !key) return [];
-    const response = await fetch(`${url}/auth/v1/settings`, { headers: { apikey: key } });
+    const raw = sessionStorage.getItem(CACHE_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    // Private browsing can refuse storage outright. Asking again is correct.
+    return null;
+  }
+}
+
+function rememberProviderIds(ids) {
+  try {
+    sessionStorage.setItem(CACHE_KEY, JSON.stringify(ids));
+  } catch { /* Storage refused; the next visit simply asks again. */ }
+}
+
+export async function enabledProviders() {
+  const remembered = cachedProviderIds();
+  if (remembered) return PROVIDERS.filter(provider => remembered.includes(provider.id));
+
+  try {
+    const settings = await getSupabaseSettings();
+    if (!settings) {
+      // No project is configured at all. That answer will not change while
+      // this tab is open, so the second visit to /login is instant.
+      rememberProviderIds([]);
+      return [];
+    }
+    const response = await fetch(`${settings.url}/auth/v1/settings`, { headers: { apikey: settings.anonKey } });
+    // A failed request is not an answer, so it is not cached: a flaky network
+    // must not switch sign-in off for the rest of the session.
     if (!response.ok) return [];
     const external = (await response.json())?.external || {};
-    return PROVIDERS.filter(provider => external[provider.id]);
+    const ids = PROVIDERS.filter(provider => external[provider.id]).map(provider => provider.id);
+    rememberProviderIds(ids);
+    return PROVIDERS.filter(provider => ids.includes(provider.id));
   } catch {
     return [];
   }
 }
 
-const button = provider => `
-  <button type="button" class="oauth-button" data-provider="${escapeHTML(provider.id)}">
+const button = (provider, available) => `
+  <button type="button" class="oauth-button" data-provider="${escapeHTML(provider.id)}"
+          ${available ? '' : 'disabled data-unavailable="true" aria-describedby="authUnavailable"'}>
     ${MARK[provider.id] || ''}
     <span>${escapeHTML(provider.label)}</span>
   </button>`;
 
+/**
+ * The sign-in page.
+ *
+ * The two buttons lead, in every state. They used to be replaced by an
+ * explanatory panel whenever no provider was switched on, which meant that on
+ * the live site, where no project is connected, clicking "Sign in" landed on
+ * a page with no sign-in on it. Pressing a disabled button is not an error a
+ * learner has to diagnose, so the buttons stay and carry the reason instead.
+ *
+ * When at least one provider works, only the working ones are drawn: a
+ * disabled Apple button next to a live Google one is noise. The disabled pair
+ * exists only for the case where nothing works at all, so that the page still
+ * reads as the place you sign in.
+ */
 export async function authPage() {
   const providers = await enabledProviders();
+  const available = providers.length > 0;
+  const shown = available ? providers : PROVIDERS;
 
-  return `<section class="page auth-page" data-auth-mode="provider">
-    <div class="auth-column${providers.length ? '' : ' is-unavailable'}">
+  return `<section class="page auth-page" data-auth-mode="provider" data-auth-available="${available}">
+    <div class="auth-column">
       <p class="eyebrow">KINETIQ ACCOUNT</p>
       <h1>Sign in</h1>
-      <p class="auth-lead">${providers.length
+      <p class="auth-lead">${available
         ? 'Use an account you already have. KINETIQ never asks you for a new password, and your completed lessons follow you to any device you sign in on.'
-        : 'When sign-in is switched on it will use an account you already have, with no new password to remember.'}</p>
+        : 'Sign-in uses an account you already have, so there is no new password to remember.'}</p>
 
-      ${providers.length
-        ? `<div class="auth-providers">${providers.map(button).join('')}</div>
-           <p id="authError" class="auth-error" role="alert"></p>
+      <div class="auth-providers">${shown.map(provider => button(provider, available)).join('')}</div>
+
+      ${available
+        ? `<p id="authError" class="auth-error" role="alert"></p>
            <p class="auth-fineprint">Signing in for the first time creates your account. There is no separate registration step.</p>
-
            <p class="auth-guest">Not ready to sign in? <a href="/library" data-route>Carry on studying as a guest.</a> Nothing is locked behind an account.</p>`
-        : `<div class="empty-state auth-unavailable">
-             <h3>Sign-in is not switched on yet</h3>
-             <p>KINETIQ is running without its account service, so there is nothing to sign in with. Everything else works, and your progress is saved safely in this browser.</p>
-           </div>
+        : `<p id="authUnavailable" class="auth-unavailable-note">
+             <b>Not switched on yet.</b> This site has no account service connected, so there is nothing for these buttons to sign you in to. Everything else works, and your progress is saved in this browser.
+           </p>
            ${localProfileSection()}`}
     </div>
   </section>`;
@@ -117,6 +168,12 @@ export function bindAuth(router) {
   // Present only while sign-in is unavailable; binding it here keeps one
   // binder for the page rather than two that have to agree on which is live.
   const releaseProfile = bindLocalProfile(router);
+
+  // With no provider switched on the buttons are drawn disabled, purely so the
+  // page still reads as a sign-in. There is nothing to bind them to.
+  if (page.dataset.authAvailable !== 'true') {
+    return () => { controller.abort(); releaseProfile?.(); };
+  }
 
   page.querySelectorAll('[data-provider]').forEach(control => {
     control.addEventListener('click', async () => {

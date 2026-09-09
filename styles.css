@@ -2710,10 +2710,45 @@ input, select, textarea, .stats, .facts {
    solid fills. The primary provider takes the site's own primary colour
    rather than Google's blue, which would be the only blue on a warm site. */
 .auth-column { max-width: 440px; margin: 0 auto; }
-.auth-column.is-unavailable { max-width: 560px; }
-.auth-unavailable { padding: var(--s5) var(--s6); margin-bottom: var(--s7); }
-.auth-unavailable h3 { margin: 0 0 var(--s3); font-size: 17px; letter-spacing: -.01em; }
-.auth-unavailable p { margin: 0; font-size: 14px; line-height: 1.65; color: var(--muted); }
+/* The unavailable state carries the device-profile form underneath, which
+   needs more room than two buttons do. */
+.auth-page[data-auth-available="false"] .auth-column { max-width: 560px; }
+
+/* The reason the buttons cannot work, sitting directly under them rather than
+   above: the buttons are what the page is for, and an explanation that pushes
+   them below the fold is how the sign-in went missing in the first place. */
+.auth-unavailable-note {
+  margin: var(--s4) 0 0;
+  padding: var(--s4) var(--s5);
+  /* A faint wash of the brand rust rather than --surface-alt, which is cool
+     blue and reads lilac against this warm ground. The note is a status, so
+     it should sit in the palette rather than beside it. */
+  border: 1px solid rgba(194, 65, 12, .18);
+  border-radius: var(--r-md, 12px);
+  background: rgba(194, 65, 12, .05);
+  font-size: 14px; line-height: 1.65; color: var(--muted);
+}
+.auth-unavailable-note b { color: var(--ink); font-weight: 650; }
+:root[data-theme="dark"] .auth-unavailable-note {
+  border-color: rgba(249, 125, 74, .28);
+  background: rgba(249, 125, 74, .09);
+}
+
+/* Disabled providers are inert, not loading, so they must not borrow the
+   busy cursor the pressed state uses. */
+.oauth-button[data-unavailable][disabled] {
+  opacity: 1;
+  background: var(--surface-raised, #fff);
+  color: var(--muted);
+  border-color: var(--line);
+  border-style: dashed;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+.oauth-button[data-unavailable][disabled]:hover { border-color: var(--line); box-shadow: none; }
+.oauth-button[data-unavailable][disabled] svg { opacity: .5; }
+
+.local-profile-section { margin-top: var(--s7); padding-top: var(--s6); border-top: 1px solid var(--line); }
 .local-profile-section .local-profile-form { max-width: 100%; }
 .local-profile-section .lp-note { margin-top: var(--s6); }
 .auth-column h1 { font-size: clamp(38px, 5vw, 52px); margin: 0 0 var(--s4); }
