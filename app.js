@@ -386,7 +386,21 @@ function handleRouteClick(event) {
   }
   if (event.target.matches('[data-retry]')) {
     loader.clear();
-    // Offline support. Registration failing is never fatal — the app stays online-only.
+    boot();
+  }
+}
+
+/**
+ * Offline support. Registration failing is never fatal: the app stays online-only.
+ *
+ * This function, its load listener and a second boot() call had all ended up
+ * nested inside the [data-retry] branch above, so the whole block only ran
+ * when somebody clicked "Try again" on an error page. Offline support
+ * therefore never started for an ordinary visit, which is not the harmless
+ * kind of dead code: a worker registered by some earlier version of this file
+ * keeps running and keeps serving its own cache long after the code that
+ * registered it is gone.
+ */
 function enableOffline() {
   if (!('serviceWorker' in navigator) || location.protocol === 'file:') return;
   const source = document.querySelector('script[src$="app.js"]')?.getAttribute('src') || '/app.js';
@@ -398,10 +412,6 @@ function enableOffline() {
 // load listener would never run and offline support would silently never start.
 if (document.readyState === 'complete') enableOffline();
 else window.addEventListener('load', enableOffline, { once: true, signal: globalListeners.signal });
-
-boot();
-  }
-}
 
 function handleKeyboardNavigation(event) {
   if (event.key !== 'Escape' || !lastFocusedElement?.isConnected) return;

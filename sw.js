@@ -9,7 +9,11 @@
  * The tutor is deliberately never cached: /api/chat must reach the server or
  * fail honestly, and a stale answer would be worse than none.
  */
-const VERSION = 'kinetiq-v1';
+// Stamped by tools/build-static.mjs at build time so every deploy retires the
+// previous caches outright. It stays literal when the site is served straight
+// from the repository, which is fine: code is fetched network-first below, so
+// a stale version string can no longer serve stale code.
+const VERSION = 'kinetiq-__BUILD__';
 const SHELL = `${VERSION}-shell`;
 const CONTENT = `${VERSION}-content`;
 
@@ -62,7 +66,39 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Everything else: serve from cache immediately, and refresh it in the background.
+  // The app's own code goes to the network first.
+  //
+  // This used to be cache-first with a background refresh, which is the right
+  // shape for content and the wrong shape for code. KINETIQ is split across
+  // thirty-odd ES modules loaded on demand, and each one was cached and
+  // refreshed independently. After a deploy a returning visitor therefore ran
+  // whichever mixture their browser happened to hold: new styles.css against
+  // an older module, or the reverse. That is not a slow app, it is a
+  // different app from the one that was tested, and it is why a shipped fix
+  // could still look unshipped on the very next visit.
+  //
+  // The cache is still there and still answers the moment the network does
+  // not, so the offline case is unchanged. What changes is which one is asked
+  // first.
+  const isAppCode = /\.(?:js|mjs|css|html)$/.test(url.pathname) || url.pathname.endsWith('/');
+  if (isAppCode) {
+    event.respondWith(
+      fetch(request)
+        .then(response => {
+          if (response && response.status === 200) {
+            const copy = response.clone();
+            caches.open(SHELL).then(cache => cache.put(request, copy)).catch(() => {});
+          }
+          return response;
+        })
+        .catch(() => caches.match(request))
+    );
+    return;
+  }
+
+  // Content and assets: serve from cache immediately, refresh in the
+  // background. A lesson that is one visit out of date costs nothing, and
+  // answering instantly on a train is worth a great deal.
   event.respondWith(
     caches.match(request).then(cached => {
       const network = fetch(request)
