@@ -55,12 +55,31 @@ book, since `private/` never leaves your machine.
 npm test
 ```
 
-Thirteen suites: the physics engine against known cases, guest conversations, the
+Sixteen suites: the physics engine against known cases, guest conversations, the
 retrieval engine, the uncertainty maths against hand-worked results, practice marking
 (partial credit and slip diagnosis), the weekly study plan, content cross-references,
 the answer engine, progress export and import, the database schema (row-level security
-and the locked role column), the admin endpoint's refusals, the whoami endpoint, and
-privacy boundaries.
+and the locked role column), the admin endpoint's refusals, the whoami endpoint,
+privacy boundaries, and the account path against a stand-in for Supabase.
+
+```bash
+npm run test:rls
+```
+
+Applies `supabase/migrations/` to a real Postgres and checks, as the role a
+signed-in browser holds, that one student cannot read, write, edit or delete
+another student's work, and cannot promote themselves to admin. Skips with a
+message where no Postgres is available. `SUPABASE_SETUP.md` explains what each
+check proves.
+
+```bash
+npm run test:e2e
+```
+
+Seventy-nine browser tests across six viewports, four of them desktop. Playwright
+is a dev-only dependency; the shipped app has no runtime dependencies.
+
+`npm run test:all` runs all three.
 
 ## Publishing
 

@@ -72,7 +72,43 @@ learner never sees another's completions, that repeating a completion updates
 a single row rather than adding another, and that work done signed out is
 carried into the account on first sign-in.
 
-## Validation
+That proves KINETIQ scopes the reads and writes it makes. It is a different
+claim from what the database does with a request that is not well behaved, and
+only the database can answer that one.
+
+## Verifying row-level security for real
+
+```
+npm run test:rls
+```
+
+This starts a Postgres, applies `supabase/migrations/` to it unmodified, and
+runs nine checks as `authenticated`, the role a signed-in browser holds. The
+role matters more than anything else here: run as the table owner or a
+superuser and row-level security is bypassed entirely, so the checks would
+pass while every student read every other student's work.
+
+It answers, against a real database:
+
+- each student sees only their own progress, including when they ask for
+  another student's rows by id
+- a student cannot write a row under another student's id
+- a student cannot update or delete another student's work
+- profiles are private, and a signed-out visitor gets nothing at all
+- a student cannot promote themselves to `admin`, which would otherwise open
+  every policy through `is_admin()` and hand them everybody's work
+
+The checks were mutation-tested rather than trusted for passing: disabling
+row-level security on `lesson_progress` fails four of them, widening the owner
+policy to "any signed-in user" fails four, and dropping the role-lock triggers
+fails the escalation check.
+
+`tests/rls/supabase-shim.sql` supplies only the parts of Supabase the
+migrations depend on: `auth.users`, and `auth.uid()` reading the same setting
+Supabase populates from the JWT. It skips with a clear message where no
+Postgres is available, so it never reports a pass it did not earn.
+
+## Validation against your own project
 
 Create one student and one teacher. Verify that a student can read only their
 own progress, that a teacher sees only class members through class
@@ -80,6 +116,14 @@ relationships, and that an unaffiliated account receives no rows.
 
 Then, as a signed-in student: complete a lesson, sign in on a second browser,
 and confirm `/progress` lists it as completed there too.
+
+## Shared devices
+
+A class often shares a laptop, so signing out has to hand the machine over
+clean. On sign-out KINETIQ moves anything still held on the device into the
+account it belongs to, and only then removes the device copy. If that move
+fails, the work is kept and the person is told, because a dropped connection
+must not destroy the only copy of somebody's study.
 
 ## Checking a provider is really on
 

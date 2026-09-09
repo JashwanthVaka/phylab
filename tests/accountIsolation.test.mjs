@@ -36,12 +36,14 @@ globalThis.localStorage = {
 function makeFakeSupabase() {
   const rows = [];              // every row ever written, across all users
   let currentUser = null;
+  let writesFail = false;       // stands in for a dropped connection
 
   const api = {
     auth: { getUser: async () => ({ data: { user: currentUser } }) },
     from(table) {
       return {
         async upsert(record, options = {}) {
+          if (writesFail) return { data: null, error: { message: 'network unreachable' } };
           // The unique index is (user_id, lesson_slug); honour it.
           const keys = (options.onConflict || 'id').split(',').map(k => k.trim());
           const match = rows.find(row =>
@@ -64,6 +66,7 @@ function makeFakeSupabase() {
     api,
     signIn: id => { currentUser = { id }; },
     signOut: () => { currentUser = null; },
+    failWrites: value => { writesFail = value; },
     allRows: () => rows
   };
 }
@@ -79,6 +82,10 @@ mock.module(clientUrl, {
 });
 
 const { progressService } = await import('../js/services/progressService.js');
+const { getProgress, saveProgress } = await import('../js/utils.js');
+
+const guestProgress = () => getProgress().completedLessons;
+const saveGuestProgress = slugs => saveProgress({ completedLessons: slugs, attempts: [] });
 
 test('a signed-in learner writes completions under their own user id', async () => {
   fake.signIn('user-alpha');
@@ -156,4 +163,67 @@ test('work done as a guest is carried into the account on first sign-in', async 
     row.__table === 'lesson_progress' && row.user_id === 'user-gamma');
   assert.equal(gamma.length, 1);
   assert.equal(gamma[0].user_id, 'user-gamma');
+});
+
+/**
+ * The shared-laptop case, which is the ordinary one for a class.
+ *
+ * migrateLocal existed but nothing in the app called it, so guest work never
+ * reached the account it belonged to; and because the device copy was never
+ * removed, it sat in the browser waiting to be adopted by whoever signed in
+ * next. The two faults together meant one student's lessons could end up in
+ * another student's account.
+ */
+test('work done as a guest moves into the account and leaves the device', async () => {
+  fake.signOut();
+  store.clear();
+  saveGuestProgress(['thermal-physics', 'gas-laws']);
+
+  fake.signIn('user-theta');
+  const result = await progressService.migrateLocal();
+
+  assert.equal(result.migrated, 2);
+  assert.equal(result.cleared, true, 'the device copy is removed once the rows are written');
+  assert.deepEqual(guestProgress(), [], 'nothing is left on the device to leak');
+
+  const state = await progressService.list();
+  assert.deepEqual(state.completed.sort(), ['gas-laws', 'thermal-physics']);
+});
+
+test('the next person on the same browser does not inherit that work', async () => {
+  // Straight after the migration above: a different student signs in on the
+  // same machine. Before the device was cleared, this account would have
+  // adopted the previous student's lessons on their first sign-in.
+  fake.signIn('user-delta');
+  const result = await progressService.migrateLocal();
+
+  assert.equal(result.migrated, 0, 'there is nothing on the device to carry over');
+  const state = await progressService.list();
+  assert.deepEqual(state.completed, [], 'a second account on the same browser starts empty');
+});
+
+test('a failed migration keeps the work rather than destroying it', async () => {
+  fake.signOut();
+  store.clear();
+  saveGuestProgress(['circular-motion']);
+
+  fake.signIn('user-epsilon');
+  fake.failWrites(true);
+  const result = await progressService.migrateLocal();
+  fake.failWrites(false);
+
+  assert.equal(result.cleared, false, 'a failed write must not clear the device');
+  assert.deepEqual(result.failed, ['circular-motion']);
+  assert.deepEqual(guestProgress(), ['circular-motion'],
+    'the only copy of the work is still there to try again with');
+});
+
+test('signing out leaves no study progress behind on the device', async () => {
+  fake.signIn('user-zeta');
+  saveGuestProgress(['nuclear-fission']);
+
+  progressService.forgetDevice();
+
+  assert.deepEqual(guestProgress(), [],
+    'a signed-out browser must not still hold the last person\'s lessons');
 });
