@@ -123,10 +123,29 @@ export async function initAccountMenu() {
     root.querySelector('[data-account-signout]').addEventListener('click', async () => {
       closeMenu();
       if (!authService.enabled()) {
+        // A device profile is only a name. Study progress is the sole copy
+        // here, so removing the name must not destroy the work with it.
         const { clearLocalProfile } = await import('./localProfile.js');
         clearLocalProfile();
       } else {
+        // Anything still on the device belongs in the account first. Only
+        // once it is safely there is it taken off the machine, so the next
+        // person to sign in does not inherit the last person's lessons.
+        const { progressService } = await import('./services/progressService.js');
+        let moved;
+        try {
+          moved = await progressService.migrateLocal();
+        } catch {
+          moved = { cleared: false };
+        }
         await authService.signOut();
+        const { clearLocalProfile } = await import('./localProfile.js');
+        clearLocalProfile();
+        if (moved?.cleared === false && moved?.reason !== 'nothing-to-move') {
+          // Saying nothing here would be the wrong kind of quiet: the work is
+          // still on this browser and the person is walking away from it.
+          window.alert('Some lessons could not be saved to your account just now, so they are still on this browser. Sign in again on this device when you are back online.');
+        }
       }
       await paint();
       location.assign('/');

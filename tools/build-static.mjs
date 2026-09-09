@@ -64,7 +64,12 @@ if (appUrl) console.log(`  tutor link points at ${appUrl}`);
 // 2. Copy the stylesheet and the browser env shim unchanged.
 await write('styles.css', await read('styles.css'));
 await write('public-env.js', await read('public-env.js'));
-await write('sw.js', await read('sw.js'));
+// The service worker is stamped with this build's identity so that activating
+// it retires every cache the previous build wrote, rather than inheriting them.
+const buildStamp = (process.env.VERCEL_GIT_COMMIT_SHA || process.env.COMMIT_REF || '').slice(0, 12)
+  || new Date().toISOString().replace(/[^0-9]/g, '');
+await write('sw.js', (await read('sw.js')).replaceAll('__BUILD__', buildStamp));
+console.log(`  service worker stamped ${buildStamp}`);
 
 // 3. index.html: assets become relative, because Pages serves the site from /<repo>/.
 let html = await read('index.html');

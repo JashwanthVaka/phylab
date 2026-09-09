@@ -48,15 +48,65 @@ export const progressService = {
     return { guest: false, completed: state.completed.filter(item => item !== slug) };
   },
 
+  /**
+   * Moves work done as a guest into the account that just signed in, then
+   * takes it off the device.
+   *
+   * Both halves matter, and for different reasons. Without the move, a student
+   * who studied before signing in loses all of it: the completions sit in a
+   * browser key the account never reads. Without the clearing, that same work
+   * stays on the device after they sign out, so the next person to use the
+   * machine sees it as their own guest progress, and carries it into their
+   * account the moment they sign in.
+   *
+   * The device copy is only removed once every row is confirmed written. A
+   * failed migration keeps the local copy, because it is then the only copy
+   * there is, and losing a student's work to a dropped connection is worse
+   * than carrying it a while longer.
+   */
   async migrateLocal() {
     const supabase = await getSupabase();
-    if (!supabase) return false;
+    if (!supabase) return { migrated: 0, cleared: false, reason: 'no-account-service' };
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return false;
-    for (const lesson_slug of getProgress().completedLessons || []) {
-      await supabase.from('lesson_progress').upsert({ user_id: user.id, lesson_slug, completion_percentage: 100, completed_at: new Date().toISOString() }, { onConflict: 'user_id,lesson_slug' });
+    if (!user) return { migrated: 0, cleared: false, reason: 'signed-out' };
+
+    const local = getProgress().completedLessons || [];
+    const pending = queue.splice(0, queue.length);
+    if (!local.length && !pending.length) return { migrated: 0, cleared: true, reason: 'nothing-to-move' };
+
+    const failures = [];
+    for (const lesson_slug of local) {
+      const { error } = await supabase.from('lesson_progress').upsert(
+        { user_id: user.id, lesson_slug, completion_percentage: 100, completed_at: new Date().toISOString() },
+        { onConflict: 'user_id,lesson_slug' }
+      );
+      if (error) failures.push(lesson_slug);
     }
-    while (queue.length) await this.upsert(queue.shift());
-    return true;
+    for (const record of pending) {
+      const { error } = await supabase.from('lesson_progress').upsert(
+        { ...record, user_id: user.id }, { onConflict: 'user_id,lesson_slug' }
+      );
+      // Back on the queue, so a later attempt still has it.
+      if (error) { failures.push(record.lesson_slug); queue.push(record); }
+    }
+
+    if (failures.length) return { migrated: local.length - failures.length, cleared: false, failed: failures };
+
+    this.forgetDevice();
+    return { migrated: local.length + pending.length, cleared: true };
+  },
+
+  /**
+   * Removes study progress kept on this device.
+   *
+   * Called once work is safely in an account, and again on sign-out. A shared
+   * laptop is the ordinary case for a class, and a signed-out browser must not
+   * still be holding the last person's completed lessons.
+   */
+  forgetDevice() {
+    const progress = getProgress();
+    progress.completedLessons = [];
+    progress.attempts = [];
+    saveProgress(progress);
   }
 };

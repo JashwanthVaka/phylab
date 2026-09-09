@@ -62,7 +62,13 @@ export function bindAccount(router) {
   });
 
   document.querySelector('[data-logout]')?.addEventListener('click', async () => {
+    // Same order as the header control: get the work into the account, then
+    // hand the machine over clean. See accountMenu.js for why.
+    const { progressService } = await import('./services/progressService.js');
+    try { await progressService.migrateLocal(); } catch { /* Kept on the device. */ }
     await authService.signOut();
+    const { clearLocalProfile } = await import('./localProfile.js');
+    clearLocalProfile();
     router.go('/');
   });
 }
