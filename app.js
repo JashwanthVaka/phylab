@@ -84,7 +84,7 @@ function ensureOverlay() {
   overlay.setAttribute('role', 'status');
   overlay.setAttribute('aria-live', 'polite');
   overlay.setAttribute('aria-hidden', 'true');
-  overlay.innerHTML = '<div class="phylab-loading-overlay__card"><span class="phylab-loading-overlay__spinner" aria-hidden="true"></span><span data-loading-message>Loading KINETIQ…</span></div>';
+  overlay.innerHTML = '<div class="phylab-loading-overlay__card glass"><span class="phylab-loading-overlay__spinner" aria-hidden="true"></span><span data-loading-message>Loading KINETIQ…</span></div>';
   document.body.append(overlay);
   return overlay;
 }
@@ -114,7 +114,7 @@ function notify(message, type = 'information', options = {}) {
   const region = ensureNotificationRegion();
   const notice = document.createElement('div');
   const timeout = Number.isFinite(options.timeout) ? options.timeout : 5000;
-  notice.className = `notification notification--${type}`;
+  notice.className = `notification notification--${type} glass`;
   notice.setAttribute('role', type === 'error' ? 'alert' : 'status');
   notice.innerHTML = '<span class="notification__message"></span><button class="notification__dismiss" type="button" aria-label="Dismiss notification">×</button>';
   notice.querySelector('.notification__message').textContent = message;

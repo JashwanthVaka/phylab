@@ -3022,3 +3022,69 @@ input, select, textarea, .stats, .facts {
   background: var(--surface-alt); color: var(--muted);
   font-size: 12.5px; line-height: 1.5;
 }
+
+/* ── Liquid glass: the rim and the sheen ─────────────────────────────
+   The glass here was blur and tint and nothing else, which reads as
+   frosted plastic. What makes Apple's material read as glass is light:
+   a bright rim where the top edge catches it, fading down the sides, and
+   a faint sheen that suggests the surface has thickness. Both live on the
+   shared .glass primitive, so every floating surface -- the nav capsule,
+   its menus, the phone navigation, the command palette, toasts and the
+   loading card -- gets them at once, and nothing else on the page does.
+
+   Nothing moves. The rim is fixed light, not a cursor effect. */
+:root {
+  --glass-border:     rgba(28, 25, 23, .12);
+  --glass-ring:       rgba(28, 25, 23, .10);
+  --glass-rim-top:    rgba(255, 255, 255, .95);
+  --glass-rim-bottom: rgba(255, 255, 255, .40);
+  --glass-sheen:      rgba(255, 255, 255, .34);
+}
+:root[data-theme="dark"] {
+  --glass-rim-top:    rgba(255, 245, 235, .30);
+  --glass-rim-bottom: rgba(255, 245, 235, .08);
+  --glass-sheen:      rgba(255, 245, 235, .07);
+}
+
+/* The sheen sits behind the text: backdrop-filter already makes each glass
+   surface its own stacking context, so -1 lands above the glass and below
+   the content, and never washes over the words. */
+.glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(180deg, var(--glass-sheen) 0%, transparent 58%);
+}
+
+/* The rim replaces the flat hairline where the border can be masked. A
+   browser that cannot mask would paint this gradient across the whole
+   panel, so it keeps the plain ring instead. */
+@supports ((mask-composite: exclude) or (-webkit-mask-composite: xor)) {
+  .glass::after {
+    padding: 1px;
+    box-shadow: none;
+    background: linear-gradient(180deg,
+      var(--glass-rim-top) 0%,
+      var(--glass-ring) 34%,
+      var(--glass-ring) 72%,
+      var(--glass-rim-bottom) 100%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .glass::before { display: none; }
+  .glass::after { background: none; box-shadow: inset 0 0 0 1px var(--line); -webkit-mask: none; mask: none; }
+}
+
+/* Toasts and the loading card float over the page like the menus do, so
+   they take the same material instead of an opaque box. */
+.notification.glass, .phylab-loading-overlay__card.glass {
+  background: var(--glass-bg-strong);
+  border-radius: var(--r-lg);
+}
