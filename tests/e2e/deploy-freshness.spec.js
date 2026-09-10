@@ -66,3 +66,38 @@ test.describe('a returning visitor gets the deployed code', () => {
     expect(source).toMatch(/const VERSION = 'kinetiq-(?:__BUILD__|[0-9a-f]{6,})'/);
   });
 });
+
+// ── An open tab picks up a deploy ────────────────────────────────────
+// The worker fetched code fresh, but a page that was already running when a
+// new worker took over kept the code the old one gave it. In a single-page
+// app a tab can stay open for hours, so a student could keep seeing the old
+// site well after a deploy. A new worker taking control must reload the page.
+test('an open tab reloads onto a newly deployed worker', async ({ page }) => {
+  // The first visit installs the worker; the second is the one a returning
+  // student makes, already controlled by a worker from an earlier deploy.
+  await page.goto('/library', { waitUntil: 'load' });
+  await page.waitForFunction(() => navigator.serviceWorker.controller, null, { timeout: 15000 });
+  await page.reload({ waitUntil: 'load' });
+  await page.locator('#app h1').first().waitFor();
+  await page.evaluate(() => { window.__beforeDeploy = true; });
+
+  // A deploy is delivered to an open page as controllerchange. Playwright
+  // cannot intercept the browser's own fetch of the worker script, so the
+  // test delivers that event directly rather than staging a new script.
+  const reloaded = page.waitForEvent('load', { timeout: 15000 });
+  await page.evaluate(() => navigator.serviceWorker.dispatchEvent(new Event('controllerchange')));
+  await reloaded;
+
+  expect(await page.evaluate(() => window.__beforeDeploy), 'the page should have reloaded onto the new code').toBeUndefined();
+  await expect(page.locator('#app h1').first()).toBeVisible();
+});
+
+test('a first visit is never reloaded when its own worker takes control', async ({ page }) => {
+  let loads = 0;
+  page.on('load', () => { loads += 1; });
+  await page.goto('/library', { waitUntil: 'load' });
+  await page.waitForFunction(() => navigator.serviceWorker.controller, null, { timeout: 15000 });
+  await page.evaluate(() => navigator.serviceWorker.dispatchEvent(new Event('controllerchange')));
+  await page.waitForTimeout(1500);
+  expect(loads, 'a new visitor must not see the page reload').toBe(1);
+});

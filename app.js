@@ -409,7 +409,31 @@ function enableOffline() {
   if (!('serviceWorker' in navigator) || location.protocol === 'file:') return;
   const source = document.querySelector('script[src$="app.js"]')?.getAttribute('src') || '/app.js';
   const scope = new URL(source.replace(/app\.js$/, ''), location.href);
+  // A page that was already running when a new worker took over keeps the
+  // code the old worker gave it. The worker now fetches code fresh, but the
+  // open tab never asks again, and a single-page app can stay open for hours:
+  // a student would keep seeing yesterday's site until they happened to
+  // reload. When a new worker takes control of a page that already had one,
+  // the page reloads once onto the new code. A first-ever install has no
+  // previous controller, so a new visitor is never reloaded.
+  const hadController = Boolean(navigator.serviceWorker.controller);
+  let reloading = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (!hadController || reloading) return;
+    reloading = true;
+    location.reload();
+  }, { signal: globalListeners.signal });
+
   navigator.serviceWorker.register(new URL('sw.js', scope).href, { scope: scope.href })
+    .then(registration => {
+      // The browser only looks for a new worker on a full navigation, which a
+      // single-page app rarely makes. Coming back to the tab is the natural
+      // moment to look for a deploy that happened while it sat in the
+      // background.
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') registration.update().catch(() => {});
+      }, { signal: globalListeners.signal });
+    })
     .catch(error => console.warn('KINETIQ could not enable offline support.', error));
 }
 // A module script can execute after load has already fired, in which case a
