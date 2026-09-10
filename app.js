@@ -293,6 +293,10 @@ const router = new Router({
     return routes;
   }, {}),
   '/onboarding': () => transition(async () => ({ view: onboardingPage() }), 'Preparing onboarding…'),
+  '/privacy': () => transition(async () => {
+    const privacy = await loadPageModule('./js/privacyUI.js');
+    return { view: privacy.privacyPage() };
+  }, 'Opening privacy…'),
   '/account': () => transition(async () => {
     const [profile, account] = await Promise.all([profileService.get(), loadPageModule('./js/accountPage.js')]);
     return { view: await account.accountPage(profile), mount: () => bindAccount(router) };

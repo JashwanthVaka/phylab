@@ -9,7 +9,7 @@
 import { test, expect } from '@playwright/test';
 
 const ROUTES = ['/', '/library', '/lesson/kinematics', '/simulations/projectile', '/cases',
-  '/ask', '/ai', '/exam-prep', '/progress', '/revision', '/formulas', '/data', '/login'];
+  '/ask', '/ai', '/exam-prep', '/progress', '/revision', '/formulas', '/data', '/login', '/privacy'];
 
 test.use({ viewport: { width: 1280, height: 900 } });
 

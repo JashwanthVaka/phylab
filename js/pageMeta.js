@@ -40,6 +40,7 @@ const STATIC = {
   '/search': ['Search', 'Search lessons, formulae, definitions, simulations and cases together.'],
   '/bookmarks': ['Saved items', 'Everything you have saved to come back to.'],
   '/mastery': ['Mastery', 'Where you are strong and where the marks are still going missing.'],
+  '/privacy': ['Privacy', 'What KINETIQ does with your information, including what is sent to AI providers when you ask KIT.'],
   '/account': ['Your account', 'Your KINETIQ account, how you signed in, and your study settings.'],
   '/admin': ['Admin', 'Account statistics for the site owner.'],
   '/login': ['Sign in', 'Sign in with Google or Apple to keep your progress across devices.'],

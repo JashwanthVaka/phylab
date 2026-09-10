@@ -2929,6 +2929,9 @@ input, select, textarea, .stats, .facts {
   .brand, .nav-signin { min-height: 44px; }
   .theme-toggle, .nav-avatar, .nav-burger { min-width: 44px; min-height: 44px; }
   .nav-avatar { width: 44px; height: 44px; }
+  /* Height alone was not enough once a short word joined the footer:
+     "Privacy" measured 43px wide. */
+  .footer-nav a { min-width: 44px; justify-content: center; }
   .search { min-height: 44px; align-items: center; }
   /* Matching on type= would miss every input that omits the attribute and
      falls back to text, which is most of the data lab. Excluding the few
@@ -3088,3 +3091,17 @@ input, select, textarea, .stats, .facts {
   background: var(--glass-bg-strong);
   border-radius: var(--r-lg);
 }
+
+/* ── Privacy ─────────────────────────────────────────────────────────
+   Reading material, so it is set for reading: a measure, not a grid. */
+.privacy-page { max-width: 780px; }
+.privacy-summary {
+  border: 1px solid var(--line); border-radius: var(--r-lg);
+  background: var(--surface); padding: 22px 26px; margin-bottom: 8px;
+}
+.privacy-summary h2, .privacy-section h2 { font-size: 20px; letter-spacing: -.02em; margin: 0 0 12px; }
+.privacy-section { padding: 30px 0; }
+.privacy-page p, .privacy-page li { font-size: 15px; line-height: 1.7; color: var(--ink-soft); }
+.privacy-page ul { padding-left: 20px; margin: 0 0 12px; }
+.privacy-page li { margin-bottom: 6px; }
+.privacy-page a { color: var(--blue); }

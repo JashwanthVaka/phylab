@@ -22,7 +22,7 @@ test.beforeEach(async ({ page }) => {
 const ROUTES = [
   '/', '/library', '/simulations', '/cases', '/ask', '/exam-prep', '/progress',
   '/ai', '/toolkit', '/data', '/ia', '/mistakes', '/revision', '/formulas',
-  '/patterns', '/resources', '/login'
+  '/patterns', '/resources', '/login', '/privacy'
 ];
 // hasTouch matters: the touch-target rules are written against
 // `@media (pointer: coarse)`, so without it the browser reports a fine pointer
