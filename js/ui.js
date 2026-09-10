@@ -159,10 +159,26 @@ function notifyCompletionFailure() {
   window.setTimeout(() => notice.remove(), 6000);
 }
 
-export function showTutor() {
-  const root = document.querySelector('#modalRoot');
-  root.innerHTML = `<div class="modal show" role="dialog" aria-modal="true" aria-labelledby="tutorTitle"><div class="modal-card"><button class="modal-close" data-close-modal aria-label="Close KIT tutor">×</button><p class="eyebrow">KIT, YOUR AI STUDY PARTNER</p><h2 id="tutorTitle">Ask a better physics question.</h2><p>Open the dedicated KIT workspace for teaching modes, source-aware answers, saved conversations, images, and streamed explanations.</p><a class="button" href="/ai" data-route>Open KIT workspace →</a></div></div>`;
-  document.querySelector('.modal-close')?.focus();
+/**
+ * Opens KIT, the assistant.
+ *
+ * This used to render a modal whose entire content was an advertisement for
+ * KIT with a link to it, so the control named after the assistant did not open
+ * the assistant: it opened a page about the assistant, and cost a click to get
+ * anywhere. The lesson-page button, "Ask KIT about this lesson", did the same.
+ *
+ * There is no second assistant to build here. /ai already reads the route
+ * memory that router.js records, so arriving from a lesson brings that lesson
+ * with it and the workspace says so in its own words. Both entry points
+ * therefore reach one assistant holding one context, which is the whole point
+ * of having a persistent trigger as well as a page.
+ *
+ * The router is passed in where the caller has one so the move stays a
+ * client-side transition; location.assign is the fallback rather than the norm.
+ */
+export function showTutor(router) {
+  if (router?.go) router.go('/ai');
+  else location.assign('/ai');
 }
 
 export function bindUI({ loader, router, searchIndex, render }) {
@@ -193,7 +209,7 @@ export function bindUI({ loader, router, searchIndex, render }) {
       button.disabled = false;
     }
   }));
-  document.querySelectorAll('[data-open-tutor]').forEach(button => button.addEventListener('click', () => showTutor()));
+  document.querySelectorAll('[data-open-tutor]').forEach(button => button.addEventListener('click', () => showTutor(router)));
   document.querySelectorAll('button[data-quiz-topic]').forEach(button => button.addEventListener('click', () => router.go('/quiz')));
   document.querySelector('[data-close-modal]')?.addEventListener('click', () => { document.querySelector('#modalRoot').innerHTML = ''; document.querySelector('#tutorButton').focus(); });
   bindQuiz();

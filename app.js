@@ -419,7 +419,7 @@ function handleKeyboardNavigation(event) {
   if (!activeDialog) lastFocusedElement.focus({ preventScroll: true });
 }
 
-document.querySelector('#tutorButton')?.addEventListener('click', () => showTutor(), { signal: globalListeners.signal });
+document.querySelector('#tutorButton')?.addEventListener('click', () => showTutor(router), { signal: globalListeners.signal });
 document.addEventListener('click', handleRouteClick, { signal: globalListeners.signal });
 document.addEventListener('keydown', handleKeyboardNavigation, { signal: globalListeners.signal });
 window.addEventListener('online', async () => {
