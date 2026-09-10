@@ -38,7 +38,22 @@ who visits is not something a public site should do, so it was removed.
    [console.cloud.google.com](https://console.cloud.google.com/apis/credentials)
    under **Create credentials → OAuth client ID → Web application**.
 
-4. Set `SUPABASE_URL` and `SUPABASE_ANON_KEY` in your deployment environment.
+   Google only lets its own test users sign in until the app is published.
+   Under **Google Auth Platform → Audience**, set the user type to **External**
+   and choose **Publish app**, or students will be refused at Google's screen.
+
+   Then, back in Supabase, open **Authentication → URL Configuration**. Set the
+   **Site URL** to `https://getkinetiq.vercel.app` and add
+   `https://getkinetiq.vercel.app/**` under **Redirect URLs**. KINETIQ asks to be
+   returned to the site root after sign-in, and Supabase only returns people to
+   addresses on that list. Leave it unset and a student who signs in is sent to
+   `localhost` instead.
+
+4. Set `SUPABASE_URL` and `SUPABASE_ANON_KEY` in your deployment environment,
+   then **redeploy**: Vercel applies environment variables to new deployments
+   only, so the running site will not see them until one is made. If the API
+   page shows new-style keys and a **Legacy API keys** tab, use the legacy
+   `anon` key here; that is the kind this code has been tested with.
    These two reach the browser and are designed to: the anon key grants exactly
    what row-level security allows and nothing more. Never expose a service-role
    key this way.
