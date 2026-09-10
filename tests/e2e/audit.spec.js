@@ -1,5 +1,10 @@
-// Baseline design and accessibility audit. Read-only: it measures the site as
-// built and reports, so a fix can be judged against real numbers.
+// Design and accessibility audit across every route a student can reach.
+//
+// This began read-only: it measured and reported so a fix could be judged
+// against real numbers. That was right for a baseline and wrong to keep,
+// because the only assertion was on overflow. It printed 37 undersized tap
+// targets and a heading skip and reported a pass, so the 103 targets fixed
+// earlier had nothing holding them fixed. It asserts now.
 import { test, expect } from '@playwright/test';
 
 test.beforeEach(async ({ page }) => {
@@ -10,7 +15,15 @@ test.beforeEach(async ({ page }) => {
   await page.route('https://fonts.googleapis.com/**', route => route.abort());
 });
 
-const ROUTES = ['/', '/library', '/simulations', '/exam-prep', '/ask', '/data', '/login', '/formulas'];
+// Every destination a student can reach from the header, plus the shell
+// routes. It used to be eight, which is how 33 undersized tap targets on
+// /cases and /toolkit survived a suite that reported zero: a page nobody
+// measures is a page with no defects.
+const ROUTES = [
+  '/', '/library', '/simulations', '/cases', '/ask', '/exam-prep', '/progress',
+  '/ai', '/toolkit', '/data', '/ia', '/mistakes', '/revision', '/formulas',
+  '/patterns', '/resources', '/login'
+];
 // hasTouch matters: the touch-target rules are written against
 // `@media (pointer: coarse)`, so without it the browser reports a fine pointer
 // and the very rules under test never apply.
@@ -95,7 +108,20 @@ for (const size of SIZES) {
         }));
 
         await page.screenshot({ path: `test-results/shots/${size.name}${route.replace(/\//g, '_')}.png`, fullPage: false });
+
         expect(overflow, `horizontal overflow on ${route}`).toBeLessThanOrEqual(1);
+
+        expect(smallTargets, `tap targets under ${MIN_TAP}px on ${route}`).toEqual([]);
+
+        expect(headings.filter(l => l === 1).length, `exactly one h1 on ${route}`).toBe(1);
+        expect(headings.filter((level, i) => i && level - headings[i - 1] > 1).length,
+          `heading levels skip on ${route}`).toBe(0);
+
+        // This suite aborts the Google Fonts request itself, which the browser
+        // reports as a failed resource. Counting it would mean every route
+        // carried a permanent error and a real one could never be noticed.
+        const realErrors = consoleErrors.filter(text => !/fonts\.googleapis\.com|Failed to load resource/.test(text));
+        expect(realErrors, `console errors on ${route}`).toEqual([]);
       });
     }
   });
