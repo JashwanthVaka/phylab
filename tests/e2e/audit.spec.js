@@ -122,6 +122,13 @@ for (const size of SIZES) {
         // carried a permanent error and a real one could never be noticed.
         const realErrors = consoleErrors.filter(text => !/fonts\.googleapis\.com|Failed to load resource/.test(text));
         expect(realErrors, `console errors on ${route}`).toEqual([]);
+
+        // The disclaimer is not decoration: it is the line that keeps KINETIQ
+        // from reading as official IB material. It lives in the shell, so it
+        // should reach every route, and asserting that is cheaper than
+        // assuming it.
+        await expect(page.locator('body > footer'),
+          `footer disclaimer on ${route}`).toContainText('Study support, not official IB material');
       });
     }
   });

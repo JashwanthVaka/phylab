@@ -1489,6 +1489,19 @@ img, svg, video, canvas { max-width: 100%; }
    decorative and sits at 10% opacity. */
 [data-unit="B"] { --unit-color: #0F766E; }
 
+/* The five unit colours above were each tuned to pass AA on white, and only on
+   white: there was no dark override, so in dark mode the same dark hues sat on
+   the #111827 card. Unit B's level pill measured 3.16:1 there, well under AA
+   for 10px text, and it was the badge carrying the unit's identity.
+   Lightened per hue until each clears 4.5:1 against that card, keeping the
+   hue so a unit still reads as itself in either theme. Measured, not judged:
+   A 4.65, B 5.11, C 4.80, D 4.67, E 4.70. */
+:root[data-theme="dark"] [data-unit="A"] { --unit-color: #4A7EEE; }
+:root[data-theme="dark"] [data-unit="B"] { --unit-color: #149A90; }
+:root[data-theme="dark"] [data-unit="C"] { --unit-color: #9B69F1; }
+:root[data-theme="dark"] [data-unit="D"] { --unit-color: #E84E0E; }
+:root[data-theme="dark"] [data-unit="E"] { --unit-color: #E14A8D; }
+
 /* ═══════════════════════════════════════════════════════════════════════
    Theme toggle · ⌘K palette · print
    ═══════════════════════════════════════════════════════════════════════ */
