@@ -2808,7 +2808,15 @@ input, select, textarea, .stats, .facts {
   box-shadow: none;
   cursor: not-allowed;
 }
-.oauth-button[data-unavailable][disabled]:hover { border-color: var(--line); box-shadow: none; }
+/* A button that does nothing must not respond to the pointer. This reset
+   only the border and shadow, so the Google hover fill leaked through and
+   painted the button rust under grey text. */
+.oauth-button[data-unavailable][disabled]:hover {
+  background: var(--surface-raised, #fff);
+  color: var(--muted);
+  border-color: var(--line);
+  box-shadow: none;
+}
 .oauth-button[data-unavailable][disabled] svg { opacity: .5; }
 
 .local-profile-section { margin-top: var(--s7); padding-top: var(--s6); border-top: 1px solid var(--line); }
@@ -2838,8 +2846,11 @@ input, select, textarea, .stats, .facts {
    ground. White on that is 2.61:1, which fails AA, so the label flips to the
    same near-black the brand mark uses: 6.8:1. The button that carries every
    sign-in is not the place to lose contrast. */
-:root[data-theme="dark"] .oauth-button[data-provider="google"] { color: #201703; }
-:root[data-theme="dark"] .oauth-button[data-provider="google"]:hover { color: #201703; }
+/* The Google button is painted with --fill, which stays deep rust in dark
+   mode, so its label stays white (5.17:1). A near-black label was right when
+   this button was light orange; kept after the fill changed it measured 3.4:1,
+   and because this selector outranks the disabled style it also turned the
+   unavailable button's label near-black on a dark surface. */
 
 /* Apple asks for a solid black or solid white button, so it inverts with the
    theme rather than following the palette. */

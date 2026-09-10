@@ -137,3 +137,67 @@ test('no dark-theme surface is dark blue', async ({ page }) => {
 
   expect(blue, 'dark-theme surfaces must not be dark blue').toEqual([]);
 });
+
+/**
+ * The sign-in buttons, in every state they can be in.
+ *
+ * On the live site no provider is connected, so the buttons are always
+ * disabled and their enabled colours were never measured. Their labels are
+ * spans, which the route checks above do not look at. A dark-mode rule gave
+ * the Google label near-black text for a light-orange button; the button is
+ * now deep rust, so that label failed, and the same rule outranked the
+ * disabled style and made the disabled label near-black on a dark button.
+ * Hovering a disabled button also painted it rust under grey text.
+ */
+const LABEL = `(el) => {
+  const contrast = eval(${JSON.stringify('(' + CONTRAST + ')')});
+  return contrast(el.querySelector('span') || el);
+}`;
+
+const withProviders = async page => {
+  await page.route('**/api/config', r => r.fulfill({ status: 200, contentType: 'application/json',
+    body: JSON.stringify({ supabaseUrl: 'https://kinetiq-test.supabase.co', supabaseAnonKey: 'anon-test-key-0123456789abcdef' }) }));
+  await page.route('https://kinetiq-test.supabase.co/auth/v1/settings', r => r.fulfill({ status: 200,
+    contentType: 'application/json', body: JSON.stringify({ external: { google: true, apple: true } }) }));
+};
+
+for (const theme of ['light', 'dark']) {
+  test(`sign-in labels clear AA when available, resting and hovered, in ${theme}`, async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.addInitScript(value => localStorage.setItem('kinetiq-theme', value), theme);
+    await withProviders(page);
+    await page.goto('/login', { waitUntil: 'domcontentloaded' });
+    const google = page.locator('.oauth-button[data-provider="google"]');
+    await expect(google).toBeEnabled({ timeout: 15000 });
+
+    const measure = async () => page.$$eval('.oauth-button', (buttons, fn) => {
+      const read = eval(fn);
+      return buttons.map(b => ({ provider: b.dataset.provider, ratio: read(b) }));
+    }, LABEL);
+
+    for (const row of await measure()) {
+      expect(row.ratio, `${row.provider} label at rest in ${theme}`).toBeGreaterThanOrEqual(4.5);
+    }
+    await google.hover();
+    const hovered = (await measure()).find(row => row.provider === 'google');
+    expect(hovered.ratio, `google label on hover in ${theme}`).toBeGreaterThanOrEqual(4.5);
+  });
+
+  test(`an unavailable sign-in button stays inert and legible under the pointer in ${theme}`, async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.addInitScript(value => localStorage.setItem('kinetiq-theme', value), theme);
+    await page.route('**/api/config', r => r.fulfill({ status: 200, contentType: 'application/json',
+      body: JSON.stringify({ supabaseUrl: '', supabaseAnonKey: '' }) }));
+    await page.goto('/login', { waitUntil: 'domcontentloaded' });
+    const google = page.locator('.oauth-button[data-provider="google"]');
+    await expect(google).toBeDisabled({ timeout: 15000 });
+
+    const before = await google.evaluate(el => getComputedStyle(el).backgroundColor);
+    await google.hover({ force: true });
+    const after = await google.evaluate(el => getComputedStyle(el).backgroundColor);
+    expect(after, 'hovering a button that does nothing must not light it up').toBe(before);
+
+    const ratio = await google.evaluate(eval(LABEL.replace('(el) =>', '(el) =>')));
+    expect(ratio, `unavailable google label in ${theme}`).toBeGreaterThanOrEqual(4.5);
+  });
+}
