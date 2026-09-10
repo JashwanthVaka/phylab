@@ -578,6 +578,44 @@ body {
   }
 }
 
+/* The two rails on the AI page are sticky: they hold their position while the
+   conversation scrolls underneath them, which is precisely the condition the
+   glass layer exists for. They were flat cards, so content slid behind an
+   opaque panel with nothing to say it was floating. Everything else on a page
+   stays solid on purpose. Glass is for surfaces that sit above other content,
+   not a finish to spread over a study tool.
+
+   The fallbacks match the primitive: no blur support, or a reader who has
+   asked for less transparency, gets an opaque card. */
+/* The conversation surface used --surface-alt, which is cool blue and read
+   lilac against this warm ground, the same mismatch the sign-in notice had.
+   It is also the largest panel on the page, so the cast was hard to miss. */
+.ai-chat .chat { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); }
+.ai-empty { border-style: solid; border-color: var(--line); background: transparent; }
+.ai-empty p { margin: 0 0 var(--s3); font-size: 14px; line-height: 1.65; }
+.ai-empty p:last-child { margin-bottom: 0; }
+.ai-empty i { font-style: normal; color: var(--ink); }
+
+.ai-sidebar, .ai-context {
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow), inset 0 1px 0 var(--glass-hi);
+  border-radius: var(--r-xl);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .ai-sidebar, .ai-context { background: var(--surface); border-color: var(--line); }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .ai-sidebar, .ai-context {
+    background: var(--surface);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    border-color: var(--line);
+  }
+}
+
 /* ── 4. Navigation ──────────────────────────────────────────────────── */
 .site-header {
   position: sticky;
@@ -1117,6 +1155,13 @@ th { font: 500 11px/1 var(--font-mono); letter-spacing: .1em; color: var(--muted
 .progress-ring b { font: 600 30px/1 var(--font-sans); letter-spacing: -.03em; }
 
 .empty-state { border: 1px dashed var(--line-strong); border-radius: var(--r-xl); padding: var(--s7); }
+/* An empty state announces itself at section level, not at page level. The
+   legacy `.page h2` rule would otherwise render this at up to 42px, the same
+   specificity trap that has already produced two visible defects here. */
+.page .empty-state h2, .empty-state h2 {
+  font-size: 17px; letter-spacing: -.01em; line-height: 1.3;
+  margin: 0 0 var(--s3); color: var(--ink);
+}
 .skeleton { border-radius: var(--r-xl); }
 
 .modal { background: rgba(11,18,32,.42); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
@@ -1481,6 +1526,19 @@ img, svg, video, canvas { max-width: 100%; }
    pill. Darkened to 5.47:1; the glyph keeps the lighter tone since it is
    decorative and sits at 10% opacity. */
 [data-unit="B"] { --unit-color: #0F766E; }
+
+/* The five unit colours above were each tuned to pass AA on white, and only on
+   white: there was no dark override, so in dark mode the same dark hues sat on
+   the #111827 card. Unit B's level pill measured 3.16:1 there, well under AA
+   for 10px text, and it was the badge carrying the unit's identity.
+   Lightened per hue until each clears 4.5:1 against that card, keeping the
+   hue so a unit still reads as itself in either theme. Measured, not judged:
+   A 4.65, B 5.11, C 4.80, D 4.67, E 4.70. */
+:root[data-theme="dark"] [data-unit="A"] { --unit-color: #4A7EEE; }
+:root[data-theme="dark"] [data-unit="B"] { --unit-color: #149A90; }
+:root[data-theme="dark"] [data-unit="C"] { --unit-color: #9B69F1; }
+:root[data-theme="dark"] [data-unit="D"] { --unit-color: #E84E0E; }
+:root[data-theme="dark"] [data-unit="E"] { --unit-color: #E14A8D; }
 
 /* ═══════════════════════════════════════════════════════════════════════
    Theme toggle · ⌘K palette · print
@@ -2848,7 +2906,17 @@ input, select, textarea, .stats, .facts {
   .back-link,
   .home-unit__head a,
   .completion-row a,
-  .module-card .open-module {
+  /* Measured undersized on a phone once the audit covered every route rather
+     than eight: the case cards at 27px, the toolkit jump links at 37px and the
+     revision plan items at 25px. Desktop is untouched, as everything in this
+     block is. */
+  .toolkit-jump a,
+  .plan-item__body a,
+  /* The case title is a heading-level link, so padding it out cannot break a
+     line the way an inline link inside a sentence would. That is why WCAG
+     2.5.5 exempts the latter and not this. */
+  .case-card h3 a,
+  .open-module {
     min-height: 44px;
     display: inline-flex;
     align-items: center;

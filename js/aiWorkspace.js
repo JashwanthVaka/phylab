@@ -129,7 +129,15 @@ export function bindAI() {
     root.querySelector('[data-ai-list]').innerHTML = list.map(row => conversationHTML(row, currentId)).join('') || '<p class="muted">No conversations found.</p>';
   };
   const scrollLatest = () => { messages.scrollTop = messages.scrollHeight; };
-  const renderMessages = () => { messages.innerHTML = history.length ? history.map(messageHTML).join('') : '<p><b>KIT:</b> Choose a teaching mode and ask about the physics you are studying.</p>'; modeInput.value = selectedMode; scrollLatest(); };
+  // The conversation area is the largest thing on the page and it opened
+  // blank, so the first impression of KIT was an empty panel. An empty state
+  // should say what the thing is for and give somewhere to start.
+  const emptyConversation = `<div class="empty-state ai-empty">
+      <h2>Nothing asked yet</h2>
+      <p>KIT explains physics in the way you pick above: a teacher walking through it, an examiner marking it, a solver showing each step.</p>
+      <p class="muted">Try: <i>why does a closed pipe have no even harmonics?</i> or <i>check my uncertainty on this result</i>. Open a lesson first and KIT will answer in that context.</p>
+    </div>`;
+  const renderMessages = () => { messages.innerHTML = history.length ? history.map(messageHTML).join('') : emptyConversation; modeInput.value = selectedMode; scrollLatest(); };
   const setPending = value => { send.disabled = value; input.disabled = value; imageInput.disabled = value; stop.hidden = !value; };
   const showError = text => { messages.insertAdjacentHTML('beforeend', `<article class="content-card" role="alert"><h3>KIT needs another try</h3><p>${escapeHTML(text)}</p><button type="button" data-ai-retry>Retry</button></article>`); scrollLatest(); };
   const getConversation = async id => {
@@ -219,5 +227,14 @@ export function bindAI() {
     const prompts = { simpler: 'Explain this more simply', steps: 'Show the working step by step', hint: 'Give a short hint without the final answer', quiz: 'Quiz me on this with one original IBDP Physics question' };
     void request({ text: `${prompts[action]}:\n${assistant.content}` });
   }, { signal: controller.signal });
+  // Paint the conversation area once on mount.
+  //
+  // renderMessages ran only after a conversation was opened, created, deleted
+  // or replied to, so a first visit to /ai showed the largest panel on the
+  // page as a blank rectangle. Nothing was broken and nothing was logged: the
+  // area simply had no initial state, and the empty state written for it was
+  // unreachable until you had already done something.
+  renderMessages();
+
   return () => { pendingRequest?.abort(); controller.abort(); };
 }

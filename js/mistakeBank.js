@@ -173,7 +173,7 @@ export function mistakesPage() {
       <p class="eyebrow">MISTAKE BANK</p>
       <h1>Every question you got wrong, in one place.</h1>
       <div class="empty-state">
-        <h3>Nothing here yet</h3>
+        <h2>Nothing here yet</h2>
         <p>Submit a practice quiz. Anything you answer incorrectly is collected here automatically and brought back at widening intervals until it sticks.</p>
       </div>
       <a class="button" href="/quiz" data-route>Start a practice quiz →</a>
