@@ -84,3 +84,52 @@ test.describe('getting to KIT', () => {
     expect(filter, 'the sticky rail should use the glass layer').toContain('blur');
   });
 });
+
+// ── One assistant behind both "Ask" entry points ─────────────────────
+// The primary nav said "Ask" and opened /ask, a cited-search page with no
+// AI model behind it, while "Ask KIT" opened the tutor. Two different
+// assistants behind the same verb is the drift this guards.
+test('the nav "Ask" and the "Ask KIT" button open the same assistant', async ({ page }) => {
+  await page.goto('/library', { waitUntil: 'domcontentloaded' });
+  await page.locator('#app h1').first().waitFor();
+
+  await page.locator('.nav-primary a', { hasText: /^Ask$/ }).click();
+  await expect(page).toHaveURL(/\/ai$/);
+  // Read the heading only once the assistant has drawn, not the page it left.
+  await page.locator('#aiInput').waitFor();
+  const fromNav = await page.locator('#app h1').first().textContent();
+
+  await page.goto('/library', { waitUntil: 'domcontentloaded' });
+  await page.locator('#app h1').first().waitFor();
+  await page.locator('#tutorButton').click();
+  await expect(page).toHaveURL(/\/ai$/);
+  await page.locator('#aiInput').waitFor();
+  await expect(page.locator('#app h1').first()).toHaveText(fromNav);
+});
+
+// ── When the tutor fails, the question is still answered ─────────────
+// The chat's only failure path used to throw the reply away and show an
+// error. KINETIQ's own cited answer needs no AI provider, so a student who
+// hits a provider outage still gets an answer, labelled for what it is.
+test('a failed tutor reply falls back to a cited answer from the lessons', async ({ page }) => {
+  await page.route('**/api/ai/providers', route => route.fulfill({
+    status: 200, contentType: 'application/json',
+    body: JSON.stringify({ active: 'groq', providers: [{ id: 'groq', label: 'Groq', configured: true }] }),
+  }));
+  await page.route('**/api/chat', route => route.fulfill({
+    status: 502, contentType: 'application/json', body: JSON.stringify({ error: 'Provider unavailable.' }),
+  }));
+
+  await page.goto('/ai', { waitUntil: 'domcontentloaded' });
+  const input = page.locator('#aiInput');
+  await input.waitFor();
+  await expect(input).toBeEnabled();
+  await input.fill('What is momentum?');
+  await page.locator('#aiSend').click();
+
+  const reply = page.locator('#aiMessages .ai-message.assistant').last();
+  await expect(reply).toBeVisible({ timeout: 15000 });
+  await expect(reply.locator('.ai-fallback-note')).toBeVisible();
+  await expect(reply).toContainText(/momentum/i);
+  await expect(reply.locator('.source-cards a').first()).toBeVisible();
+});

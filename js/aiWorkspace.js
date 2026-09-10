@@ -12,7 +12,7 @@ const SELECTED_KEY = 'phylab_ai_selected_conversation';
 const safe = value => markdownService.render(value || '');
 const date = value => new Date(value || Date.now()).toLocaleString();
 
-const messageHTML = message => `<article class="ai-message ${message.role}" data-message-id="${escapeHTML(message.id || '')}"><header><b>${message.role === 'user' ? 'You' : 'KIT'}:</b><time>${date(message.createdAt || message.created_at)}</time></header><div>${safe(message.content)}</div>${message.metadata?.imageAttached ? '<p class="tag">Image attached to this question</p>' : ''}${message.sources?.length ? `<div class="source-cards">${message.sources.map(source => `<a href="${escapeHTML(source.href)}" data-route>${escapeHTML(source.type)}: ${escapeHTML(source.title)}</a>`).join('')}</div>` : ''}${message.role === 'assistant' ? '<footer><button type="button" data-ai-action="copy">Copy</button><button type="button" data-ai-action="simpler">Explain simpler</button><button type="button" data-ai-action="steps">Show steps</button><button type="button" data-ai-action="hint">Give hint</button><button type="button" data-ai-action="quiz">Quiz me</button><button type="button" data-ai-action="bookmark">Save</button></footer>' : ''}</article>`;
+const messageHTML = message => `<article class="ai-message ${message.role}" data-message-id="${escapeHTML(message.id || '')}"><header><b>${message.role === 'user' ? 'You' : 'KIT'}:</b><time>${date(message.createdAt || message.created_at)}</time></header><div>${safe(message.content)}</div>${message.metadata?.fallback === 'lessons' ? '<p class="ai-fallback-note">The tutor could not reply just now, so this answer is quoted straight from KINETIQ\'s lessons.</p>' : ''}${message.metadata?.imageAttached ? '<p class="tag">Image attached to this question</p>' : ''}${message.sources?.length ? `<div class="source-cards">${message.sources.map(source => `<a href="${escapeHTML(source.href)}" data-route>${escapeHTML(source.type)}: ${escapeHTML(source.title)}</a>`).join('')}</div>` : ''}${message.role === 'assistant' ? '<footer><button type="button" data-ai-action="copy">Copy</button><button type="button" data-ai-action="simpler">Explain simpler</button><button type="button" data-ai-action="steps">Show steps</button><button type="button" data-ai-action="hint">Give hint</button><button type="button" data-ai-action="quiz">Quiz me</button><button type="button" data-ai-action="bookmark">Save</button></footer>' : ''}</article>`;
 const conversationHTML = (conversation, selected) => `<div class="ai-conversation-row"><button type="button" class="text-button ${conversation.id === selected ? 'active' : ''}" data-ai-open="${conversation.id}">${escapeHTML(conversation.title)}<small>${date(conversation.updatedAt || conversation.updated_at)}</small></button><button type="button" data-ai-rename="${conversation.id}" aria-label="Rename conversation">✎</button><button type="button" data-ai-delete="${conversation.id}" aria-label="Delete conversation">×</button></div>`;
 
 /**
@@ -54,6 +54,36 @@ function contextPanel() {
     ${recently}
     <p class="ai-context__note muted">KIT reads your place in the course so answers match what you are studying. Your conversations stay on this device unless you sign in.</p>
   </aside>`;
+}
+
+/**
+ * A cited answer from KINETIQ's own lessons, for when the tutor cannot reply.
+ *
+ * /api/answer needs no AI provider -- it retrieves and quotes the site's own
+ * content -- so it still works when a provider is down, rate-limited, or its
+ * key has expired. Returns null when it has nothing relevant, so a weak match
+ * is never passed off as an answer.
+ */
+async function citedAnswer(question) {
+  try {
+    const response = await fetch('/api/answer', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question }),
+    });
+    if (!response.ok) return null;
+    const answer = await response.json();
+    if (!answer?.answered || !answer.sections?.length) return null;
+    const body = answer.sections.slice(0, 3)
+      .map(section => `**${section.label}: ${section.title}**\n\n${section.body}`)
+      .join('\n\n');
+    return {
+      content: `${answer.headline ? `### ${answer.headline}\n\n` : ''}${body}`,
+      sources: (answer.sources || []).slice(0, 5).map(source => ({ type: 'Lesson', title: source.title, href: source.href })),
+    };
+  } catch {
+    return null;
+  }
 }
 
 /** Reports which server-side AI providers are usable so the page can explain itself before a learner types. */
@@ -192,7 +222,20 @@ export function bindAI() {
     });
     await pendingRequest.done;
     pendingRequest = null; setPending(false); imageData = null; imageInput.value = ''; imageStatus.textContent = 'No image selected.';
-    if (streamError || !assistant.content.trim()) { history = history.filter(item => item !== assistant); renderMessages(); showError(streamError || 'KIT returned an empty response. Please retry.'); return; }
+    if (streamError || !assistant.content.trim()) {
+      // The tutor failed, but the question can usually still be answered.
+      // KINETIQ's own cited answer needs no AI provider, so the chat falls
+      // back to it and says so, rather than leaving a student with an error
+      // and nothing to read. Only if that fails too is the error shown.
+      const cited = await citedAnswer(user.content);
+      if (cited) {
+        assistant.content = cited.content;
+        assistant.sources = cited.sources;
+        assistant.metadata = { fallback: 'lessons' };
+      } else {
+        history = history.filter(item => item !== assistant); renderMessages(); showError(streamError || 'KIT returned an empty response. Please retry.'); return;
+      }
+    }
     await persist(assistant); failedRequest = null; renderMessages(); await renderList(root.querySelector('[data-ai-search]').value);
   };
   const removeLastAssistant = async () => {
