@@ -270,14 +270,14 @@
 }
 .library-note{font:10px var(--font-mono);color:var(--muted);align-self:center;max-width:46ch;line-height:1.5}
 
-.toolkit .eyebrow,.toolkit h2,.toolkit h2 em{color:var(--ink-deep)}
+.toolkit .eyebrow,.toolkit h2,.toolkit h2 em{color:var(--ink)}
 
 /* The coral band pins dark ink, but its nested cards sit on the page background,
    so they take the normal theme ink back. */
 .toolkit .method-card,.toolkit .progress-card,.toolkit .method-card *,.toolkit .progress-card *{color:var(--ink)}
 .toolkit .method-card b{color:var(--accent)}
 /* Amber flashcard back keeps dark ink for every child, including .tag. */
-.flashcard-back,.flashcard-back *{color:var(--ink-deep)}
+.flashcard-back,.flashcard-back *{color:var(--ink)}
 /* .quiz-card footer button resets the background, which would strip .button styling. */
 .quiz-card footer button.button{background:var(--ink);color:var(--surface-raised);border:0}
 
@@ -845,13 +845,13 @@ body {
 .btn:active, .button:active, .outline:active { transform: scale(.97); }
 
 .btn-primary, .button {
-  background: var(--blue);
+  background: var(--fill);
   color: #fff;
   border-color: transparent;
   box-shadow: 0 1px 2px rgba(16,24,40,.12), inset 0 1px 0 rgba(255,255,255,.18);
 }
 .btn-primary:hover, .button:hover {
-  background: var(--blue-strong);
+  background: var(--fill-hover);
   box-shadow: 0 2px 8px rgba(37,99,235,.28), inset 0 1px 0 rgba(255,255,255,.18);
 }
 .button b { color: #fff; font-size: 15px; }
@@ -935,7 +935,7 @@ input, select, textarea { font-family: var(--font-sans); font-size: 15px; }
 }
 .chip:hover { color: var(--ink); transform: translateY(-1px); }
 .chip.is-active {
-  background: var(--blue);
+  background: var(--fill);
   border-color: transparent;
   color: #fff;
   font-weight: 600;
@@ -1148,7 +1148,7 @@ th { font: 500 11px/1 var(--font-mono); letter-spacing: .1em; color: var(--muted
 .toolkit { background: var(--pale); color: var(--ink); padding: var(--s9) var(--gutter); gap: var(--s6); }
 .toolkit h2 { font-size: clamp(34px, 4.4vw, 58px); }
 .method-card { box-shadow: 0 1px 2px rgba(16,24,40,.05); border: 1px solid var(--line); }
-.method-card b { background: var(--blue); color: #fff; border-radius: var(--r-xs); padding: 3px 7px; font: 500 10px/1 var(--font-mono); }
+.method-card b { background: var(--fill); color: #fff; border-radius: var(--r-xs); padding: 3px 7px; font: 500 10px/1 var(--font-mono); }
 .method-card li { font-family: var(--font-sans); font-size: 14.5px; border-bottom: 1px solid var(--line); }
 
 .progress-ring { border: 10px solid var(--track); }
@@ -1716,7 +1716,7 @@ body > footer a:hover { color: var(--blue); }
 .toolkit-method__index,
 .case-question__n,
 .flashcard-face .review-actions button {
-  background: var(--blue);
+  background: var(--fill);
   color: #fff;
 }
 
@@ -1728,7 +1728,7 @@ body > footer a:hover { color: var(--blue); }
 
 /* The hero nucleus is a diagram element, not a surface — keep it legible
    but move it off navy too. */
-.nucleus { background: var(--blue); color: #fff; }
+.nucleus { background: var(--fill); color: #fff; }
 
 /* Dark mode is opt-in and deliberately keeps its own dark surfaces; these
    light overrides must not leak into it. */
@@ -1862,9 +1862,9 @@ body > footer nav a:hover { color: var(--blue); text-decoration: underline; }
 .graph-toolbar button:hover { color: var(--ink); border-color: rgba(16,24,40,.26); }
 .graph-toolbar button:active { transform: scale(.94); }
 .graph-toolbar button[data-graph-action="play"] {
-  background: var(--blue); border-color: transparent; color: #fff; font-weight: 600;
+  background: var(--fill); border-color: transparent; color: #fff; font-weight: 600;
 }
-.graph-toolbar button[data-graph-action="play"]:hover { background: var(--blue-strong); }
+.graph-toolbar button[data-graph-action="play"]:hover { background: var(--fill-hover); }
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .graph-toolbar button { background: var(--surface); }
 }
@@ -2822,11 +2822,11 @@ input, select, textarea, .stats, .facts {
 }
 
 .oauth-button[data-provider="google"] {
-  background: var(--blue); color: #fff; border-color: var(--blue);
+  background: var(--fill); color: #fff; border-color: var(--blue);
   box-shadow: 0 1px 2px rgba(16,24,40,.12), inset 0 1px 0 rgba(255,255,255,.18);
 }
 .oauth-button[data-provider="google"]:hover {
-  background: var(--blue-strong); border-color: var(--blue-strong);
+  background: var(--fill-hover); border-color: var(--blue-strong);
   box-shadow: 0 4px 14px rgba(194, 65, 12, .28), inset 0 1px 0 rgba(255,255,255,.18);
 }
 /* The dark theme lightens the primary to #F97D4A so it reads on a dark
@@ -2932,4 +2932,65 @@ input, select, textarea, .stats, .facts {
   input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="file"]) {
     min-height: 44px;
   }
+}
+
+/* ── Fills, and the dark palette ─────────────────────────────────────
+   --blue was doing two jobs: the link colour and the button fill. In light
+   they are the same rust. In dark they cannot be: a link needs a light
+   orange to read on a dark page, and white text on that light orange
+   measured 2.61:1 on every primary button, on nineteen routes. --fill is
+   the colour things are painted with when they carry white text.
+
+   The dark theme was also navy -- #0A0F1A and #111827 -- spread over
+   three stacked blocks. Dark blue is a text colour on this site, never a
+   surface, so the surfaces below are warm stone that sits with the rust.
+   This block is last on purpose: it is the one dark palette that wins. */
+:root {
+  --fill:       var(--blue);
+  --fill-hover: var(--blue-strong);
+}
+
+:root[data-theme="dark"] {
+  --bg:             #12100E;
+  --bg-alt:         #171412;
+  --surface:        #1C1917;
+  --surface-alt:    #231F1C;
+  --surface-raised: #292524;
+  --surface-ok:     #11231F;
+  --skeleton-a:     #211D1A;
+  --skeleton-b:     #2C2723;
+  --track:          #36302B;
+
+  --ink:       #F5F5F4;
+  --ink-deep:  #0C0A09;
+  --ink-soft:  #D6D3D1;
+  --muted:     #A8A29E;
+  --muted-2:   #BCB6B0;
+  --line:        rgba(255, 245, 235, .10);
+  --line-strong: rgba(255, 245, 235, .18);
+
+  /* White on #C2410C is 5.17:1; on the hover rust it is 7.4:1. */
+  --fill:       #C2410C;
+  --fill-hover: #9A3412;
+
+  --teal:      #2DD4BF;
+  --teal-deep: #14B8A6;
+  --teal-soft: #5EEAD4;
+  --accent-2:  #F97D4A;
+
+  --header-bg:   rgba(28, 25, 23, .82);
+  --overlay-bg:  rgba(18, 16, 14, .84);
+  --modal-scrim: rgba(8, 6, 5, .72);
+  --grid-line:   rgba(255, 245, 235, .05);
+  --ring-line:   rgba(249, 125, 74, .45);
+  --shadow-ink:  #000;
+  --footer-ink:  #A8A29E;
+
+  /* Glass takes its tint from the page, so it has to be warm as well:
+     slate-900 glass over a stone page reads as a blue film. */
+  --glass-bg:        rgba(28, 25, 23, .52);
+  --glass-bg-strong: rgba(28, 25, 23, .74);
+  --glass-border:    rgba(255, 245, 235, .10);
+  --glass-ring:      rgba(255, 245, 235, .12);
+  --glass-hi:        rgba(255, 245, 235, .06);
 }
