@@ -65,4 +65,22 @@ test.describe('getting to KIT', () => {
     await expect(page.locator('[role="dialog"]')).toHaveCount(0);
     await expect(page.locator('#modalRoot')).toBeEmpty();
   });
+
+  test('the conversation area says what KIT is for before you ask anything', async ({ page }) => {
+    // renderMessages ran only after a conversation was opened, created,
+    // deleted or replied to, so a first visit showed the largest panel on the
+    // page as a blank rectangle, and the empty state written for it was
+    // unreachable until you had already done something.
+    await page.goto('/ai', { waitUntil: 'domcontentloaded' });
+    await settle(page);
+    await expect(page.locator('#aiMessages .ai-empty')).toBeVisible();
+    await expect(page.locator('#aiMessages')).not.toBeEmpty();
+  });
+
+  test('the sticky rails read as floating surfaces, and fall back when asked', async ({ page }) => {
+    await page.goto('/ai', { waitUntil: 'domcontentloaded' });
+    await settle(page);
+    const filter = await page.locator('.ai-sidebar').evaluate(el => getComputedStyle(el).backdropFilter);
+    expect(filter, 'the sticky rail should use the glass layer').toContain('blur');
+  });
 });

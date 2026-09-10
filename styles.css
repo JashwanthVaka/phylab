@@ -578,6 +578,44 @@ body {
   }
 }
 
+/* The two rails on the AI page are sticky: they hold their position while the
+   conversation scrolls underneath them, which is precisely the condition the
+   glass layer exists for. They were flat cards, so content slid behind an
+   opaque panel with nothing to say it was floating. Everything else on a page
+   stays solid on purpose. Glass is for surfaces that sit above other content,
+   not a finish to spread over a study tool.
+
+   The fallbacks match the primitive: no blur support, or a reader who has
+   asked for less transparency, gets an opaque card. */
+/* The conversation surface used --surface-alt, which is cool blue and read
+   lilac against this warm ground, the same mismatch the sign-in notice had.
+   It is also the largest panel on the page, so the cast was hard to miss. */
+.ai-chat .chat { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); }
+.ai-empty { border-style: solid; border-color: var(--line); background: transparent; }
+.ai-empty p { margin: 0 0 var(--s3); font-size: 14px; line-height: 1.65; }
+.ai-empty p:last-child { margin-bottom: 0; }
+.ai-empty i { font-style: normal; color: var(--ink); }
+
+.ai-sidebar, .ai-context {
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow), inset 0 1px 0 var(--glass-hi);
+  border-radius: var(--r-xl);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .ai-sidebar, .ai-context { background: var(--surface); border-color: var(--line); }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .ai-sidebar, .ai-context {
+    background: var(--surface);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    border-color: var(--line);
+  }
+}
+
 /* ── 4. Navigation ──────────────────────────────────────────────────── */
 .site-header {
   position: sticky;
