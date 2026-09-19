@@ -345,8 +345,15 @@ async function boot() {
       // an ordinary page load that happens to restore a session.
       import("./js/services/authService.js").then(({ authService }) => {
         if (!authService.enabled()) return;
+        let authRedirectHandled = false;
         authService.onChange(async (event, session) => {
-          if (event !== "SIGNED_IN" || !session?.user) return;
+          const { shouldCompleteOAuth } = await import("./js/authFlow.js");
+          if (authRedirectHandled || !session?.user || !shouldCompleteOAuth(event)) return;
+          // A provider may announce both INITIAL_SESSION and SIGNED_IN while
+          // it exchanges the OAuth code. One route and one guest migration is
+          // enough; doing it twice can consume the return path and send a
+          // learner somewhere they did not choose.
+          authRedirectHandled = true;
           // Carry anything studied as a guest into the account before going
           // anywhere. migrateLocal was written but never called from the app,
           // so until now a student who worked before signing in arrived at an

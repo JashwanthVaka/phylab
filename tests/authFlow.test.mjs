@@ -15,7 +15,7 @@ globalThis.sessionStorage = {
 };
 globalThis.location = { pathname: '/', search: '', origin: 'https://getkinetiq.vercel.app' };
 
-const { rememberReturnPath, destinationFor, oauthRedirectTarget } =
+const { rememberReturnPath, destinationFor, oauthRedirectTarget, hasPendingReturnPath, shouldCompleteOAuth } =
   await import('../js/authFlow.js');
 
 const minutesAgo = m => new Date(Date.now() - m * 60000).toISOString();
@@ -75,6 +75,17 @@ assert.equal(destinationFor(returning), '/quiz?topic=kinematics',
 // ── One redirect URL to allow-list ───────────────────────────────────
 assert.equal(oauthRedirectTarget(), 'https://getkinetiq.vercel.app/',
   'OAuth should return to the site root, so only one URL needs allow-listing');
+
+// ── OAuth returns can arrive as INITIAL_SESSION ──────────────────────
+store.clear();
+rememberReturnPath('/lesson/kinematics');
+assert.equal(hasPendingReturnPath(), true, 'a just-started provider sign-in leaves a return marker');
+assert.equal(shouldCompleteOAuth('INITIAL_SESSION'), true,
+  'an OAuth return reported as INITIAL_SESSION must still complete');
+assert.equal(shouldCompleteOAuth('SIGNED_IN'), true, 'a normal provider return still completes');
+store.clear();
+assert.equal(shouldCompleteOAuth('INITIAL_SESSION'), false,
+  'an ordinary refresh with a remembered session must not navigate away');
 
 // ── Missing or malformed users do not throw ──────────────────────────
 store.clear();

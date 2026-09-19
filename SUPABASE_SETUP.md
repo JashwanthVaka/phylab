@@ -10,10 +10,10 @@ who visits is not something a public site should do, so it was removed.
 
 ## Steps
 
-1. Create a Supabase project. Enable **Google** under Authentication → Providers.
-   Apple is optional and needs a paid Apple Developer account; until it is
-   enabled, its button is not shown. Email auth is not used: KINETIQ signs
-   people in through a provider and holds no password of its own.
+1. Create a Supabase project. KINETIQ uses provider sign-in only and never
+   stores a password. Configure Google and Apple under **Authentication →
+   Providers**. A provider button is shown to students only after Supabase
+   confirms that provider is enabled.
 2. Run **both** migrations in the SQL editor, in filename order:
    - `supabase/migrations/20260808_phylab_foundation.sql` creates the 18 tables,
      the row-level security policies, and the trigger that gives every new
@@ -49,7 +49,32 @@ who visits is not something a public site should do, so it was removed.
    addresses on that list. Leave it unset and a student who signs in is sent to
    `localhost` instead.
 
-4. Set `SUPABASE_URL` and `SUPABASE_ANON_KEY` in your deployment environment,
+4. Configure Apple in the Apple Developer portal and then in Supabase:
+
+   - Apple web sign-in requires paid Apple Developer Program membership. Create
+     an App ID with Sign in with Apple enabled, then a linked **Services ID**
+     for the website.
+   - On that Services ID, set the domain to your Supabase project host and set
+     the return URL to your Supabase callback, for example:
+
+     ```
+     YOURPROJECT.supabase.co
+     https://YOURPROJECT.supabase.co/auth/v1/callback
+     ```
+
+   - Create a Sign in with Apple key, keep the downloaded `.p8` file private,
+     and use Apple’s client-secret generator from the Supabase Apple provider
+     screen. Put the resulting Services ID and generated secret in
+     **Authentication → Providers → Apple**.
+   - Apple web client secrets expire every six months. Store the `.p8` key in
+     a password manager or secret vault, set a six-month reminder to generate
+     a replacement, and never put the `.p8` file or generated secret in this
+     repository, `public-env.js`, or Vercel’s browser-exposed variables.
+
+   The current official references are [Supabase’s Apple guide](https://supabase.com/docs/guides/auth/social-login/auth-apple)
+   and [redirect URL guide](https://supabase.com/docs/guides/auth/redirect-urls).
+
+5. Set `SUPABASE_URL` and `SUPABASE_ANON_KEY` in your deployment environment,
    then **redeploy**: Vercel applies environment variables to new deployments
    only, so the running site will not see them until one is made. If the API
    page shows new-style keys and a **Legacy API keys** tab, use the legacy
@@ -57,10 +82,11 @@ who visits is not something a public site should do, so it was removed.
    These two reach the browser and are designed to: the anon key grants exactly
    what row-level security allows and nothing more. Never expose a service-role
    key this way.
-5. For local static development, copy the URL and anon key into `public-env.js`
-   on your machine. Do not commit populated values. For production, generate
-   that public config during deployment.
-6. Optional, for the admin dashboard only: set `SUPABASE_SERVICE_ROLE_KEY` and
+6. For local static development, copy the URL and anon key into `public-env.js`
+   on your machine. Do not commit populated values. Production reads these
+   two browser-safe values from `/api/config`, backed by Vercel environment
+   variables, so `public-env.js` stays empty in the repository.
+7. Optional, for the admin dashboard only: set `SUPABASE_SERVICE_ROLE_KEY` and
    `ADMIN_EMAILS` in the server environment. The service-role key stays on the
    server and is never copied into `public-env.js`.
 

@@ -27,15 +27,42 @@ export function rememberReturnPath(path = location.pathname + location.search) {
   }
 }
 
+function safeReturnPath(value) {
+  // A return path is navigation data, not a URL. Keeping this check in one
+  // place makes the check used before a redirect match the check used when a
+  // redirect is consumed.
+  return value && value.startsWith('/') && !value.startsWith('//') ? value : null;
+}
+
+/** True only while this tab is returning from an OAuth hand-off. */
+export function hasPendingReturnPath() {
+  try {
+    return Boolean(safeReturnPath(sessionStorage.getItem(RETURN_KEY)));
+  } catch {
+    return false;
+  }
+}
+
 function takeReturnPath() {
   try {
     const value = sessionStorage.getItem(RETURN_KEY);
     sessionStorage.removeItem(RETURN_KEY);
     // Only ever a same-site path, never an absolute URL: a stored value that
     // began with a scheme or "//" would be an open redirect.
-    if (value && value.startsWith('/') && !value.startsWith('//')) return value;
+    return safeReturnPath(value);
   } catch { /* Nothing stored. */ }
   return null;
+}
+
+/**
+ * Supabase normally announces an OAuth return as SIGNED_IN. Some browsers
+ * hydrate the returned session before the listener is attached, and then
+ * announce it as INITIAL_SESSION instead. The stored return marker is the
+ * distinction between that real OAuth return and an ordinary page refresh
+ * with a remembered session.
+ */
+export function shouldCompleteOAuth(event) {
+  return event === 'SIGNED_IN' || (event === 'INITIAL_SESSION' && hasPendingReturnPath());
 }
 
 /**

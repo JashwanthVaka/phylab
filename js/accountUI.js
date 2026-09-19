@@ -33,13 +33,13 @@ export const onboardingPage = () => `<section class="page">
   <h1>Set up your learning plan.</h1>
   <form id="onboardingForm" class="account-form">
     ${field('display_name', 'Display name')}
-    <label>Role<select name="role"><option value="student">Student</option><option value="teacher">Teacher</option></select></label>
-    <label>Level<select name="preferred_level"><option>SL</option><option>HL</option></select></label>
-    ${field('target_score', 'Target IB score', 'number')}
-    ${field('exam_date', 'Exam date', 'date')}
-    ${field('weekly_hours', 'Study hours per week', 'number')}
-    <label>Strong topics<input name="strong_topics"></label>
-    <label>Weak topics<input name="weak_topics"></label>
+    <label>Course level<select name="preferred_level"><option>SL</option><option>HL</option><option>SL and HL</option></select></label>
+    <label>Target IB score <span class="muted">(optional)</span><input name="target_score" type="number" min="1" max="7" inputmode="numeric"></label>
+    <label>Exam date <span class="muted">(optional)</span><input name="exam_date" type="date"></label>
+    <label>Study hours per week <span class="muted">(optional)</span><input name="weekly_hours" type="number" min="0" max="60" step="0.5" inputmode="decimal"></label>
+    <label>Topics you feel confident in <span class="muted">(optional)</span><input name="strong_topics" autocomplete="off"></label>
+    <label>Topics to focus on <span class="muted">(optional)</span><input name="weak_topics" autocomplete="off"></label>
+    <p id="onboardingStatus" class="account-status" role="status"></p>
     <button class="button">Finish setup</button>
   </form>
 </section>`;
@@ -47,18 +47,47 @@ export const onboardingPage = () => `<section class="page">
 export function bindAccount(router) {
   document.querySelector('#profileForm')?.addEventListener('submit', async event => {
     event.preventDefault();
-    await profileService.save(Object.fromEntries(new FormData(event.target)));
+    const status = document.querySelector('#profileStatus');
+    try {
+      await profileService.save(Object.fromEntries(new FormData(event.target)));
+      if (status) { status.textContent = 'Settings saved.'; status.dataset.tone = 'ok'; }
+    } catch (error) {
+      if (status) { status.textContent = error.message; status.dataset.tone = 'bad'; }
+    }
   });
 
   document.querySelector('#onboardingForm')?.addEventListener('submit', async event => {
     event.preventDefault();
     const values = Object.fromEntries(new FormData(event.target));
-    await profileService.save({
-      ...values,
-      onboarding_completed: true,
-      study_goals: [values.target_score, values.exam_date, values.weekly_hours]
-    });
-    router.go('/progress');
+    const status = document.querySelector('#onboardingStatus');
+    const submit = event.currentTarget.querySelector('button[type="submit"]');
+    submit.disabled = true;
+    try {
+      const goals = [
+        values.target_score && `Target score: ${values.target_score}`,
+        values.exam_date && `Exam date: ${values.exam_date}`,
+        values.weekly_hours && `Study time: ${values.weekly_hours} hours/week`
+      ].filter(Boolean);
+      await profileService.save({
+        display_name: values.display_name,
+        preferred_level: values.preferred_level,
+        study_goals: goals,
+        onboarding_completed: true
+      });
+      await profileService.settings({
+        study_plan: {
+          target_score: values.target_score || null,
+          exam_date: values.exam_date || null,
+          weekly_hours: values.weekly_hours || null,
+          strong_topics: values.strong_topics || '',
+          weak_topics: values.weak_topics || ''
+        }
+      });
+      router.go('/progress');
+    } catch (error) {
+      if (status) { status.textContent = error.message; status.dataset.tone = 'bad'; }
+      submit.disabled = false;
+    }
   });
 
   document.querySelector('[data-logout]')?.addEventListener('click', async () => {
