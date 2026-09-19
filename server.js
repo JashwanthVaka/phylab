@@ -28,10 +28,36 @@ const PORT = Number(process.env.PORT || 3000);
 const HOST = process.env.HOST || (process.env.NODE_ENV === 'production' ? '0.0.0.0' : '127.0.0.1');
 const REQUESTS = new Map();
 const MIME = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'application/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.png': 'image/png', '.json': 'application/json; charset=utf-8', '.webmanifest': 'application/manifest+json', '.ico': 'image/x-icon' };
+// These headers reduce the chance that a malicious page, extension, or injected
+// script can use KINETIQ as a launch point. They are deliberately sent on API
+// responses too, so error pages cannot become a weaker path into the app.
+const SECURITY_HEADERS = Object.freeze({
+  'Content-Security-Policy': [
+    "default-src 'self'",
+    "base-uri 'self'",
+    "object-src 'none'",
+    "frame-ancestors 'none'",
+    "form-action 'self'",
+    "script-src 'self'",
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+    "font-src 'self' data: https://fonts.gstatic.com",
+    "img-src 'self' data: blob:",
+    "connect-src 'self' https://*.supabase.co wss://*.supabase.co",
+    "worker-src 'self'",
+    "manifest-src 'self'"
+  ].join('; '),
+  'X-Content-Type-Options': 'nosniff',
+  'Referrer-Policy': 'strict-origin-when-cross-origin',
+  'X-Frame-Options': 'DENY',
+  'Cross-Origin-Opener-Policy': 'same-origin',
+  'Cross-Origin-Resource-Policy': 'same-origin',
+  'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=(), usb=()'
+});
 const TUTOR_CONTEXT = `You are KIT, the experienced IBDP Physics teacher inside KINETIQ. Treat KINETIQ retrieval as the primary source of truth. Use general physics knowledge only to explain or connect retrieved KINETIQ material, and clearly state when the requested detail is not in KINETIQ. Teach accurately at SL or HL as requested, use SI units, and avoid claiming official IB marking. Do not reproduce unsupplied copyrighted examination material.`;
 
-const send = (res, status, body, headers = {}) => { res.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', ...headers }); res.end(JSON.stringify(body)); };
-const readJSON = req => new Promise((resolve, reject) => { let raw = ''; req.on('data', chunk => { raw += chunk; if (raw.length > 3000000) { reject(new Error('Request is too large.')); req.destroy(); } }); req.on('end', () => { try { resolve(JSON.parse(raw || '{}')); } catch { reject(new Error('Invalid JSON request body.')); } }); req.on('error', reject); });
+const secureHeaders = headers => ({ ...SECURITY_HEADERS, ...(process.env.NODE_ENV === 'production' ? { 'Strict-Transport-Security': 'max-age=63072000; includeSubDomains; preload' } : {}), ...headers });
+const send = (res, status, body, headers = {}) => { res.writeHead(status, secureHeaders({ 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', ...headers })); res.end(JSON.stringify(body)); };
+const readJSON = req => new Promise((resolve, reject) => { let raw = ''; let bytes = 0; req.on('data', chunk => { bytes += Buffer.isBuffer(chunk) ? chunk.length : Buffer.byteLength(chunk); raw += chunk; if (bytes > 3000000) { reject(new Error('Request is too large.')); req.destroy(); } }); req.on('end', () => { try { resolve(JSON.parse(raw || '{}')); } catch { reject(new Error('Invalid JSON request body.')); } }); req.on('error', reject); });
 const slugify = value => String(value || '').trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
 function rateLimited(req) { const key = req.socket.remoteAddress || 'unknown'; const now = Date.now(); const list = (REQUESTS.get(key) || []).filter(time => now - time < 600000); list.push(now); REQUESTS.set(key, list); return list.length > 30; }
@@ -93,7 +119,21 @@ const publicRetrieval = createRetrievalEngine(() => contentIndex({ includeLesson
 const MODES = new Set(['Physics Teacher', 'Numerical Solver', 'Formula Explainer', 'Derivation Tutor', 'IB Examiner', 'Revision Coach', 'Lab Assistant', 'Graph Analyzer', 'TOK Discussion', 'IA Mentor', 'Question Generator', 'Challenge Me', 'Concept Check', 'Explain', 'Teach', 'Step-by-step', 'Hint', 'Revision', 'Socratic Tutor', 'Quick Answer']);
 const cleanText = (value, maximum = 6000) => typeof value === 'string' ? value.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, '').trim().slice(0, maximum) : '';
 const cleanContext = context => context && typeof context === 'object' ? Object.fromEntries(Object.entries(context).slice(0, 20).map(([key, value]) => [cleanText(key, 50), cleanText(typeof value === 'string' ? value : JSON.stringify(value), 500)])) : {};
-const validImage = value => typeof value === 'string' && /^data:image\/(?:png|jpeg|webp|gif);base64,[a-z0-9+/=]+$/i.test(value) && value.length <= 2500000;
+function validImage(value) {
+  const match = typeof value === 'string' && value.match(/^data:(image\/(png|jpeg|webp|gif));base64,([a-z0-9+/=]+)$/i);
+  if (!match) return false;
+  const [, , subtype, payload] = match;
+  if (payload.length === 0 || payload.length % 4 !== 0 || payload.length > 2500000) return false;
+  let bytes;
+  try {
+    bytes = Buffer.from(payload, 'base64');
+    if (bytes.length > 1800000 || bytes.toString('base64') !== payload) return false;
+  } catch { return false; }
+  if (subtype.toLowerCase() === 'png') return bytes.subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]));
+  if (subtype.toLowerCase() === 'jpeg') return bytes.length >= 3 && bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff;
+  if (subtype.toLowerCase() === 'gif') return bytes.subarray(0, 6).toString('ascii') === 'GIF87a' || bytes.subarray(0, 6).toString('ascii') === 'GIF89a';
+  return bytes.subarray(0, 4).toString('ascii') === 'RIFF' && bytes.subarray(8, 12).toString('ascii') === 'WEBP';
+}
 const sse = (res, event, data) => res.write(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
 
 function tutorInstructions({ mode, context, sources }) {
@@ -202,16 +242,17 @@ async function tutor(req, res) {
   let providerId;
   try {
     const body = await readJSON(req);
+    const message = cleanText(body.message);
+    if (!message) return send(res, 400, { error: 'Please write a question for KIT.' });
+    if (body.image && !validImage(body.image)) return send(res, 400, { error: 'Use a genuine PNG, JPEG, WebP, or GIF image smaller than 1.8 MB.' });
     providerId = resolveProvider(body.provider);
     if (!providerId) return send(res, 503, { error: 'KIT is ready, but no AI key has been configured on the server. Add GROQ_API_KEY, OPENAI_API_KEY, ANTHROPIC_API_KEY, or GEMINI_API_KEY to your environment.' });
     const provider = PROVIDERS[providerId];
-    const message = cleanText(body.message);
-    if (!message) return send(res, 400, { error: 'Please write a question for KIT.' });
     const mode = MODES.has(body.mode) ? body.mode : 'Physics Teacher';
     const context = cleanContext(body.context);
     const sources = await retrievalEngine.retrieve(message, context, 8);
     const history = Array.isArray(body.history) ? body.history.slice(-8).filter(item => item && ['user', 'assistant'].includes(item.role)).map(item => ({ role: item.role, content: cleanText(item.content, 3500) })).filter(item => item.content) : [];
-    const image = validImage(body.image) ? body.image : null;
+    const image = body.image || null;
     const model = process.env[provider.modelKey] || provider.defaultModel;
     const request = provider.build({ model, instructions: tutorInstructions({ mode, context, sources }), history, message, image });
     const controller = new AbortController();
@@ -233,7 +274,7 @@ async function tutor(req, res) {
       }
       return send(res, response.status, { error: `${provider.label}: ${detail || 'KIT could not complete that request.'}` });
     }
-    res.writeHead(200, { 'Content-Type': 'text/event-stream; charset=utf-8', 'Cache-Control': 'no-cache, no-transform', Connection: 'keep-alive', 'X-Accel-Buffering': 'no' });
+    res.writeHead(200, secureHeaders({ 'Content-Type': 'text/event-stream; charset=utf-8', 'Cache-Control': 'no-cache, no-transform', Connection: 'keep-alive', 'X-Accel-Buffering': 'no' }));
     sse(res, 'sources', { sources: sources.map(({ type, title, href, metadata }) => ({ type, title, href, metadata })) });
     sse(res, 'meta', { provider: providerId, providerLabel: provider.label, model });
     await streamProvider(response, res, provider.parse);
@@ -260,7 +301,7 @@ async function serveAsset(res, pathname, headOnly) {
   if (!/\.[a-z0-9]+$/i.test(target) && !target.startsWith('api/')) target = 'index.html';
   if (!(/^(index\.html|styles\.css|app\.js|public-env\.js|sw\.js|manifest\.json|js\/[a-zA-Z0-9_\/-]+\.js|icons\/[a-zA-Z0-9_-]+\.png)$/.test(target))) return send(res, 404, { error: 'Not found' });
   const file = path.resolve(ROOT, target); if (!file.startsWith(`${ROOT}${path.sep}`)) return send(res, 403, { error: 'Forbidden' });
-  try { const data = await fs.readFile(file); res.writeHead(200, { 'Content-Type': MIME[path.extname(file)] || 'application/octet-stream', 'Cache-Control': cacheControlFor(target), 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'strict-origin-when-cross-origin', 'X-Frame-Options': 'DENY' }); if (!headOnly) res.end(data); else res.end(); } catch { send(res, 404, { error: 'Not found' }); }
+  try { const data = await fs.readFile(file); res.writeHead(200, secureHeaders({ 'Content-Type': MIME[path.extname(file)] || 'application/octet-stream', 'Cache-Control': cacheControlFor(target) })); if (!headOnly) res.end(data); else res.end(); } catch { send(res, 404, { error: 'Not found' }); }
 }
 async function handleRequest(req, res) {
   const url = new URL(req.url, `http://${req.headers.host || 'localhost'}`); const pathname = decodeURIComponent(url.pathname);
