@@ -49,12 +49,17 @@ export function getSupabaseSettings() {
 
 export async function getSupabase() {
   if (clientPromise) return clientPromise;
-  const settings = await getSupabaseSettings();
-  if (!settings) return null;
-  clientPromise = import('https://esm.sh/@supabase/supabase-js@2')
-    .then(({ createClient }) => createClient(settings.url, settings.anonKey, {
+  // Assign the promise before awaiting settings. Several account-aware views
+  // can initialise together; without this guard they each passed the empty
+  // check and created a GoTrue client with the same browser storage key.
+  clientPromise = (async () => {
+    const settings = await getSupabaseSettings();
+    if (!settings) return null;
+    const { createClient } = await import('https://esm.sh/@supabase/supabase-js@2');
+    return createClient(settings.url, settings.anonKey, {
       auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
-    }));
+    });
+  })();
   return clientPromise;
 }
 
