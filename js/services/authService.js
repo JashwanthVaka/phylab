@@ -56,6 +56,15 @@ export const authService = {
   signInWithGoogle() { return this.signInWithProvider('google'); },
   signInWithApple() { return this.signInWithProvider('apple'); },
 
+  /** Sends a passwordless sign-in link. The learner's inbox proves ownership. */
+  async signInWithEmailLink(email) {
+    const supabase = await client();
+    return supabase.auth.signInWithOtp({
+      email: String(email || '').trim(),
+      options: { emailRedirectTo: `${location.origin}/` }
+    });
+  },
+
   async signOut() {
     const supabase = await getSupabase();
     return supabase?.auth.signOut();

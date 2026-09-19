@@ -38,7 +38,9 @@ const SECURITY_HEADERS = Object.freeze({
     "object-src 'none'",
     "frame-ancestors 'none'",
     "form-action 'self'",
-    "script-src 'self'",
+    // Supabase is loaded only after a learner starts an account action. Its
+    // trusted module CDN is the sole third-party script origin permitted.
+    "script-src 'self' https://esm.sh",
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "font-src 'self' data: https://fonts.gstatic.com",
     "img-src 'self' data: blob:",

@@ -106,7 +106,8 @@ const button = (provider, available) => `
  * reads as the place you sign in.
  */
 export async function authPage() {
-  const providers = await enabledProviders();
+  const [providers, settings] = await Promise.all([enabledProviders(), getSupabaseSettings()]);
+  const connected = Boolean(settings);
   const available = providers.length > 0;
   const shown = available ? providers : PROVIDERS;
 
@@ -124,7 +125,16 @@ export async function authPage() {
         ? `<p id="authError" class="auth-error" role="alert"></p>
            <p class="auth-fineprint">Signing in for the first time creates your account. There is no separate registration step.</p>
            <p class="auth-guest">Not ready to sign in? <a href="/library" data-route>Carry on studying as a guest.</a> Nothing is locked behind an account.</p>`
-        : `<p id="authUnavailable" class="auth-unavailable-note">
+        : connected
+          ? `<p id="authUnavailable" class="auth-unavailable-note"><b>Google and Apple are not switched on yet.</b> Use an email link for a secure account now. It works with Gmail, Outlook, iCloud, or any inbox you control.</p>
+             <form id="emailLinkForm" class="account-form auth-email-link">
+               <label for="authEmail">Email address<input id="authEmail" type="email" name="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required></label>
+               <button class="button" type="submit">Email me a sign-in link</button>
+             </form>
+             <p id="authError" class="auth-error" role="alert"></p>
+             <p class="auth-fineprint">The link confirms that you own this inbox. KINETIQ never stores a password.</p>
+             <p class="auth-guest">Not ready to sign in? <a href="/library" data-route>Carry on studying as a guest.</a> Nothing is locked behind an account.</p>`
+          : `<p id="authUnavailable" class="auth-unavailable-note">
              <b>Not switched on yet.</b> This site has no account service connected, so there is nothing for these buttons to sign you in to. Everything else works, and your progress is saved in this browser.
            </p>
            ${localProfileSection()}`}
@@ -167,10 +177,31 @@ export function bindAuth(router) {
 
   // Present only while sign-in is unavailable; binding it here keeps one
   // binder for the page rather than two that have to agree on which is live.
-  const releaseProfile = bindLocalProfile(router);
+  const releaseProfile = page.dataset.authAvailable === 'true' || page.querySelector('#emailLinkForm') ? undefined : bindLocalProfile(router);
 
   // With no provider switched on the buttons are drawn disabled, purely so the
   // page still reads as a sign-in. There is nothing to bind them to.
+  const emailForm = page.querySelector('#emailLinkForm');
+  if (emailForm) {
+    emailForm.addEventListener('submit', async event => {
+      event.preventDefault();
+      const submit = emailForm.querySelector('button[type="submit"]');
+      const email = new FormData(emailForm).get('email');
+      if (error) error.textContent = '';
+      submit.disabled = true;
+      try {
+        rememberReturnPath('/progress');
+        const result = await authService.signInWithEmailLink(email);
+        if (result?.error) throw result.error;
+        if (error) error.textContent = 'Check your inbox for a secure KINETIQ sign-in link.';
+      } catch (problem) {
+        if (error) error.textContent = explain(problem);
+      } finally {
+        submit.disabled = false;
+      }
+    }, { signal: controller.signal });
+  }
+
   if (page.dataset.authAvailable !== 'true') {
     return () => { controller.abort(); releaseProfile?.(); };
   }
