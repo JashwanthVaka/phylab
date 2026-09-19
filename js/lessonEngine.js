@@ -66,7 +66,14 @@ function connectedWork(lesson, index) {
   }
   if (!tiles.length) return '';
 
-  return section('Take it further', `<div class="connected-grid">${tiles.map(([kind, href, title, note]) =>
+  const modelHref = simulation ? `/simulations/${escapeHTML(simulation.slug)}` : '/formulas';
+  const checkpointHref = `/quiz?mode=Topic%20Quiz&topic=${encodeURIComponent(lesson.topicLabel || lesson.slug)}&count=5`;
+  return section('Take it further', `<ol class="learning-loop" aria-label="Recommended learning sequence">
+      <li class="is-current"><span>1</span><div><b>Understand</b><small>Read this lesson and its worked examples.</small></div></li>
+      <li><span>2</span><div><b>Model</b><small><a href="${modelHref}" data-route>${simulation ? 'Change the variables in the lab' : 'Connect the formulae'}</a></small></div></li>
+      <li><span>3</span><div><b>Check</b><small><a href="${checkpointHref}" data-route>Take a five-question checkpoint</a></small></div></li>
+      <li><span>4</span><div><b>Adapt</b><small><a href="/mistakes" data-route>Review anything you missed</a></small></div></li>
+    </ol><div class="connected-grid">${tiles.map(([kind, href, title, note]) =>
     `<a class="connected-tile" href="${href}" data-route>
       <span class="connected-tile__kind">${escapeHTML(kind)}</span>
       <b>${title}</b>
@@ -115,6 +122,6 @@ export function renderLesson(lesson, index = { lessonIndex: [] }, completedSlugs
       </form>
       <div class="lesson-ask__result" aria-live="polite"></div>
     </section>
-    <div class="lesson-actions"><button class="button" data-complete-lesson="${escapeHTML(lesson.slug)}" aria-pressed="${isComplete}">${isComplete ? 'Completed ✓' : 'Mark lesson complete'}</button><a class="outline" href="/quiz" data-route>Practise now</a><button class="outline" data-open-tutor>Ask KIT about this lesson</button></div>
+    <div class="lesson-actions"><button class="button" data-complete-lesson="${escapeHTML(lesson.slug)}" aria-pressed="${isComplete}">${isComplete ? 'Completed ✓' : 'Mark lesson complete'}</button><a class="outline" href="/quiz?mode=Topic%20Quiz&topic=${encodeURIComponent(lesson.topicLabel || lesson.slug)}" data-route>Practise this lesson</a><button class="outline" data-open-tutor>Ask KIT about this lesson</button></div>
   </article>`;
 }

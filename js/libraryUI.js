@@ -26,7 +26,7 @@ function lessonCard(lesson, completed) {
 
 function unitSection(unit, lessons, completed) {
   const done = lessons.filter(lesson => completed.includes(lesson.slug)).length;
-  return `<section class="library-unit" data-unit-section="${escapeHTML(unit.id)}">
+  return `<section class="library-unit" id="unit-${escapeHTML(unit.id)}" data-unit-section="${escapeHTML(unit.id)}">
     <header class="library-unit__head">
       <div>
         <p class="eyebrow">UNIT ${escapeHTML(unit.id)}</p>

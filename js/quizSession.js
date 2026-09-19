@@ -1,5 +1,5 @@
 import { assessment } from './assessmentEngine.js';
-import { escapeHTML } from './utils.js';
+import { escapeHTML, slugify } from './utils.js';
 
 const KEY = 'phylab_quiz_session';
 const RESULTS = 'phylab_quiz_results';
@@ -38,13 +38,35 @@ export const normalize = question => ({
   tags: Array.isArray(question.tags) ? question.tags : [question.tags || '']
 });
 
-export const selectQuestions = (questions, { mode = 'Mixed Quiz', topic, level, difficulty, type, count = 5, weakTopics = [] } = {}) => {
+const list = value => (Array.isArray(value) ? value : value ? [value] : []).filter(Boolean);
+
+/** Turns a quiz URL into safe, known builder options. */
+export function optionsFromSearch(search = new URLSearchParams()) {
+  const params = search instanceof URLSearchParams ? search : new URLSearchParams(search);
+  const requestedMode = params.get('mode') || '';
+  const topics = params.getAll('topic');
+  const mode = Object.hasOwn(MODES, requestedMode) ? requestedMode : topics.length ? 'Topic Quiz' : '';
+  return {
+    mode,
+    topics,
+    level: ['SL', 'HL'].includes(params.get('level')) ? params.get('level') : '',
+    difficulties: params.getAll('difficulty').filter(value => ['easy', 'medium', 'hard'].includes(value)),
+    types: params.getAll('type').filter(value => ['mcq', 'numerical', 'short response'].includes(value)),
+    count: [5, 10, 15, 20].includes(Number(params.get('count'))) ? Number(params.get('count')) : undefined,
+    durationSeconds: Math.max(0, Math.min(7200, Number(params.get('minutes')) * 60 || 0))
+  };
+}
+
+export const selectQuestions = (questions, { mode = 'Mixed Quiz', topic, topics, level, difficulty, difficulties, type, types, count = 5, weakTopics = [] } = {}) => {
   const source = questions.map(normalize);
+  const topicList = list(topics?.length ? topics : topic);
+  const difficultyList = list(difficulties?.length ? difficulties : difficulty);
+  const typeList = list(types?.length ? types : type);
   let selected = source.filter(question =>
-    (!topic || question.topic.toLowerCase() === topic.toLowerCase()) &&
+    (!topicList.length || topicList.some(item => question.topic.toLowerCase() === item.toLowerCase() || slugify(question.topic) === slugify(item))) &&
     (!level || question.level === level) &&
-    (!difficulty || question.difficulty === difficulty) &&
-    (!type || question.type === type)
+    (!difficultyList.length || difficultyList.includes(question.difficulty)) &&
+    (!typeList.length || typeList.includes(question.type))
   );
   let diagnostic = false;
   if (mode === 'Weak Topic Quiz') {
@@ -55,7 +77,21 @@ export const selectQuestions = (questions, { mode = 'Mixed Quiz', topic, level, 
     const formulaQuestions = selected.filter(question => /formula|calculation|numerical|equation/i.test(`${question.tags.join(' ')} ${question.type}`));
     selected = formulaQuestions.length ? formulaQuestions : selected;
   }
-  return { questions: selected.slice(0, count), diagnostic };
+  // When several topics are selected, take one from each in turn instead of
+  // exhausting the first topic in the JSON file before reaching the next.
+  if (topicList.length > 1) {
+    const groups = topicList.map(topicName => selected.filter(question => question.topic.toLowerCase() === topicName.toLowerCase() || slugify(question.topic) === slugify(topicName)));
+    const balanced = [];
+    for (let row = 0; balanced.length < selected.length; row += 1) {
+      let found = false;
+      groups.forEach(group => {
+        if (group[row]) { balanced.push(group[row]); found = true; }
+      });
+      if (!found) break;
+    }
+    selected = balanced;
+  }
+  return { questions: selected.slice(0, count), available: selected.length, diagnostic };
 };
 
 export const create = (questions, options = {}) => ({
@@ -140,17 +176,51 @@ export const result = id => {
 export const quizPage = data => {
   const topics = [...new Set(data.questions.map(question => question.topic))].sort();
   return `<section class="page"><p class="eyebrow">QUIZ STUDIO</p><h1>Practise with purpose.</h1><p class="page-lead">Choose a mode, set your focus, and receive transparent KINETIQ practice feedback.</p>
-    <div class="card-grid" aria-label="Practice modes">${Object.entries(MODES).map(([mode, details]) => `<button class="content-card" type="button" data-mode="${mode}"><span class="tag">${details.time} · SL + HL</span><h3>${mode}</h3><p>${details.description}</p></button>`).join('')}</div>
+    <div class="card-grid quiz-mode-grid" aria-label="Practice modes">${Object.entries(MODES).map(([mode, details]) => `<button class="content-card" type="button" data-mode="${mode}" aria-pressed="false"><span class="tag">${details.time} · SL + HL</span><h3>${mode}</h3><p>${details.description}</p></button>`).join('')}</div>
     <section id="quizMount" data-topics="${escapeHTML(JSON.stringify(topics))}" class="lesson-section" aria-live="polite"></section>
   </section>`;
 };
 
-function setupView(topics, resume) {
-  return `<div class="content-card"><h2>Set up your practice</h2><p>Choose a mode above, then adjust the scope before starting.</p>
-    <div class="quiz-toolbar"><label>Topic <select data-quiz-topic><option value="">All topics</option>${topics.map(topic => `<option value="${escapeHTML(topic)}">${escapeHTML(topic)}</option>`).join('')}</select></label>
-    <label>Level <select data-quiz-level><option value="">SL + HL</option><option>SL</option><option>HL</option></select></label>
-    <label>Questions <select data-quiz-count><option value="">Use the mode's own length</option><option value="5">5 questions</option><option value="10">10 questions</option><option value="15">15 questions</option><option value="20">20 questions</option></select></label></div>
-    <p data-quiz-selection>Select a practice mode to begin.</p>${resume ? '<button class="button" type="button" data-resume>Resume saved practice</button> <button class="outline" type="button" data-discard>Discard saved practice</button>' : ''}</div>`;
+function setupView(topics, resume, selection = {}) {
+  const selectedTopics = list(selection.topics?.length ? selection.topics : selection.topic);
+  const selectedDifficulties = list(selection.difficulties?.length ? selection.difficulties : selection.difficulty);
+  const selectedTypes = list(selection.types?.length ? selection.types : selection.type);
+  const chosen = (values, value) => values.includes(value) ? ' checked' : '';
+  const mode = Object.hasOwn(MODES, selection.mode || '') ? selection.mode : '';
+  const duration = selection.durationSeconds || MODES[mode]?.durationSeconds || 0;
+  return `<div class="content-card quiz-builder" data-quiz-builder>
+    <div class="section-title"><p class="eyebrow">TARGET TEST BUILDER</p><h2>Build your practice</h2></div>
+    <p>Choose one or more topics, question styles and difficulties. KINETIQ only uses questions that are really in its original bank.</p>
+    <div class="quiz-builder__grid">
+      <details class="quiz-filter-group" ${selectedTopics.length ? 'open' : ''}>
+        <summary>Topics <span data-topic-count>${selectedTopics.length ? `${selectedTopics.length} selected` : 'All topics'}</span></summary>
+        <div class="quiz-option-grid">${topics.map(topic => `<label><input type="checkbox" name="quiz-topic" value="${escapeHTML(topic)}"${chosen(selectedTopics, topic)}> ${escapeHTML(topic)}</label>`).join('')}</div>
+      </details>
+      <fieldset class="quiz-filter-group"><legend>Difficulty</legend>
+        <div class="quiz-choice-row">${['easy', 'medium', 'hard'].map(value => `<label><input type="checkbox" name="quiz-difficulty" value="${value}"${chosen(selectedDifficulties, value)}> ${value[0].toUpperCase() + value.slice(1)}</label>`).join('')}</div>
+        <p class="muted">Leave all clear to include every difficulty.</p>
+      </fieldset>
+      <fieldset class="quiz-filter-group"><legend>Question type</legend>
+        <div class="quiz-choice-row">
+          <label><input type="checkbox" name="quiz-type" value="mcq"${chosen(selectedTypes, 'mcq')}> Multiple choice</label>
+          <label><input type="checkbox" name="quiz-type" value="numerical"${chosen(selectedTypes, 'numerical')}> Numerical</label>
+          <label><input type="checkbox" name="quiz-type" value="short response"${chosen(selectedTypes, 'short response')}> Structured response</label>
+        </div>
+        <p class="muted">Leave all clear to mix question types.</p>
+      </fieldset>
+      <div class="quiz-toolbar">
+        <label>Level <select data-quiz-level><option value="">SL + HL</option><option${selection.level === 'SL' ? ' selected' : ''}>SL</option><option${selection.level === 'HL' ? ' selected' : ''}>HL</option></select></label>
+        <label>Questions <select data-quiz-count><option value="">Use the mode length</option>${[5, 10, 15, 20].map(value => `<option value="${value}"${selection.count === value ? ' selected' : ''}>${value} questions</option>`).join('')}</select></label>
+        <label class="quiz-timer-toggle"><input type="checkbox" data-quiz-timer${duration ? ' checked' : ''}> Timed</label>
+        <label>Minutes <input type="number" data-quiz-minutes min="5" max="120" step="5" value="${Math.round(duration / 60) || 15}"></label>
+      </div>
+    </div>
+    <p data-quiz-selection>${mode ? `<b>${escapeHTML(mode)}</b> selected. Adjust the options, then start.` : 'Select a practice mode above to begin.'}</p>
+    <div class="quiz-builder__actions">
+      <button class="button" type="button" data-start-practice ${mode ? '' : 'disabled'}>Start practice</button>
+      ${resume ? '<button class="outline" type="button" data-resume>Resume saved practice</button><button class="text-button" type="button" data-discard>Discard saved practice</button>' : ''}
+    </div>
+  </div>`;
 }
 
 function sessionView(session) {
@@ -190,20 +260,73 @@ const criteriaHTML = result => {
     </li>`).join('')}</ul>`;
 };
 
+const feedbackPath = item => {
+  if (item.r.correct) return '<p class="feedback-success"><b>Secure:</b> Your answer met the recorded KINETIQ marking criteria.</p>';
+  const formulae = (item.q.formulaReferences || []).filter(Boolean);
+  const lesson = item.q.lessonReferences?.[0];
+  return `<aside class="feedback-path">
+    <h4>How to improve this answer</h4>
+    <ul>
+      <li><b>Concept:</b> Review ${escapeHTML(item.q.subtopic || item.q.topic)} and identify the physical principle before calculating.</li>
+      ${formulae.length ? `<li><b>Formula:</b> Revisit ${formulae.map(escapeHTML).join(' · ')} and define every symbol before substitution.</li>` : '<li><b>Method:</b> State the principle, show the reasoning or working, then give the conclusion.</li>'}
+      ${item.q.unit ? `<li><b>Units:</b> The final answer must include ${escapeHTML(item.q.unit)} and a sensible number of significant figures.</li>` : '<li><b>Precision:</b> Match the command term and include every requested point.</li>'}
+    </ul>
+    <div class="feedback-path__actions">
+      ${lesson ? `<a class="text-button" href="/lesson/${encodeURIComponent(lesson)}" data-route>Review the lesson →</a>` : ''}
+      <a class="text-button" href="/quiz?mode=Topic%20Quiz&topic=${encodeURIComponent(item.q.topic)}" data-route>Retest this topic →</a>
+    </div>
+  </aside>`;
+};
+
+function measuredWeakTopics() {
+  const groups = new Map();
+  for (let index = 0; index < localStorage.length; index += 1) {
+    const key = localStorage.key(index);
+    if (!key?.startsWith(`${RESULTS}:`)) continue;
+    try {
+      const report = JSON.parse(localStorage.getItem(key));
+      (report?.analytics?.topics || []).forEach(topic => {
+        const row = groups.get(topic.label) || { label: topic.label, earned: 0, max: 0, attempted: 0 };
+        row.earned += topic.earned || 0;
+        row.max += topic.max || 0;
+        row.attempted += topic.attempted || 0;
+        groups.set(topic.label, row);
+      });
+    } catch { /* Ignore a corrupt local attempt. */ }
+  }
+  return [...groups.values()].filter(row => row.attempted >= 10)
+    .map(row => ({ ...row, percentage: row.max ? Math.round(row.earned / row.max * 100) : 0 }))
+    .sort((left, right) => left.percentage - right.percentage)
+    .slice(0, 3).map(row => row.label);
+}
+
 export const resultView = report => `<section class="page"><p class="eyebrow">PRACTICE RESULTS</p><h1>${report.marksEarned}/${report.maxMarks} marks</h1><p class="page-lead">${report.analytics.percentage}% overall · ${report.analytics.accuracy}% question accuracy · ${formatTime(report.elapsedSeconds)} used</p>
   <p class="practice-note"><b>KINETIQ practice marking.</b> Marks are awarded by KINETIQ’s own deterministic marker against the recorded answer, tolerance and unit. This is study feedback, not an official IB mark or an IB mark scheme.</p>
   <div class="card-grid"><article class="content-card"><h3>Strongest topics</h3><p>${report.analytics.strongTopics.map(topic => `${escapeHTML(topic.label)} (${topic.percentage}%)`).join('<br>') || 'Complete more questions to identify a strength.'}</p></article><article class="content-card"><h3>Review next</h3><p>${report.analytics.weakTopics.map(topic => `${escapeHTML(topic.label)} (${topic.percentage}%)`).join('<br>') || 'Complete more questions to identify a review target.'}</p></article></div>
-  <section class="lesson-section"><h2>Question review</h2>${report.review.map((item, index) => `<article class="content-card"><span class="tag">QUESTION ${index + 1} · ${escapeHTML(item.q.topic)} · ${item.r.marks}/${item.q.marks} MARKS</span><h3>${escapeHTML(item.q.question)}</h3><p><b>Your answer:</b> ${escapeHTML(item.a || 'No answer')}</p><p><b>Model answer:</b> ${escapeHTML(item.q.correct_answer)}</p><p>${escapeHTML(item.r.reason || '')}</p>${criteriaHTML(item.r)}${item.q.solution ? `<details><summary>View worked solution</summary><p>${escapeHTML(item.q.solution)}</p></details>` : ''}${item.q.lessonReferences?.[0] ? `<a href="/lesson/${encodeURIComponent(item.q.lessonReferences[0])}" data-route>Review lesson →</a>` : ''}</article>`).join('')}</section><a class="button" href="/quiz" data-route>Practise again</a></section>`;
+  <section class="lesson-section"><h2>Question review</h2>${report.review.map((item, index) => `<article class="content-card question-feedback"><span class="tag">QUESTION ${index + 1} · ${escapeHTML(item.q.topic)} · ${item.r.marks}/${item.q.marks} MARKS</span><h3>${escapeHTML(item.q.question)}</h3><p><b>Your answer:</b> ${escapeHTML(item.a || 'No answer')}</p><p><b>Model answer:</b> ${escapeHTML(item.q.correct_answer)}</p><p>${escapeHTML(item.r.reason || '')}</p>${criteriaHTML(item.r)}${feedbackPath(item)}${item.q.solution ? `<details><summary>View worked solution</summary><p>${escapeHTML(item.q.solution)}</p></details>` : ''}</article>`).join('')}</section><a class="button" href="/quiz" data-route>Build another practice set</a></section>`;
 
 export function bindQuizSession(data, initialOptions = {}) {
   const root = document.querySelector('#quizMount');
   if (!root) return undefined;
   const topics = data.questions.map(question => question.topic).filter((topic, index, list) => list.indexOf(topic) === index).sort();
   let session = load();
+  let selectedMode = Object.hasOwn(MODES, initialOptions.mode || '') ? initialOptions.mode : '';
   let interval;
   const clearTimer = () => { if (interval) window.clearInterval(interval); interval = undefined; };
   const persist = () => { session = tick(session); save(session); };
-  const navigateToResults = complete => { clearTimer(); window.location.assign(`/results/${complete.id}`); };
+  const navigateToResults = async complete => {
+    clearTimer();
+    try {
+      const { quizService } = await import('./services/quizService.js');
+      // Keep navigation responsive if the learner is offline or the account
+      // service is slow. The complete local result is already safe.
+      await Promise.race([
+        quizService.recordSession(complete),
+        new Promise(resolve => setTimeout(resolve, 1800))
+      ]);
+    } catch { /* Local persistence remains the source of truth for guests. */ }
+    window.location.assign(`/results/${complete.id}`);
+  };
   const captureAnswer = () => {
     if (!session || session.submitted) return;
     const question = session.questions[session.currentIndex];
@@ -216,6 +339,7 @@ export function bindQuizSession(data, initialOptions = {}) {
   const renderSession = () => { persist(); root.innerHTML = sessionView(session); };
   const start = (mode, selection = {}) => {
     const settings = { ...MODES[mode], ...selection, mode };
+    if (mode === 'Weak Topic Quiz' && !settings.weakTopics?.length) settings.weakTopics = measuredWeakTopics();
     const pick = selectQuestions(data.questions, settings);
     if (!pick.questions.length) { root.innerHTML = '<div class="empty-state"><h3>No questions match this selection</h3><p>Choose another topic or include both levels.</p></div>'; return; }
     session = create(pick.questions, settings);
@@ -231,21 +355,64 @@ export function bindQuizSession(data, initialOptions = {}) {
       if (session.durationSeconds && session.remainingSeconds === 0) navigateToResults(submit(session));
     }, 1000);
   };
-  const showSetup = () => { clearTimer(); root.innerHTML = setupView(topics, session && !session.submitted); };
-  const routeMode = initialOptions.mode || (initialOptions.topic ? 'Topic Quiz' : '');
-  if (routeMode) start(routeMode, initialOptions);
-  else showSetup();
+  const markMode = () => document.querySelectorAll('[data-mode]').forEach(button => {
+    const active = button.dataset.mode === selectedMode;
+    button.classList.toggle('is-selected', active);
+    button.setAttribute('aria-pressed', String(active));
+  });
+  const showSetup = (selection = {}) => {
+    clearTimer();
+    root.innerHTML = setupView(topics, session && !session.submitted, { ...selection, mode: selectedMode });
+    markMode();
+  };
+  const valuesOf = name => [...root.querySelectorAll(`input[name="${name}"]:checked`)].map(input => input.value);
+  const builderOptions = () => {
+    const timer = root.querySelector('[data-quiz-timer]')?.checked;
+    const minutes = Math.max(5, Math.min(120, Number(root.querySelector('[data-quiz-minutes]')?.value) || 15));
+    return {
+      topics: valuesOf('quiz-topic'),
+      difficulties: valuesOf('quiz-difficulty'),
+      types: valuesOf('quiz-type'),
+      level: root.querySelector('[data-quiz-level]')?.value || '',
+      count: Number(root.querySelector('[data-quiz-count]')?.value) || MODES[selectedMode]?.count || 5,
+      durationSeconds: timer ? minutes * 60 : 0
+    };
+  };
+  const updateBuilderSummary = () => {
+    const message = root.querySelector('[data-quiz-selection]');
+    const startButton = root.querySelector('[data-start-practice]');
+    if (!message || !startButton) return;
+    if (!selectedMode) {
+      message.textContent = 'Select a practice mode above to begin.';
+      startButton.disabled = true;
+      return;
+    }
+    const options = builderOptions();
+    const match = selectQuestions(data.questions, { ...options, mode: selectedMode, count: data.questions.length });
+    message.innerHTML = `<b>${escapeHTML(selectedMode)}</b> selected. ${match.available} original question${match.available === 1 ? '' : 's'} match these filters.`;
+    startButton.disabled = match.available === 0;
+    const topicCount = root.querySelector('[data-topic-count]');
+    if (topicCount) topicCount.textContent = options.topics.length ? `${options.topics.length} selected` : 'All topics';
+  };
+
+  if (initialOptions.autoStart && selectedMode) start(selectedMode, initialOptions);
+  else showSetup(initialOptions);
+  updateBuilderSummary();
+
   document.querySelectorAll('[data-mode]').forEach(button => button.addEventListener('click', () => {
-    const topic = root.querySelector('[data-quiz-topic]')?.value || '';
-    const level = root.querySelector('[data-quiz-level]')?.value || '';
-    const count = Number(root.querySelector('[data-quiz-count]')?.value) || MODES[button.dataset.mode].count;
-    start(button.dataset.mode, { topic, level, count });
+    selectedMode = button.dataset.mode;
+    markMode();
+    updateBuilderSummary();
   }));
   root.addEventListener('click', event => {
     const button = event.target.closest('button');
     if (!button) return;
+    if (button.matches('[data-start-practice]')) {
+      if (selectedMode) start(selectedMode, builderOptions());
+      return;
+    }
     if (button.matches('[data-resume]')) { renderSession(); return; }
-    if (button.matches('[data-discard]')) { localStorage.removeItem(KEY); session = null; showSetup(); return; }
+    if (button.matches('[data-discard]')) { localStorage.removeItem(KEY); session = null; showSetup(initialOptions); return; }
     if (!session) return;
     if (button.matches('[data-jump]')) { captureAnswer(); session.currentIndex = Number(button.dataset.jump); renderSession(); }
     if (button.matches('[data-next]')) { captureAnswer(); session.currentIndex = Math.min(session.currentIndex + 1, session.questions.length - 1); renderSession(); }
@@ -254,7 +421,10 @@ export function bindQuizSession(data, initialOptions = {}) {
     if (button.matches('[data-review]')) { const index = session.questions.findIndex(question => session.flags.includes(question.id)); if (index >= 0) { captureAnswer(); session.currentIndex = index; renderSession(); } else window.alert('There are no flagged questions.'); }
     if (button.matches('[data-submit]')) { captureAnswer(); const unanswered = session.questions.length - answerCount(session); if (window.confirm(`${unanswered} unanswered and ${session.flags.length} flagged question(s). Submit and lock this practice attempt?`)) navigateToResults(submit(session)); }
   });
-  root.addEventListener('change', event => { if (event.target.matches('input[name="answer"]')) captureAnswer(); });
+  root.addEventListener('change', event => {
+    if (event.target.matches('input[name="answer"]')) captureAnswer();
+    else if (event.target.closest('[data-quiz-builder]')) updateBuilderSummary();
+  });
   root.addEventListener('keydown', event => {
     if (!session || !event.altKey) return;
     if (event.key === 'ArrowLeft' && session.currentIndex > 0) { event.preventDefault(); captureAnswer(); session.currentIndex -= 1; renderSession(); }

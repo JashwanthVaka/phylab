@@ -67,7 +67,7 @@ test.describe('keyboard traversal', () => {
     // question, and it costs something real: a reader arrives inside the field
     // rather than at the heading. Shift+Tab still reaches everything above.
     // Recording the trade-off rather than quietly reversing someone's decision.
-    for (const route of ROUTES.filter(r => r !== '/ask')) {
+    for (const route of ROUTES.filter(r => !['/ask', '/ai'].includes(r))) {
       await page.goto(route, { waitUntil: 'domcontentloaded' });
       await page.locator('#app h1').first().waitFor({ timeout: 10000 });
       await page.keyboard.press('Tab');

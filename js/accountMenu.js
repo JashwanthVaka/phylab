@@ -131,13 +131,23 @@ export async function initAccountMenu() {
         // Anything still on the device belongs in the account first. Only
         // once it is safely there is it taken off the machine, so the next
         // person to sign in does not inherit the last person's lessons.
-        const { progressService } = await import('./services/progressService.js');
+        const [{ progressService }, { quizService }, { flashcardService }] = await Promise.all([
+          import('./services/progressService.js'), import('./services/quizService.js'), import('./services/flashcardService.js')
+        ]);
         let moved;
+        let quizzes;
+        let flashcards;
         try {
           moved = await progressService.migrateLocal();
+          quizzes = await quizService.migrateLocal();
+          flashcards = await flashcardService.migrateLocal();
         } catch {
           moved = { cleared: false };
+          quizzes = { failed: ['unknown'] };
+          flashcards = { cleared: false };
         }
+        if (!quizzes.failed?.length) quizService.forgetDevice();
+        if (flashcards?.cleared) flashcardService.forgetDevice();
         await authService.signOut();
         const { clearLocalProfile } = await import('./localProfile.js');
         clearLocalProfile();
@@ -145,6 +155,12 @@ export async function initAccountMenu() {
           // Saying nothing here would be the wrong kind of quiet: the work is
           // still on this browser and the person is walking away from it.
           window.alert('Some lessons could not be saved to your account just now, so they are still on this browser. Sign in again on this device when you are back online.');
+        }
+        if (quizzes?.failed?.length) {
+          window.alert('Some practice results could not be saved to your account, so they remain on this browser. Sign in again on this device when you are back online.');
+        }
+        if (flashcards?.cleared === false) {
+          window.alert('Some flashcard reviews could not be saved to your account, so they remain on this browser. Sign in again on this device when you are back online.');
         }
       }
       await paint();

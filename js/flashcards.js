@@ -17,7 +17,19 @@ export function bindFlashcards() {
     const flip = () => card.classList.toggle('is-flipped');
     card.addEventListener('click', event => { if (!event.target.closest('[data-review]')) flip(); });
     card.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); flip(); } });
-    card.querySelectorAll('[data-review]').forEach(button => button.addEventListener('click', event => { event.stopPropagation(); const state = read(); const rating = button.dataset.review; const previous = state[card.dataset.cardId] || { interval: 0 }; const interval = rating === 'again' ? 0 : rating === 'easy' ? Math.max(7, previous.interval * 2) : Math.max(1, previous.interval + 1); state[card.dataset.cardId] = { interval, due: Date.now() + interval * 86400000 }; write(state); card.classList.remove('is-flipped'); card.classList.add('is-reviewed'); }));
+    card.querySelectorAll('[data-review]').forEach(button => button.addEventListener('click', event => {
+      event.stopPropagation();
+      const state = read();
+      const rating = button.dataset.review;
+      const previous = state[card.dataset.cardId] || { interval: 0 };
+      const interval = rating === 'again' ? 0 : rating === 'easy' ? Math.max(7, previous.interval * 2) : Math.max(1, previous.interval + 1);
+      const record = { interval, due: Date.now() + interval * 86400000 };
+      state[card.dataset.cardId] = record;
+      write(state);
+      import('./services/flashcardService.js').then(({ flashcardService }) => flashcardService.saveRecord(card.dataset.cardId, record)).catch(() => {});
+      card.classList.remove('is-flipped');
+      card.classList.add('is-reviewed');
+    }));
   });
 }
 export function dueCount() { return Object.values(read()).filter(item => item.due <= Date.now()).length; }

@@ -10,7 +10,7 @@ and ES modules on a dependency-free Node server.
 | | |
 | --- | --- |
 | Lessons | 26, in syllabus order across the five course units |
-| Practice questions | 218 original, 43 of them multiple choice, 88 at HL |
+| Practice questions | 226 original, 43 of them multiple choice, 91 at HL |
 | Applied cases | 19 real-world contexts |
 | Command terms | 15, with method and model answers |
 | Simulations | 26 labs, one per lesson, driven by the real equations |
@@ -182,7 +182,7 @@ Keys are read from the server environment only. They never reach the browser, an
 git-ignored. On a host, set the variables in that service's environment settings instead of
 committing a file. `npm test` fails if a key pattern appears in any tracked file.
 
-Without a key, `/ai` explains that no provider is configured and disables the message box.
+`/ask` is the public KIT experience and works without an AI provider key. The legacy `/ai` URL opens the same source-cited assistant. Provider-backed chat code remains optional and server-side for future use.
 Everything else works with no key at all.
 
 ## Study from your own book

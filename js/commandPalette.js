@@ -26,7 +26,7 @@ const PAGES = [
   ['Question patterns', '/patterns', 'Page'],
   ['Source library', '/resources', 'Page'],
   ['Progress', '/progress', 'Page'],
-  ['Ask KIT', '/ai', 'Page'],
+  ['Ask KIT', '/ask', 'Page'],
 ];
 
 let items = [];

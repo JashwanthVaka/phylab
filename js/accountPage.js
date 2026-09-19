@@ -29,7 +29,7 @@ const when = value => (value
   ? new Date(value).toLocaleDateString(undefined, { day: 'numeric', month: 'long', year: 'numeric' })
   : 'Not recorded');
 
-export async function accountPage(profile) {
+export async function accountPage(profile, settings = null) {
   if (!authService.enabled()) {
     return shell(`<div class="empty-state">
       <h3>Accounts are not switched on yet</h3>
@@ -53,6 +53,7 @@ export async function accountPage(profile) {
   const provider = providerOf(user);
   const name = user.user_metadata?.full_name || profile?.display_name || '';
   const verified = Boolean(user.email_confirmed_at || user.confirmed_at);
+  const plan = settings?.study_plan || {};
 
   return shell(`
     <div class="account-identity">
@@ -83,6 +84,15 @@ export async function accountPage(profile) {
       </label>
       <label for="timezone">Timezone
         <input id="timezone" name="timezone" value="${escapeHTML(profile?.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC')}">
+      </label>
+      <label for="target_score">Target IB score
+        <input id="target_score" name="target_score" type="number" min="1" max="7" inputmode="numeric" value="${escapeHTML(plan.target_score || '')}">
+      </label>
+      <label for="exam_date">Exam date
+        <input id="exam_date" name="exam_date" type="date" value="${escapeHTML(plan.exam_date || '')}">
+      </label>
+      <label for="weekly_hours">Study hours per week
+        <input id="weekly_hours" name="weekly_hours" type="number" min="0" max="60" step="0.5" inputmode="decimal" value="${escapeHTML(plan.weekly_hours || '')}">
       </label>
       <p id="profileStatus" class="muted account-status" role="status"></p>
       <div class="account-actions">

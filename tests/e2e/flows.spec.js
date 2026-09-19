@@ -103,11 +103,8 @@ test.describe('mobile', () => {
     await expect(page.locator('#tutorButton')).toBeHidden();
     await page.locator('#navBurger').click();
     await page.locator('#mobileNav').getByRole('link', { name: 'Ask' }).click();
-    // This asserted /ask, which is cited search and not KIT, so it passed
-    // while the thing its title promises was untrue: on a phone, where the
-    // header shortcut is hidden, the tutor was reachable only from the footer.
-    await expect(page).toHaveURL(/\/ai$/);
-    await expect(page.locator('#aiInput')).toBeVisible();
+    await expect(page).toHaveURL(/\/ask$/);
+    await expect(page.locator('#askInput')).toBeVisible();
   });
 
   test('the data lab rejects input it cannot use', async ({ page }) => {

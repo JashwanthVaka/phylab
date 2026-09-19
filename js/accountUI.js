@@ -49,7 +49,15 @@ export function bindAccount(router) {
     event.preventDefault();
     const status = document.querySelector('#profileStatus');
     try {
-      await profileService.save(Object.fromEntries(new FormData(event.target)));
+      const values = Object.fromEntries(new FormData(event.target));
+      await profileService.save(values);
+      await profileService.settings({
+        study_plan: {
+          target_score: values.target_score || null,
+          exam_date: values.exam_date || null,
+          weekly_hours: values.weekly_hours || null
+        }
+      });
       if (status) { status.textContent = 'Settings saved.'; status.dataset.tone = 'ok'; }
     } catch (error) {
       if (status) { status.textContent = error.message; status.dataset.tone = 'bad'; }
@@ -94,7 +102,14 @@ export function bindAccount(router) {
     // Same order as the header control: get the work into the account, then
     // hand the machine over clean. See accountMenu.js for why.
     const { progressService } = await import('./services/progressService.js');
+    const { quizService } = await import('./services/quizService.js');
+    const { flashcardService } = await import('./services/flashcardService.js');
     try { await progressService.migrateLocal(); } catch { /* Kept on the device. */ }
+    try {
+      const quizzes = await quizService.migrateLocal();
+      if (!quizzes.failed?.length) quizService.forgetDevice();
+    } catch { /* Kept on the device. */ }
+    try { await flashcardService.migrateLocal(); } catch { /* Kept on the device. */ }
     await authService.signOut();
     const { clearLocalProfile } = await import('./localProfile.js');
     clearLocalProfile();

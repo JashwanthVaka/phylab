@@ -23,9 +23,7 @@ const writeCards = value => {
 };
 
 /** Builds every card in the course and tags it with its schedule state. */
-export function scheduleFor(lessons) {
-  const state = readCards();
-  const now = Date.now();
+export function scheduleFor(lessons, state = readCards(), now = Date.now()) {
   const cards = [];
   lessons.forEach(lesson => {
     lessonFlashcards(lesson).forEach(card => {
@@ -37,7 +35,10 @@ export function scheduleFor(lessons) {
         interval: record?.interval ?? null,
         due: record?.due ?? null,
         seen: Boolean(record),
-        isDue: !record || record.due <= now
+        // A card the learner has never opened is new, not overdue. Treating
+        // the whole course as late on day one produced an alarming 278-item
+        // queue and made the planner less truthful, not more useful.
+        isDue: Boolean(record && record.due <= now)
       });
     });
   });
@@ -45,9 +46,9 @@ export function scheduleFor(lessons) {
 }
 
 /** Records a rating using the same intervals the lesson decks use. */
-export function rateCard(id, rating) {
+export function rateCard(id, rating, supplied = null) {
   const state = readCards();
-  const previous = state[id] || { interval: 0 };
+  const previous = supplied || state[id] || { interval: 0 };
   const interval = rating === 'again' ? 0
     : rating === 'easy' ? Math.max(7, (previous.interval || 1) * 2)
       : Math.max(1, (previous.interval || 0) + 1);
@@ -95,20 +96,27 @@ function weeklyPlanHTML(plan) {
   </section>`;
 }
 
-export function revisionPage(index, lessons, completedSlugs = null) {
-  const cards = scheduleFor(lessons);
+export function revisionPage(index, lessons, completedSlugs = null, settings = null, cardState = null) {
+  const cards = scheduleFor(lessons, cardState || readCards());
   const due = cards.filter(card => card.isDue);
-  const scheduled = cards.filter(card => !card.isDue).sort((a, b) => a.due - b.due);
+  const unseen = cards.filter(card => !card.seen);
+  const scheduled = cards.filter(card => card.seen && !card.isDue).sort((a, b) => a.due - b.due);
   const mistakes = collectMistakes();
   const mistakesDue = mistakes.filter(item => item.due).length;
   const completed = completedSlugs || getProgress().completedLessons || [];
+  const weeklyHours = Number(settings?.study_plan?.weekly_hours);
+  const availableNew = unseen.filter(card => completed.includes(card.lessonSlug));
+  const reviewQueue = [
+    ...due.slice(0, 20),
+    ...availableNew.slice(0, Math.max(0, 20 - due.length))
+  ];
   const plan = buildWeeklyPlan({
     lessons: index.lessonIndex || [],
     completed,
     dueCards: due.length,
     dueMistakes: mistakesDue,
     weakTopics: [],
-    weeklyMinutes: 180,
+    weeklyMinutes: Number.isFinite(weeklyHours) && weeklyHours > 0 ? Math.round(weeklyHours * 60) : 180,
   });
 
   return `<section class="page revision-page">
@@ -119,7 +127,7 @@ export function revisionPage(index, lessons, completedSlugs = null) {
     <div class="rev-summary">
       <article class="rev-stat ${due.length ? 'is-due' : ''}">
         <span class="tag">FLASHCARDS DUE</span><h2>${due.length}</h2>
-        <p class="muted">of ${cards.length} across ${lessons.length} lessons</p>
+        <p class="muted">review intervals elapsed</p>
       </article>
       <article class="rev-stat ${mistakesDue ? 'is-due' : ''}">
         <span class="tag">MISTAKES DUE</span><h2>${mistakesDue}</h2>
@@ -127,17 +135,17 @@ export function revisionPage(index, lessons, completedSlugs = null) {
         ${mistakes.length ? '<a class="text-button" href="/mistakes" data-route>Open mistake bank →</a>' : ''}
       </article>
       <article class="rev-stat">
-        <span class="tag">CARDS NEVER SEEN</span><h2>${cards.filter(card => !card.seen).length}</h2>
-        <p class="muted">rate a card once and it enters the schedule</p>
+        <span class="tag">NEW CARDS</span><h2>${unseen.length}</h2>
+        <p class="muted">${availableNew.length} available from completed lessons</p>
       </article>
     </div>
 
     ${weeklyPlanHTML(plan)}
 
-    ${due.length ? `<section class="lesson-section">
-      <div class="section-title"><p class="eyebrow">START HERE</p><h2>Flashcards due now</h2></div>
-      <p class="muted">Reveal the answer, then rate it. Again resets the interval, Good adds a day, Easy doubles it.</p>
-      <div class="rev-deck">${due.slice(0, 30).map(card => `<article class="rev-card" data-rev-card="${escapeHTML(card.id)}">
+    ${reviewQueue.length ? `<section class="lesson-section">
+      <div class="section-title"><p class="eyebrow">START HERE</p><h2>Today’s flashcard queue</h2></div>
+      <p class="muted">A maximum of 20 cards: overdue reviews first, then new cards from lessons you have completed. Reveal the answer and rate it honestly.</p>
+      <div class="rev-deck">${reviewQueue.map(card => `<article class="rev-card" data-rev-card="${escapeHTML(card.id)}" data-rev-interval="${Number(card.interval) || 0}">
         <header><span class="tag">${escapeHTML(card.lessonTitle)}</span><span class="rev-due">${escapeHTML(dueLabel(card))}</span></header>
         <h3>${escapeHTML(card.front)}</h3>
         <div class="rev-answer" hidden><p>${escapeHTML(card.back)}</p></div>
@@ -151,10 +159,10 @@ export function revisionPage(index, lessons, completedSlugs = null) {
           <a class="chip" href="/lesson/${escapeHTML(card.lessonSlug)}" data-route>Open lesson →</a>
         </footer>
       </article>`).join('')}</div>
-      ${due.length > 30 ? `<p class="muted">Showing the first 30 of ${due.length}. Work through these and reload for more.</p>` : ''}
+      ${due.length > 20 ? `<p class="muted">Showing the first 20 of ${due.length} due cards. Finish this focused session before loading more.</p>` : ''}
     </section>` : `<section class="lesson-section">
       <div class="section-title"><p class="eyebrow">NOTHING DUE</p><h2>You are up to date</h2></div>
-      <div class="empty-state"><h3>No cards due right now</h3><p>${cards.length ? 'Every card you have rated is still inside its interval. Come back when one elapses, or open a lesson to work through its deck.' : 'Open a lesson, reveal a flashcard and rate it. From then on it appears here when its interval elapses.'}</p></div>
+      <div class="empty-state"><h3>No cards due right now</h3><p>${completed.length ? 'Every rated card is still inside its interval. Complete another lesson to unlock its new cards, or come back when a review elapses.' : 'Complete your first lesson to unlock a small set of new cards. Unseen cards are never counted as overdue.'}</p></div>
       <a class="button" href="/library" data-route>Open the course library →</a>
     </section>`}
 
@@ -184,7 +192,8 @@ export function bindRevision() {
     }
     const rate = event.target.closest('[data-rev-rate]');
     if (!rate) return;
-    const record = rateCard(card.dataset.revCard, rate.dataset.revRate);
+    const record = rateCard(card.dataset.revCard, rate.dataset.revRate, { interval: Number(card.dataset.revInterval) || 0 });
+    import('./services/flashcardService.js').then(({ flashcardService }) => flashcardService.saveRecord(card.dataset.revCard, record)).catch(() => {});
     card.classList.add('is-rated');
     const days = Math.round(record.interval);
     card.querySelector('.rev-due').textContent = days === 0 ? 'Back tomorrow' : `Next in ${days} day${days === 1 ? '' : 's'}`;

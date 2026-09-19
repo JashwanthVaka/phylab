@@ -31,6 +31,16 @@ export const profileService = {
     return data;
   },
 
+  async getSettings() {
+    const supabase = await getSupabase();
+    if (!supabase) return null;
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return null;
+    const { data, error } = await supabase.from('user_settings').select('settings').eq('user_id', user.id).single();
+    if (error) throw readableError(error);
+    return data?.settings || {};
+  },
+
   async save(values) {
     const { supabase, user } = await signedInClient();
     const { data, error } = await supabase.from('profiles').upsert({ ...profileValues(values), id: user.id });

@@ -70,7 +70,12 @@ export class Router {
       const names = []; const regex = new RegExp(`^${pattern.replace(/:([^/]+)/g, (_, name) => { names.push(name); return '([^/]+)'; })}/?$`);
       const match = path.match(regex);
       if (match) {
-        const result = await handler({ ...Object.fromEntries(names.map((name, i) => [name, decodeURIComponent(match[i + 1])])), query: new URLSearchParams(location.search).get('q') });
+        const search = new URLSearchParams(location.search);
+        const result = await handler({
+          ...Object.fromEntries(names.map((name, i) => [name, decodeURIComponent(match[i + 1])])),
+          query: search.get('q'),
+          search
+        });
         revealHash();
         return result;
       }

@@ -167,18 +167,16 @@ function notifyCompletionFailure() {
  * the assistant: it opened a page about the assistant, and cost a click to get
  * anywhere. The lesson-page button, "Ask KIT about this lesson", did the same.
  *
- * There is no second assistant to build here. /ai already reads the route
- * memory that router.js records, so arriving from a lesson brings that lesson
- * with it and the workspace says so in its own words. Both entry points
- * therefore reach one assistant holding one context, which is the whole point
- * of having a persistent trigger as well as a page.
+ * There is one public assistant: /ask. It answers from KINETIQ's cited
+ * content without depending on a provider key. The legacy /ai route resolves
+ * to the same page so old bookmarks do not create a second experience.
  *
  * The router is passed in where the caller has one so the move stays a
  * client-side transition; location.assign is the fallback rather than the norm.
  */
 export function showTutor(router) {
-  if (router?.go) router.go('/ai');
-  else location.assign('/ai');
+  if (router?.go) router.go('/ask');
+  else location.assign('/ask');
 }
 
 export function bindUI({ loader, router, searchIndex, render }) {
@@ -210,7 +208,7 @@ export function bindUI({ loader, router, searchIndex, render }) {
     }
   }));
   document.querySelectorAll('[data-open-tutor]').forEach(button => button.addEventListener('click', () => showTutor(router)));
-  document.querySelectorAll('button[data-quiz-topic]').forEach(button => button.addEventListener('click', () => router.go('/quiz')));
+  document.querySelectorAll('button[data-quiz-topic]').forEach(button => button.addEventListener('click', () => router.go(`/quiz?mode=Topic%20Quiz&topic=${encodeURIComponent(button.dataset.quizTopic)}`)));
   document.querySelector('[data-close-modal]')?.addEventListener('click', () => { document.querySelector('#modalRoot').innerHTML = ''; document.querySelector('#tutorButton').focus(); });
   bindQuiz();
   bindGraphs();

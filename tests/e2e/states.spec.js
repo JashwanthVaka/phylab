@@ -48,8 +48,11 @@ test('the library says so when a search matches nothing', async ({ page }) => {
 });
 
 test('KIT says what it is for before anything is asked', async ({ page }) => {
-  await page.goto('/ai', { waitUntil: 'domcontentloaded' });
-  await expect(page.locator('#aiMessages .ai-empty')).toBeVisible({ timeout: 15000 });
+  await page.goto('/ask', { waitUntil: 'domcontentloaded' });
+  await expect(page.locator('.ask-page .page-lead')).toContainText(
+    /lessons, formulae, worked examples and cases/i,
+    { timeout: 15000 },
+  );
 });
 
 // ── Loading: a slow catalogue shows progress, then content ───────────

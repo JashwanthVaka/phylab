@@ -174,8 +174,11 @@ async function transition(work, message = 'Loading page…') {
 
 /** Gathers everything the progress dashboard needs so it never has to invent a metric. */
 async function dashboardContext() {
-  const [summary, index, state] = await Promise.all([dashboardService.summary(), loader.getIndex(), progressService.list()]);
-  return [summary, { lessons: index.lessonIndex, units: index.units, completed: state.completed }];
+  const [summary, index, state, settings] = await Promise.all([
+    dashboardService.summary(), loader.getIndex(), progressService.list(),
+    profileService.getSettings().catch(() => null)
+  ]);
+  return [summary, { lessons: index.lessonIndex, units: index.units, completed: state.completed, settings }];
 }
 
 function bookmarkPage(rows) {
@@ -200,17 +203,18 @@ const router = new Router({
   '/formulas/print': () => transition(async () => ({ view: formulaSheetPage(await loader.getIndex()) }), 'Building the formula sheet…'),
   '/formulas': () => transition(async () => ({ view: renderFormulaLibrary((await loader.getIndex()).formulas) }), 'Loading formula centre…'),
   '/formulas/:slug': ({ slug }) => transition(async () => ({ view: renderFormulaLibrary((await loader.getIndex()).formulas, slug) }), 'Loading formula…'),
-  '/quiz': () => transition(async () => {
+  '/quiz': ({ search }) => transition(async () => {
     const [data, quiz] = await Promise.all([loader.getIndex(), loadPageModule('./js/quizSession.js')]);
-    return { view: quiz.quizPage(data), mount: () => quiz.bindQuizSession(data) };
+    const options = quiz.optionsFromSearch(search);
+    return { view: quiz.quizPage(data), mount: () => quiz.bindQuizSession(data, options) };
   }, 'Preparing quiz…'),
   '/quiz/topic/:slug': ({ slug }) => transition(async () => {
     const [data, quiz] = await Promise.all([loader.getIndex(), loadPageModule('./js/quizSession.js')]);
-    return { view: quiz.quizPage(data), mount: () => quiz.bindQuizSession(data, { topic: slug }) };
+    return { view: quiz.quizPage(data), mount: () => quiz.bindQuizSession(data, { mode: 'Topic Quiz', topics: [slug] }) };
   }, 'Preparing topic quiz…'),
   '/exam': () => transition(async () => {
     const [data, quiz] = await Promise.all([loader.getIndex(), loadPageModule('./js/quizSession.js')]);
-    return { view: quiz.quizPage(data), mount: () => quiz.bindQuizSession(data, { mode: 'Exam Practice', durationSeconds: 1800 }) };
+    return { view: quiz.quizPage(data), mount: () => quiz.bindQuizSession(data, { mode: 'Exam Practice', durationSeconds: 1800, autoStart: true }) };
   }, 'Preparing exam practice…'),
   '/results/:id': ({ id }) => transition(async () => {
     const quiz = await loadPageModule('./js/quizSession.js');
@@ -270,7 +274,7 @@ const router = new Router({
   }, 'Opening the data lab…'),
   '/resources': () => transition(async () => {
     const [index, resources] = await Promise.all([loader.getIndex(), loadPageModule('./js/resourcesUI.js')]);
-    return { view: resources.resourcesPage(index) };
+    return { view: resources.resourcesPage(index), mount: () => resources.bindResources() };
   }, 'Loading the source library…'),
   '/progress': () => transition(async () => ({ view: dashboardView(...(await dashboardContext())), mount: () => bindProgressTransfer() }), 'Loading progress…'),
   '/mastery': () => transition(async () => ({ view: masteryView(await dashboardService.summary()) }), 'Loading mastery…'),
@@ -298,21 +302,28 @@ const router = new Router({
     return { view: privacy.privacyPage() };
   }, 'Opening privacy…'),
   '/account': () => transition(async () => {
-    const [profile, account] = await Promise.all([profileService.get(), loadPageModule('./js/accountPage.js')]);
-    return { view: await account.accountPage(profile), mount: () => bindAccount(router) };
+    const [profile, settings, account] = await Promise.all([
+      profileService.get(), profileService.getSettings().catch(() => null), loadPageModule('./js/accountPage.js')
+    ]);
+    return { view: await account.accountPage(profile, settings), mount: () => bindAccount(router) };
   }, 'Loading account…'),
   '/bookmarks': () => transition(async () => ({ view: bookmarkPage(await bookmarkService.list()) }), 'Loading bookmarks…'),
   '/revision': () => transition(async () => {
-    const [index, planner, state] = await Promise.all([
-      loader.getIndex(), loadPageModule('./js/revisionUI.js'), progressService.list()
+    const [index, planner, state, settings, cards] = await Promise.all([
+      loader.getIndex(), loadPageModule('./js/revisionUI.js'), progressService.list(),
+      profileService.getSettings().catch(() => null),
+      import('./js/services/flashcardService.js').then(({ flashcardService }) => flashcardService.list()).catch(() => null)
     ]);
     const lessons = await Promise.all(index.lessonIndex.map(item => loader.getLesson(item.slug)));
-    return { view: planner.revisionPage(index, lessons, state.completed), mount: () => planner.bindRevision() };
+    return { view: planner.revisionPage(index, lessons, state.completed, settings, cards?.state), mount: () => planner.bindRevision() };
   }, 'Building your revision plan…'),
-  '/ai': () => transition(async () => {
-    const workspace = await loadPageModule('./js/aiWorkspace.js');
-    return { view: await workspace.aiWorkspace(), mount: () => workspace.bindAI() };
-  }, 'Opening AI workspace…'),
+  '/revision/print': () => transition(async () => {
+    const pack = await loadPageModule('./js/revisionPack.js');
+    return { view: pack.revisionPackPage(await loader.getIndex()) };
+  }, 'Building your printable revision pack…'),
+  // Keep old bookmarks working, but send every Ask entry point into the same
+  // source-cited assistant that works without a provider API key.
+  '/ai': ({ query }) => transition(async () => ({ view: askPage(query || ''), mount: bindAsk }), 'Opening Ask KINETIQ…'),
   '/search': ({ query }) => transition(async () => ({ view: renderSearch(searchIndex.search(query || ''), query || '') }), 'Searching KINETIQ…'),
   '*': () => transition(async () => ({ view: renderNotFound() }), 'Finding page…')
 });
@@ -370,6 +381,18 @@ async function boot() {
             // Never block the sign-in on this. The work stays on the device
             // and the next sign-in tries again.
             console.warn("KINETIQ could not move guest work into the account.", error);
+          }
+          try {
+            const { flashcardService } = await import('./js/services/flashcardService.js');
+            await flashcardService.migrateLocal();
+          } catch (error) {
+            console.warn('KINETIQ could not move guest flashcards into the account.', error);
+          }
+          try {
+            const { quizService } = await import('./js/services/quizService.js');
+            await quizService.migrateLocal();
+          } catch (error) {
+            console.warn('KINETIQ could not move guest practice into the account.', error);
           }
           const { destinationFor } = await import("./js/authFlow.js");
           const target = destinationFor(session.user);

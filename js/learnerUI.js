@@ -1,5 +1,7 @@
 import { escapeHTML, orderLessons } from './utils.js';
 import { masteryService } from './services/masteryService.js';
+import { dueCount } from './flashcards.js';
+import { collectMistakes } from './mistakeBank.js';
 
 const RESULTS_PREFIX = 'phylab_quiz_results:';
 
@@ -26,9 +28,10 @@ const percentageOf = results => {
 function topicBreakdown(results) {
   const groups = new Map();
   results.forEach(result => (result.analytics?.topics || []).forEach(topic => {
-    const current = groups.get(topic.label) || { label: topic.label, earned: 0, max: 0 };
+    const current = groups.get(topic.label) || { label: topic.label, earned: 0, max: 0, attempted: 0 };
     current.earned += topic.earned;
     current.max += topic.max;
+    current.attempted += topic.attempted || 0;
     groups.set(topic.label, current);
   }));
   return [...groups.values()].map(item => ({ ...item, percentage: item.max ? Math.round(item.earned / item.max * 100) : 0 })).sort((left, right) => right.percentage - left.percentage);
@@ -49,11 +52,27 @@ export function dashboardView(summary, extra = {}) {
   const results = localResults();
   const accuracy = summary.guest ? percentageOf(results) : summary.quizAccuracy;
   const topics = summary.guest ? topicBreakdown(results) : [];
-  const strong = summary.guest ? topics.slice(0, 3) : summary.strongestTopics || [];
-  const weak = summary.guest ? [...topics].reverse().slice(0, 3) : summary.weakestTopics || [];
+  const measured = summary.guest ? topics.filter(topic => topic.attempted >= 10) : [];
+  const developing = summary.guest ? topics.filter(topic => topic.attempted < 10) : [];
+  const strong = summary.guest ? measured.slice(0, 3) : summary.strongestTopics || [];
+  const weak = summary.guest ? [...measured].reverse().slice(0, 3) : summary.weakestTopics || [];
   const next = lessons.find(lesson => !completedSlugs.includes(lesson.slug));
   const currentUnit = next ? (next.unit || String(next.title).charAt(0)) : null;
   const unitName = (extra.units || []).find(unit => unit.id === currentUnit)?.title;
+  const studyPlan = extra.settings?.study_plan || {};
+  const examTime = studyPlan.exam_date ? new Date(`${studyPlan.exam_date}T00:00:00`).getTime() : null;
+  const daysToExam = Number.isFinite(examTime) ? Math.max(0, Math.ceil((examTime - Date.now()) / 86400000)) : null;
+  const dueCards = summary.guest ? dueCount() : summary.flashcardsDue || 0;
+  const dueMistakes = summary.guest ? collectMistakes().filter(item => item.due).length : summary.revisionTasksDue || 0;
+  const weakName = weak[0]?.label || weak[0]?.topic_slug || '';
+  const today = [
+    (dueCards || dueMistakes) && {
+      kind: 'Review', title: `${dueCards + dueMistakes} item${dueCards + dueMistakes === 1 ? '' : 's'} due`,
+      detail: `${dueCards} flashcard${dueCards === 1 ? '' : 's'} and ${dueMistakes} mistake${dueMistakes === 1 ? '' : 's'}.`, href: '/revision'
+    },
+    next && { kind: 'Learn', title: next.title, detail: 'Your next lesson in syllabus order.', href: `/lesson/${next.slug}` },
+    { kind: 'Practise', title: weakName ? `Target ${weakName}` : 'Establish a practice baseline', detail: weakName ? 'Based on at least ten scored questions.' : 'A short set will create your first reliable evidence.', href: weakName ? `/quiz?mode=Topic%20Quiz&topic=${encodeURIComponent(weakName)}` : '/quiz?mode=Quick%205&count=5' }
+  ].filter(Boolean).slice(0, 3);
 
   return `<section class="page progress-page">
     <p class="eyebrow">LEARNER DASHBOARD</p>
@@ -61,6 +80,13 @@ export function dashboardView(summary, extra = {}) {
     <p class="page-lead">${summary.guest
       ? 'You are studying as a guest, so progress and practice results are stored in this browser only. Everything shown below comes from what you have actually done.'
       : 'Progress, mastery and practice results are synced to your KINETIQ account.'}</p>
+
+    ${!summary.guest && (studyPlan.target_score || studyPlan.exam_date || studyPlan.weekly_hours) ? `<div class="study-context">
+      ${studyPlan.target_score ? `<span><b>${escapeHTML(studyPlan.target_score)}</b> target score</span>` : ''}
+      ${daysToExam !== null ? `<span><b>${daysToExam}</b> days to exam</span>` : ''}
+      ${studyPlan.weekly_hours ? `<span><b>${escapeHTML(studyPlan.weekly_hours)}</b> hours per week</span>` : ''}
+      <a href="/account" data-route>Update plan</a>
+    </div>` : ''}
 
     <div class="progress-hero">
       <div class="library-summary__ring" role="img" aria-label="${percentage} percent of lessons complete"><b>${percentage}%</b></div>
@@ -70,6 +96,16 @@ export function dashboardView(summary, extra = {}) {
         ${next ? `<a class="button" href="/lesson/${escapeHTML(next.slug)}" data-route>Continue with ${escapeHTML(next.title)} →</a>` : '<a class="button" href="/exam-prep" data-route>Move on to exam preparation →</a>'}
       </div>
     </div>
+
+    <section class="lesson-section today-workspace">
+      <div class="section-title"><p class="eyebrow">TODAY</p><h2>Your next three actions</h2></div>
+      <p class="muted">Built only from due reviews, completed work and measured practice. KINETIQ never invents progress.</p>
+      <ol class="today-list">${today.map((item, index) => `<li class="today-item">
+        <span class="today-item__num">${String(index + 1).padStart(2, '0')}</span>
+        <div><span class="tag">${escapeHTML(item.kind)}</span><h3>${escapeHTML(item.title)}</h3><p>${escapeHTML(item.detail)}</p></div>
+        <a class="outline" href="${escapeHTML(item.href)}" data-route>Open</a>
+      </li>`).join('')}</ol>
+    </section>
 
     <div class="dash-grid">
       ${statCard('LESSONS COMPLETE', `${completed}/${lessons.length}`)}
@@ -115,15 +151,15 @@ export function dashboardView(summary, extra = {}) {
     <section class="lesson-section">
       <div class="section-title"><p class="eyebrow">WHERE YOU ARE STRONG</p><h2>Strong topics</h2></div>
       ${strong.length
-        ? `<div class="card-grid">${strong.map(topic => `<article class="content-card"><h3>${escapeHTML(topic.label || topic.topic_slug || '')}</h3><div class="bar"><i style="width:${topic.percentage ?? topic.mastery_score ?? 0}%"></i></div><p>${topic.percentage ?? topic.mastery_score ?? 0}%</p></article>`).join('')}</div>`
-        : noData('Submit a practice quiz and KINETIQ will show which topics you scored best on.')}
+        ? `<div class="card-grid">${strong.map(topic => `<article class="content-card"><h3>${escapeHTML(topic.label || topic.topic_slug || '')}</h3><div class="bar"><i style="width:${topic.percentage ?? topic.mastery_score ?? 0}%"></i></div><p>${topic.percentage ?? topic.mastery_score ?? 0}% · ${topic.attempted ?? topic.attempt_count ?? 0} questions</p></article>`).join('')}</div>`
+        : noData(developing.length ? 'Keep practising. KINETIQ waits for ten answers in a topic before calling it a reliable strength.' : 'Submit a practice quiz and KINETIQ will begin gathering evidence.')}
     </section>
 
     <section class="lesson-section">
       <div class="section-title"><p class="eyebrow">WHERE TO FOCUS</p><h2>Weak topics</h2></div>
       ${weak.length
-        ? `<div class="card-grid">${weak.map(topic => `<article class="content-card"><h3>${escapeHTML(topic.label || topic.topic_slug || '')}</h3><div class="bar"><i style="width:${topic.percentage ?? topic.mastery_score ?? 0}%"></i></div><p>${topic.percentage ?? topic.mastery_score ?? 0}%</p><a class="text-button" href="/quiz" data-route>Practise this →</a></article>`).join('')}</div>`
-        : noData('Once you have practice results, the topics needing another pass appear here.')}
+        ? `<div class="card-grid">${weak.map(topic => { const label = topic.label || topic.topic_slug || ''; return `<article class="content-card"><h3>${escapeHTML(label)}</h3><div class="bar"><i style="width:${topic.percentage ?? topic.mastery_score ?? 0}%"></i></div><p>${topic.percentage ?? topic.mastery_score ?? 0}% · ${topic.attempted ?? topic.attempt_count ?? 0} questions</p><a class="text-button" href="/quiz?mode=Topic%20Quiz&topic=${encodeURIComponent(label)}" data-route>Practise this topic →</a></article>`; }).join('')}</div>`
+        : noData(developing.length ? `${developing.length} topic${developing.length === 1 ? ' has' : 's have'} early results, but not enough evidence yet. Reach ten answers in a topic to unlock a strength score.` : 'Once you have enough practice results, the topics needing another pass appear here.')}
     </section>
 
     <section class="lesson-section">
@@ -138,7 +174,7 @@ export function dashboardView(summary, extra = {}) {
       <div class="card-grid">
         ${next ? `<article class="content-card"><h3>Next lesson</h3><p>${escapeHTML(next.title)}</p><a class="text-button" href="/lesson/${escapeHTML(next.slug)}" data-route>Open lesson →</a></article>` : ''}
         <article class="content-card"><h3>Recommended simulation</h3><p>${escapeHTML(recommendedSimulation(currentUnit).label)}</p><a class="text-button" href="/simulations/${escapeHTML(recommendedSimulation(currentUnit).slug)}" data-route>Open the lab →</a></article>
-        <article class="content-card"><h3>Recommended practice</h3><p>${weak.length ? `Target ${escapeHTML(weak[0].label || weak[0].topic_slug || 'your weakest topic')}.` : 'Start with a short five-question set to establish a baseline.'}</p><a class="text-button" href="/quiz" data-route>Start a quiz →</a></article>
+        <article class="content-card"><h3>Recommended practice</h3><p>${weak.length ? `Target ${escapeHTML(weakName)}.` : 'Start with a short five-question set to establish a baseline.'}</p><a class="text-button" href="${weakName ? `/quiz?mode=Topic%20Quiz&topic=${encodeURIComponent(weakName)}` : '/quiz?mode=Quick%205&count=5'}" data-route>Start the right quiz →</a></article>
         <article class="content-card"><h3>Apply it</h3><p>Case practice puts the current unit into a real context.</p><a class="text-button" href="/cases" data-route>Open case practice →</a></article>
       </div>
     </section>
