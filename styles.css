@@ -244,6 +244,8 @@
 .resource-card .text-button{margin-top:14px;display:inline-block;font-size:13px}
 .resource-card--note{border-style:dashed}
 .resource-note{font:10px var(--font-mono);color:var(--muted);display:inline-block;margin-top:14px}
+.resource-card__provenance{font:600 10px/1.2 var(--font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--blue-strong);margin:0 0 10px}
+[data-theme="dark"] .resource-card__provenance{color:var(--accent)}
 .progress-hero{display:flex;gap:26px;align-items:center;flex-wrap:wrap;background:var(--surface-alt);border:1px solid var(--line);padding:26px;margin-bottom:26px}
 .progress-current{font-size:14px;color:var(--muted);margin:0 0 15px}
 .stat-card h2{font-size:34px;margin:5px 0 0;letter-spacing:-.04em}

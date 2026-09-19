@@ -29,6 +29,12 @@ const linkFor = item => {
   return '<span class="resource-note">Obtain through your school</span>';
 };
 
+const provenance = item => ({
+  internal: 'Original KINETIQ material',
+  external: 'External reference',
+  note: 'Licensed source required'
+})[item.kind] || 'Resource information';
+
 /** Source library. Links and KINETIQ-generated material only — no copyrighted files are hosted. */
 export function resourcesPage(index) {
   const groups = index.resources || [];
@@ -44,6 +50,7 @@ export function resourcesPage(index) {
       <p class="resources-intro">${escapeHTML(fillCounts(group.description, index))}</p>
       <div class="card-grid">
         ${(group.items || []).map(item => `<article class="content-card resource-card resource-card--${escapeHTML(item.kind || 'internal')}">
+          <p class="resource-card__provenance">${escapeHTML(provenance(item))}</p>
           <h3>${escapeHTML(item.title)}</h3>
           <p>${escapeHTML(fillCounts(item.detail, index))}</p>
           ${linkFor(item)}
