@@ -183,7 +183,9 @@ export function dashboardView(summary, extra = {}) {
 
     <section class="lesson-section" data-progress-transfer>
       <div class="section-title"><p class="eyebrow">YOUR DATA</p><h2>Move your progress</h2></div>
-      <p class="page-lead">Progress is stored in this browser, so a new device or a cleared cache would lose it. Save a file and you keep it yourself.</p>
+      <p class="page-lead">${summary.guest
+        ? 'Guest progress is stored in this browser, so a new device or a cleared cache would lose it. Save a file and you keep it yourself.'
+        : 'Lesson, practice and flashcard records sync with your KINETIQ account. A personal export also protects device-only work such as your IA draft.'}</p>
       <div class="transfer-row">
         <button type="button" class="button" data-export-progress>Save my progress</button>
         <label class="outline transfer-import">
@@ -192,7 +194,7 @@ export function dashboardView(summary, extra = {}) {
         </label>
       </div>
       <p class="muted transfer-status" role="status" data-transfer-status></p>
-      <p class="muted transfer-note">The file holds lessons completed, flashcard and mistake schedules, saved answers, past attempts and your IA draft. It does not include your KIT conversations.</p>
+      <p class="muted transfer-note">The file holds lessons completed, flashcard and mistake schedules, saved answers, past attempts and your IA draft. It does not include your KIT conversations or account credentials.</p>
     </section>
   </section>`;
 }
