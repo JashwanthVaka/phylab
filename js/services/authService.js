@@ -1,13 +1,14 @@
 /**
- * Sign-in, through an identity provider only.
+ * Password-free sign-in through an identity provider or secure email link.
  *
  * KINETIQ has no password of its own. A learner signs in with an account they
  * already have and already protect, which means there is no password for this
  * site to store, leak, or ask anyone to reset. It also removes the whole
  * email-confirmation round trip, which was the slowest part of starting.
  *
- * Google and Apple are the two offered. Both are provider calls of the same
- * shape, so adding a third later is one more line rather than a new flow.
+ * Google and Apple are the supported OAuth providers. Email links use the
+ * same Supabase account and progress store without asking KINETIQ to keep a
+ * password.
  */
 import { getSupabase, isCloudEnabled } from './supabaseClient.js';
 

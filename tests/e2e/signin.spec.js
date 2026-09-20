@@ -36,6 +36,10 @@ async function withProviders(page, external) {
           signInWithOAuth: async ({ provider }) => {
             window.__lastProvider = provider;
             return { data: {}, error: null };
+          },
+          signInWithOtp: async ({ email }) => {
+            window.__lastEmail = email;
+            return { data: {}, error: null };
           }
         },
         from: () => ({
@@ -97,6 +101,17 @@ test.describe('signing in', () => {
 
     await page.locator('[data-provider="apple"]').click();
     await expect.poll(() => page.evaluate(() => window.__lastProvider)).toBe('apple');
+  });
+
+  test('an iCloud address starts the free password-free email flow', async ({ page }) => {
+    await withProviders(page, { google: true });
+    await page.goto('/login', { waitUntil: 'domcontentloaded' });
+
+    await page.locator('#authEmail').fill('learner@icloud.com');
+    await page.locator('#emailLinkForm button[type="submit"]').click();
+
+    await expect.poll(() => page.evaluate(() => window.__lastEmail)).toBe('learner@icloud.com');
+    await expect(page.locator('#authError')).toContainText(/check your inbox/i);
   });
 
   test('/signup and /reset lead to the same sign-in, not a dead end', async ({ page }) => {
