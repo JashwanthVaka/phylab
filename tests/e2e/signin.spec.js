@@ -72,12 +72,13 @@ test.describe('signing in', () => {
     await expect(page.locator('[data-provider="apple"]')).toHaveCount(0);
   });
 
-  test('asks for no password anywhere', async ({ page }) => {
+  test('asks for no password and offers a free email-link alternative', async ({ page }) => {
     await withProviders(page, { google: true, apple: true });
     await page.goto('/login', { waitUntil: 'domcontentloaded' });
 
     await expect(page.locator('input[type="password"]')).toHaveCount(0);
-    await expect(page.locator('input[type="email"]')).toHaveCount(0);
+    await expect(page.locator('input[type="email"]')).toHaveCount(1);
+    await expect(page.locator('.auth-email-note')).toContainText(/including iCloud/i);
     await expect(page.locator('#authForm')).toHaveCount(0);
     await expect(page.getByText(/forgot password/i)).toHaveCount(0);
   });

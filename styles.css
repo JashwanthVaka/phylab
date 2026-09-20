@@ -2835,6 +2835,12 @@ input, select, textarea, .stats, .facts {
   font-size: 15.5px;
   gap: var(--s3);
 }
+.auth-column .oauth-divider { margin: var(--s5) 0 var(--s4); }
+.auth-email-note {
+  margin: 0 0 var(--s4); color: var(--muted); font-size: 13.5px;
+  line-height: 1.55; text-align: center;
+}
+.auth-column .auth-email-link { max-width: 100%; gap: var(--s3); }
 
 .oauth-button[data-provider="google"] {
   background: var(--fill); color: #fff; border-color: var(--blue);

@@ -112,6 +112,12 @@ const button = (provider, available) => `
     <span>${escapeHTML(provider.label)}</span>
   </button>`;
 
+const emailLinkForm = () => `
+  <form id="emailLinkForm" class="account-form auth-email-link">
+    <label for="authEmail">Email address<input id="authEmail" type="email" name="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required></label>
+    <button class="button" type="submit">Email me a sign-in link</button>
+  </form>`;
+
 /**
  * The sign-in page.
  *
@@ -143,15 +149,15 @@ export async function authPage() {
       <div class="auth-providers">${shown.map(provider => button(provider, available)).join('')}</div>
 
       ${available
-        ? `<p id="authError" class="auth-error" role="alert"></p>
+        ? `<div class="oauth-divider"><span>or</span></div>
+           <p class="auth-email-note">Use any email address, including iCloud, for a secure password-free account.</p>
+           ${emailLinkForm()}
+           <p id="authError" class="auth-error" role="alert"></p>
            <p class="auth-fineprint">Signing in for the first time creates your account. There is no separate registration step.</p>
            <p class="auth-guest">Not ready to sign in? <a href="/library" data-route>Carry on studying as a guest.</a> Nothing is locked behind an account.</p>`
         : connected
           ? `<p id="authUnavailable" class="auth-unavailable-note"><b>Google and Apple are not switched on yet.</b> Use an email link for a secure account now. It works with Gmail, Outlook, iCloud, or any inbox you control.</p>
-             <form id="emailLinkForm" class="account-form auth-email-link">
-               <label for="authEmail">Email address<input id="authEmail" type="email" name="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required></label>
-               <button class="button" type="submit">Email me a sign-in link</button>
-             </form>
+             ${emailLinkForm()}
              <p id="authError" class="auth-error" role="alert"></p>
              <p class="auth-fineprint">The link confirms that you own this inbox. KINETIQ never stores a password.</p>
              <p class="auth-guest">Not ready to sign in? <a href="/library" data-route>Carry on studying as a guest.</a> Nothing is locked behind an account.</p>`
