@@ -79,7 +79,7 @@ export function buildWeeklyPlan({
       kind: 'Practise',
       title: `Practice set: ${weakest.label}`,
       detail: `Your weakest measured topic at ${weakest.percentage}%.`,
-      href: '/quiz',
+      href: `/quiz?mode=Topic%20Quiz&topic=${encodeURIComponent(weakest.label)}`,
     }, QUIZ_MINUTES);
   } else if (items.length) {
     add({

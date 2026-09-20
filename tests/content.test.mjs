@@ -161,6 +161,10 @@ const resourceBlob = JSON.stringify(read('resources.json'));
 
 // Prose in the manifest and README states counts literally; check them.
 const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, 'manifest.json'), 'utf8'));
+manifest.icons.forEach(icon => {
+  const iconPath = path.join(ROOT, icon.src.replace(/^\//, ''));
+  assert.ok(fs.existsSync(iconPath), `manifest icon ${icon.src} does not exist`);
+});
 const manifestSims = /(\d+) simulations/.exec(manifest.description || '');
 assert.ok(manifestSims, 'manifest.json description should state a simulation count');
 assert.equal(Number(manifestSims[1]), actual.simulations,

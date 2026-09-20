@@ -38,6 +38,7 @@ function connectedWork(lesson, index) {
   const simulation = (index.simulations || []).find(item => item.lesson === slug);
   const cases = (index.cases || []).filter(item => (item.lessons || []).includes(slug));
   const questions = (index.questions || []).filter(item => (item.lessonReferences || []).includes(slug));
+  const practiceTopic = questions[0]?.topic || lesson.topicLabel || lesson.title;
   const patterns = (index.questionPatterns || []).filter(item => (item.lessons || []).includes(slug));
   const formulaCount = (lesson.formulas || []).length;
 
@@ -55,7 +56,7 @@ function connectedWork(lesson, index) {
       cases.length > 1 ? `One of ${cases.length} real-world cases using this lesson.` : 'A real-world context with an exam-style question.']);
   }
   if (questions.length) {
-    tiles.push(['Practise', `/quiz?topic=${encodeURIComponent(slug)}`, `${questions.length} question${questions.length === 1 ? '' : 's'}`,
+    tiles.push(['Practise', `/quiz?mode=Topic%20Quiz&topic=${encodeURIComponent(practiceTopic)}`, `${questions.length} question${questions.length === 1 ? '' : 's'}`,
       `${questions.filter(item => item.level === 'HL').length} at HL, marked with worked solutions.`]);
   }
   if (patterns.length) {
@@ -67,7 +68,7 @@ function connectedWork(lesson, index) {
   if (!tiles.length) return '';
 
   const modelHref = simulation ? `/simulations/${escapeHTML(simulation.slug)}` : '/formulas';
-  const checkpointHref = `/quiz?mode=Topic%20Quiz&topic=${encodeURIComponent(lesson.topicLabel || lesson.slug)}&count=5`;
+  const checkpointHref = `/quiz?mode=Topic%20Quiz&topic=${encodeURIComponent(practiceTopic)}&count=5`;
   return section('Take it further', `<ol class="learning-loop" aria-label="Recommended learning sequence">
       <li class="is-current"><span>1</span><div><b>Understand</b><small>Read this lesson and its worked examples.</small></div></li>
       <li><span>2</span><div><b>Model</b><small><a href="${modelHref}" data-route>${simulation ? 'Change the variables in the lab' : 'Connect the formulae'}</a></small></div></li>
@@ -99,7 +100,7 @@ export function renderLesson(lesson, index = { lessonIndex: [] }, completedSlugs
     ${section('Visual model', `${diagramFor(lesson)}${lessonGraph(lesson) || renderGraph(graphFor(lesson))}`, { eyebrow: 'SEE THE PHYSICS' })}
     ${section('Calculator', renderCalculator(), { eyebrow: 'CHECK A RESULT' })}
     ${optional('Worked examples', lesson.worked_examples, example, { eyebrow: 'METHOD IN ACTION' })}
-    ${optional('Practice questions', lesson.practice_questions, item => card(`${item.level || 'Practice'} question`, `<p>${escapeHTML(item.question)}</p><button class="text-button" data-quiz-topic="${escapeHTML(lesson.slug)}">Practise this topic →</button>`), { id: 'practice', eyebrow: 'CHECK YOUR THINKING' })}
+    ${optional('Practice questions', lesson.practice_questions, item => card(`${item.level || 'Practice'} question`, `<p>${escapeHTML(item.question)}</p><button class="text-button" data-quiz-topic="${escapeHTML(lesson.topicLabel || lesson.title)}">Practise this topic →</button>`), { id: 'practice', eyebrow: 'CHECK YOUR THINKING' })}
     ${optional('Exam questions', lesson.practice_questions?.filter(item => item.level === 'HL' || /exam/i.test(item.question)), item => card(`${item.level || 'Exam'} prompt`, `<p>${escapeHTML(item.question)}</p><p class="muted">Plan a structured response: principle, model, calculation or evidence, conclusion.</p>`), { eyebrow: 'EXAM APPLICATION' })}
     ${optional('IB exam tips', lesson.ib_exam_tips, tip => card('Exam technique', `<p>${escapeHTML(tip)}</p>`, 'tip-card'), { eyebrow: 'ASSESSMENT' })}
     ${optional('Common mistakes', lesson.common_mistakes, warning => card('Watch for this', `<p>${escapeHTML(warning)}</p>`, 'warning-card'), { eyebrow: 'AVOID LOSING MARKS' })}

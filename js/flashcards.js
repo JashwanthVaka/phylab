@@ -1,4 +1,5 @@
 import { escapeHTML, slugify } from './utils.js';
+import { learningStorage as localStorage } from './services/learningStorage.js';
 const KEY = 'phylab_flashcards_v1';
 const read = () => { try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch { return {}; } };
 const write = value => localStorage.setItem(KEY, JSON.stringify(value));
@@ -16,7 +17,7 @@ export function bindFlashcards() {
   document.querySelectorAll('.flashcard').forEach(card => {
     const flip = () => card.classList.toggle('is-flipped');
     card.addEventListener('click', event => { if (!event.target.closest('[data-review]')) flip(); });
-    card.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); flip(); } });
+    card.addEventListener('keydown', event => { if (event.target === card && (event.key === 'Enter' || event.key === ' ')) { event.preventDefault(); flip(); } });
     card.querySelectorAll('[data-review]').forEach(button => button.addEventListener('click', event => {
       event.stopPropagation();
       const state = read();

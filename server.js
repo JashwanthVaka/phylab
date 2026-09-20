@@ -301,7 +301,7 @@ async function serveAsset(res, pathname, headOnly) {
   let target = pathname === '/' ? 'index.html' : pathname.replace(/^\//, '');
   // Any path without a file extension is a client route, so the SPA renders it (including its own 404 page).
   if (!/\.[a-z0-9]+$/i.test(target) && !target.startsWith('api/')) target = 'index.html';
-  if (!(/^(index\.html|styles\.css|app\.js|public-env\.js|sw\.js|manifest\.json|js\/[a-zA-Z0-9_\/-]+\.js|icons\/[a-zA-Z0-9_-]+\.png)$/.test(target))) return send(res, 404, { error: 'Not found' });
+  if (!(/^(index\.html|styles\.css|app\.js|public-env\.js|sw\.js|manifest\.json|js\/[a-zA-Z0-9_\/-]+\.js|icons\/[a-zA-Z0-9_-]+\.(?:png|svg))$/.test(target))) return send(res, 404, { error: 'Not found' });
   const file = path.resolve(ROOT, target); if (!file.startsWith(`${ROOT}${path.sep}`)) return send(res, 403, { error: 'Forbidden' });
   try { const data = await fs.readFile(file); res.writeHead(200, secureHeaders({ 'Content-Type': MIME[path.extname(file)] || 'application/octet-stream', 'Cache-Control': cacheControlFor(target) })); if (!headOnly) res.end(data); else res.end(); } catch { send(res, 404, { error: 'Not found' }); }
 }

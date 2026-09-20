@@ -1,8 +1,9 @@
 import { getSupabase } from './supabaseClient.js';
+import { learningStorage as localStorage, storageFor } from './learningStorage.js';
 
 const KEY = 'phylab_flashcards_v1';
-const readLocal = () => {
-  try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch { return {}; }
+const readLocal = (storage = localStorage) => {
+  try { return JSON.parse(storage.getItem(KEY) || '{}'); } catch { return {}; }
 };
 
 async function account() {
@@ -17,13 +18,14 @@ export const flashcardService = {
     const current = await account();
     if (!current) return { guest: true, state: readLocal() };
     const { data, error } = await current.supabase.from('flashcard_progress')
-      .select('card_key,due_at,interval_days');
+      .select('card_key,due_at,interval_days,last_reviewed_at').eq('user_id', current.user.id);
     if (error) return { guest: false, state: {}, error: error.message };
     return {
       guest: false,
       state: Object.fromEntries((data || []).map(row => [row.card_key, {
         interval: row.interval_days,
-        due: new Date(row.due_at).getTime()
+        due: new Date(row.due_at).getTime(),
+        reviewedAt: new Date(row.last_reviewed_at).getTime()
       }]))
     };
   },
@@ -44,7 +46,8 @@ export const flashcardService = {
 
   async migrateLocal() {
     const current = await account();
-    const state = readLocal();
+    const guest = storageFor(null);
+    const state = readLocal(guest);
     const entries = Object.entries(state);
     if (!current) return { migrated: 0, cleared: false, reason: 'signed-out' };
     if (!entries.length) return { migrated: 0, cleared: true, reason: 'nothing-to-move' };
@@ -58,7 +61,7 @@ export const flashcardService = {
     }));
     const { error } = await current.supabase.from('flashcard_progress').upsert(rows, { onConflict: 'user_id,card_key' });
     if (error) return { migrated: 0, cleared: false, error: error.message };
-    localStorage.removeItem(KEY);
+    guest.removeItem(KEY);
     return { migrated: rows.length, cleared: true };
   },
 

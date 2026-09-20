@@ -22,7 +22,8 @@ const CONTENT = `${VERSION}-content`;
 const scoped = path => new URL(path, self.registration.scope).toString();
 
 const SHELL_FILES = ['', 'index.html', 'styles.css', 'app.js', 'public-env.js',
-  'manifest.json', 'icons/icon-180.png', 'icons/icon-192.png', 'icons/icon-512.png'].map(scoped);
+  'manifest.json', 'icons/kinetiq.svg', 'icons/momentum-180.png',
+  'icons/momentum-192.png', 'icons/momentum-512.png'].map(scoped);
 
 self.addEventListener('install', event => {
   event.waitUntil(
@@ -49,7 +50,9 @@ self.addEventListener('fetch', event => {
   if (url.origin !== self.location.origin) return;
 
   // Never cache the tutor or the provider probe: an answer must be live or absent.
-  if (url.pathname.includes('/api/chat') || url.pathname.includes('/api/ai/')) return;
+  // Only public curriculum content may be cached. Account/config/admin
+  // responses must never survive sign-out in a shared browser cache.
+  if (url.pathname.startsWith('/api/') && !url.pathname.startsWith('/api/content/')) return;
 
   // Navigations: try the network first so a deploy is picked up, fall back to
   // the cached shell so deep links still open offline.

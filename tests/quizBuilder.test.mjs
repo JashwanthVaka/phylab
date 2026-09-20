@@ -25,4 +25,11 @@ const filtered = selectQuestions(questions, { topics: ['Kinematics'], difficulti
 assert.deepEqual(filtered.questions.map(question => question.id), ['1']);
 assert.equal(filtered.available, 1);
 
-console.log('quiz builder tests passed (URL options, filters and balanced topic selection)');
+const diagnostic = selectQuestions(questions, {
+  mode: 'Weak Topic Quiz', topics: ['Gas Laws'], level: 'SL', difficulties: ['hard'], types: ['mcq'], weakTopics: [], count: 6
+});
+assert.equal(diagnostic.diagnostic, true);
+assert.deepEqual(diagnostic.questions.map(question => question.id), ['6'],
+  'a weak-topic diagnostic fallback must keep the learner\'s chosen filters');
+
+console.log('quiz builder tests passed (URL options, filters, diagnostic fallback and balanced topic selection)');

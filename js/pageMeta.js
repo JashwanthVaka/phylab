@@ -42,13 +42,14 @@ const STATIC = {
   '/bookmarks': ['Saved items', 'Everything you have saved to come back to.'],
   '/mastery': ['Mastery', 'Where you are strong and where the marks are still going missing.'],
   '/privacy': ['Privacy', 'What KINETIQ does with your information, including what is sent to AI providers when you ask KIT.'],
+  '/terms': ['Terms', 'Rules for using KINETIQ, including accounts, original learning material, acceptable use and educational disclaimers.'],
   '/account': ['Your account', 'Your KINETIQ account, how you signed in, and your study settings.'],
   '/admin': ['Admin', 'Account statistics for the site owner.'],
-  '/login': ['Sign in', 'Sign in with Google or Apple to keep your progress across devices.'],
+  '/login': ['Sign in', 'Sign in with Google or a password-free email link to keep your progress across devices.'],
   // Kept only so an old bookmark lands on sign-in rather than a 404. There
   // is no password here to reset.
-  '/reset': ['No password needed', 'KINETIQ has no password of its own. Sign in with Google or Apple.'],
-  '/signup': ['Create your account', 'Signing in with Google or Apple creates your KINETIQ account.'],
+  '/reset': ['No password needed', 'KINETIQ has no password of its own. Sign in with Google or a secure email link.'],
+  '/signup': ['Create your account', 'Signing in with Google or a secure email link creates your KINETIQ account.'],
   '/activity': ['Activity', 'What you have studied recently.'],
 };
 

@@ -2,6 +2,7 @@ import { escapeHTML, orderLessons } from './utils.js';
 import { masteryService } from './services/masteryService.js';
 import { dueCount } from './flashcards.js';
 import { collectMistakes } from './mistakeBank.js';
+import { learningStorage as localStorage } from './services/learningStorage.js';
 
 const RESULTS_PREFIX = 'phylab_quiz_results:';
 
@@ -54,8 +55,8 @@ export function dashboardView(summary, extra = {}) {
   const topics = summary.guest ? topicBreakdown(results) : [];
   const measured = summary.guest ? topics.filter(topic => topic.attempted >= 10) : [];
   const developing = summary.guest ? topics.filter(topic => topic.attempted < 10) : [];
-  const strong = summary.guest ? measured.slice(0, 3) : summary.strongestTopics || [];
-  const weak = summary.guest ? [...measured].reverse().slice(0, 3) : summary.weakestTopics || [];
+  const strong = summary.guest ? measured.filter(topic => topic.percentage >= 75).slice(0, 3) : summary.strongestTopics || [];
+  const weak = summary.guest ? [...measured].reverse().filter(topic => topic.percentage < 60).slice(0, 3) : summary.weakestTopics || [];
   const next = lessons.find(lesson => !completedSlugs.includes(lesson.slug));
   const currentUnit = next ? (next.unit || String(next.title).charAt(0)) : null;
   const unitName = (extra.units || []).find(unit => unit.id === currentUnit)?.title;
@@ -109,7 +110,7 @@ export function dashboardView(summary, extra = {}) {
 
     <div class="dash-grid">
       ${statCard('LESSONS COMPLETE', `${completed}/${lessons.length}`)}
-      ${statCard('PRACTICE ATTEMPTS', results.length || summary.recentQuizScores?.length || 0, summary.guest ? 'Saved on this device' : 'From your account')}
+      ${statCard('PRACTICE ATTEMPTS', summary.guest ? results.length : summary.quizCount || 0, summary.guest ? 'Saved on this device' : 'From your account')}
       ${statCard('PRACTICE ACCURACY', accuracy === null || accuracy === undefined ? 'n/a' : `${accuracy}%`, accuracy === null || accuracy === undefined ? 'Complete a quiz to measure this' : 'Marks earned over marks available')}
       ${summary.guest ? '' : statCard('AVERAGE MASTERY', `${summary.averageMastery || 0}%`)}
       ${summary.guest ? '' : statCard('FLASHCARDS DUE', summary.flashcardsDue || 0)}
@@ -150,6 +151,7 @@ export function dashboardView(summary, extra = {}) {
 
     <section class="lesson-section">
       <div class="section-title"><p class="eyebrow">WHERE YOU ARE STRONG</p><h2>Strong topics</h2></div>
+      <p class="muted">At least 10 scored answers and 75% of marks. Review targets are below 60%; scores between these are developing.</p>
       ${strong.length
         ? `<div class="card-grid">${strong.map(topic => `<article class="content-card"><h3>${escapeHTML(topic.label || topic.topic_slug || '')}</h3><div class="bar"><i style="width:${topic.percentage ?? topic.mastery_score ?? 0}%"></i></div><p>${topic.percentage ?? topic.mastery_score ?? 0}% · ${topic.attempted ?? topic.attempt_count ?? 0} questions</p></article>`).join('')}</div>`
         : noData(developing.length ? 'Keep practising. KINETIQ waits for ten answers in a topic before calling it a reliable strength.' : 'Submit a practice quiz and KINETIQ will begin gathering evidence.')}

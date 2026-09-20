@@ -11,6 +11,8 @@
  * file with a teacher should not be handing over their tutoring transcript.
  */
 
+import { learningStorage as localStorage } from './services/learningStorage.js';
+
 const FORMAT = 'kinetiq.progress';
 const VERSION = 1;
 

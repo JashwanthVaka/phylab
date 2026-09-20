@@ -7,6 +7,7 @@
  * intervals as the flashcard scheduler.
  */
 import { escapeHTML } from './utils.js';
+import { learningStorage as localStorage } from './services/learningStorage.js';
 
 const RESULTS_PREFIX = 'phylab_quiz_results:';
 const STATE_KEY = 'phylab_mistake_state_v1';

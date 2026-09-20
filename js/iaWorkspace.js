@@ -9,6 +9,7 @@
  * "human error" instead of naming a systematic effect.
  */
 import { escapeHTML } from './utils.js';
+import { learningStorage as localStorage } from './services/learningStorage.js';
 
 const KEY = 'phylab_ia_draft_v1';
 

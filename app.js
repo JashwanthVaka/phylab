@@ -173,11 +173,23 @@ async function transition(work, message = 'Loading page…') {
 }
 
 /** Gathers everything the progress dashboard needs so it never has to invent a metric. */
+async function restorePractice(index) {
+  try {
+    const { quizService } = await import('./js/services/quizService.js');
+    await quizService.restore(index.questions || []);
+  } catch (error) {
+    // A temporary sync failure must not make an otherwise offline-capable
+    // lesson, quiz or revision page unusable.
+    console.warn('KINETIQ could not refresh account practice on this visit.', error);
+  }
+}
+
 async function dashboardContext() {
   const [summary, index, state, settings] = await Promise.all([
     dashboardService.summary(), loader.getIndex(), progressService.list(),
     profileService.getSettings().catch(() => null)
   ]);
+  await restorePractice(index);
   return [summary, { lessons: index.lessonIndex, units: index.units, completed: state.completed, settings }];
 }
 
@@ -205,6 +217,7 @@ const router = new Router({
   '/formulas/:slug': ({ slug }) => transition(async () => ({ view: renderFormulaLibrary((await loader.getIndex()).formulas, slug) }), 'Loading formula…'),
   '/quiz': ({ search }) => transition(async () => {
     const [data, quiz] = await Promise.all([loader.getIndex(), loadPageModule('./js/quizSession.js')]);
+    await restorePractice(data);
     const options = quiz.optionsFromSearch(search);
     return { view: quiz.quizPage(data), mount: () => quiz.bindQuizSession(data, options) };
   }, 'Preparing quiz…'),
@@ -217,6 +230,7 @@ const router = new Router({
     return { view: quiz.quizPage(data), mount: () => quiz.bindQuizSession(data, { mode: 'Exam Practice', durationSeconds: 1800, autoStart: true }) };
   }, 'Preparing exam practice…'),
   '/results/:id': ({ id }) => transition(async () => {
+    await restorePractice(await loader.getIndex());
     const quiz = await loadPageModule('./js/quizSession.js');
     const report = quiz.result(id);
     const view = report
@@ -261,6 +275,7 @@ const router = new Router({
     return { view: examPrep.examPrepPage(index) };
   }, 'Opening exam preparation…'),
   '/mistakes': () => transition(async () => {
+    await restorePractice(await loader.getIndex());
     const bank = await loadPageModule('./js/mistakeBank.js');
     return { view: bank.mistakesPage(), mount: () => bank.bindMistakes() };
   }, 'Opening your mistake bank…'),
@@ -301,6 +316,10 @@ const router = new Router({
     const privacy = await loadPageModule('./js/privacyUI.js');
     return { view: privacy.privacyPage() };
   }, 'Opening privacy…'),
+  '/terms': () => transition(async () => {
+    const terms = await loadPageModule('./js/termsUI.js');
+    return { view: terms.termsPage() };
+  }, 'Opening terms…'),
   '/account': () => transition(async () => {
     const [profile, settings, account] = await Promise.all([
       profileService.get(), profileService.getSettings().catch(() => null), loadPageModule('./js/accountPage.js')
@@ -315,11 +334,16 @@ const router = new Router({
       import('./js/services/flashcardService.js').then(({ flashcardService }) => flashcardService.list()).catch(() => null)
     ]);
     const lessons = await Promise.all(index.lessonIndex.map(item => loader.getLesson(item.slug)));
-    return { view: planner.revisionPage(index, lessons, state.completed, settings, cards?.state), mount: () => planner.bindRevision() };
+    await restorePractice(index);
+    const summary = await dashboardService.summary();
+    const weak = (summary.weakestTopics || []).map(row => ({ label: row.topic_slug, percentage: row.mastery_score }));
+    return { view: planner.revisionPage(index, lessons, state.completed, settings, cards?.state, weak), mount: () => planner.bindRevision() };
   }, 'Building your revision plan…'),
-  '/revision/print': () => transition(async () => {
+  '/revision/print': ({ search }) => transition(async () => {
     const pack = await loadPageModule('./js/revisionPack.js');
-    return { view: pack.revisionPackPage(await loader.getIndex()) };
+    return { view: pack.revisionPackPage(await loader.getIndex(), {
+      unit: search.get('unit') || '', level: search.get('level') || ''
+    }) };
   }, 'Building your printable revision pack…'),
   // Keep old bookmarks working, but send every Ask entry point into the same
   // source-cited assistant that works without a provider API key.
@@ -344,6 +368,8 @@ async function boot() {
     ]);
     searchIndex = new SearchIndex(index);
     indexContent(index);
+    // Resolve identity before reading any private browser study cache.
+    await import('./js/services/learningStorage.js').then(m => m.initialiseLearningStorage());
     if (!routerStarted) {
       router.start();
       // The account control reflects auth state, which can arrive after the

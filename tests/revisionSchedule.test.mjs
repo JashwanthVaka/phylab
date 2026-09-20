@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { scheduleFor } from '../js/revisionUI.js';
+import { scheduleFor, dailyQueue } from '../js/revisionUI.js';
 
 const lessons = [{
   slug: 'kinematics',
@@ -23,4 +23,19 @@ assert.equal(scheduled[0].isDue, true);
 assert.equal(scheduled[1].isDue, false);
 assert.ok(scheduled.every(card => card.seen));
 
-console.log('revision schedule tests passed (new, due and scheduled remain distinct)');
+const dueCards = Array.from({ length: 24 }, (_, index) => ({
+  id: `due-${index}`, isDue: true, due: index, seen: true, lessonSlug: 'kinematics'
+}));
+const newCards = Array.from({ length: 8 }, (_, index) => ({
+  id: `new-${index}`, isDue: false, due: null, seen: false, lessonSlug: 'kinematics'
+}));
+const firstDay = dailyQueue([...newCards, ...dueCards], ['kinematics'], {}, '2026-09-20');
+assert.equal(firstDay.ids.length, 20, 'daily revision must be capped at 20 cards');
+assert.deepEqual(firstDay.ids, dueCards.slice(0, 20).map(card => card.id), 'overdue cards must be scheduled before new cards');
+firstDay.rated = ['due-0'];
+assert.deepEqual(dailyQueue([...newCards, ...dueCards], ['kinematics'], firstDay, '2026-09-20'), firstDay,
+  'the same day must keep a stable queue and its reviewed state');
+const nextDay = dailyQueue([...newCards, ...dueCards], ['kinematics'], firstDay, '2026-09-21');
+assert.equal(nextDay.rated.length, 0, 'a new day starts a fresh rating session');
+
+console.log('revision schedule tests passed (new, due and scheduled remain distinct; daily queue capped and stable)');

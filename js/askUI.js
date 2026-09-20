@@ -10,6 +10,7 @@
 
 import { escapeHTML } from './utils.js';
 import { saveAnswerForReview, isAnswerSaved } from './mistakeBank.js';
+import { learningStorage as localStorage } from './services/learningStorage.js';
 
 const HISTORY_KEY = 'kinetiq_ask_history_v1';
 

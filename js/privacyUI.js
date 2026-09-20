@@ -8,7 +8,7 @@
  * When the behaviour changes, this page has to change with it.
  */
 
-const UPDATED = '10 September 2026';
+const UPDATED = '20 September 2026';
 const REPO = 'https://github.com/JashwanthVaka/phylab';
 
 const section = (title, body) => `<section class="lesson-section privacy-section">
@@ -26,7 +26,7 @@ export function privacyPage() {
       <h2>The short version</h2>
       <ul>
         <li>You can use every part of KINETIQ without an account. Your progress then stays in your own browser.</li>
-        <li>Questions you ask KIT, and any image you attach, are sent to an AI provider to be answered.</li>
+        <li>Source-cited Ask KIT answers use KINETIQ's own course material. The optional generative tutor sends a question and any attached image to the configured AI provider.</li>
         <li>There is no advertising, no analytics and no tracking.</li>
       </ul>
     </div>
@@ -43,14 +43,13 @@ export function privacyPage() {
       <p>Because it lives in your browser, it does not follow you to another device. You can save a copy from <a href="/progress" data-route>your progress page</a>, and you can delete all of it by clearing this site's data in your browser settings.</p>`)}
 
     ${section('Asking KIT', `
-      <p>When you ask KIT a question, your browser sends KINETIQ's server your question, the conversation so far, the teaching mode you chose, which lesson, formula or lab you were looking at, and any image you attached.</p>
-      <p>The server passes that on to an AI provider to write the answer. The providers this site can use are OpenAI, Groq, Anthropic and Google, and the one in use depends on how the site is set up. Each handles what it receives under its own privacy policy.</p>
-      <p>KINETIQ's server does not keep your questions or images after the answer is sent. Your browser keeps the conversation so you can return to it, and if you are signed in it is saved to your account. Please do not put personal details, such as your full name, school or contact information, into a question or an image.</p>
-      <p>If KIT cannot reach a provider, it answers from KINETIQ's own lessons instead, and that answer is worked out on KINETIQ's server without being sent anywhere else.</p>`)}
+      <p>The main Ask KIT page searches KINETIQ's original lessons, formulae, worked examples, cases and command-term guidance. That retrieval answer is produced on KINETIQ's server and is not sent to an external AI provider.</p>
+      <p>If the optional generative tutor is enabled, your browser sends KINETIQ's server your question, the conversation so far, the teaching mode, relevant learning context and any image you attach. The server passes that request to the configured provider, which may be OpenAI, Groq, Anthropic or Google. Each provider handles what it receives under its own privacy policy.</p>
+      <p>KINETIQ's server does not intentionally keep an uploaded image after responding. Your browser keeps Ask history so you can return to it. Please do not include your full name, school, contact details or another person's personal information in a question or image.</p>`)}
 
     ${section('Accounts', `
       <p>Accounts are optional, and signing in is not required for anything on the site.</p>
-      <p>When accounts are switched on, you sign in with an existing Google or Apple account. KINETIQ does not see or store a password. From the provider it receives your email address and, where you have one, your name.</p>
+      <p>You can sign in with Google or request a password-free link to an email address you control. KINETIQ does not see or store a password. It receives your email address and, where the sign-in provider supplies one, your name.</p>
       <p>Your account then stores your profile, lesson progress, practice results, saved KIT conversations and bookmarks, using the database service Supabase. Other students cannot see your work. The site owner runs that database, so the owner can.</p>
       <p>The site owner can see a list of accounts showing each email address, how it signed in, when it joined and when it last signed in. The owner cannot see your password, because there is none.</p>`)}
 

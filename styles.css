@@ -667,8 +667,8 @@ body {
   white-space: nowrap;
 }
 .brand-mark {
-  width: 30px; height: 30px;
-  border-radius: 50%;
+  width: 36px; height: 36px;
+  border-radius: 9px;
   display: grid; place-items: center;
   background: var(--amber);
   color: #201703;
@@ -676,6 +676,15 @@ body {
   box-shadow: 0 1px 2px rgba(16,24,40,.18), inset 0 1px 0 rgba(255,255,255,.5);
   flex: none;
 }
+.brand img.brand-mark { object-fit: contain; }
+@media (prefers-reduced-motion: no-preference) {
+  .brand-mark { transition: transform 180ms var(--ease); }
+  .brand:hover .brand-mark, .brand:focus-visible .brand-mark { transform: rotate(-5deg); }
+  .rev-card.is-rated { animation: review-confirm 220ms var(--ease) both; }
+  .learning-loop a { transition: color 180ms var(--ease); }
+  @keyframes review-confirm { from { transform: scale(.985); } to { transform: scale(1); } }
+}
+.revision-session-status { padding: 16px 20px; background: var(--pale); border: 1px solid var(--line); border-radius: var(--r-lg); }
 .brand small {
   display: block;
   font: 400 8px/1.4 var(--font-mono);
@@ -3232,6 +3241,9 @@ input, select, textarea, .stats, .facts {
 
 /* ── Printable revision pack ──────────────────────────────────────── */
 .revision-pack__head { display: flex; justify-content: space-between; gap: 30px; align-items: flex-start; }
+.revision-pack__filters { display: flex; align-items: end; gap: 12px; flex-wrap: wrap; margin: 0 0 32px; padding: 16px; border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface); }
+.revision-pack__filters label { display: grid; gap: 7px; min-width: 190px; color: var(--muted); font-size: .82rem; font-weight: 700; }
+.revision-pack__filters select { min-height: 44px; border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface); color: var(--ink); padding: 0 40px 0 12px; }
 .revision-pack__unit { padding: 34px 0; border-bottom: 1px solid var(--line); }
 .revision-pack__unit h2 { margin-bottom: 10px; }
 .revision-pack__unit h2 span { color: var(--unit-color, var(--blue)); }
@@ -3250,6 +3262,7 @@ input, select, textarea, .stats, .facts {
 @media print {
   .revision-pack { padding: 0; }
   .revision-pack__head .sheet-actions { display: none; }
+  .revision-pack__filters { display: none !important; }
   .revision-pack__unit { break-before: page; }
   .revision-pack__unit:first-of-type { break-before: auto; }
   .revision-pack__lessons { grid-template-columns: 1fr 1fr; }

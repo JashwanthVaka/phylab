@@ -1,5 +1,6 @@
 import { assessment } from './assessmentEngine.js';
 import { escapeHTML, slugify } from './utils.js';
+import { learningStorage as localStorage } from './services/learningStorage.js';
 
 const KEY = 'phylab_quiz_session';
 const RESULTS = 'phylab_quiz_results';
@@ -71,7 +72,15 @@ export const selectQuestions = (questions, { mode = 'Mixed Quiz', topic, topics,
   let diagnostic = false;
   if (mode === 'Weak Topic Quiz') {
     selected = selected.filter(question => weakTopics.includes(question.topic));
-    if (!selected.length) { selected = source; diagnostic = true; }
+    if (!selected.length) {
+      // A diagnostic must still honour the learner's topic, level and type.
+      selected = source.filter(question =>
+        (!topicList.length || topicList.some(item => slugify(question.topic) === slugify(item))) &&
+        (!level || question.level === level) &&
+        (!difficultyList.length || difficultyList.includes(question.difficulty)) &&
+        (!typeList.length || typeList.includes(question.type)));
+      diagnostic = true;
+    }
   }
   if (mode === 'Formula Quiz') {
     const formulaQuestions = selected.filter(question => /formula|calculation|numerical|equation/i.test(`${question.tags.join(' ')} ${question.type}`));

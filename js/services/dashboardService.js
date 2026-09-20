@@ -1,6 +1,7 @@
 import { getSupabase } from './supabaseClient.js';
 import { getProgress } from '../utils.js';
 import { recommendationService } from './recommendationService.js';
+import { accountRows } from './accountRows.js';
 
 const reliable = rows => rows.filter(row => (row.attempt_count || 0) >= 10);
 
@@ -11,12 +12,11 @@ export const dashboardService = {
     const { data: { user } } = await db.auth.getUser();
     if (!user) return this.summaryGuest();
     const tables = ['lesson_progress', 'topic_mastery', 'quiz_attempts', 'bookmarks', 'flashcard_progress', 'revision_tasks', 'ai_conversations', 'study_sessions'];
-    const result = await Promise.all(tables.map(table => db.from(table).select('*')));
-    const [lessons, mastery, quizzes, bookmarks, cards, tasks, conversations, sessions] = result.map(row => row.data || []);
+    const [lessons, mastery, quizzes, bookmarks, cards, tasks, conversations, sessions] =
+      await Promise.all(tables.map(table => accountRows(db, table, user.id)));
     const completed = lessons.filter(item => item.completion_percentage >= 100).length;
-    const accuracy = quizzes.length
-      ? quizzes.reduce((total, item) => total + (item.maximum_marks ? item.awarded_marks / item.maximum_marks : 0), 0) / quizzes.length
-      : 0;
+    const maximum = quizzes.reduce((total, item) => total + Number(item.maximum_marks || 0), 0);
+    const accuracy = maximum ? quizzes.reduce((total, item) => total + Number(item.awarded_marks || 0), 0) / maximum : null;
     const measured = reliable(mastery);
     return {
       guest: false,
@@ -24,10 +24,11 @@ export const dashboardService = {
       lessonsCompleted: completed,
       lessonsInProgress: lessons.filter(item => item.completion_percentage > 0 && item.completion_percentage < 100).length,
       averageMastery: measured.length ? Math.round(measured.reduce((total, item) => total + item.mastery_score, 0) / measured.length) : 0,
-      strongestTopics: [...measured].sort((left, right) => right.mastery_score - left.mastery_score).slice(0, 3),
-      weakestTopics: [...measured].sort((left, right) => left.mastery_score - right.mastery_score).slice(0, 3),
+      strongestTopics: measured.filter(row => row.mastery_score >= 75).sort((left, right) => right.mastery_score - left.mastery_score).slice(0, 3),
+      weakestTopics: measured.filter(row => row.mastery_score < 60).sort((left, right) => left.mastery_score - right.mastery_score).slice(0, 3),
       developingTopics: mastery.filter(item => (item.attempt_count || 0) < 10),
-      quizAccuracy: Math.round(accuracy * 100),
+      quizAccuracy: accuracy === null ? null : Math.round(accuracy * 100),
+      quizCount: quizzes.length,
       recentQuizScores: quizzes.slice(-5),
       flashcardsDue: cards.filter(item => new Date(item.due_at) <= new Date()).length,
       revisionTasksDue: tasks.filter(item => !item.completed_at).length,
@@ -36,7 +37,7 @@ export const dashboardService = {
       studySeconds: sessions.reduce((total, item) => total + item.seconds_spent, 0),
       recentActivity: [...lessons, ...quizzes, ...bookmarks, ...conversations]
         .sort((left, right) => new Date(right.updated_at || right.created_at) - new Date(left.updated_at || left.created_at)).slice(0, 10),
-      recommendation: recommendationService.next({ lessons, mastery: measured, tasks, flashcardsDue: cards.length })
+      recommendation: recommendationService.next({ lessons, mastery: measured, tasks, flashcardsDue: cards.filter(item => new Date(item.due_at) <= new Date()).length })
     };
   },
   summaryGuest() {

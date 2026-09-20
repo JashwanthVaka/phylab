@@ -1,15 +1,26 @@
 import { escapeHTML, orderLessons } from './utils.js';
 
 /** Printable course map generated only from KINETIQ's original lesson index. */
-export function revisionPackPage(index = {}) {
-  const lessons = orderLessons(index.lessonIndex || []);
-  const units = index.units || [];
+export function revisionPackPage(index = {}, filters = {}) {
+  const allLessons = orderLessons(index.lessonIndex || []);
+  const allUnits = index.units || [];
+  const unitFilter = allUnits.some(unit => unit.id === filters.unit) ? filters.unit : '';
+  const levelFilter = ['SL', 'HL'].includes(filters.level) ? filters.level : '';
+  const lessons = allLessons.filter(lesson => (!unitFilter || lesson.unit === unitFilter)
+    && (!levelFilter || levelFilter === 'HL' || !/^HL\b/i.test(lesson.level || '')));
+  const units = allUnits.filter(unit => !unitFilter || unit.id === unitFilter);
+  const scope = [unitFilter && `Unit ${unitFilter}`, levelFilter && `${levelFilter} course`].filter(Boolean).join(', ') || 'All five units';
   return `<section class="page revision-pack">
     <header class="revision-pack__head">
       <div><p class="eyebrow">PRINTABLE REVISION PACK</p><h1>Your complete course checklist.</h1>
-      <p class="page-lead">A compact map of all ${lessons.length} KINETIQ lessons, their outcomes and core vocabulary. Use it to plan revision, then open the full lesson for worked examples and practice.</p></div>
+      <p class="page-lead">A compact map of ${lessons.length} KINETIQ lesson${lessons.length === 1 ? '' : 's'}, their outcomes and core vocabulary. Scope: ${escapeHTML(scope)}.</p></div>
       <div class="sheet-actions"><button class="btn btn-primary" type="button" onclick="window.print()">Print pack</button><a class="outline" href="/resources" data-route>Back to resources</a></div>
     </header>
+    <form class="revision-pack__filters" action="/revision/print" method="get">
+      <label>Unit<select name="unit"><option value="">All units</option>${allUnits.map(unit => `<option value="${escapeHTML(unit.id)}" ${unit.id === unitFilter ? 'selected' : ''}>${escapeHTML(unit.id)}. ${escapeHTML(unit.title)}</option>`).join('')}</select></label>
+      <label>Level<select name="level"><option value="">All levels</option><option value="SL" ${levelFilter === 'SL' ? 'selected' : ''}>SL core</option><option value="HL" ${levelFilter === 'HL' ? 'selected' : ''}>HL complete course</option></select></label>
+      <button class="outline" type="submit">Build pack</button>
+    </form>
     ${units.map(unit => {
       const rows = lessons.filter(lesson => lesson.unit === unit.id);
       return `<section class="revision-pack__unit" data-unit="${escapeHTML(unit.id)}">
