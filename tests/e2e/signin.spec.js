@@ -175,6 +175,21 @@ test.describe('how fast the sign-in page arrives', () => {
 
     expect(settingsCalls).toBe(1);
   });
+
+  test('does not preserve the old disabled-provider cache after providers are enabled', async ({ page }) => {
+    await withProviders(page, { google: true });
+    await page.addInitScript(() => {
+      // This is the exact cache shape shipped before Google was enabled in
+      // production. A refresh used to keep both buttons disabled forever.
+      sessionStorage.setItem('kinetiq:auth-providers', '[]');
+    });
+
+    await page.goto('/login', { waitUntil: 'domcontentloaded' });
+
+    await expect(page.locator('[data-provider="google"]')).toBeEnabled();
+    await expect(page.locator('[data-provider="apple"]')).toHaveCount(0);
+    await expect(page.locator('.auth-unavailable-note')).toHaveCount(0);
+  });
 });
 
 test.describe('the owner-facing setup page is gone', () => {

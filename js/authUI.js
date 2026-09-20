@@ -40,13 +40,27 @@ const MARK = {
  * needs the project URL and the anon key and nothing else, and the library is
  * only genuinely needed once somebody presses a button.
  */
-const CACHE_KEY = 'kinetiq:auth-providers';
+// Provider configuration can change while a learner keeps the same tab open.
+// sessionStorage survives a refresh, so caching an empty result indefinitely
+// leaves newly-enabled providers looking disabled until the tab is closed.
+// Version the key to invalidate the old array-only cache and keep positive
+// results briefly; an empty result is always checked again on the next visit.
+const CACHE_KEY = 'kinetiq:auth-providers:v2';
+const LEGACY_CACHE_KEY = 'kinetiq:auth-providers';
+const CACHE_TTL_MS = 5 * 60 * 1000;
 
 /** Reads a provider list resolved earlier this session, if there is one. */
 function cachedProviderIds() {
   try {
+    sessionStorage.removeItem(LEGACY_CACHE_KEY);
     const raw = sessionStorage.getItem(CACHE_KEY);
-    return raw ? JSON.parse(raw) : null;
+    if (!raw) return null;
+    const cached = JSON.parse(raw);
+    if (!Array.isArray(cached?.ids) || cached.expiresAt <= Date.now()) {
+      sessionStorage.removeItem(CACHE_KEY);
+      return null;
+    }
+    return cached.ids;
   } catch {
     // Private browsing can refuse storage outright. Asking again is correct.
     return null;
@@ -55,7 +69,14 @@ function cachedProviderIds() {
 
 function rememberProviderIds(ids) {
   try {
-    sessionStorage.setItem(CACHE_KEY, JSON.stringify(ids));
+    if (!ids.length) {
+      sessionStorage.removeItem(CACHE_KEY);
+      return;
+    }
+    sessionStorage.setItem(CACHE_KEY, JSON.stringify({
+      ids,
+      expiresAt: Date.now() + CACHE_TTL_MS,
+    }));
   } catch { /* Storage refused; the next visit simply asks again. */ }
 }
 
