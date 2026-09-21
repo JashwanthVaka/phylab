@@ -3909,3 +3909,101 @@ body > footer { font-size: 14px; }
 @media (max-width: 520px) {
   .ask-engine { grid-template-columns: 1fr; }
 }
+
+/* Learner-requested +2px reading scale. Display headings and mathematical
+   diagrams already have their own optical sizing, so this raises actual
+   reading copy, labels and controls without distorting graphs or formulae. */
+:root {
+  --type-label: 15px;
+  --type-meta: 16px;
+}
+
+body { font-size: 19px; }
+.page-lead,
+.lead { font-size: 21px; }
+
+.module-card p,
+.library-card__summary,
+.case-card p,
+.content-card p,
+.definition-card p,
+.example-block p,
+.quiz-card p,
+.resource-card p,
+.today-item p,
+.practice-path__steps p,
+.adaptive-path p,
+.resource-cycle__steps p,
+.connected-tile__note,
+.plan-item__detail,
+.ia-guidance,
+.ia-hint,
+.lg-meaning,
+.mistake-card__answers p,
+.revision-pack__lessons p,
+.revision-pack__lessons li,
+.revision-pack__practice li,
+.revision-pack__answers li {
+  font-size: 17.5px;
+}
+
+input,
+select,
+textarea,
+.button,
+.btn,
+.outline,
+button { font-size: 17px; }
+
+.nav-primary > a,
+.mobile-nav a,
+.glass-menu a,
+.lesson-nav__links a,
+.related-links a,
+.journey-grid .text-button,
+.resource-cycle__steps a,
+.library-card__actions a,
+.resource-card .text-button,
+.activity-row .text-button { font-size: 16px; }
+
+table { font-size: 17.5px; }
+.formula-block h3 { font-size: 18px; }
+.formula-block p { font-size: 17px; }
+.graph-toolbar .graph-export { font-size: 14.5px; }
+.ask-ai-copy { font-size: 18px; }
+.ask-engine button b { font-size: 17px; }
+.ask-engine button span { font-size: 15px; }
+body > footer { font-size: 16px; }
+.brand { font-size: 20px; }
+
+@media (max-width: 620px) {
+  body { font-size: 18.5px; }
+  .page-lead,
+  .lead { font-size: 20px; }
+  .module-card p,
+  .library-card__summary,
+  .case-card p,
+  .content-card p,
+  .definition-card p,
+  .example-block p,
+  .quiz-card p,
+  .today-item p,
+  .adaptive-path p,
+  .practice-path__steps p { font-size: 17.5px; }
+}
+
+.topic-overview {
+  grid-template-columns: minmax(0, 1fr) minmax(490px, 1.2fr);
+}
+.topic-overview ul {
+  grid-template-columns: repeat(5, minmax(88px, 1fr));
+}
+
+@media (max-width: 1050px) {
+  .topic-overview { grid-template-columns: 1fr; }
+  .topic-overview ul {
+    grid-template-columns: repeat(5, minmax(92px, 1fr));
+    overflow-x: auto;
+    padding-bottom: var(--s1);
+  }
+}
