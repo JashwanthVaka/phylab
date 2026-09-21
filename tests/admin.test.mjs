@@ -83,12 +83,20 @@ for (const file of ['server/adminStats.cjs', 'js/adminUI.js', 'js/accountMenu.js
   assert.doesNotMatch(source, /SUPABASE_SERVICE_ROLE_KEY|ADMIN_EMAILS|service-role key/i, `${file} must not depend on a deployment-wide admin secret`);
 }
 
+const adminUI = fs.readFileSync(path.join(ROOT, 'js/adminUI.js'), 'utf8');
+assert.match(adminUI, /user\.role === 'admin'[\s\S]*?>Owner</,
+  'the owner must be labelled as Owner instead of falling back to the Student option');
+
 const adminMigration = fs.readFileSync(path.join(ROOT, 'supabase/migrations/20260921_admin_rpc.sql'), 'utf8');
 assert.match(adminMigration, /Administrators can manage account roles and aggregate account metadata/i);
 assert.match(adminMigration, /u\.email::text/i,
   'admin account rows must match the RPC text return type');
 assert.doesNotMatch(adminMigration, /user_id\s*=\s*auth\.uid\(\)\s+or\s+public\.is_admin\(\)/i,
   'administrator access must not be added to private learner rows');
+
+const singleAdminMigration = fs.readFileSync(path.join(ROOT, 'supabase/migrations/202609210002_single_admin.sql'), 'utf8');
+assert.match(singleAdminMigration, /create unique index[\s\S]*where role = 'admin'/i,
+  'the database must reject a second administrator account');
 
 globalThis.fetch = realFetch;
 Object.keys(process.env).forEach(key => { if (!(key in savedEnv)) delete process.env[key]; });

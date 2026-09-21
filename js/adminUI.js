@@ -78,6 +78,16 @@ function providerTable(byProvider, totalUsers) {
   </div>`;
 }
 
+function roleControl(user) {
+  if (user.role === 'admin') {
+    return '<span class="admin-owner-badge" aria-label="Website owner and administrator">Owner</span>';
+  }
+  return `<select class="admin-role" data-admin-user="${escapeHTML(user.id)}" data-previous="${escapeHTML(user.role)}" aria-label="Role for ${escapeHTML(user.email)}">
+    <option value="student"${user.role === 'student' ? ' selected' : ''}>Student</option>
+    <option value="teacher"${user.role === 'teacher' ? ' selected' : ''}>Teacher</option>
+  </select>`;
+}
+
 function recentTable(recent) {
   if (!recent.length) return '';
   return `<div class="admin-panel">
@@ -92,10 +102,7 @@ function recentTable(recent) {
           ${recent.map(user => `<tr>
             <td>${escapeHTML(user.email)}${user.name ? `<br><span class="muted">${escapeHTML(user.name)}</span>` : ''}</td>
             <td>${escapeHTML(PROVIDER_LABEL[user.provider] || user.provider)}</td>
-            <td><select class="admin-role" data-admin-user="${escapeHTML(user.id)}" data-previous="${escapeHTML(user.role)}" aria-label="Role for ${escapeHTML(user.email)}">
-              <option value="student"${user.role === 'student' ? ' selected' : ''}>Student</option>
-              <option value="teacher"${user.role === 'teacher' ? ' selected' : ''}>Teacher</option>
-            </select></td>
+            <td>${roleControl(user)}</td>
             <td>${escapeHTML(when(user.createdAt))}</td>
             <td>${escapeHTML(when(user.lastSignInAt))}</td>
             <td>${user.confirmed ? 'Yes' : 'No'}</td>
