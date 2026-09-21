@@ -3717,3 +3717,140 @@ body > footer { font-size: 14px; }
   .brand:hover .brand-emblem, .brand:focus-visible .brand-emblem { transform: none; }
   .page > * { animation: none; }
 }
+
+/* ── Readability floor ──────────────────────────────────────────────
+   A rendered-type audit found hundreds of useful labels still resolving to
+   9–12px through older component rules. These are information, not legal
+   fine print, so they share a legible minimum across the whole product. */
+:root {
+  --type-label: 13px;
+  --type-meta: 14px;
+}
+
+.hero-note,
+.library-count,
+.library-note,
+.resource-note,
+.exam-card__skills,
+.sim-range,
+.lg-sweep,
+.chat-loading { font-size: var(--type-meta); line-height: 1.55; }
+
+.hero-slider span,
+.hero-slider output,
+.stats span,
+.journey-num,
+.home-unit__count,
+.module-card .module-num,
+.module-card .unit,
+.module-meta,
+.library-card__number,
+.library-card__level,
+.library-card__meta,
+.completion-status,
+.completion-unit__count,
+.sim-unit,
+.connected-tile__kind,
+.adaptive-path__number,
+.adaptive-path__state,
+.plan-item__num,
+.plan-item__kind,
+.plan-item__time,
+.resource-note,
+.exam-card dt,
+.lg-readout h4 { font-size: var(--type-label); line-height: 1.4; }
+
+.library-tags li {
+  min-height: 34px;
+  padding: 7px 11px;
+  font-size: var(--type-label);
+  line-height: 1.35;
+}
+
+#app small { font-size: var(--type-label); line-height: 1.45; }
+#app dt { font-size: var(--type-label); line-height: 1.4; }
+.journey-grid .text-button,
+.resource-cycle__steps a,
+.library-card__actions a,
+.resource-card .text-button { font-size: 14px; }
+.graph-toolbar .graph-export { font-size: 12.5px; }
+.brand small { font-size: var(--type-label); }
+
+/* A single lightweight particle circles the mark in the navigation. The SVG
+   has its own slower orbital line, so the two speeds create depth without a
+   canvas, script or continuous layout work. */
+.brand-emblem::before {
+  content: "";
+  position: absolute;
+  left: calc(50% - 2px);
+  top: -2px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--blue);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--pale) 82%, transparent);
+  transform-origin: 2px 22px;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .site-header .brand-emblem::before { animation: kinetiq-brand-orbit 4.8s linear infinite; }
+  .site-header .brand:hover .brand-emblem::before { animation-duration: 1.8s; }
+  @keyframes kinetiq-brand-orbit { to { transform: rotate(360deg); } }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-emblem::before { display: none; }
+}
+
+/* Secondary labels remain compact, but never require squinting. */
+.eyebrow,
+.tag,
+.level-badge,
+.lesson-meta,
+.library-unit__progress,
+.topic-overview span,
+.study-context span,
+.study-context a,
+.resource-stats span,
+.library-card__contents li,
+.library-card__actions a,
+.auth-hint,
+.oauth-divider,
+.admin-stat__note,
+.admin-generated,
+.class-students span,
+.class-assignment-list span,
+.class-assignment-create label {
+  font-size: var(--type-label);
+  line-height: 1.45;
+}
+
+.nav-signin,
+.lesson-nav__status,
+.lesson-nav__links a,
+.related-links a,
+.activity-row .text-button {
+  font-size: 14px;
+}
+
+.lesson-nav__status [data-lesson-progress-value],
+.library-unit__head h2 span,
+.library-unit__head h3 span,
+.method-card li b,
+.learning-loop span,
+.resource-cycle__steps > li > span,
+.resource-coverage__grid span,
+.completion-unit__head > span,
+#app th {
+  font-size: var(--type-label);
+}
+
+@media (max-width: 620px) {
+  .open-module,
+  .chip {
+    min-height: 46px;
+    display: inline-flex;
+    align-items: center;
+  }
+}
