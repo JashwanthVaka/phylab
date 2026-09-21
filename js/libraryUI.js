@@ -9,7 +9,9 @@ const lessonName = lesson => String(lesson.title).replace(/^\s*[A-Z]\.\d+\s*/, '
 
 function lessonCard(lesson, completed) {
   const done = completed.includes(lesson.slug);
-  return `<article class="library-card ${done ? 'is-complete' : ''}" data-library-card data-slug="${escapeHTML(lesson.slug)}" data-unit="${escapeHTML(unitOf(lesson))}" data-level="${escapeHTML(lesson.level || '')}" data-status="${done ? 'done' : 'todo'}" data-text="${escapeHTML(`${lesson.title} ${lesson.summary || ''} ${(lesson.tags || []).join(' ')}`.toLowerCase())}">
+  const objectives = lesson.learning_objectives || [];
+  const searchable = `${lesson.title} ${lesson.summary || ''} ${(lesson.tags || []).join(' ')} ${objectives.join(' ')}`;
+  return `<article class="library-card ${done ? 'is-complete' : ''}" data-library-card data-slug="${escapeHTML(lesson.slug)}" data-unit="${escapeHTML(unitOf(lesson))}" data-level="${escapeHTML(lesson.level || '')}" data-status="${done ? 'done' : 'todo'}" data-text="${escapeHTML(searchable.toLowerCase())}">
     <header class="library-card__head">
       <span class="library-card__number">${escapeHTML(lessonNumber(lesson))}</span>
       <span class="library-card__level">${escapeHTML(lesson.level || 'SL + HL')}</span>
@@ -17,9 +19,13 @@ function lessonCard(lesson, completed) {
     <h3><a href="/lesson/${escapeHTML(lesson.slug)}" data-route>${escapeHTML(lessonName(lesson))}</a></h3>
     <p class="library-card__summary">${escapeHTML(lesson.summary || 'Open this lesson to begin learning.')}</p>
     ${(lesson.tags || []).length ? `<ul class="library-tags">${lesson.tags.map(tag => `<li>${escapeHTML(tag)}</li>`).join('')}</ul>` : ''}
+    ${objectives.length ? `<details class="library-card__contents">
+      <summary>What you will learn</summary>
+      <ul>${objectives.map(item => `<li>${escapeHTML(item)}</li>`).join('')}</ul>
+    </details>` : ''}
     <footer class="library-card__foot">
       <span class="library-card__meta">${Number(lesson.estimatedStudyTime) || 30} min${done ? ' · Completed' : ''}</span>
-      <button type="button" class="text-button" data-toggle-complete="${escapeHTML(lesson.slug)}" aria-pressed="${done}">${done ? 'Completed ✓' : 'Mark complete'}</button>
+      <span class="library-card__actions"><a href="/lesson/${escapeHTML(lesson.slug)}" data-route>Open lesson</a><button type="button" class="text-button" data-toggle-complete="${escapeHTML(lesson.slug)}" aria-pressed="${done}">${done ? 'Completed ✓' : 'Mark complete'}</button></span>
     </footer>
   </article>`;
 }

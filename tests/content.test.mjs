@@ -115,6 +115,12 @@ lessons.forEach(file => {
   const lesson = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'lessons', file), 'utf8'));
   const unit = (String(lesson.title).match(/^\s*([A-Z])\./) || [])[1];
   assert.ok(unitIds.has(unit), `lesson ${file} has title "${lesson.title}" which maps to no known unit`);
+  assert.ok(lesson.introduction && lesson.summary, `lesson ${file} is missing its readable introduction or summary`);
+  assert.ok(lesson.learning_objectives?.length, `lesson ${file} has no visible learning objectives`);
+  assert.ok(lesson.core_concepts?.every(item => item.heading && item.explanation), `lesson ${file} has incomplete topic notes`);
+  assert.ok(lesson.formulas?.length, `lesson ${file} has no formula information`);
+  assert.ok(lesson.worked_examples?.length, `lesson ${file} has no worked examples`);
+  assert.ok(lesson.practice_questions?.length, `lesson ${file} has no topic questions`);
 });
 
 console.log(`content tests passed (${units.length} units, ${toolkit.length} methods, ${cases.length} cases, ${patterns.length} patterns, ${lessons.length} lessons)`);

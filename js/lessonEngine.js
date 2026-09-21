@@ -87,10 +87,21 @@ export function renderLesson(lesson, index = { lessonIndex: [] }, completedSlugs
   const isComplete = completedSlugs.includes(lesson.slug);
   const graph = new KnowledgeGraph(index).forLesson(lesson);
   const variableRows = variables(lesson);
+  const topicCounts = [
+    ['Objectives', lesson.learning_objectives?.length || 0, '#objectives'],
+    ['Concepts', lesson.core_concepts?.length || 0, '#concepts'],
+    ['Formulae', lesson.formulas?.length || 0, '#formulas'],
+    ['Examples', lesson.worked_examples?.length || 0, '#examples'],
+    ['Questions', lesson.practice_questions?.length || 0, '#practice'],
+  ];
   return `<article class="page lesson-page">
     <a class="back-link" href="/" data-route>← Course library</a>
     <header class="lesson-hero"><p class="eyebrow">${escapeHTML(lesson.subject || 'IBDP PHYSICS')} · ${escapeHTML(lesson.topicLabel)}</p><div class="title-row"><h1>${escapeHTML(lesson.title)}</h1><span class="level-badge">${escapeHTML(lesson.level || 'SL and HL')}</span></div><div class="lesson-meta"><span>Difficulty: ${escapeHTML(lesson.difficulty || 'SL + HL')}</span><span>Estimated study time: ${escapeHTML(lesson.estimatedStudyTime || 30)} min</span></div><p>${escapeHTML(lesson.introduction || '')}</p></header>
-    <nav class="lesson-nav" aria-label="Lesson sections"><a href="#objectives">Objectives</a><a href="#concepts">Concepts</a><a href="#formulas">Formulae</a><a href="#practice">Practice</a><a href="#summary">Summary</a></nav>
+    <nav class="lesson-nav" aria-label="Lesson sections"><a href="#objectives">Objectives</a><a href="#concepts">Topic notes</a><a href="#formulas">Formulae</a><a href="#examples">Examples</a><a href="#practice">Practice</a><a href="#summary">Summary</a></nav>
+    <aside class="topic-overview" aria-label="Topic information available in this lesson">
+      <div><p class="eyebrow">TOPIC CONTENTS</p><h2>Everything in this topic</h2><p>Use the section bar above or choose a content type below. Nothing is hidden behind an account.</p></div>
+      <ul>${topicCounts.map(([label, count, href]) => `<li><a href="${href}"><b>${count}</b><span>${label}</span></a></li>`).join('')}</ul>
+    </aside>
     ${section('Learning objectives', list(lesson.learning_objectives || []), { id: 'objectives', eyebrow: 'OUTCOMES' })}
     ${section('Prerequisites', lesson.prerequisites?.length ? list(lesson.prerequisites) : emptyState('Start here', 'No formal prerequisites have been recorded for this lesson.'), { eyebrow: 'BEFORE YOU BEGIN' })}
     ${optional('Definitions', lesson.definitions, definition, { eyebrow: 'LANGUAGE OF PHYSICS' })}
@@ -99,7 +110,7 @@ export function renderLesson(lesson, index = { lessonIndex: [] }, completedSlugs
     ${section('Constants and derivations', `<div class="card-grid">${card('Physical constants', lesson.constants?.length ? list(lesson.constants) : '<p>Constants are introduced with the relevant formulae in this source lesson.</p>')}${card('Derivations', lesson.derivations?.length ? list(lesson.derivations) : '<p>No formal derivation is recorded yet. Use the formula sheet and worked examples to trace the relationship.</p>')}</div>`, { eyebrow: 'BUILD THE MODEL' })}
     ${section('Visual model', `${diagramFor(lesson)}${lessonGraph(lesson) || renderGraph(graphFor(lesson))}`, { eyebrow: 'SEE THE PHYSICS' })}
     ${section('Calculator', renderCalculator(), { eyebrow: 'CHECK A RESULT' })}
-    ${optional('Worked examples', lesson.worked_examples, example, { eyebrow: 'METHOD IN ACTION' })}
+    ${optional('Worked examples', lesson.worked_examples, example, { id: 'examples', eyebrow: 'METHOD IN ACTION' })}
     ${optional('Practice questions', lesson.practice_questions, item => card(`${item.level || 'Practice'} question`, `<p>${escapeHTML(item.question)}</p><button class="text-button" data-quiz-topic="${escapeHTML(lesson.topicLabel || lesson.title)}">Practise this topic →</button>`), { id: 'practice', eyebrow: 'CHECK YOUR THINKING' })}
     ${optional('Exam questions', lesson.practice_questions?.filter(item => item.level === 'HL' || /exam/i.test(item.question)), item => card(`${item.level || 'Exam'} prompt`, `<p>${escapeHTML(item.question)}</p><p class="muted">Plan a structured response: principle, model, calculation or evidence, conclusion.</p>`), { eyebrow: 'EXAM APPLICATION' })}
     ${optional('IB exam tips', lesson.ib_exam_tips, tip => card('Exam technique', `<p>${escapeHTML(tip)}</p>`, 'tip-card'), { eyebrow: 'ASSESSMENT' })}
