@@ -100,6 +100,16 @@ function registerGraph(config) {
   return id;
 }
 
+const controlIcon = name => ({
+  play: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.8 18 12 8 18.2Z"/></svg>',
+  pause: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 5.5h3v13h-3zm6 0h3v13h-3z"/></svg>',
+  replay: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.7 7.1A7 7 0 1 1 11 5l.4 2.2-4.7-2.1L10.4 2l.3 1.8a8.6 8.6 0 1 0 8.5 2.1z"/></svg>',
+  reset: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4a8 8 0 1 1-7.4 5H7L3.5 5.5 0 9h2.5A10 10 0 1 0 12 2z"/></svg>',
+  contrast: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18zm0 2v14a7 7 0 0 1 0-14z"/></svg>',
+  minus: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 11h12v2H6z"/></svg>',
+  plus: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 6h2v5h5v2h-5v5h-2v-5H6v-2h5z"/></svg>',
+})[name] || '';
+
 function exportGraph(card, type) {
   const svg = card.querySelector('svg');
   const serial = new XMLSerializer().serializeToString(svg);
@@ -132,17 +142,22 @@ export function renderGraph(config) {
   const graphId = registerGraph(config);
   return `<article class="graph-card" data-graph-id="${graphId}" data-graph-name="${escapeHTML(config.id || 'physics-graph')}">
     <div class="graph-toolbar">
-      <b>${escapeHTML(config.title)}</b>
-      <div>
-        <button type="button" data-graph-action="zoom-in" aria-label="Zoom in">＋</button>
-        <button type="button" data-graph-action="zoom-out" aria-label="Zoom out">－</button>
-        <button type="button" data-graph-action="play" aria-label="Play graph animation">Play</button>
-        <button type="button" data-graph-action="pause" aria-label="Pause graph animation">Pause</button>
-        <button type="button" data-graph-action="replay" aria-label="Replay graph animation">Replay</button>
-        <button type="button" data-graph-action="reset" aria-label="Reset graph view">Reset</button>
-        <button type="button" data-graph-action="dark" aria-label="Toggle high contrast graph">◐</button>
-        <button type="button" data-graph-action="svg" aria-label="Export graph as SVG">SVG</button>
-        <button type="button" data-graph-action="png" aria-label="Export graph as PNG">PNG</button>
+      <div class="graph-toolbar__title"><span class="graph-live-dot" aria-hidden="true"></span><b>${escapeHTML(config.title)}</b></div>
+      <div class="graph-toolbar__controls">
+        <div class="graph-transport" role="group" aria-label="Graph playback">
+          <button type="button" class="graph-control graph-control--primary" data-graph-action="play" aria-label="Play graph animation">${controlIcon('play')}</button>
+          <button type="button" class="graph-control" data-graph-action="pause" aria-label="Pause graph animation">${controlIcon('pause')}</button>
+          <div class="graph-step-track" aria-hidden="true"><i data-graph-progress></i>${Array.from({ length: 5 }, () => '<span></span>').join('')}</div>
+          <button type="button" class="graph-control" data-graph-action="replay" aria-label="Replay graph animation">${controlIcon('replay')}</button>
+        </div>
+        <div class="graph-view-tools" role="group" aria-label="Graph view and export">
+          <button type="button" class="graph-control" data-graph-action="zoom-out" aria-label="Zoom out">${controlIcon('minus')}</button>
+          <button type="button" class="graph-control" data-graph-action="zoom-in" aria-label="Zoom in">${controlIcon('plus')}</button>
+          <button type="button" class="graph-control" data-graph-action="reset" aria-label="Reset graph view">${controlIcon('reset')}</button>
+          <button type="button" class="graph-control" data-graph-action="dark" aria-label="Toggle high contrast graph">${controlIcon('contrast')}</button>
+          <button type="button" class="graph-export" data-graph-action="svg" aria-label="Export graph as SVG">SVG</button>
+          <button type="button" class="graph-export" data-graph-action="png" aria-label="Export graph as PNG">PNG</button>
+        </div>
       </div>
     </div>
     ${(() => {
@@ -208,8 +223,16 @@ export function bindGraphs() {
     const line = card.querySelector('.graph-line');
     const marker = card.querySelector('.graph-marker');
     const status = card.querySelector('[data-graph-status]');
+    const progressBar = card.querySelector('[data-graph-progress]');
+    const playButton = card.querySelector('[data-graph-action="play"]');
+    const pauseButton = card.querySelector('[data-graph-action="pause"]');
     const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
     const duration = 1650;
+    const playbackState = state => {
+      card.dataset.graphPlayback = state;
+      playButton?.setAttribute('aria-pressed', String(state === 'playing'));
+      pauseButton?.setAttribute('aria-pressed', String(state === 'paused'));
+    };
     const renderAnimation = progress => {
       let length = 0;
       try { length = line.getTotalLength(); } catch { return; }
@@ -219,16 +242,19 @@ export function bindGraphs() {
       marker.setAttribute('cx', point.x);
       marker.setAttribute('cy', point.y);
       marker.style.opacity = progress ? '1' : '0';
+      if (progressBar) progressBar.style.width = `${Math.max(0, Math.min(1, progress)) * 100}%`;
     };
     const stop = () => {
       cancelAnimationFrame(animationFrame);
       animationFrames.delete(animationFrame);
       isAnimating = false;
+      playbackState('idle');
     };
     const pause = () => {
       if (!isAnimating) return;
       animationElapsed = Math.min(duration, performance.now() - animationStartedAt);
       stop();
+      playbackState('paused');
       status.textContent = 'Animation paused. Press Play to continue or Replay to start again.';
     };
     /** Positions the marker at a fraction of the plotted points so an external model can drive it. */
@@ -245,20 +271,31 @@ export function bindGraphs() {
       marker.setAttribute('cx', pairs[index][0] + (pairs[next][0] - pairs[index][0]) * ratio);
       marker.setAttribute('cy', pairs[index][1] + (pairs[next][1] - pairs[index][1]) * ratio);
       marker.style.opacity = '1';
+      if (progressBar) progressBar.style.width = `${Math.max(0, Math.min(1, progress)) * 100}%`;
       if (label) status.textContent = label;
     };
     const play = (restart = false) => {
-      if (reducedMotion) { renderAnimation(1); status.textContent = 'Animation is shown as a complete graph because reduced motion is enabled.'; return; }
+      if (reducedMotion) {
+        renderAnimation(1);
+        playbackState('complete');
+        status.textContent = 'Animation is shown as a complete graph because reduced motion is enabled.';
+        return;
+      }
       if (restart) { stop(); animationElapsed = 0; }
       if (isAnimating) return;
+      if (animationElapsed >= duration) animationElapsed = 0;
       isAnimating = true;
+      playbackState('playing');
       animationStartedAt = performance.now() - animationElapsed;
       const frame = now => {
+        animationFrames.delete(animationFrame);
         animationElapsed = Math.min(duration, now - animationStartedAt);
         const progress = animationElapsed / duration;
         renderAnimation(progress);
         if (progress < 1 && isAnimating) { animationFrame = requestAnimationFrame(frame); animationFrames.add(animationFrame); return; }
         isAnimating = false;
+        playbackState('complete');
+        animationFrame = 0;
         status.textContent = 'Animation complete. Replay, zoom, drag, or export this graph.';
       };
       animationFrame = requestAnimationFrame(frame);
@@ -270,6 +307,7 @@ export function bindGraphs() {
       line.style.strokeDasharray = 'none';
       line.style.strokeDashoffset = '0';
       animationElapsed = 0;
+      if (progressBar) progressBar.style.width = '100%';
     };
     const update = () => {
       redraw();
@@ -293,7 +331,7 @@ export function bindGraphs() {
       if (action === 'pause') pause();
       if (action === 'replay') play(true);
       if (action === 'reset') reset();
-      if (action === 'dark') card.classList.toggle('graph-dark');
+      if (action === 'dark') card.classList.toggle('is-contrast');
       if (action === 'svg' || action === 'png') exportGraph(card, action);
       if (!['svg', 'png', 'dark', 'reset', 'play', 'pause', 'replay'].includes(action)) update();
     }, { signal: controller.signal }));

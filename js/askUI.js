@@ -42,6 +42,15 @@ const CONFIDENCE = {
   none:    { label: 'No match',     tone: 'bad' },
 };
 
+const statusOrb = () => `<div class="kit-status" data-kit-status data-state="ready">
+  <span class="kit-orb" aria-hidden="true">${Array.from({ length: 49 }, (_, index) => {
+    const opacity = (0.18 + (index % 5) * 0.08).toFixed(2);
+    const delay = -((index % 7) * 70);
+    return `<i style="--dot-opacity:${opacity};--dot-delay:${delay}ms"></i>`;
+  }).join('')}</span>
+  <span><b>KIT is ready</b><small data-kit-status-label>Searching original KINETIQ material</small></span>
+</div>`;
+
 const ago = timestamp => {
   const mins = Math.round((Date.now() - timestamp) / 60000);
   if (mins < 1) return 'just now';
@@ -54,9 +63,11 @@ const ago = timestamp => {
 
 export function askPage(query = '') {
   return `<section class="page ask-page">
-    <p class="eyebrow">ASK KINETIQ</p>
-    <h1>Ask a question.</h1>
-    <p class="page-lead">Answers come from KINETIQ's own lessons, formulae, worked examples and cases. Every passage carries the lesson it came from, so you can always check it. No account and no API key needed.</p>
+    <div class="ask-hero">
+      <div><p class="eyebrow">ASK KINETIQ</p><h1>Ask a question.</h1>
+      <p class="page-lead">Answers come from KINETIQ's own lessons, formulae, worked examples and cases. Every passage carries the lesson it came from, so you can always check it. No account and no API key needed.</p></div>
+      ${statusOrb()}
+    </div>
 
     <form class="ask-form" data-ask-form>
       <label class="search large-search">
@@ -145,6 +156,7 @@ export function bindAsk() {
   const result = document.querySelector('[data-ask-result]');
   const historyBox = document.querySelector('[data-ask-history]');
   const input = document.getElementById('askInput');
+  const status = document.querySelector('[data-kit-status]');
   if (!form || !result || !input) return;
 
   let inFlight = null;
@@ -152,6 +164,12 @@ export function bindAsk() {
   let lastQuestion = '';
 
   const renderHistory = () => { if (historyBox) historyBox.innerHTML = historyHTML(); };
+  const setStatus = (state, heading, detail) => {
+    if (!status) return;
+    status.dataset.state = state;
+    status.querySelector('b').textContent = heading;
+    status.querySelector('[data-kit-status-label]').textContent = detail;
+  };
 
   async function ask(question) {
     const trimmed = String(question || '').trim();
@@ -161,6 +179,7 @@ export function bindAsk() {
     if (location.pathname + location.search !== url) history.replaceState({}, '', url);
 
     result.innerHTML = '<p class="muted ask-loading">Searching KINETIQ…</p>';
+    setStatus('thinking', 'KIT is searching', 'Lessons, formulae, cases and worked examples');
     inFlight?.abort?.();
     const controller = new AbortController();
     inFlight = controller;
@@ -172,6 +191,7 @@ export function bindAsk() {
       lastAnswer = data;
       lastQuestion = trimmed;
       result.innerHTML = answerHTML(data, trimmed);
+      setStatus(data.answered ? 'found' : 'ready', data.answered ? 'Source found' : 'Try another question', data.answered ? 'Answer assembled with its KINETIQ source' : 'Use a topic name or a more specific relationship');
       // Only a question that actually produced an answer is worth remembering.
       if (data.answered) { pushHistory(trimmed); renderHistory(); }
     } catch (error) {
@@ -181,6 +201,7 @@ export function bindAsk() {
         <p>${escapeHTML(error.message)}</p>
         <p class="muted">If you are offline, previously opened lessons still work from the course library.</p>
       </div>`;
+      setStatus('error', 'Search interrupted', 'Your saved learning data is unaffected');
     }
   }
 

@@ -2650,6 +2650,151 @@ input, select, textarea, .stats, .facts {
    hidden avatar still painted as an empty circle next to "Sign in". */
 .nav-avatar[hidden], .nav-signin[hidden], .nav-account__menu [hidden] { display: none; }
 
+/* ═══════════════════════════════════════════════════════════════════════
+   Guided study surfaces.
+
+   These patterns are adapted from the interaction references supplied for
+   KINETIQ. They use the existing warm tokens and plain ES modules rather than
+   importing a React animation stack into this application.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Course resources are visible before a learner opens a topic. */
+.library-resource-switcher {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--s3);
+  margin: 0 0 var(--s7);
+}
+.library-resource-switcher > a {
+  min-width: 0; min-height: 106px; display: flex; align-items: center; gap: var(--s4);
+  padding: var(--s4); border: 1px solid var(--line); border-radius: var(--r-lg);
+  background: var(--surface); color: var(--ink); text-decoration: none;
+  transition: transform var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
+}
+.library-resource-switcher > a:hover { transform: translateY(-2px); border-color: var(--blue); box-shadow: 0 12px 28px rgba(28,25,23,.08); }
+.library-resource-switcher b, .library-resource-switcher small { display: block; }
+.library-resource-switcher b { font-size: 15px; }
+.library-resource-switcher small { margin-top: 4px; color: var(--muted); line-height: 1.35; }
+
+.resource-folder {
+  position: relative; flex: 0 0 58px; width: 58px; height: 45px;
+  border: 1px solid color-mix(in srgb, var(--blue) 40%, var(--line));
+  border-radius: 11px; background: var(--pale); overflow: hidden;
+  perspective: 180px;
+}
+.resource-folder::before {
+  content: ""; position: absolute; inset: 11px 4px 3px; z-index: 3;
+  border: 1px solid color-mix(in srgb, var(--blue) 44%, var(--line)); border-radius: 8px;
+  background: color-mix(in srgb, var(--pale) 74%, transparent);
+  transform-origin: bottom; transition: transform var(--t-mid) var(--ease);
+}
+.resource-folder::after {
+  content: ""; position: absolute; top: 0; left: 6px; width: 24px; height: 12px;
+  border-radius: 7px 7px 0 0; background: var(--pale); border: 1px solid color-mix(in srgb, var(--blue) 38%, var(--line)); border-bottom: 0;
+}
+.resource-folder i {
+  position: absolute; z-index: 2; bottom: 7px; left: 15px; width: 31px; height: 28px;
+  border: 1px solid var(--line-strong); border-radius: 6px; background: var(--surface-raised);
+  transition: transform var(--t-mid) var(--ease);
+}
+.resource-folder i:nth-child(1) { transform: translate(-5px, 5px) rotate(-5deg); }
+.resource-folder i:nth-child(2) { transform: translate(0, 2px); }
+.resource-folder i:nth-child(3) { transform: translate(5px, 5px) rotate(5deg); }
+.library-resource-switcher > a:hover .resource-folder::before { transform: rotateX(-24deg); }
+.library-resource-switcher > a:hover .resource-folder i:nth-child(1) { transform: translate(-8px, -2px) rotate(-8deg); }
+.library-resource-switcher > a:hover .resource-folder i:nth-child(2) { transform: translate(0, -5px); }
+.library-resource-switcher > a:hover .resource-folder i:nth-child(3) { transform: translate(8px, -2px) rotate(8deg); }
+
+.library-card__resources {
+  position: relative; z-index: 2; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px; margin: var(--s4) 0 0;
+}
+.library-card__resources > a, .library-card__resources > span {
+  min-width: 0; min-height: 52px; display: flex; flex-direction: column; justify-content: center;
+  padding: 8px; border: 1px solid var(--line); border-radius: var(--r-sm); background: var(--surface-alt);
+  color: var(--ink); text-decoration: none;
+}
+.library-card__resources > a:hover { border-color: var(--blue); background: var(--pale); }
+.library-card__resources b { color: var(--blue); font: 650 15px/1 var(--font-sans); }
+.library-card__resources span span { color: var(--muted); font: 500 9px/1.25 var(--font-mono); text-transform: uppercase; letter-spacing: .03em; }
+.library-card__resources .is-unavailable { opacity: .68; }
+
+/* A compact glass reading rail replaces a long row of unchanging links. */
+.lesson-nav.glass {
+  position: sticky; top: 88px; z-index: 8; display: grid; grid-template-columns: auto minmax(80px, 180px) minmax(0, 1fr);
+  align-items: center; gap: var(--s3); margin: 16px 0 0; padding: 10px 12px;
+  border-bottom: 1px solid var(--glass-border); background: var(--glass-bg-strong);
+}
+.lesson-nav__status { display: flex; align-items: baseline; gap: 8px; min-width: 138px; font-size: 12px; font-weight: 650; }
+.lesson-nav__status [data-lesson-progress-value] { color: var(--blue); font: 600 10px var(--font-mono); }
+.lesson-nav__track { position: relative; height: 5px; border-radius: var(--r-pill); background: var(--track); overflow: hidden; }
+.lesson-nav__track i { display: block; width: 0; height: 100%; border-radius: inherit; background: var(--blue); transition: width 120ms linear; }
+.lesson-nav__links { display: flex; justify-content: flex-end; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+.lesson-nav__links::-webkit-scrollbar { display: none; }
+.lesson-nav__links a { flex: 0 0 auto; min-height: 36px; display: inline-flex; align-items: center; padding: 0 10px; border-radius: var(--r-sm); color: var(--muted); text-decoration: none; }
+.lesson-nav__links a[aria-current] { background: var(--pale); color: var(--blue-strong); font-weight: 650; }
+
+/* KIT's orb reports work, not personality. Only the searching state moves. */
+.ask-hero { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: var(--s6); }
+.kit-status {
+  min-width: 230px; display: flex; align-items: center; gap: 14px; padding: 14px;
+  border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface);
+}
+.kit-status b, .kit-status small { display: block; }
+.kit-status b { font-size: 13px; }
+.kit-status small { max-width: 150px; margin-top: 2px; color: var(--muted); font-size: 10px; line-height: 1.35; }
+.kit-orb {
+  width: 50px; height: 50px; flex: 0 0 50px; display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px;
+  padding: 8px; border-radius: 16px; background: var(--pale); color: var(--blue);
+}
+.kit-orb i { width: 3px; height: 3px; place-self: center; border-radius: 50%; background: currentColor; opacity: var(--dot-opacity, .3); }
+.kit-status[data-state="thinking"] .kit-orb i { animation: kit-pulse 900ms var(--ease) infinite alternate; animation-delay: var(--dot-delay, 0ms); }
+.kit-status[data-state="found"] .kit-orb { color: #0F766E; background: var(--surface-ok); }
+.kit-status[data-state="error"] .kit-orb { color: var(--danger); background: var(--danger-soft); }
+@keyframes kit-pulse { to { opacity: 1; transform: scale(1.65); } }
+
+/* Step-player inspired graph controls, translated into the existing graph engine. */
+.graph-toolbar { justify-content: space-between; gap: var(--s3); }
+.graph-toolbar__title { flex: 1 1 180px; gap: 9px !important; }
+.graph-live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 0 4px var(--pale); }
+.graph-toolbar__controls { flex: 1 1 440px; justify-content: flex-end; gap: 8px !important; }
+.graph-transport, .graph-view-tools {
+  display: inline-flex !important; flex-wrap: nowrap !important; align-items: center; gap: 4px !important;
+  min-height: 42px; padding: 4px; border: 1px solid var(--glass-border); border-radius: var(--r-md);
+  background: var(--glass-bg); -webkit-backdrop-filter: blur(16px) saturate(var(--glass-sat)); backdrop-filter: blur(16px) saturate(var(--glass-sat));
+}
+.graph-toolbar .graph-control { width: 34px; min-width: 34px; height: 34px; min-height: 34px; padding: 0; }
+.graph-control svg { width: 17px; height: 17px; fill: currentColor; }
+.graph-toolbar .graph-control--primary { background: var(--fill); color: #fff; border-color: transparent; }
+.graph-card[data-graph-playback="playing"] [data-graph-action="play"],
+.graph-card[data-graph-playback="paused"] [data-graph-action="pause"] { box-shadow: 0 0 0 3px color-mix(in srgb, var(--blue) 20%, transparent); }
+.graph-step-track { position: relative; width: 92px; height: 6px; margin: 0 5px; border-radius: var(--r-pill); background: var(--track); overflow: hidden; }
+.graph-step-track i { position: absolute; inset: 0 auto 0 0; width: 0; border-radius: inherit; background: var(--blue); }
+.graph-step-track span { position: relative; z-index: 1; float: left; width: 20%; height: 100%; border-right: 2px solid var(--surface); }
+.graph-step-track span:last-child { border-right: 0; }
+.graph-toolbar .graph-export { min-width: 40px; padding-inline: 8px; font: 650 10px var(--font-mono); }
+
+@media (max-width: 980px) {
+  .library-resource-switcher { grid-template-columns: 1fr 1fr; }
+  .lesson-nav.glass { grid-template-columns: auto minmax(80px, 1fr); top: 76px; }
+  .lesson-nav__links { grid-column: 1 / -1; justify-content: flex-start; }
+}
+@media (max-width: 700px) {
+  .library-card__resources { grid-template-columns: 1fr 1fr; }
+  .ask-hero { grid-template-columns: 1fr; }
+  .kit-status { width: 100%; min-width: 0; }
+  .graph-toolbar__controls { justify-content: flex-start; overflow-x: auto; padding-bottom: 3px; }
+  .graph-transport, .graph-view-tools { flex: 0 0 auto; }
+}
+@media (max-width: 520px) {
+  .library-resource-switcher { grid-template-columns: 1fr; }
+  .library-resource-switcher > a { min-height: 88px; }
+  .lesson-nav.glass { top: 70px; margin-inline: -4vw; border-radius: var(--r-lg); }
+  .lesson-nav__status { min-width: 116px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .resource-folder::before, .resource-folder i, .lesson-nav__track i { transition: none; }
+  .kit-status[data-state="thinking"] .kit-orb i { animation: none; opacity: .72; }
+}
+
 /* ── Account page ────────────────────────────────────────────────────
    The previous version was three fields with no context: it never said
    who you were, how you signed in, or whether anything was syncing. */
@@ -3440,4 +3585,135 @@ input, select, textarea, .stats, .facts {
 @media (prefers-reduced-motion: reduce) {
   .topic-overview a { transition: none; }
   .topic-overview a:hover { transform: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   Readability and kinetic identity release.
+
+   Learner feedback was consistent: supporting text was too small. This
+   layer raises the reading floor without inflating display headings or
+   compromising dense scientific notation. Motion is short and purposeful;
+   the reduced-motion contract below removes every new effect.
+   ═══════════════════════════════════════════════════════════════════════ */
+body { font-size: 17px; line-height: 1.65; }
+p, li, dd, td { line-height: 1.65; }
+.page-lead, .lead { font-size: 19px; line-height: 1.65; }
+.section > p, .lesson-section > p, .lesson-section > ul,
+.lesson-section > ol, .privacy-page p, .privacy-page li { font-size: 16.5px; }
+
+/* Core study cards must remain readable at normal laptop distance. */
+.module-card p, .library-card__summary, .case-card p,
+.content-card p, .definition-card p, .example-block p, .quiz-card p,
+.resource-card p, .today-item p, .practice-path__steps p,
+.adaptive-path p, .resource-cycle__steps p, .connected-tile__note,
+.plan-item__detail, .ia-guidance, .ia-hint, .lg-meaning,
+.mistake-card__answers p, .revision-pack__lessons p,
+.revision-pack__lessons li, .revision-pack__practice li,
+.revision-pack__answers li { font-size: 15.5px; line-height: 1.62; }
+
+/* Labels stay compact, but no longer require squinting. */
+.eyebrow, .tag, .module-num, .unit, .level-badge, .lesson-meta,
+.library-card__head, .library-card__meta, .resource-card__provenance,
+.rev-due, .ia-num, .ia-status, .account-facts dt,
+.plan-item__kind, .plan-item__time, .admin-panel__note,
+.admin-trend__axis, .admin-providers__count, .completion-unit__count,
+.completion-status, .adaptive-path__number, .resource-cycle__steps li > span,
+.topic-overview span { font-size: 12px; line-height: 1.35; }
+
+.library-card__contents summary, .library-card__contents li,
+.library-card__actions a, .library-card__foot .text-button,
+.resource-stats span, .study-context span, .study-context a,
+.revision-pack__foot, .sheet-foot, .account-note,
+.auth-fineprint, .auth-card label, .auth-error, .auth-notice,
+.class-students span, .class-assignment-list span,
+.class-assignment-create label { font-size: 14px; line-height: 1.5; }
+
+.library-card__resources span span, .kit-status small,
+.practice-path__steps small, .adaptive-path__state,
+.resource-coverage__grid span { font-size: 11.5px; line-height: 1.35; }
+.library-card__resources b { font-size: 17px; }
+.kit-status b { font-size: 15px; }
+.lesson-nav__status { font-size: 14px; }
+.lesson-nav__status [data-lesson-progress-value] { font-size: 12px; }
+.lesson-nav__links a, .related-links a { font-size: 14.5px; }
+.formula-block h3 { font-size: 16px; }
+.formula-block p { font-size: 15px; line-height: 1.55; }
+table { font-size: 15.5px; }
+th { font-size: 12px; }
+input, select, textarea { font-size: 16px; }
+.button, .btn, .outline, button { font-size: 15px; }
+body > footer { font-size: 14px; }
+
+/* The new mark combines K, an orbit and a moving particle. The SVG owns the
+   slow orbital motion; this wrapper adds tactile response without repainting
+   the navigation glass. */
+.brand-emblem {
+  position: relative; width: 40px; height: 40px; flex: 0 0 40px;
+  display: grid; place-items: center; border-radius: 12px;
+  filter: drop-shadow(0 5px 9px rgba(154,52,18,.18));
+  transition: transform 220ms var(--ease), filter 220ms var(--ease);
+}
+.brand-emblem::after {
+  content: ""; position: absolute; width: 5px; height: 5px; right: -2px; top: 6px;
+  border-radius: 50%; background: var(--blue); box-shadow: 0 0 0 4px var(--pale);
+  opacity: 0; transform: scale(.4);
+  transition: opacity 180ms var(--ease), transform 260ms var(--ease);
+}
+.brand-mark { width: 40px; height: 40px; border-radius: 12px; background: transparent; box-shadow: none; }
+.brand:hover .brand-emblem, .brand:focus-visible .brand-emblem {
+  transform: translateY(-2px) rotate(-3deg) scale(1.04);
+  filter: drop-shadow(0 9px 14px rgba(154,52,18,.24));
+}
+.brand:hover .brand-emblem::after, .brand:focus-visible .brand-emblem::after { opacity: 1; transform: scale(1); }
+.brand { font-size: 18px; letter-spacing: -.025em; }
+.brand small { font-size: 10px; letter-spacing: .13em; }
+
+/* Page entrance and interaction feedback. Each animation is composited and
+   completes in under half a second, so the interface feels alive, not busy. */
+@media (prefers-reduced-motion: no-preference) {
+  .page > * { animation: kinetiq-rise 420ms var(--ease) both; }
+  .page > :nth-child(2) { animation-delay: 35ms; }
+  .page > :nth-child(3) { animation-delay: 70ms; }
+  .page > :nth-child(4) { animation-delay: 105ms; }
+  .page > :nth-child(5) { animation-delay: 140ms; }
+  .page > :nth-child(n+6) { animation-delay: 175ms; }
+  .library-card, .module-card, .content-card, .resource-card,
+  .today-item, .rev-card, .simulation-card, .practice-path__steps > a,
+  .adaptive-path a { will-change: transform; }
+  .button:active, .btn:active, .outline:active,
+  button:not(:disabled):active { transform: scale(.975); }
+  .graph-live-dot { animation: kinetiq-live 1.8s ease-in-out infinite; }
+  @keyframes kinetiq-rise {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes kinetiq-live {
+    50% { box-shadow: 0 0 0 7px color-mix(in srgb, var(--blue) 12%, transparent); }
+  }
+}
+
+@media (max-width: 620px) {
+  body { font-size: 16.5px; }
+  .page-lead, .lead { font-size: 18px; }
+  .module-card p, .library-card__summary, .case-card p,
+  .content-card p, .definition-card p, .example-block p,
+  .quiz-card p, .today-item p, .adaptive-path p,
+  .practice-path__steps p { font-size: 15.5px; }
+  .brand-emblem, .brand-mark { width: 38px; height: 38px; }
+  .brand-emblem { flex-basis: 38px; }
+}
+
+@media (pointer: coarse) {
+  .button, .btn, .outline, .text-button {
+    min-width: 44px;
+    min-height: 46px;
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-emblem, .brand-emblem::after { transition: none; }
+  .brand:hover .brand-emblem, .brand:focus-visible .brand-emblem { transform: none; }
+  .page > * { animation: none; }
 }

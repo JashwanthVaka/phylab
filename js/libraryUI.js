@@ -7,9 +7,20 @@ const unitOf = lesson => lesson.unit || (String(lesson.title).match(/^\s*([A-Z])
 const lessonNumber = lesson => (String(lesson.title).match(/^\s*([A-Z]\.\d+)/) || [])[1] || '';
 const lessonName = lesson => String(lesson.title).replace(/^\s*[A-Z]\.\d+\s*/, '') || lesson.title;
 
-function lessonCard(lesson, completed) {
+function lessonResources(lesson, index) {
+  const questions = (index.questions || []).filter(question => question.topic === lesson.topicLabel).length;
+  const simulation = (index.simulations || []).find(item => item.lesson === lesson.slug);
+  return {
+    questions,
+    simulation,
+    flashcards: Number(lesson.definitionCount || 0) + Number(lesson.formulaCount || 0),
+  };
+}
+
+function lessonCard(lesson, completed, index) {
   const done = completed.includes(lesson.slug);
   const objectives = lesson.learning_objectives || [];
+  const resources = lessonResources(lesson, index);
   const searchable = `${lesson.title} ${lesson.summary || ''} ${(lesson.tags || []).join(' ')} ${objectives.join(' ')}`;
   return `<article class="library-card ${done ? 'is-complete' : ''}" data-library-card data-slug="${escapeHTML(lesson.slug)}" data-unit="${escapeHTML(unitOf(lesson))}" data-level="${escapeHTML(lesson.level || '')}" data-status="${done ? 'done' : 'todo'}" data-text="${escapeHTML(searchable.toLowerCase())}">
     <header class="library-card__head">
@@ -19,6 +30,14 @@ function lessonCard(lesson, completed) {
     <h3><a href="/lesson/${escapeHTML(lesson.slug)}" data-route>${escapeHTML(lessonName(lesson))}</a></h3>
     <p class="library-card__summary">${escapeHTML(lesson.summary || 'Open this lesson to begin learning.')}</p>
     ${(lesson.tags || []).length ? `<ul class="library-tags">${lesson.tags.map(tag => `<li>${escapeHTML(tag)}</li>`).join('')}</ul>` : ''}
+    <div class="library-card__resources" aria-label="Resources for ${escapeHTML(lessonName(lesson))}">
+      <a href="/lesson/${escapeHTML(lesson.slug)}#concepts" data-route><b>${objectives.length}</b><span>outcomes</span></a>
+      <a href="/lesson/${escapeHTML(lesson.slug)}#flashcards" data-route><b>${resources.flashcards}</b><span>recall cards</span></a>
+      <a href="/quiz?mode=Topic%20Quiz&topic=${encodeURIComponent(lesson.topicLabel)}" data-route><b>${resources.questions}</b><span>questions</span></a>
+      ${resources.simulation
+        ? `<a href="/simulations/${escapeHTML(resources.simulation.slug)}" data-route><b aria-hidden="true">↗</b><span>interactive lab</span></a>`
+        : '<span class="is-unavailable"><b aria-hidden="true">·</b><span>lesson model</span></span>'}
+    </div>
     ${objectives.length ? `<details class="library-card__contents">
       <summary>What you will learn</summary>
       <ul>${objectives.map(item => `<li>${escapeHTML(item)}</li>`).join('')}</ul>
@@ -30,7 +49,7 @@ function lessonCard(lesson, completed) {
   </article>`;
 }
 
-function unitSection(unit, lessons, completed) {
+function unitSection(unit, lessons, completed, index) {
   const done = lessons.filter(lesson => completed.includes(lesson.slug)).length;
   return `<section class="library-unit" id="unit-${escapeHTML(unit.id)}" data-unit-section="${escapeHTML(unit.id)}">
     <header class="library-unit__head">
@@ -45,7 +64,7 @@ function unitSection(unit, lessons, completed) {
       </div>
     </header>
     ${(unit.skills || []).length ? `<ul class="library-tags library-tags--skills">${unit.skills.map(skill => `<li>${escapeHTML(skill)}</li>`).join('')}</ul>` : ''}
-    <div class="library-grid">${lessons.map(lesson => lessonCard(lesson, completed)).join('')}</div>
+    <div class="library-grid">${lessons.map(lesson => lessonCard(lesson, completed, index)).join('')}</div>
     <p class="library-empty" data-unit-empty hidden>No lessons in this unit match your filters.</p>
   </section>`;
 }
@@ -59,6 +78,7 @@ export function libraryPage(index, state) {
   const next = lessons.find(lesson => !completed.includes(lesson.slug));
   const known = new Set(units.map(unit => unit.id));
   const ungrouped = lessons.filter(lesson => !known.has(unitOf(lesson)));
+  const totalFlashcards = lessons.reduce((total, lesson) => total + Number(lesson.definitionCount || 0) + Number(lesson.formulaCount || 0), 0);
 
   return `<section class="page library-page">
     <p class="eyebrow">COURSE LIBRARY</p>
@@ -75,6 +95,18 @@ export function libraryPage(index, state) {
       </div>
     </div>
 
+    <nav class="library-resource-switcher" aria-label="Course resource types">
+      ${[
+        ['/library', 'Course notes', `${lessons.length} syllabus lessons`, 'notes'],
+        ['/revision', 'Active recall', `${totalFlashcards} lesson flashcards`, 'recall'],
+        ['/quiz?mode=Mixed%20Quiz', 'Topic practice', `${(index.questions || []).length} original questions`, 'practice'],
+        ['/simulations', 'Interactive labs', `${(index.simulations || []).length} equation-driven models`, 'lab'],
+      ].map(([href, title, detail, kind]) => `<a href="${href}" data-route>
+        <span class="resource-folder resource-folder--${kind}" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span><b>${title}</b><small>${detail}</small></span>
+      </a>`).join('')}
+    </nav>
+
     <div class="library-controls">
       <label class="search library-search"><span>⌕</span><input id="libraryFilterSearch" type="search" autocomplete="off" placeholder="Search lessons, concepts, tags…" aria-label="Filter lessons"></label>
       <div class="library-chips" role="group" aria-label="Filter by unit">
@@ -88,8 +120,8 @@ export function libraryPage(index, state) {
     </div>
     <p class="library-count" data-library-count aria-live="polite"></p>
 
-    ${units.map(unit => unitSection(unit, lessons.filter(lesson => unitOf(lesson) === unit.id), completed)).join('')}
-    ${ungrouped.length ? unitSection({ id: 'other', title: 'Further lessons', summary: 'Lessons that sit outside the five named units.' }, ungrouped, completed) : ''}
+    ${units.map(unit => unitSection(unit, lessons.filter(lesson => unitOf(lesson) === unit.id), completed, index)).join('')}
+    ${ungrouped.length ? unitSection({ id: 'other', title: 'Further lessons', summary: 'Lessons that sit outside the five named units.' }, ungrouped, completed, index) : ''}
   </section>`;
 }
 

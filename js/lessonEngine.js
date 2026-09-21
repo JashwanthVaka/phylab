@@ -97,7 +97,11 @@ export function renderLesson(lesson, index = { lessonIndex: [] }, completedSlugs
   return `<article class="page lesson-page">
     <a class="back-link" href="/" data-route>← Course library</a>
     <header class="lesson-hero"><p class="eyebrow">${escapeHTML(lesson.subject || 'IBDP PHYSICS')} · ${escapeHTML(lesson.topicLabel)}</p><div class="title-row"><h1>${escapeHTML(lesson.title)}</h1><span class="level-badge">${escapeHTML(lesson.level || 'SL and HL')}</span></div><div class="lesson-meta"><span>Difficulty: ${escapeHTML(lesson.difficulty || 'SL + HL')}</span><span>Estimated study time: ${escapeHTML(lesson.estimatedStudyTime || 30)} min</span></div><p>${escapeHTML(lesson.introduction || '')}</p></header>
-    <nav class="lesson-nav" aria-label="Lesson sections"><a href="#objectives">Objectives</a><a href="#concepts">Topic notes</a><a href="#formulas">Formulae</a><a href="#examples">Examples</a><a href="#practice">Practice</a><a href="#summary">Summary</a></nav>
+    <nav class="lesson-nav glass" aria-label="Lesson sections" data-lesson-progress>
+      <div class="lesson-nav__status"><span data-lesson-progress-label>Objectives</span><span data-lesson-progress-value>0%</span></div>
+      <div class="lesson-nav__track" aria-hidden="true"><i data-lesson-progress-fill></i></div>
+      <div class="lesson-nav__links"><a href="#objectives">Objectives</a><a href="#concepts">Topic notes</a><a href="#formulas">Formulae</a><a href="#examples">Examples</a><a href="#practice">Practice</a><a href="#summary">Summary</a></div>
+    </nav>
     <aside class="topic-overview" aria-label="Topic information available in this lesson">
       <div><p class="eyebrow">TOPIC CONTENTS</p><h2>Everything in this topic</h2><p>Use the section bar above or choose a content type below. Nothing is hidden behind an account.</p></div>
       <ul>${topicCounts.map(([label, count, href]) => `<li><a href="${href}"><b>${count}</b><span>${label}</span></a></li>`).join('')}</ul>
@@ -118,7 +122,7 @@ export function renderLesson(lesson, index = { lessonIndex: [] }, completedSlugs
     ${optional('HL extension', lesson.hl_extension, item => card(item.topic || 'HL extension', `<p>${escapeHTML(item.explanation || item)}</p>`), { eyebrow: 'GO FURTHER' })}
     ${section('Practical, IA and TOK connections', `<div class="card-grid">${card('Practical investigation', `<p>${escapeHTML(lesson.practical_experiment || 'Use this topic to design a controlled measurement, identify uncertainties, and evaluate evidence.')}</p>`)}${card('Internal assessment connection', `<p>${escapeHTML(lesson.ia_connection || 'Connect a measurable independent variable to a justified physical model and uncertainty treatment.')}</p>`)}${card('TOK connection', `<p>${escapeHTML(lesson.tok_connection || 'Consider how models, assumptions, and measurement limits shape what physics can claim.')}</p>`)}</div>`, { eyebrow: 'CONNECT THE KNOWLEDGE' })}
     ${section('Summary', `<div class="summary-card"><p>${escapeHTML(lesson.summary || 'Summary not yet supplied.')}</p></div>`, { id: 'summary', eyebrow: 'TAKEAWAY' })}
-    ${section('Flashcards', renderFlashcards(lessonFlashcards(lesson)), { eyebrow: 'SPACED REVISION' })}
+    ${section('Flashcards', renderFlashcards(lessonFlashcards(lesson)), { id: 'flashcards', eyebrow: 'SPACED REVISION' })}
     ${connectedWork(lesson, index)}
     ${section('Knowledge pathways', `<div class="pathway-grid">${graph.previous ? `<a href="/lesson/${graph.previous.slug}" data-route>← Previous<br><b>${escapeHTML(graph.previous.title)}</b></a>` : '<span></span>'}${graph.next ? `<a href="/lesson/${graph.next.slug}" data-route>Next →<br><b>${escapeHTML(graph.next.title)}</b></a>` : '<span></span>'}</div>${graph.related.length ? `<div class="related-links">${graph.related.map(item => `<a href="/lesson/${escapeHTML(item.slug)}" data-route>${escapeHTML(item.title)}</a>`).join('')}</div>` : ''}${graph.advanced.length ? `<p><b>Advanced:</b> ${escapeHTML(graph.advanced.join(' · '))}</p>` : ''}`, { eyebrow: 'CONTINUE LEARNING' })}
     <section class="lesson-ask" data-lesson-ask data-topic="${escapeHTML(lesson.topicLabel || lesson.title)}">

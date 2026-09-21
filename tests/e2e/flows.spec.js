@@ -70,6 +70,37 @@ test.describe('desktop', () => {
     await expect(output).not.toHaveText(before, { timeout: 5000 });
   });
 
+  test('the library exposes real study resources and deep-links into a lesson', async ({ page }) => {
+    await page.goto('/library');
+    await expect(page.locator('.library-resource-switcher > a')).toHaveCount(4);
+    const firstCard = page.locator('.library-card').first();
+    await expect(firstCard.locator('.library-card__resources > *')).toHaveCount(4);
+    await firstCard.locator('a[href*="#flashcards"]').click();
+    await expect(page).toHaveURL(/\/lesson\/.+#flashcards$/);
+    await expect(page.locator('#flashcards')).toBeFocused();
+  });
+
+  test('lesson progress and graph transport expose clear state', async ({ page }) => {
+    await page.goto('/lesson/kinematics');
+    await expect(page.locator('[data-lesson-progress]')).toBeVisible();
+    await expect(page.locator('[data-lesson-progress-value]')).toHaveText(/%$/);
+    const graph = page.locator('[data-graph-id]').first();
+    await graph.locator('[data-graph-action="replay"]').click();
+    await graph.locator('[data-graph-action="pause"]').click();
+    await expect(graph).toHaveAttribute('data-graph-playback', 'paused');
+    await expect(graph.locator('[data-graph-action="pause"]')).toHaveAttribute('aria-pressed', 'true');
+    await expect(graph.locator('[data-graph-status]')).toContainText('paused');
+  });
+
+  test('Ask KIT reports its source-search state', async ({ page }) => {
+    await page.goto('/ask');
+    await expect(page.locator('[data-kit-status]')).toHaveAttribute('data-state', 'ready');
+    await page.locator('#askInput').fill('What is escape speed?');
+    await page.locator('[data-ask-form]').getByRole('button', { name: 'Answer' }).click();
+    await expect(page.locator('[data-kit-status]')).toHaveAttribute('data-state', 'found');
+    await expect(page.locator('.ask-answer')).toBeVisible();
+  });
+
   test('an unknown route shows a not-found page rather than an empty one', async ({ page }) => {
     await page.goto('/this-route-does-not-exist');
     await expect(page.locator('#app')).not.toBeEmpty();

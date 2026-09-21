@@ -3,6 +3,7 @@ import './js/theme.js';
 import { indexContent } from './js/commandPalette.js';
 import { askPage, bindAsk } from './js/askUI.js';
 import { bindLessonAsk } from './js/lessonAsk.js';
+import { bindLessonProgress } from './js/studyInteractions.js';
 import { formulaSheetPage } from './js/formulaSheet.js';
 import { Router } from './js/router.js';
 import {
@@ -215,7 +216,13 @@ const router = new Router({
     const [lesson, index, state] = await Promise.all([
       loader.getLesson(slug), loader.getIndex(), progressService.list()
     ]);
-    return { view: renderLesson(lesson, index, state.completed), mount: bindLessonAsk };
+    return {
+      view: renderLesson(lesson, index, state.completed),
+      mount: () => {
+        const cleanups = [bindLessonAsk(), bindLessonProgress()].filter(Boolean);
+        return () => cleanups.forEach(cleanup => cleanup());
+      }
+    };
   }, 'Opening lesson…'),
   // One page, every formula, grouped by unit — built for printing.
   '/formulas/print': () => transition(async () => ({ view: formulaSheetPage(await loader.getIndex()) }), 'Building the formula sheet…'),

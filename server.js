@@ -108,6 +108,8 @@ async function contentIndex({ includeLessons = false } = {}) {
     topics, formulas: allFormulas, questions, glossary, simulations, examples, legacyLessons, units, toolkit, cases, questionPatterns, resources, searchIndex,
     lessonIndex: records.map(({ slug, title, topicLabel, level, summary, learning_objectives, estimatedStudyTime, difficulty, definitions, formulas: lessonFormulas }) => ({
       slug, title, topicLabel, level, summary, learning_objectives, estimatedStudyTime, difficulty,
+      definitionCount: (definitions || []).length,
+      formulaCount: (lessonFormulas || []).length,
       unit: (String(title).match(/^\s*([A-Z])\./) || [])[1] || '',
       tags: [...new Set([...(definitions || []).slice(0, 3).map(item => item.term), ...(lessonFormulas || []).slice(0, 2).map(item => item.name)])].filter(Boolean).slice(0, 4)
     })),

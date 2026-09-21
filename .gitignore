@@ -21,3 +21,4 @@ playwright-report/
 
 # Local Supabase CLI project links and temporary credentials.
 supabase/.temp/
+.vercel/
