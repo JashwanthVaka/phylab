@@ -217,7 +217,17 @@ function resolveProvider(requested) {
   return preferred || availableProviders()[0] || null;
 }
 
-async function streamProvider(response, res, parse) {
+function providerFailure(provider, event) {
+  const failure = event?.error || event?.response?.error || {};
+  const code = String(failure.code || failure.type || '').toLowerCase();
+  if (/insufficient_quota|billing|credit/.test(code)) return `${provider.label} is connected, but its API account has no available credit.`;
+  if (/rate_limit/.test(code)) return `${provider.label} has reached its current usage limit. Try again shortly.`;
+  if (/model_not_found|unsupported_model/.test(code)) return `${provider.label} does not allow the configured model for this API project.`;
+  if (/authentication|invalid_api_key/.test(code)) return `${provider.label} rejected the configured API key.`;
+  return `${provider.label} could not complete this answer. KIT will use its source-cited course answer instead.`;
+}
+
+async function streamProvider(response, res, parse, provider) {
   const reader = response.body?.getReader();
   if (!reader) throw new Error('The AI response did not include a stream.');
   const decoder = new TextDecoder();
@@ -235,7 +245,10 @@ async function streamProvider(response, res, parse) {
         const delta = parse(event) || '';
         if (delta) sse(res, 'delta', { delta });
         if (event.type === 'response.completed') sse(res, 'meta', { usage: event.response?.usage || null });
-        if (event.type === 'error' || event.error) sse(res, 'error', { error: 'KIT could not complete that request. Please retry.' });
+        if (event.type === 'error' || event.type === 'response.failed' || event.error || event.response?.error) {
+          sse(res, 'error', { error: providerFailure(provider, event) });
+          return;
+        }
       } catch { /* Ignore incomplete upstream SSE packets. */ }
     }
   }
@@ -281,7 +294,7 @@ async function tutor(req, res) {
     res.writeHead(200, secureHeaders({ 'Content-Type': 'text/event-stream; charset=utf-8', 'Cache-Control': 'no-cache, no-transform', Connection: 'keep-alive', 'X-Accel-Buffering': 'no' }));
     sse(res, 'sources', { sources: sources.map(({ type, title, href, metadata }) => ({ type, title, href, metadata })) });
     sse(res, 'meta', { provider: providerId, providerLabel: provider.label, model });
-    await streamProvider(response, res, provider.parse);
+    await streamProvider(response, res, provider.parse, provider);
     sse(res, 'done', {}); res.end();
   } catch (error) {
     if (error.name === 'AbortError') return;

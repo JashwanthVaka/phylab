@@ -156,9 +156,10 @@ user's identity.
 
 ## Enable KIT AI
 
-KIT works with any one of four providers. Configure at least one; KINETIQ uses the first
-configured provider, and if several are configured the learner can switch between them
-from a selector in the AI workspace.
+KIT works with any one of four providers. Configure at least one; KINETIQ uses
+`AI_PROVIDER` when set and otherwise uses the first configured provider. The public Ask KIT
+page keeps the source-cited answer and generative tutor together, with automatic fallback
+to KINETIQ course material if the provider fails.
 
 | Provider | Key | Default model | Override |
 | --- | --- | --- | --- |
@@ -181,8 +182,9 @@ Keys are read from the server environment only. They never reach the browser, an
 git-ignored. On a host, set the variables in that service's environment settings instead of
 committing a file. `npm test` fails if a key pattern appears in any tracked file.
 
-`/ask` is the public KIT experience and works without an AI provider key. The legacy `/ai` URL opens the same source-cited assistant. Provider-backed chat code remains optional and server-side for future use.
-Everything else works with no key at all.
+`/ask` is the public KIT experience and works without an AI provider key. When a provider
+is configured, learners can choose **AI tutor** on that same page. The legacy `/ai` URL
+opens the same unified experience. Everything else works with no key at all.
 
 ## Study from your own book
 

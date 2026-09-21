@@ -2101,6 +2101,7 @@ input:focus-visible, textarea:focus-visible, select:focus-visible {
 
 @media (max-width: 700px) {
   .ask-form { flex-direction: column; align-items: stretch; }
+  .ask-form .search { flex: 0 0 auto; width: 100%; min-height: 52px; border-radius: var(--r-lg); }
   .ask-form .btn { width: 100%; }
   .ask-suggestions { overflow-x: auto; flex-wrap: nowrap; padding-bottom: var(--s2); }
   .ask-suggestions .chip { flex: none; }
@@ -3853,4 +3854,58 @@ body > footer { font-size: 14px; }
     display: inline-flex;
     align-items: center;
   }
+}
+
+/* One Ask KIT surface, with a source-first answer and an optional generative
+   explanation. The selector is a pair of substantial controls rather than a
+   row of pills, and remains usable when the provider is unavailable. */
+.ask-engine {
+  width: min(100%, 640px);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s3);
+  margin: 0 0 var(--s4);
+}
+.ask-engine button {
+  position: relative;
+  min-height: 68px;
+  padding: 12px 15px;
+  overflow: hidden;
+  text-align: left;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  transition: transform var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
+}
+.ask-engine button::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  background: transparent;
+}
+.ask-engine button b,
+.ask-engine button span { display: block; }
+.ask-engine button b { font-size: 15px; line-height: 1.25; }
+.ask-engine button span { margin-top: 4px; color: var(--muted); font-size: 13px; line-height: 1.35; }
+.ask-engine button:hover:not(:disabled) { transform: translateY(-2px); border-color: var(--line-strong); }
+.ask-engine button.is-active {
+  border-color: color-mix(in srgb, var(--blue) 45%, var(--line));
+  box-shadow: 0 8px 24px rgba(154,52,18,.10);
+}
+.ask-engine button.is-active::before { background: var(--blue); }
+.ask-engine button:disabled { cursor: not-allowed; opacity: .58; }
+
+.ask-answer--ai { border-color: color-mix(in srgb, var(--blue) 30%, var(--line)); }
+.ask-answer--ai .eyebrow { margin-bottom: var(--s2); color: var(--blue-strong); }
+.ask-ai-copy { font-size: 16px; line-height: 1.68; }
+.ask-ai-copy > :first-child { margin-top: 0; }
+.ask-ai-copy > :last-child { margin-bottom: 0; }
+.ask-ai-copy code { font-size: .92em; }
+.ai-fallback-note { font-size: 14px; margin: 0 0 var(--s4); }
+
+@media (max-width: 520px) {
+  .ask-engine { grid-template-columns: 1fr; }
 }

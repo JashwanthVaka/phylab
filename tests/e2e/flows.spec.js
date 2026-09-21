@@ -101,6 +101,28 @@ test.describe('desktop', () => {
     await expect(page.locator('.ask-answer')).toBeVisible();
   });
 
+  test('Ask KIT offers one AI mode and falls back to cited course material', async ({ page }) => {
+    await page.route('**/api/ai/providers', route => route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({ active: 'openai', providers: [{ id: 'openai', label: 'OpenAI', configured: true }] }),
+    }));
+    await page.route('**/api/chat', route => route.fulfill({
+      status: 200,
+      headers: { 'content-type': 'text/event-stream; charset=utf-8' },
+      body: 'event: error\ndata: {"error":"The AI provider is temporarily unavailable."}\n\nevent: done\ndata: {}\n\n',
+    }));
+    await page.goto('/ask');
+    const ai = page.locator('[data-ask-engine="ai"]');
+    await expect(ai).toBeEnabled();
+    await ai.click();
+    await expect(ai).toHaveAttribute('aria-pressed', 'true');
+    await page.locator('#askInput').fill('What is escape speed?');
+    await page.locator('[data-ask-form]').getByRole('button', { name: 'Answer' }).click();
+    await expect(page.locator('.ai-fallback-note')).toContainText('source-cited answer');
+    await expect(page.locator('.ask-answer')).toBeVisible();
+  });
+
   test('an unknown route shows a not-found page rather than an empty one', async ({ page }) => {
     await page.goto('/this-route-does-not-exist');
     await expect(page.locator('#app')).not.toBeEmpty();

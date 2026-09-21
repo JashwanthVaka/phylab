@@ -11,6 +11,9 @@
 import { escapeHTML } from './utils.js';
 import { saveAnswerForReview, isAnswerSaved } from './mistakeBank.js';
 import { learningStorage as localStorage } from './services/learningStorage.js';
+import { aiService } from './services/aiService.js';
+import { contextManager } from './services/contextManager.js';
+import { markdownService } from './services/markdownService.js';
 
 const HISTORY_KEY = 'kinetiq_ask_history_v1';
 
@@ -65,8 +68,17 @@ export function askPage(query = '') {
   return `<section class="page ask-page">
     <div class="ask-hero">
       <div><p class="eyebrow">ASK KINETIQ</p><h1>Ask a question.</h1>
-      <p class="page-lead">Answers come from KINETIQ's own lessons, formulae, worked examples and cases. Every passage carries the lesson it came from, so you can always check it. No account and no API key needed.</p></div>
+      <p class="page-lead">Start with a source-cited answer from KINETIQ's lessons, formulae, worked examples and cases. When an AI provider is available, KIT can also turn those sources into a tailored explanation.</p></div>
       ${statusOrb()}
+    </div>
+
+    <div class="ask-engine" role="group" aria-label="Answer style">
+      <button type="button" class="is-active" data-ask-engine="sources" aria-pressed="true">
+        <b>Source answer</b><span>Fast, cited, no API key</span>
+      </button>
+      <button type="button" data-ask-engine="ai" aria-pressed="false" disabled>
+        <b>AI tutor</b><span data-ai-engine-label>Checking availability…</span>
+      </button>
     </div>
 
     <form class="ask-form" data-ask-form>
@@ -134,6 +146,18 @@ function answerHTML(data, question) {
   </article>`;
 }
 
+function aiAnswerHTML(content, sources = [], provider = '', complete = false, question = '') {
+  const saved = complete && isAnswerSaved(question);
+  return `<article class="ask-answer ask-answer--ai">
+    <header class="ask-answer__head">
+      <div><p class="eyebrow">AI TUTOR${provider ? ` · ${escapeHTML(provider)}` : ''}</p><h2>${complete ? 'KIT’s explanation' : 'KIT is writing…'}</h2></div>
+      ${complete ? `<button type="button" class="outline ask-save" data-ask-save ${saved ? 'disabled' : ''}>${saved ? 'Saved for review ✓' : 'Save for review'}</button>` : ''}
+    </header>
+    <div class="ask-ai-copy">${content ? markdownService.render(content) : '<p class="muted">Connecting the question to KINETIQ’s course sources…</p>'}</div>
+    ${sources.length ? `<footer class="ask-sources"><span>Sources used</span>${sources.map(source => `<a href="${escapeHTML(source.href || '/library')}" data-route>${escapeHTML(source.title || source.type || 'KINETIQ source')}</a>`).join('')}</footer>` : ''}
+  </article>`;
+}
+
 function historyHTML() {
   const rows = readHistory();
   if (!rows.length) return '';
@@ -162,6 +186,7 @@ export function bindAsk() {
   let inFlight = null;
   let lastAnswer = null;
   let lastQuestion = '';
+  let engine = 'sources';
 
   const renderHistory = () => { if (historyBox) historyBox.innerHTML = historyHTML(); };
   const setStatus = (state, heading, detail) => {
@@ -171,13 +196,7 @@ export function bindAsk() {
     status.querySelector('[data-kit-status-label]').textContent = detail;
   };
 
-  async function ask(question) {
-    const trimmed = String(question || '').trim();
-    if (!trimmed) return;
-
-    const url = `/ask?q=${encodeURIComponent(trimmed)}`;
-    if (location.pathname + location.search !== url) history.replaceState({}, '', url);
-
+  async function sourceAnswer(trimmed, fallback = '') {
     result.innerHTML = '<p class="muted ask-loading">Searching KINETIQ…</p>';
     setStatus('thinking', 'KIT is searching', 'Lessons, formulae, cases and worked examples');
     inFlight?.abort?.();
@@ -190,7 +209,7 @@ export function bindAsk() {
       if (!response.ok) throw new Error(data?.error || 'That search could not be completed.');
       lastAnswer = data;
       lastQuestion = trimmed;
-      result.innerHTML = answerHTML(data, trimmed);
+      result.innerHTML = `${fallback ? `<p class="ai-fallback-note" role="status">${escapeHTML(fallback)} The source-cited answer is shown instead.</p>` : ''}${answerHTML(data, trimmed)}`;
       setStatus(data.answered ? 'found' : 'ready', data.answered ? 'Source found' : 'Try another question', data.answered ? 'Answer assembled with its KINETIQ source' : 'Use a topic name or a more specific relationship');
       // Only a question that actually produced an answer is worth remembering.
       if (data.answered) { pushHistory(trimmed); renderHistory(); }
@@ -205,13 +224,81 @@ export function bindAsk() {
     }
   }
 
+  async function aiAnswer(trimmed) {
+    inFlight?.abort?.();
+    let content = '';
+    let sources = [];
+    let provider = '';
+    let streamError = '';
+    setStatus('thinking', 'KIT is explaining', 'Connecting your question to KINETIQ sources');
+    result.innerHTML = aiAnswerHTML('', [], '', false, trimmed);
+
+    const stream = aiService.stream(trimmed, {
+      mode: 'Physics Teacher',
+      context: contextManager.fromRoute(),
+      onDelta: delta => {
+        content += delta;
+        result.innerHTML = aiAnswerHTML(content, sources, provider, false, trimmed);
+      },
+      onSources: rows => {
+        sources = rows;
+        result.innerHTML = aiAnswerHTML(content, sources, provider, false, trimmed);
+      },
+      onMeta: meta => {
+        if (meta.providerLabel) provider = meta.providerLabel;
+        result.innerHTML = aiAnswerHTML(content, sources, provider, false, trimmed);
+      },
+      onError: message => { streamError = message; },
+    });
+    inFlight = stream;
+    await stream.done;
+    inFlight = null;
+
+    if (streamError || !content.trim()) {
+      await sourceAnswer(trimmed, streamError || 'The AI provider returned no text.');
+      return;
+    }
+
+    lastQuestion = trimmed;
+    lastAnswer = {
+      answered: true,
+      headline: 'KIT AI explanation',
+      sections: [{ body: content }],
+      sources,
+    };
+    result.innerHTML = aiAnswerHTML(content, sources, provider, true, trimmed);
+    setStatus('found', 'Explanation ready', `${provider || 'AI tutor'} used KINETIQ course sources`);
+    pushHistory(trimmed);
+    renderHistory();
+  }
+
+  async function ask(question) {
+    const trimmed = String(question || '').trim();
+    if (!trimmed) return;
+    const url = `/ask?q=${encodeURIComponent(trimmed)}`;
+    if (location.pathname + location.search !== url) history.replaceState({}, '', url);
+    if (engine === 'ai') await aiAnswer(trimmed);
+    else await sourceAnswer(trimmed);
+  }
+
   form.addEventListener('submit', event => {
     event.preventDefault();
     ask(input.value);
   });
 
   // Suggestions, related-question chips and history entries all re-ask.
-  document.addEventListener('click', event => {
+  form.closest('.ask-page')?.addEventListener('click', event => {
+    const engineButton = event.target.closest('[data-ask-engine]');
+    if (engineButton && !engineButton.disabled) {
+      engine = engineButton.dataset.askEngine;
+      document.querySelectorAll('[data-ask-engine]').forEach(button => {
+        const active = button === engineButton;
+        button.classList.toggle('is-active', active);
+        button.setAttribute('aria-pressed', String(active));
+      });
+      setStatus('ready', engine === 'ai' ? 'AI tutor selected' : 'Source answer selected', engine === 'ai' ? 'Generated explanation with automatic source fallback' : 'Fast answer from original KINETIQ material');
+      return;
+    }
     const suggest = event.target.closest('[data-ask-suggest]');
     if (suggest) {
       input.value = suggest.dataset.askSuggest;
@@ -238,6 +325,21 @@ export function bindAsk() {
   });
 
   renderHistory();
+
+  // A configured key is never exposed here. The browser receives only the
+  // provider name and whether the server has its environment variable.
+  fetch('/api/ai/providers').then(response => response.ok ? response.json() : null).then(data => {
+    const ready = data?.providers?.filter(provider => provider.configured) || [];
+    const button = document.querySelector('[data-ask-engine="ai"]');
+    const label = document.querySelector('[data-ai-engine-label]');
+    if (!button || !label) return;
+    if (ready.length) {
+      button.disabled = false;
+      label.textContent = `${ready.map(provider => provider.label).join(' or ')} with source fallback`;
+    } else {
+      label.textContent = 'Source mode remains available';
+    }
+  }).catch(() => {});
 
   const initial = new URLSearchParams(location.search).get('q');
   if (initial) ask(initial);
