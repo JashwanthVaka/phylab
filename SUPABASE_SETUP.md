@@ -86,9 +86,9 @@ who visits is not something a public site should do, so it was removed.
    on your machine. Do not commit populated values. Production reads these
    two browser-safe values from `/api/config`, backed by Vercel environment
    variables, so `public-env.js` stays empty in the repository.
-7. Optional, for the admin dashboard only: set `SUPABASE_SERVICE_ROLE_KEY` and
-   `ADMIN_EMAILS` in the server environment. The service-role key stays on the
-   server and is never copied into `public-env.js`.
+7. Run the administrator migration, then assign only the owner profile the
+   `admin` role. The admin dashboard uses the signed-in token and restricted
+   database functions, so no elevated database key is needed in Vercel.
 
 Guest progress already in a browser is upserted to the account on first sign-in,
 so a learner who starts signed out does not lose the lessons they finished.

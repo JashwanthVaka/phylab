@@ -26,20 +26,9 @@ const notice = (heading, detail, extra = '') => shell(`
 
 const SETUP = `
   <ol class="admin-steps">
-    <li>Create a project at <b>supabase.com</b>, then open <b>Project Settings → API</b>.</li>
-    <li>Put the <b>Project URL</b> and <b>anon public</b> key into <code>public-env.js</code>. These two are safe in the browser.</li>
-    <li>In your host's environment settings (Vercel → Settings → Environment Variables) add
-      <code>SUPABASE_URL</code>, <code>SUPABASE_ANON_KEY</code>,
-      <code>SUPABASE_SERVICE_ROLE_KEY</code> and <code>ADMIN_EMAILS</code>.</li>
-    <li><b>The service-role key is a secret.</b> It can read and change every user in your
-      project. It belongs only in the host's environment settings, never in
-      <code>public-env.js</code>, never in the repository.</li>
-    <li>Set <code>ADMIN_EMAILS</code> to your own Google address. Only addresses on that
-      list can load this page.</li>
-    <li>In Supabase, open <b>Authentication → Providers → Google</b>, enable it, and paste in a
-      Google OAuth client ID and secret from <b>console.cloud.google.com</b>. Add
-      <code>https://&lt;your-project&gt;.supabase.co/auth/v1/callback</code> as an authorised
-      redirect URI there.</li>
+    <li>Add <code>SUPABASE_URL</code> and <code>SUPABASE_ANON_KEY</code> to the Vercel project.</li>
+    <li>Run the checked-in Supabase migrations. The database verifies the signed-in administrator before returning account data.</li>
+    <li>No elevated database secret is required in Vercel.</li>
   </ol>`;
 
 const number = value => Number(value ?? 0).toLocaleString();
@@ -98,11 +87,15 @@ function recentTable(recent) {
     </div>
     <div class="table-wrap">
       <table>
-        <thead><tr><th>Account</th><th>Method</th><th>Joined</th><th>Last seen</th><th>Verified</th></tr></thead>
+        <thead><tr><th>Account</th><th>Method</th><th>Role</th><th>Joined</th><th>Last seen</th><th>Verified</th></tr></thead>
         <tbody>
           ${recent.map(user => `<tr>
             <td>${escapeHTML(user.email)}${user.name ? `<br><span class="muted">${escapeHTML(user.name)}</span>` : ''}</td>
             <td>${escapeHTML(PROVIDER_LABEL[user.provider] || user.provider)}</td>
+            <td><select class="admin-role" data-admin-user="${escapeHTML(user.id)}" data-previous="${escapeHTML(user.role)}" aria-label="Role for ${escapeHTML(user.email)}">
+              <option value="student"${user.role === 'student' ? ' selected' : ''}>Student</option>
+              <option value="teacher"${user.role === 'teacher' ? ' selected' : ''}>Teacher</option>
+            </select></td>
             <td>${escapeHTML(when(user.createdAt))}</td>
             <td>${escapeHTML(when(user.lastSignInAt))}</td>
             <td>${user.confirmed ? 'Yes' : 'No'}</td>
@@ -116,7 +109,7 @@ function recentTable(recent) {
 function dashboard(data) {
   const { totals } = data;
   return shell(`
-    <p class="page-lead">Live from Supabase. Only addresses on the server's <code>ADMIN_EMAILS</code> list can load this.</p>
+    <p class="page-lead">Live from Supabase. Access is limited to accounts whose database profile has the administrator role.</p>
     <div class="admin-stats">
       ${stat('Total accounts', totals.users)}
       ${stat('New this week', totals.newThisWeek)}
@@ -167,7 +160,7 @@ export async function adminPage() {
   }
   if (response.status === 403) {
     return notice('This account is not an administrator',
-      'You are signed in, but this address is not on the administrator list for this deployment.');
+      'You are signed in, but this account does not have the administrator role.');
   }
   if (!response.ok) {
     const body = await response.json().catch(() => ({}));
@@ -175,4 +168,26 @@ export async function adminPage() {
   }
 
   return dashboard(await response.json());
+}
+
+export function bindAdmin() {
+  document.querySelectorAll('[data-admin-user]').forEach(select => select.addEventListener('change', async () => {
+    const previous = select.dataset.previous;
+    select.disabled = true;
+    try {
+      const supabase = await getSupabase();
+      const { data: { session } } = await supabase.auth.getSession();
+      const response = await fetch(`/api/admin/users/${encodeURIComponent(select.dataset.adminUser)}/role`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${session.access_token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ role: select.value }),
+      });
+      const body = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(body.error || 'The role could not be updated.');
+      select.dataset.previous = select.value;
+    } catch (error) {
+      select.value = previous;
+      window.alert(error.message);
+    } finally { select.disabled = false; }
+  }));
 }

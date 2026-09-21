@@ -20,7 +20,9 @@ create table if not exists auth.users (
   -- it, so a shim without this column hides a real dependency.
   raw_user_meta_data jsonb not null default '{}'::jsonb,
   raw_app_meta_data jsonb not null default '{}'::jsonb,
-  created_at timestamptz not null default now()
+  created_at timestamptz not null default now(),
+  last_sign_in_at timestamptz,
+  email_confirmed_at timestamptz
 );
 
 -- Supabase populates request.jwt.claim.sub from the access token. Reading it

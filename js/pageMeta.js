@@ -45,6 +45,7 @@ const STATIC = {
   '/terms': ['Terms', 'Rules for using KINETIQ, including accounts, original learning material, acceptable use and educational disclaimers.'],
   '/account': ['Your account', 'Your KINETIQ account, how you signed in, and your study settings.'],
   '/admin': ['Admin', 'Account statistics for the site owner.'],
+  '/classroom': ['Classes', 'Private KINETIQ classes, original practice assignments and consent-based learner progress sharing.'],
   '/login': ['Sign in', 'Sign in with Google or a password-free email link to keep your progress across devices.'],
   // Kept only so an old bookmark lands on sign-in rather than a 404. There
   // is no password here to reset.

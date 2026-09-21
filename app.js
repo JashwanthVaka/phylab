@@ -264,8 +264,12 @@ const router = new Router({
   }, 'Opening case…'),
   '/admin': () => transition(async () => {
     const admin = await loadPageModule('./js/adminUI.js');
-    return { view: await admin.adminPage() };
+    return { view: await admin.adminPage(), mount: admin.bindAdmin };
   }, 'Loading admin…'),
+  '/classroom': () => transition(async () => {
+    const classroom = await loadPageModule('./js/classroomUI.js');
+    return { view: await classroom.classroomPage(), mount: () => classroom.bindClassroom(router) };
+  }, 'Loading classes…'),
   '/patterns': () => transition(async () => {
     const [index, patterns] = await Promise.all([loader.getIndex(), loadPageModule('./js/patternsUI.js')]);
     return { view: patterns.patternsPage(index), mount: () => patterns.bindPatterns() };

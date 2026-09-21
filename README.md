@@ -109,10 +109,11 @@ launch.
 `/admin` shows account totals, sign-ups over the last 30 days, which method people
 used, and the newest accounts.
 
-**Only the server decides who may see `/admin`.** The page holds no allowlist,
+**Only the database decides who may see `/admin`.** The page holds no allowlist,
 because anything decided in the browser can be read out of the bundle or bypassed
-by calling the endpoint directly. Every request to `/api/admin/stats` re-verifies
-the caller's token with Supabase and re-checks the address against `ADMIN_EMAILS`.
+by calling the endpoint directly. Every request forwards the signed-in token to a
+restricted Supabase function, which checks the account's administrator role before
+returning account information.
 
 ### Setup
 
@@ -120,18 +121,17 @@ Create a project at [supabase.com](https://supabase.com), open **Project Setting
 API**, then run:
 
 ```bash
-npm run setup:accounts -- --url https://YOURPROJECT.supabase.co --anon ANON_KEY --service SERVICE_ROLE_KEY --admin you@gmail.com
+npm run setup:accounts -- --url https://YOURPROJECT.supabase.co --anon ANON_KEY
 ```
 
-That writes the secrets to a git-ignored `.env` for local development. It refuses to
-run if `.env` is not ignored, or if the anon and service keys are the same string.
+That writes the project URL and browser-safe anon key to the local configuration.
 
 Then two things happen outside this machine:
 
 1. Run **both** migrations in the Supabase SQL editor, in filename order. The second
    closes a privilege escalation; without it any signed-in student can make themselves
    an administrator and read every other user's data.
-2. Put the same four values into **Vercel → Settings → Environment Variables**. This is
+2. Put the same two values into **Vercel → Settings → Environment Variables**. This is
    the only step the live site needs — the browser reads the two public ones from
    `/api/config`, so no file has to be edited or redeployed by hand:
 
@@ -139,8 +139,6 @@ Then two things happen outside this machine:
    | --- | --- |
    | `SUPABASE_URL` | the same project URL |
    | `SUPABASE_ANON_KEY` | the same anon key |
-   | `SUPABASE_SERVICE_ROLE_KEY` | **secret**, Project Settings → API → `service_role` |
-   | `ADMIN_EMAILS` | your own address, comma-separated for more than one |
 
 3. Turn on Google: in Supabase open **Authentication → Providers → Google**, enable
    it, and paste in a client ID and secret from
@@ -148,12 +146,13 @@ Then two things happen outside this machine:
    console, add `https://<your-project>.supabase.co/auth/v1/callback` as an
    authorised redirect URI, and your site's origin as an authorised JavaScript
    origin.
-4. Redeploy. `GET /api/health` reports `adminConfigured`, and `/admin` will list
-   exactly which variables are still missing until all four are set.
+4. Run the administrator migration, then assign the owner profile the `admin` role
+   from the Supabase SQL editor. Redeploy. `GET /api/health` reports
+   `adminConfigured`, and `/admin` remains inaccessible to every non-admin account.
 
-**The service-role key can read and modify every user in your project.** It belongs
-only in the host's environment settings — never in `public-env.js`, never in the
-repository, never in a browser. `npm test` fails if it appears in a client file.
+KINETIQ does not require an elevated database key in its deployment environment.
+Role checks run inside restricted database functions and still respect the signed-in
+user's identity.
 
 ## Enable KIT AI
 

@@ -6,7 +6,7 @@ const crypto = require('node:crypto');
 const { createRetrievalEngine } = require('./server/retrievalEngine.cjs');
 const { composeAnswer } = require('./server/answerEngine.cjs');
 const { loadPrivateRecords, privateSummary } = require('./server/privateLibrary.cjs');
-const { adminStatsHandler, adminWhoamiHandler, isConfigured: adminConfigured } = require('./server/adminStats.cjs');
+const { adminStatsHandler, adminWhoamiHandler, adminSetRoleHandler, isConfigured: adminConfigured } = require('./server/adminStats.cjs');
 
 const ROOT = __dirname;
 
@@ -328,11 +328,9 @@ async function handleRequest(req, res) {
   //
   // These used to live only in public-env.js, a committed file, so the app had
   // to be configured twice: once there for the browser and once in the host
-  // environment for the server. That is one more step to get wrong, and it
-  // gave the service-role key a committed file to be pasted into by mistake.
-  // Serving them here makes the host environment the single place anything is
-  // configured. Only the two values designed to be public are ever sent; the
-  // service-role key is not read in this handler at all.
+  // environment for the server. Serving them here makes the host environment
+  // the single place account connectivity is configured. Only the two values
+  // designed to be public are ever sent.
   if (req.method === 'GET' && pathname === '/api/config') {
     return send(res, 200, {
       supabaseUrl: process.env.SUPABASE_URL || '',
@@ -347,11 +345,15 @@ async function handleRequest(req, res) {
   });
   if (req.method === 'GET' && pathname === '/api/content/index') { try { return send(res, 200, await contentIndex(), { 'Cache-Control': 'public, max-age=300' }); } catch (error) { return send(res, 500, { error: `Content catalogue error: ${error.message}` }); } }
   const lessonMatch = pathname.match(/^\/api\/content\/lessons\/([a-z0-9-]+)$/); if (req.method === 'GET' && lessonMatch) { try { const files = await lessonFiles(); const file = files.find(candidate => slugify(path.basename(candidate, '.json')) === lessonMatch[1]); if (!file) return send(res, 404, { error: 'Lesson not found.' }); return send(res, 200, normalizeLesson(await readLesson(file), file, files), { 'Cache-Control': 'public, max-age=300' }); } catch (error) { return send(res, 500, { error: `Lesson error: ${error.message}` }); } }
-  // Owner-only. Authorisation is decided in adminStats.cjs against a
-  // server-side allowlist, never in the browser, and the service-role key it
-  // uses is never sent to a client.
+  // Owner-only. Supabase verifies both the signed-in token and the database
+  // administrator role before any account information is returned.
   if (req.method === 'GET' && pathname === '/api/admin/stats') return adminStatsHandler(req, res, send);
   if (req.method === 'GET' && pathname === '/api/admin/whoami') return adminWhoamiHandler(req, res, send);
+  const adminRoleMatch = pathname.match(/^\/api\/admin\/users\/([0-9a-f-]{36})\/role$/i);
+  if (req.method === 'POST' && adminRoleMatch) {
+    try { return adminSetRoleHandler(req, res, send, adminRoleMatch[1], await readJSON(req)); }
+    catch (error) { return send(res, 400, { error: error.message }); }
+  }
   if (req.method === 'POST' && pathname === '/api/chat') return tutor(req, res);
   if (!['GET', 'HEAD'].includes(req.method)) return send(res, 405, { error: 'Method not allowed' });
   return serveAsset(res, pathname, req.method === 'HEAD');

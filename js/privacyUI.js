@@ -8,7 +8,7 @@
  * When the behaviour changes, this page has to change with it.
  */
 
-const UPDATED = '20 September 2026';
+const UPDATED = '21 September 2026';
 const REPO = 'https://github.com/JashwanthVaka/phylab';
 
 const section = (title, body) => `<section class="lesson-section privacy-section">
@@ -51,7 +51,8 @@ export function privacyPage() {
       <p>Accounts are optional, and signing in is not required for anything on the site.</p>
       <p>You can sign in with Google or request a password-free link to an email address you control. KINETIQ does not see or store a password. It receives your email address and, where the sign-in provider supplies one, your name.</p>
       <p>Your account then stores your profile, lesson progress, practice results, saved KIT conversations and bookmarks, using the database service Supabase. Other students cannot see your work. The site owner runs that database, so the owner can.</p>
-      <p>The site owner can see a list of accounts showing each email address, how it signed in, when it joined and when it last signed in. The owner cannot see your password, because there is none.</p>`)}
+      <p>The site owner can see a list of accounts showing each email address, how it signed in, when it joined and when it last signed in. The owner cannot see your password, because there is none.</p>
+      <p>If you join a teacher's class, that teacher can see your display name, lesson completion, assessed topic mastery and quiz summaries for as long as you remain in the class. They cannot see your bookmarks, Ask KIT history, uploaded images or private revision notes. You can leave a class at any time, which immediately removes the teacher's access to your progress.</p>`)}
 
     ${section('Services the site loads', `
       <ul>

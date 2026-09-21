@@ -1,10 +1,3 @@
-/**
- * Guards the owner-only endpoint.
- *
- * The failure that matters here is not a wrong number on a chart, it is the
- * user list reaching someone who should not have it. These tests assert the
- * refusals, not the happy path.
- */
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -14,160 +7,89 @@ import { createRequire } from 'node:module';
 const require = createRequire(import.meta.url);
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const admin = require(path.join(ROOT, 'server', 'adminStats.cjs'));
-
 const responses = [];
 const send = (res, status, body) => { responses.push({ status, body }); return body; };
 const reset = () => { responses.length = 0; };
-const withEnv = async (env, run) => {
-  const saved = { ...process.env };
-  Object.assign(process.env, env);
-  try { await run(); } finally {
-    Object.keys(env).forEach(key => { delete process.env[key]; });
-    Object.assign(process.env, saved);
-  }
+const savedEnv = { ...process.env };
+const realFetch = globalThis.fetch;
+const configure = () => Object.assign(process.env, { SUPABASE_URL: 'https://example.supabase.co', SUPABASE_ANON_KEY: 'anon-key' });
+
+delete process.env.SUPABASE_URL; delete process.env.SUPABASE_ANON_KEY;
+await admin.adminStatsHandler({ headers: {} }, {}, send);
+assert.equal(responses[0].status, 503);
+assert.deepEqual(responses[0].body.missing.sort(), ['SUPABASE_ANON_KEY', 'SUPABASE_URL']);
+
+configure(); reset();
+globalThis.fetch = async () => { throw new Error('no token must not reach Supabase'); };
+await admin.adminStatsHandler({ headers: {} }, {}, send);
+assert.equal(responses[0].status, 401);
+
+// Database RPC is the authorization boundary. A refused caller sees nothing.
+reset();
+globalThis.fetch = async (url, options) => {
+  assert.match(String(url), /\/rest\/v1\/rpc\/admin_user_rows$/);
+  assert.equal(options.headers.apikey, 'anon-key');
+  assert.equal(options.headers.Authorization, 'Bearer learner-token');
+  return { ok: false, status: 403, json: async () => ({ message: 'Administrator access required' }) };
 };
+await admin.adminStatsHandler({ headers: { authorization: 'Bearer learner-token' } }, {}, send);
+assert.equal(responses[0].status, 403);
+assert.ok(!JSON.stringify(responses[0].body).includes('owner@'), 'a refusal must disclose no owner identity');
 
-// ── Unconfigured deployments must refuse, not improvise ──────────────
-await withEnv({ SUPABASE_URL: '', SUPABASE_SERVICE_ROLE_KEY: '', ADMIN_EMAILS: '' }, async () => {
-  reset();
-  await admin.adminStatsHandler({ headers: {} }, {}, send);
-  assert.equal(responses[0].status, 503, 'an unconfigured deployment must say so rather than fail open');
-  assert.ok(responses[0].body.missing.includes('SUPABASE_URL'));
-});
-
-const CONFIGURED = {
-  SUPABASE_URL: 'https://example.supabase.co',
-  SUPABASE_ANON_KEY: 'anon-key',
-  SUPABASE_SERVICE_ROLE_KEY: 'service-key',
-  ADMIN_EMAILS: 'owner@example.com',
-};
-
-// ── No token, bad token, and a valid non-admin all get nothing ───────
-await withEnv(CONFIGURED, async () => {
-  const realFetch = globalThis.fetch;
-
-  // No Authorization header at all.
-  reset();
-  globalThis.fetch = async () => { throw new Error('should not be called without a token'); };
-  await admin.adminStatsHandler({ headers: {} }, {}, send);
-  assert.equal(responses[0].status, 401, 'a request with no token must be rejected');
-
-  // A token Supabase does not recognise.
-  reset();
-  globalThis.fetch = async () => ({ ok: false, status: 401, json: async () => ({}) });
-  await admin.adminStatsHandler({ headers: { authorization: 'Bearer forged' } }, {}, send);
-  assert.equal(responses[0].status, 401, 'a token Supabase rejects must not be trusted');
-
-  // A real session belonging to someone who is not an admin.
-  reset();
-  globalThis.fetch = async url => {
-    if (String(url).includes('/auth/v1/user')) {
-      return { ok: true, status: 200, json: async () => ({ email: 'student@example.com', id: 'u1' }) };
-    }
-    throw new Error('the user list must not be fetched for a non-admin');
-  };
-  await admin.adminStatsHandler({ headers: { authorization: 'Bearer valid' } }, {}, send);
-  assert.equal(responses[0].status, 403, 'a signed-in non-admin must be refused');
-  assert.ok(!JSON.stringify(responses[0].body).includes('owner@example.com'),
-    'the refusal must not disclose who the administrators are');
-
-  // The allowlist is case-insensitive but exact: no substring or domain match.
-  assert.ok(admin.isAdmin('OWNER@example.com'), 'the allowlist should ignore case');
-  assert.ok(!admin.isAdmin('notowner@example.com'), 'a longer address must not match');
-  assert.ok(!admin.isAdmin('owner@example.com.attacker.test'), 'a suffixed domain must not match');
-  assert.ok(!admin.isAdmin(''), 'an empty email must never be an admin');
-  assert.ok(!admin.isAdmin(null), 'a missing email must never be an admin');
-
-  globalThis.fetch = realFetch;
-});
-
-// ── The service-role key must never be sent to a browser ─────────────
-const clientFiles = ['js/adminUI.js', 'js/accountUI.js', 'js/services/authService.js', 'js/services/supabaseClient.js', 'public-env.js'];
-clientFiles.forEach(file => {
-  const source = fs.readFileSync(path.join(ROOT, file), 'utf8');
-  assert.ok(!/SERVICE_ROLE/.test(source.replace(/SUPABASE_SERVICE_ROLE_KEY<\/code>/g, '')),
-    `${file} must not reference the service-role key outside setup instructions`);
-});
-const publicEnv = fs.readFileSync(path.join(ROOT, 'public-env.js'), 'utf8');
-assert.ok(!/eyJ|service_role/i.test(publicEnv), 'public-env.js must not contain a real key');
-
-// The admin page must not decide access for itself.
-const adminUI = fs.readFileSync(path.join(ROOT, 'js', 'adminUI.js'), 'utf8');
-assert.ok(!/ADMIN_EMAILS\s*=|const\s+ADMINS/.test(adminUI),
-  'the admin page must not hold an allowlist; the server decides');
-
-// ── Aggregation reports what it is given ─────────────────────────────
 const now = new Date();
 const iso = days => new Date(now.getTime() - days * 86400000).toISOString();
-const summary = admin.summarise([
-  { email: 'a@x.com', created_at: iso(1), last_sign_in_at: iso(0), email_confirmed_at: iso(1), identities: [{ provider: 'google' }] },
-  { email: 'b@x.com', created_at: iso(3), last_sign_in_at: iso(2), identities: [{ provider: 'google' }] },
-  { email: 'c@x.com', created_at: iso(40), last_sign_in_at: iso(35), email_confirmed_at: iso(40), app_metadata: { provider: 'email' } },
-]);
+const rows = [
+  { id: 'a', email: 'a@x.com', display_name: 'A', role: 'admin', provider: 'google', created_at: iso(1), last_sign_in_at: iso(0), email_confirmed_at: iso(1) },
+  { id: 'b', email: 'b@x.com', role: 'student', provider: 'google', created_at: iso(3), last_sign_in_at: iso(2) },
+  { id: 'c', email: 'c@x.com', role: 'teacher', provider: 'email', created_at: iso(40), last_sign_in_at: iso(35), email_confirmed_at: iso(40) },
+];
+const summary = admin.summarise(rows);
 assert.equal(summary.totals.users, 3);
 assert.equal(summary.totals.confirmed, 2);
-assert.equal(summary.totals.newThisWeek, 2, 'only the two recent sign-ups are new this week');
-assert.equal(summary.totals.activeThisWeek, 2);
-assert.equal(summary.totals.activeThisMonth, 2, 'the 35-day-old sign-in is outside the month');
 assert.equal(summary.byProvider.google, 2);
-assert.equal(summary.byProvider.email, 1);
-assert.equal(summary.trend.length, 30, 'the trend must be a dense 30-day series');
-assert.ok(summary.trend.every(day => Number.isInteger(day.count)), 'quiet days must read as zero, not gaps');
-assert.equal(summary.recent[0].email, 'a@x.com', 'the newest account should lead');
+assert.equal(summary.recent.find(row => row.id === 'c').role, 'teacher');
+assert.equal(summary.trend.length, 30);
 
-// Nothing sensitive should survive into the response shape.
-const serialised = JSON.stringify(summary);
-assert.ok(!/encrypted_password|phone|banned_until|recovery_token/.test(serialised),
-  'the summary must not carry raw Supabase user fields');
+// Owner-approved role changes also go through a guarded RPC, never a service key.
+reset();
+globalThis.fetch = async (url, options) => {
+  assert.match(String(url), /\/rest\/v1\/rpc\/admin_set_account_role$/);
+  assert.deepEqual(JSON.parse(options.body), { target_user: '11111111-1111-1111-1111-111111111111', target_role: 'teacher' });
+  assert.equal(options.headers.Authorization, 'Bearer owner-token');
+  return { ok: true, status: 200, json: async () => null };
+};
+await admin.adminSetRoleHandler(
+  { headers: { authorization: 'Bearer owner-token' } }, {}, send,
+  '11111111-1111-1111-1111-111111111111', { role: 'teacher' }
+);
+assert.equal(responses[0].status, 200);
 
-console.log(`admin tests passed (refusals, allowlist, key isolation, ${summary.totals.users}-user aggregation)`);
+reset();
+await admin.adminSetRoleHandler({ headers: {} }, {}, send, 'bad-id', { role: 'admin' });
+assert.equal(responses[0].status, 400, 'admin and malformed role changes must be rejected before RPC');
 
-// ── whoami tells the caller about themselves, and nobody else ────────
-// The navigation asks this to decide whether to offer an Admin link. It must
-// never become a way to enumerate who the administrators are.
-await withEnv(CONFIGURED, async () => {
-  const realFetch = globalThis.fetch;
-  const asUser = email => async url => {
-    if (String(url).includes('/auth/v1/user')) {
-      return email
-        ? { ok: true, status: 200, json: async () => ({ email, id: 'u' }) }
-        : { ok: false, status: 401, json: async () => ({}) };
-    }
-    throw new Error('whoami must never fetch the user list');
-  };
+globalThis.fetch = async (url, options) => {
+  assert.match(String(url), /\/rest\/v1\/rpc\/is_admin$/);
+  assert.equal(options.headers.Authorization, 'Bearer owner-token');
+  return { ok: true, status: 200, json: async () => true };
+};
+reset();
+await admin.adminWhoamiHandler({ headers: { authorization: 'Bearer owner-token' } }, {}, send);
+assert.deepEqual(responses[0].body, { admin: true, configured: true });
 
-  reset();
-  globalThis.fetch = asUser('owner@example.com');
-  await admin.adminWhoamiHandler({ headers: { authorization: 'Bearer ok' } }, {}, send);
-  assert.equal(responses[0].status, 200);
-  assert.equal(responses[0].body.admin, true, 'the owner should be recognised');
+// No service-role secret or owner email allowlist belongs in the app now.
+for (const file of ['server/adminStats.cjs', 'js/adminUI.js', 'js/accountMenu.js', 'public-env.js', '.env.example']) {
+  const source = fs.readFileSync(path.join(ROOT, file), 'utf8');
+  assert.doesNotMatch(source, /SUPABASE_SERVICE_ROLE_KEY|ADMIN_EMAILS|service-role key/i, `${file} must not depend on a deployment-wide admin secret`);
+}
 
-  reset();
-  globalThis.fetch = asUser('student@example.com');
-  await admin.adminWhoamiHandler({ headers: { authorization: 'Bearer ok' } }, {}, send);
-  assert.equal(responses[0].body.admin, false, 'a student is not an admin');
-  assert.ok(!JSON.stringify(responses[0].body).includes('owner@example.com'),
-    'whoami must not disclose the allowlist');
+const adminMigration = fs.readFileSync(path.join(ROOT, 'supabase/migrations/20260921_admin_rpc.sql'), 'utf8');
+assert.match(adminMigration, /Administrators can manage account roles and aggregate account metadata/i);
+assert.doesNotMatch(adminMigration, /user_id\s*=\s*auth\.uid\(\)\s+or\s+public\.is_admin\(\)/i,
+  'administrator access must not be added to private learner rows');
 
-  reset();
-  globalThis.fetch = asUser(null);
-  await admin.adminWhoamiHandler({ headers: {} }, {}, send);
-  assert.equal(responses[0].body.admin, false, 'no session is not an admin');
+globalThis.fetch = realFetch;
+Object.keys(process.env).forEach(key => { if (!(key in savedEnv)) delete process.env[key]; });
+Object.assign(process.env, savedEnv);
 
-  globalThis.fetch = realFetch;
-});
-
-// Unconfigured deployments answer without pretending to know anything.
-await withEnv({ SUPABASE_URL: '', SUPABASE_SERVICE_ROLE_KEY: '', ADMIN_EMAILS: '' }, async () => {
-  reset();
-  await admin.adminWhoamiHandler({ headers: {} }, {}, send);
-  assert.deepEqual(responses[0].body, { admin: false, configured: false });
-});
-
-// The navigation must not decide admin status for itself.
-const menuSource = fs.readFileSync(path.join(ROOT, 'js', 'accountMenu.js'), 'utf8');
-assert.ok(/admin\/whoami/.test(menuSource), 'the account menu should ask the server');
-assert.ok(!/ADMIN_EMAILS|@[a-z]+\.(com|org)/.test(menuSource),
-  'the account menu must not contain an address or allowlist');
-
-console.log('whoami tests passed (self-only answers, no allowlist disclosure)');
+console.log('admin tests passed (RLS-backed RPC, owner-only role approval, no service secret)');

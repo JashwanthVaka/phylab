@@ -120,3 +120,76 @@ select 'signed_out_sees_no_rows' as check,
        (select count(*) = 0 from public.lesson_progress) as passed;
 
 reset role;
+
+-- ── 9. Administrators manage accounts, not private study records ─────
+select set_config('request.jwt.claim.role', 'service_role', false);
+update public.profiles set role = 'admin'
+where id = '11111111-1111-1111-1111-111111111111';
+select set_config('request.jwt.claim.role', 'authenticated', false);
+
+set role authenticated;
+select pg_temp.sign_in('11111111-1111-1111-1111-111111111111');
+select 'admin_cannot_read_student_private_progress' as check,
+       (select count(*) = 0 from public.lesson_progress
+        where user_id = '22222222-2222-2222-2222-222222222222') as passed;
+select 'admin_rpc_returns_account_metadata' as check,
+       (select count(*) = 2 from public.admin_user_rows()) as passed;
+
+reset role;
+
+-- ── 8. Teacher boundaries ────────────────────────────────────────────
+-- Promote Ada through the trusted service role, create a class, then let
+-- Grace join through the public invitation-code function.
+select set_config('request.jwt.claim.role', 'service_role', false);
+update public.profiles set role = 'teacher'
+where id = '11111111-1111-1111-1111-111111111111';
+select set_config('request.jwt.claim.role', 'authenticated', false);
+
+set role authenticated;
+select pg_temp.sign_in('11111111-1111-1111-1111-111111111111');
+insert into public.teacher_classes (id, teacher_id, name, join_code)
+values ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
+        '11111111-1111-1111-1111-111111111111', 'Physics HL', 'JOIN42');
+
+select pg_temp.sign_in('22222222-2222-2222-2222-222222222222');
+select * from public.join_class('join42');
+
+select 'student_sees_joined_class' as check,
+       (select count(*) = 1 from public.teacher_classes
+        where id = 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa') as passed;
+
+-- Membership grants exactly the summary evidence promised in the UI.
+select pg_temp.sign_in('11111111-1111-1111-1111-111111111111');
+select 'teacher_sees_joined_student_progress' as check,
+       (select count(*) = 1 from public.lesson_progress
+        where user_id = '22222222-2222-2222-2222-222222222222') as passed;
+
+-- Private learning records are deliberately not shared with a teacher.
+select 'teacher_cannot_read_student_bookmarks' as check,
+       (select count(*) = 0 from public.bookmarks
+        where user_id = '22222222-2222-2222-2222-222222222222') as passed;
+
+-- A learner cannot create a class by pretending to be its teacher.
+select pg_temp.sign_in('22222222-2222-2222-2222-222222222222');
+do $$
+declare blocked boolean := false;
+begin
+  begin
+    insert into public.teacher_classes (teacher_id, name)
+    values ('22222222-2222-2222-2222-222222222222', 'Forged class');
+  exception when insufficient_privilege then blocked := true;
+  end;
+  if not blocked then raise exception 'FAIL: a student created a teacher class'; end if;
+  raise notice 'check: student_cannot_create_teacher_class | passed: t';
+end $$;
+
+-- Once Grace leaves, Ada immediately loses access to her progress.
+delete from public.class_memberships
+where class_id = 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'
+  and user_id = '22222222-2222-2222-2222-222222222222';
+select pg_temp.sign_in('11111111-1111-1111-1111-111111111111');
+select 'teacher_access_ends_when_student_leaves' as check,
+       (select count(*) = 0 from public.lesson_progress
+        where user_id = '22222222-2222-2222-2222-222222222222') as passed;
+
+reset role;

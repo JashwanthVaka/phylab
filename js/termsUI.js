@@ -1,4 +1,4 @@
-const UPDATED = '20 September 2026';
+const UPDATED = '21 September 2026';
 const REPO = 'https://github.com/JashwanthVaka/phylab';
 
 const section = (title, body) => `<section class="lesson-section privacy-section"><h2>${title}</h2>${body}</section>`;
@@ -17,6 +17,10 @@ export function termsPage() {
     ${section('Accounts and your work', `
       <p>You may study as a guest or sign in. You are responsible for access to the Google or email account used to sign in. Do not use another person's account or try to view, change or export another learner's work.</p>
       <p>Signed-in study records are kept separately for each account. Guest work remains on that browser unless you move it into an account. You should keep your own copy of important drafts and progress exports.</p>`)}
+
+    ${section('Classes and teachers', `
+      <p>A learner joins a class voluntarily with a private code and may leave at any time. While joined, the class teacher can view limited progress evidence and assign original KINETIQ practice. Teachers must use that information only to support learning and must follow their school's privacy rules.</p>
+      <p>Only the site owner can approve a teacher account. A teacher must not share class codes publicly, invite learners they do not teach, or export learner data for unrelated purposes.</p>`)}
 
     ${section('Original learning material', `
       <p>KINETIQ lessons, original practice questions, explanations, diagrams and software may be used for personal study. You may print a revision pack for your own learning. Do not copy the question bank, republish substantial parts of the course, sell the material, or present it as your own product.</p>

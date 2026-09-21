@@ -13,23 +13,42 @@ set -uo pipefail
 PG_BIN=${PG_BIN:-/usr/lib/postgresql/16/bin}
 SOCK=${KINETIQ_PGSOCK:-}
 OWN_SERVER=0
+DATA_DIR=
 HERE=$(cd "$(dirname "$0")" && pwd)
 ROOT=$(cd "$HERE/../.." && pwd)
 
 skip() { echo "SKIP: $1"; echo "      These checks need a Postgres server; the schema was not verified."; exit 0; }
 
 if [ -z "$SOCK" ]; then
+  # Homebrew installs PostgreSQL outside Linux's conventional path. Prefer an
+  # already-installed copy; this test must never install or upgrade software.
+  if [ ! -x "$PG_BIN/initdb" ] && command -v brew >/dev/null 2>&1; then
+    BREW_PG=$(brew --prefix postgresql@16 2>/dev/null || true)
+    [ -x "$BREW_PG/bin/initdb" ] && PG_BIN="$BREW_PG/bin"
+  fi
   [ -x "$PG_BIN/initdb" ] || skip "no Postgres server binaries at $PG_BIN"
-  # initdb refuses to run as root, so an unprivileged owner is required.
-  RUNAS=${KINETIQ_PGUSER:-pgtest}
-  id "$RUNAS" >/dev/null 2>&1 || useradd -m "$RUNAS" >/dev/null 2>&1 || skip "cannot create the unprivileged user $RUNAS"
-  HOME_DIR=$(getent passwd "$RUNAS" | cut -d: -f6)
-  SOCK="$HOME_DIR/pg/sock"
-  su "$RUNAS" -c "export PATH=$PG_BIN:\$PATH
-    rm -rf $HOME_DIR/pg && mkdir -p $HOME_DIR/pg/data $HOME_DIR/pg/sock
-    initdb -U postgres -A trust $HOME_DIR/pg/data >$HOME_DIR/pg/initdb.log 2>&1 &&
-    pg_ctl -D $HOME_DIR/pg/data -o '-k $SOCK -c listen_addresses=' -l $HOME_DIR/pg/server.log start >/dev/null 2>&1" \
-    || skip "could not start a Postgres server"
+  # macOS development runs as an ordinary user already. Linux CI sometimes
+  # runs as root, where initdb requires an unprivileged helper account.
+  if [ "$(id -u)" -eq 0 ]; then
+    RUNAS=${KINETIQ_PGUSER:-pgtest}
+    id "$RUNAS" >/dev/null 2>&1 || useradd -m "$RUNAS" >/dev/null 2>&1 || skip "cannot create the unprivileged user $RUNAS"
+    HOME_DIR=$(getent passwd "$RUNAS" | cut -d: -f6)
+    DATA_DIR="$HOME_DIR/pg/data"
+    SOCK="$HOME_DIR/pg/sock"
+    su "$RUNAS" -c "export PATH=$PG_BIN:\$PATH
+      rm -rf $HOME_DIR/pg && mkdir -p $DATA_DIR $SOCK
+      initdb -U postgres -A trust $DATA_DIR >$HOME_DIR/pg/initdb.log 2>&1 &&
+      pg_ctl -D $DATA_DIR -o '-k $SOCK -c listen_addresses=' -l $HOME_DIR/pg/server.log start >/dev/null 2>&1" \
+      || skip "could not start a Postgres server"
+  else
+    TEST_ROOT=$(mktemp -d "${TMPDIR:-/tmp}/kinetiq-rls.XXXXXX")
+    DATA_DIR="$TEST_ROOT/data"
+    SOCK="$TEST_ROOT/sock"
+    mkdir -p "$SOCK"
+    "$PG_BIN/initdb" -U postgres -A trust "$DATA_DIR" >"$TEST_ROOT/initdb.log" 2>&1 &&
+      "$PG_BIN/pg_ctl" -D "$DATA_DIR" -o "-k $SOCK -c listen_addresses=" -l "$TEST_ROOT/server.log" start >/dev/null 2>&1 \
+      || skip "could not start a Postgres server"
+  fi
   OWN_SERVER=1
   for _ in 1 2 3 4 5 6 7 8 9 10; do
     psql -h "$SOCK" -U postgres -tAc 'select 1' >/dev/null 2>&1 && break
@@ -41,7 +60,12 @@ psql -h "$SOCK" -U postgres -tAc 'select 1' >/dev/null 2>&1 || skip "no Postgres
 
 stop_server() {
   [ "$OWN_SERVER" = 1 ] || return 0
-  su "${RUNAS:-pgtest}" -c "export PATH=$PG_BIN:\$PATH; pg_ctl -D $HOME_DIR/pg/data stop -m immediate" >/dev/null 2>&1
+  if [ "$(id -u)" -eq 0 ]; then
+    su "${RUNAS:-pgtest}" -c "export PATH=$PG_BIN:\$PATH; pg_ctl -D $DATA_DIR stop -m immediate" >/dev/null 2>&1
+  else
+    "$PG_BIN/pg_ctl" -D "$DATA_DIR" stop -m immediate >/dev/null 2>&1
+    rm -rf "${TEST_ROOT:-}"
+  fi
 }
 trap stop_server EXIT
 
@@ -58,19 +82,25 @@ q -c 'grant usage on schema public to anon, authenticated;
       grant select, insert, update, delete on all tables in schema public to anon, authenticated;' >/dev/null
 
 output=$(psql -h "$SOCK" -U postgres -A -F' | ' -f "$HERE/isolation.sql" 2>&1)
+psql_status=$?
 results=$(echo "$output" | grep -E '^[a-z_]+ \| [tf]$|passed: [tf]' | sed 's/.*NOTICE: *check: //; s/ | passed: / | /')
 
 echo "$results"
 failed=$(echo "$results" | grep -c '| f$')
 total=$(echo "$results" | grep -c '|')
 
+if [ "$psql_status" -ne 0 ]; then
+  echo "$output" | grep -E 'ERROR:|FATAL:' | tail -n 5
+  echo "row-level security: FAILED (the SQL suite did not complete)"
+  exit 1
+fi
 if echo "$output" | grep -q 'FAIL:'; then
   echo "$output" | grep 'FAIL:'
   echo "row-level security: FAILED"
   exit 1
 fi
 if [ "$failed" -gt 0 ] || [ "$total" -lt 9 ]; then
-  echo "row-level security: FAILED ($failed of $total checks failed, expected 9 checks)"
+  echo "row-level security: FAILED ($failed of $total checks failed, expected at least 9 checks)"
   exit 1
 fi
 echo "row-level security: $total checks passed against a real Postgres"
