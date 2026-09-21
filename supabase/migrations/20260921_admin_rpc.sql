@@ -68,7 +68,7 @@ as $$
 begin
   if not public.is_admin() then raise insufficient_privilege using message = 'Administrator access required'; end if;
   return query
-    select u.id, u.email, p.display_name, p.role,
+    select u.id, u.email::text, p.display_name, p.role,
       coalesce(u.raw_app_meta_data->>'provider', 'email'),
       u.created_at, u.last_sign_in_at, u.email_confirmed_at
     from auth.users u join public.profiles p on p.id = u.id

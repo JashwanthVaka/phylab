@@ -85,6 +85,8 @@ for (const file of ['server/adminStats.cjs', 'js/adminUI.js', 'js/accountMenu.js
 
 const adminMigration = fs.readFileSync(path.join(ROOT, 'supabase/migrations/20260921_admin_rpc.sql'), 'utf8');
 assert.match(adminMigration, /Administrators can manage account roles and aggregate account metadata/i);
+assert.match(adminMigration, /u\.email::text/i,
+  'admin account rows must match the RPC text return type');
 assert.doesNotMatch(adminMigration, /user_id\s*=\s*auth\.uid\(\)\s+or\s+public\.is_admin\(\)/i,
   'administrator access must not be added to private learner rows');
 
