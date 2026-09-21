@@ -60,6 +60,17 @@ export function resourcesPage(index) {
       <article><b>${(index.formulas || []).length}</b><span>formula records</span></article>
     </div>
 
+    <section class="lesson-section resource-cycle">
+      <div class="section-title"><p class="eyebrow">HOW TO USE KINETIQ</p><h2>One connected study cycle.</h2></div>
+      <p class="muted">Reading is only the first step. Move through the four stages, then let your scored evidence choose the next topic.</p>
+      <ol class="resource-cycle__steps">
+        <li><span>01</span><div><b>Understand</b><p>Read the topic notes, examples and formula meanings.</p><a href="/library" data-route>Course library →</a></div></li>
+        <li><span>02</span><div><b>Recall</b><p>Use the capped daily flashcard session for active recall.</p><a href="/revision" data-route>Revision queue →</a></div></li>
+        <li><span>03</span><div><b>Apply</b><p>Build a target test by topic, difficulty, level and time.</p><a href="/quiz?mode=Mixed%20Quiz" data-route>Target-test builder →</a></div></li>
+        <li><span>04</span><div><b>Improve</b><p>Use missed criteria, strengths and weaknesses to choose the next action.</p><a href="/progress" data-route>Learning workspace →</a></div></li>
+      </ol>
+    </section>
+
     <section class="lesson-section resource-coverage">
       <div class="section-title"><p class="eyebrow">SPECIFICATION COVERAGE</p><h2>Resources by unit</h2></div>
       <div class="resource-coverage__grid">${coverage.map(unit => `<a href="/library#unit-${escapeHTML(unit.id)}" data-route data-unit="${escapeHTML(unit.id)}">

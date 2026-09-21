@@ -190,7 +190,13 @@ async function dashboardContext() {
     profileService.getSettings().catch(() => null)
   ]);
   await restorePractice(index);
-  return [summary, { lessons: index.lessonIndex, units: index.units, completed: state.completed, settings }];
+  return [summary, {
+    lessons: index.lessonIndex,
+    units: index.units,
+    simulations: index.simulations,
+    completed: state.completed,
+    settings
+  }];
 }
 
 function bookmarkPage(rows) {
@@ -276,7 +282,9 @@ const router = new Router({
   }, 'Loading question patterns…'),
   '/exam-prep': () => transition(async () => {
     const [index, examPrep] = await Promise.all([loader.getIndex(), loadPageModule('./js/examPrepUI.js')]);
-    return { view: examPrep.examPrepPage(index) };
+    await restorePractice(index);
+    const summary = await dashboardService.summary();
+    return { view: examPrep.examPrepPage(index, summary) };
   }, 'Opening exam preparation…'),
   '/mistakes': () => transition(async () => {
     await restorePractice(await loader.getIndex());

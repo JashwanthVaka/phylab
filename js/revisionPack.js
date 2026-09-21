@@ -9,11 +9,12 @@ export function revisionPackPage(index = {}, filters = {}) {
   const lessons = allLessons.filter(lesson => (!unitFilter || lesson.unit === unitFilter)
     && (!levelFilter || levelFilter === 'HL' || !/^HL\b/i.test(lesson.level || '')));
   const units = allUnits.filter(unit => !unitFilter || unit.id === unitFilter);
+  const questions = (index.questions || []).filter(question => !levelFilter || levelFilter === 'HL' || question.level !== 'HL');
   const scope = [unitFilter && `Unit ${unitFilter}`, levelFilter && `${levelFilter} course`].filter(Boolean).join(', ') || 'All five units';
   return `<section class="page revision-pack">
     <header class="revision-pack__head">
       <div><p class="eyebrow">PRINTABLE REVISION PACK</p><h1>Your complete course checklist.</h1>
-      <p class="page-lead">A compact map of ${lessons.length} KINETIQ lesson${lessons.length === 1 ? '' : 's'}, their outcomes and core vocabulary. Scope: ${escapeHTML(scope)}.</p></div>
+      <p class="page-lead">A compact map of ${lessons.length} KINETIQ lesson${lessons.length === 1 ? '' : 's'}, their outcomes and a selected set of original practice prompts. Scope: ${escapeHTML(scope)}.</p></div>
       <div class="sheet-actions"><button class="btn btn-primary" type="button" onclick="window.print()">Print pack</button><a class="outline" href="/resources" data-route>Back to resources</a></div>
     </header>
     <form class="revision-pack__filters" action="/revision/print" method="get">
@@ -23,6 +24,8 @@ export function revisionPackPage(index = {}, filters = {}) {
     </form>
     ${units.map(unit => {
       const rows = lessons.filter(lesson => lesson.unit === unit.id);
+      const topics = new Set(rows.map(lesson => lesson.topicLabel).filter(Boolean));
+      const prompts = questions.filter(question => topics.has(question.topic)).slice(0, 5);
       return `<section class="revision-pack__unit" data-unit="${escapeHTML(unit.id)}">
         <h2><span>${escapeHTML(unit.id)}</span> ${escapeHTML(unit.title)}</h2>
         <p>${escapeHTML(unit.summary || '')}</p>
@@ -32,6 +35,14 @@ export function revisionPackPage(index = {}, filters = {}) {
           ${(lesson.learning_objectives || []).length ? `<ul>${lesson.learning_objectives.slice(0, 4).map(item => `<li>${escapeHTML(item)}</li>`).join('')}</ul>` : ''}
           ${(lesson.tags || []).length ? `<small>${lesson.tags.map(escapeHTML).join(' · ')}</small>` : ''}
         </article>`).join('')}</div>
+        ${prompts.length ? `<div class="revision-pack__practice">
+          <h3>Original KINETIQ practice prompts</h3>
+          <ol>${prompts.map(question => `<li><p><b>${escapeHTML(question.topic)} · ${escapeHTML(question.level || 'SL')} · ${Number(question.marks) || 1} mark${Number(question.marks) === 1 ? '' : 's'}</b></p><p>${escapeHTML(question.question)}</p></li>`).join('')}</ol>
+        </div>
+        <div class="revision-pack__answers">
+          <h3>Answers and checking points</h3>
+          <ol>${prompts.map(question => `<li><b>${escapeHTML(question.correctAnswer || question.answer || 'Use the recorded solution.')}</b>${question.solution ? `<p>${escapeHTML(question.solution)}</p>` : ''}</li>`).join('')}</ol>
+        </div>` : ''}
       </section>`;
     }).join('')}
     <footer class="revision-pack__foot">KINETIQ original study material. Study support, not official IB material.</footer>

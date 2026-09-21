@@ -66,6 +66,35 @@ export function dashboardView(summary, extra = {}) {
   const dueCards = summary.guest ? dueCount() : summary.flashcardsDue || 0;
   const dueMistakes = summary.guest ? collectMistakes().filter(item => item.due).length : summary.revisionTasksDue || 0;
   const weakName = weak[0]?.label || weak[0]?.topic_slug || '';
+  const simulations = extra.simulations || [];
+  const currentSimulation = (next && simulations.find(item => item.lesson === next.slug))
+    || simulations.find(item => item.lesson && lessons.find(lesson => lesson.slug === item.lesson && (lesson.unit || String(lesson.title).charAt(0)) === currentUnit))
+    || simulations[0];
+  const practiceHref = weakName
+    ? `/quiz?mode=Weak%20Topic%20Quiz&topic=${encodeURIComponent(weakName)}&count=5`
+    : '/quiz?mode=Quick%205&count=5';
+  const adaptivePath = [
+    {
+      number: '01', kind: 'Learn', title: next ? next.title : 'Course lessons complete',
+      detail: next ? 'Build the model from the lesson notes and worked examples.' : 'Keep the course secure with targeted practice.',
+      href: next ? `/lesson/${next.slug}` : '/library', state: next ? 'Next' : 'Complete'
+    },
+    {
+      number: '02', kind: 'Model', title: currentSimulation?.name || 'Simulation studio',
+      detail: 'Change a variable and connect the equation to visible behaviour.',
+      href: currentSimulation ? `/simulations/${currentSimulation.slug}` : '/simulations', state: currentSimulation ? 'Ready' : 'Browse'
+    },
+    {
+      number: '03', kind: 'Practise', title: weakName ? `Target ${weakName}` : 'Create your baseline',
+      detail: weakName ? 'Selected from reliable scored evidence.' : 'Complete a short set so KINETIQ can measure a real starting point.',
+      href: practiceHref, state: weakName ? 'Measured' : 'Start'
+    },
+    {
+      number: '04', kind: 'Retain', title: dueCards + dueMistakes ? `${dueCards + dueMistakes} reviews due` : 'Review schedule clear',
+      detail: dueCards + dueMistakes ? 'Flashcards and missed questions are ready at their next interval.' : 'Nothing is overdue. Your next reviews will appear automatically.',
+      href: '/revision', state: dueCards + dueMistakes ? 'Due' : 'Scheduled'
+    }
+  ];
   const today = [
     (dueCards || dueMistakes) && {
       kind: 'Review', title: `${dueCards + dueMistakes} item${dueCards + dueMistakes === 1 ? '' : 's'} due`,
@@ -105,6 +134,18 @@ export function dashboardView(summary, extra = {}) {
         <span class="today-item__num">${String(index + 1).padStart(2, '0')}</span>
         <div><span class="tag">${escapeHTML(item.kind)}</span><h3>${escapeHTML(item.title)}</h3><p>${escapeHTML(item.detail)}</p></div>
         <a class="outline" href="${escapeHTML(item.href)}" data-route>Open</a>
+      </li>`).join('')}</ol>
+    </section>
+
+    <section class="lesson-section adaptive-workspace">
+      <div class="section-title"><p class="eyebrow">YOUR LEARNING PATH</p><h2>Learn, model, practise, retain.</h2></div>
+      <p class="muted">Each step opens the correct KINETIQ tool with your next topic or measured weakness already selected.</p>
+      <ol class="adaptive-path">${adaptivePath.map(item => `<li>
+        <a href="${escapeHTML(item.href)}" data-route>
+          <span class="adaptive-path__number">${item.number}</span>
+          <div><span class="tag">${escapeHTML(item.kind)}</span><h3>${escapeHTML(item.title)}</h3><p>${escapeHTML(item.detail)}</p></div>
+          <span class="adaptive-path__state">${escapeHTML(item.state)}</span>
+        </a>
       </li>`).join('')}</ol>
     </section>
 
@@ -176,7 +217,7 @@ export function dashboardView(summary, extra = {}) {
       <div class="card-grid">
         ${next ? `<article class="content-card"><h3>Next lesson</h3><p>${escapeHTML(next.title)}</p><a class="text-button" href="/lesson/${escapeHTML(next.slug)}" data-route>Open lesson →</a></article>` : ''}
         <article class="content-card"><h3>Recommended simulation</h3><p>${escapeHTML(recommendedSimulation(currentUnit).label)}</p><a class="text-button" href="/simulations/${escapeHTML(recommendedSimulation(currentUnit).slug)}" data-route>Open the lab →</a></article>
-        <article class="content-card"><h3>Recommended practice</h3><p>${weak.length ? `Target ${escapeHTML(weakName)}.` : 'Start with a short five-question set to establish a baseline.'}</p><a class="text-button" href="${weakName ? `/quiz?mode=Topic%20Quiz&topic=${encodeURIComponent(weakName)}` : '/quiz?mode=Quick%205&count=5'}" data-route>Start the right quiz →</a></article>
+        <article class="content-card"><h3>Recommended practice</h3><p>${weak.length ? `Target ${escapeHTML(weakName)}.` : 'Start with a short five-question set to establish a baseline.'}</p><a class="text-button" href="${practiceHref}" data-route>Start the right quiz →</a></article>
         <article class="content-card"><h3>Apply it</h3><p>Case practice puts the current unit into a real context.</p><a class="text-button" href="/cases" data-route>Open case practice →</a></article>
       </div>
     </section>
