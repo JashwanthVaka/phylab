@@ -13,7 +13,10 @@
 // previous caches outright. It stays literal when the site is served straight
 // from the repository, which is fine: code is fetched network-first below, so
 // a stale version string can no longer serve stale code.
-const VERSION = 'kinetiq-__BUILD__';
+// Bump for source deployments too. Vercel serves this file directly rather
+// than through build-static.mjs, so a literal __BUILD__ token would otherwise
+// keep old content caches alive across releases.
+const VERSION = 'kinetiq-a240924';
 const SHELL = `${VERSION}-shell`;
 const CONTENT = `${VERSION}-content`;
 
@@ -23,7 +26,7 @@ const scoped = path => new URL(path, self.registration.scope).toString();
 
 const SHELL_FILES = ['', 'index.html', 'styles.css', 'app.js', 'public-env.js',
   'manifest.json', 'icons/kinetiq.svg', 'icons/momentum-180.png',
-  'icons/momentum-192.png', 'icons/momentum-512.png'].map(scoped);
+  'icons/momentum-192.png', 'icons/momentum-512.png', 'api/content/index'].map(scoped);
 
 self.addEventListener('install', event => {
   event.waitUntil(
@@ -83,7 +86,8 @@ self.addEventListener('fetch', event => {
   // The cache is still there and still answers the moment the network does
   // not, so the offline case is unchanged. What changes is which one is asked
   // first.
-  const isAppCode = /\.(?:js|mjs|css|html)$/.test(url.pathname) || url.pathname.endsWith('/');
+  const isAppCode = /\.(?:js|mjs|css|html)$/.test(url.pathname) || url.pathname.endsWith('/')
+    || url.pathname.startsWith('/api/content/');
   if (isAppCode) {
     event.respondWith(
       fetch(request)

@@ -10,7 +10,7 @@ and ES modules on a dependency-free Node server.
 | | |
 | --- | --- |
 | Lessons | 26, in syllabus order across the five course units |
-| Practice questions | 226 original, 43 of them multiple choice, 91 at HL |
+| Practice questions | 556 original, 321 of them multiple choice, 147 at HL |
 | Applied cases | 19 real-world contexts |
 | Command terms | 15, with method and model answers |
 | Simulations | 26 labs, one per lesson, driven by the real equations |

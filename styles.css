@@ -2589,6 +2589,26 @@ input, select, textarea, .stats, .facts {
   border-radius: var(--r-btn); background: var(--pale); color: var(--blue-strong);
   font: 700 11px var(--font-mono); letter-spacing: .07em; text-transform: uppercase;
 }
+
+/* Question-bank coverage: dense evidence stays readable without pretending gaps do not exist. */
+.coverage-summary{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;margin:26px 0}
+.coverage-summary article{display:grid;gap:7px;min-height:138px;padding:20px;border:1px solid var(--line);border-radius:var(--r-lg);background:var(--surface)}
+.coverage-summary b{font-size:clamp(2rem,4vw,3rem);line-height:1;letter-spacing:-.05em;font-variant-numeric:tabular-nums}
+.coverage-summary small{color:var(--muted)}
+.coverage-table{min-width:1040px;font-variant-numeric:tabular-nums}
+.coverage-table th:first-child{position:sticky;left:0;z-index:1;min-width:210px;background:var(--surface);text-align:left}
+.coverage-table td{text-align:center}
+.coverage-table .coverage-gap{background:color-mix(in srgb,var(--blue) 10%,var(--surface));color:var(--blue-strong);font-weight:750}
+.coverage-gaps{display:grid;gap:8px;margin:0;padding-left:22px}
+.coverage-gaps:empty{display:none}
+@media(max-width:900px){.coverage-summary{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.coverage-summary{grid-template-columns:1fr}.coverage-summary article{min-height:0}}
+.notebook-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:28px 0}
+.notebook-form label{display:grid;gap:7px}.notebook-form label:has(textarea),.notebook-form .button,.notebook-form [data-notebook-status]{grid-column:1/-1}
+.notebook-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.notebook-item{display:flex;flex-direction:column}.notebook-item footer{margin-top:auto;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.selection-save{position:fixed;z-index:90;padding:11px 15px;border:1px solid var(--glass-ring);border-radius:12px;color:var(--ink);font-weight:700;box-shadow:var(--shadow-lg);cursor:pointer}
+@media(max-width:620px){.notebook-form{grid-template-columns:1fr}.notebook-form>*{grid-column:1!important}}
 @media (max-width: 620px) {
   .admin-providers li { grid-template-columns: 1fr auto; }
   .admin-providers__bar { grid-column: 1 / -1; }
@@ -3133,6 +3153,7 @@ input, select, textarea, .stats, .facts {
     display: inline-flex;
     align-items: center;
   }
+  .toolkit-jump a { min-height: 46px; }
   .brand, .nav-signin { min-height: 44px; }
   .theme-toggle, .nav-avatar, .nav-burger { min-width: 44px; min-height: 44px; }
   .nav-avatar { width: 44px; height: 44px; }

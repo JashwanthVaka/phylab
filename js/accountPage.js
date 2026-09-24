@@ -10,6 +10,7 @@
 import { escapeHTML } from './utils.js';
 import { authService } from './services/authService.js';
 import { getSupabase } from './services/supabaseClient.js';
+import { subscriptionService } from './services/subscriptionService.js';
 
 const PROVIDER_LABEL = { google: 'Google', email: 'Email and password', github: 'GitHub', apple: 'Apple' };
 
@@ -54,6 +55,7 @@ export async function accountPage(profile, settings = null) {
   const name = user.user_metadata?.full_name || profile?.display_name || '';
   const verified = Boolean(user.email_confirmed_at || user.confirmed_at);
   const plan = settings?.study_plan || {};
+  const access = await subscriptionService.current();
 
   return shell(`
     <div class="account-identity">
@@ -69,6 +71,7 @@ export async function accountPage(profile, settings = null) {
       <div><dt>Member since</dt><dd>${escapeHTML(when(user.created_at))}</dd></div>
       <div><dt>Email verified</dt><dd>${verified ? 'Yes' : 'Not yet'}</dd></div>
       <div><dt>Progress</dt><dd>Syncing to your account</dd></div>
+      <div><dt>Access</dt><dd>${escapeHTML(access.label)} · no payment required</dd></div>
     </dl>
 
     <form id="profileForm" class="account-form">

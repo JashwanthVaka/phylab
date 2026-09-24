@@ -117,6 +117,7 @@ function dashboard(data) {
   const { totals } = data;
   return shell(`
     <p class="page-lead">Live from Supabase. Access is limited to accounts whose database profile has the administrator role.</p>
+    <p><a class="outline" href="/admin/coverage" data-route>Open content-quality dashboard</a></p>
     <div class="admin-stats">
       ${stat('Total accounts', totals.users)}
       ${stat('New this week', totals.newThisWeek)}

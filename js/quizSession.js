@@ -12,7 +12,7 @@ const MODES = {
   'Formula Quiz': { count: 6, description: 'Equation selection, application, and units.', time: '10–15 min' },
   'Weak Topic Quiz': { count: 6, description: 'Target topics that need another pass.', time: '10–15 min' },
   'Timed Quiz': { count: 10, durationSeconds: 900, description: 'Practise calm thinking under time pressure.', time: '15 min' },
-  'Exam Practice': { count: 12, durationSeconds: 1800, description: 'A longer IB-inspired practice session.', time: '30 min' }
+  'Exam Practice': { count: 20, durationSeconds: 5400, description: 'Build a timed Paper 1A, 1B or 2 practice paper.', time: 'Up to 2 h 30 min' }
 };
 
 const asNumerical = question => /calculation|numerical|data analysis/i.test(question.type || '') || (/[-+]?\d/.test(question.answer || question.correctAnswer || '') && !(question.options || []).length);
@@ -37,6 +37,9 @@ export const normalize = question => ({
   formulaReferences: question.formulaReferences || [],
   lessonReferences: question.lessonReferences || [],
   tags: Array.isArray(question.tags) ? question.tags : [question.tags || '']
+  ,paper: question.paper || ((question.options || []).length ? '1A' : '2')
+  ,skills: question.skills || []
+  ,criteria: question.criteria || []
 });
 
 const list = value => (Array.isArray(value) ? value : value ? [value] : []).filter(Boolean);
@@ -53,12 +56,13 @@ export function optionsFromSearch(search = new URLSearchParams()) {
     level: ['SL', 'HL'].includes(params.get('level')) ? params.get('level') : '',
     difficulties: params.getAll('difficulty').filter(value => ['easy', 'medium', 'hard'].includes(value)),
     types: params.getAll('type').filter(value => ['mcq', 'numerical', 'short response'].includes(value)),
-    count: [5, 10, 15, 20].includes(Number(params.get('count'))) ? Number(params.get('count')) : undefined,
+    paper: ['1A', '1B', '2'].includes(params.get('paper')) ? params.get('paper') : '',
+    count: [5, 10, 15, 20, 25, 30, 40, 45].includes(Number(params.get('count'))) ? Number(params.get('count')) : undefined,
     durationSeconds: Math.max(0, Math.min(7200, Number(params.get('minutes')) * 60 || 0))
   };
 }
 
-export const selectQuestions = (questions, { mode = 'Mixed Quiz', topic, topics, level, difficulty, difficulties, type, types, count = 5, weakTopics = [] } = {}) => {
+export const selectQuestions = (questions, { mode = 'Mixed Quiz', topic, topics, level, difficulty, difficulties, type, types, paper, count = 5, weakTopics = [] } = {}) => {
   const source = questions.map(normalize);
   const topicList = list(topics?.length ? topics : topic);
   const difficultyList = list(difficulties?.length ? difficulties : difficulty);
@@ -66,6 +70,7 @@ export const selectQuestions = (questions, { mode = 'Mixed Quiz', topic, topics,
   let selected = source.filter(question =>
     (!topicList.length || topicList.some(item => question.topic.toLowerCase() === item.toLowerCase() || slugify(question.topic) === slugify(item))) &&
     (!level || question.level === level) &&
+    (!paper || question.paper === paper) &&
     (!difficultyList.length || difficultyList.includes(question.difficulty)) &&
     (!typeList.length || typeList.includes(question.type))
   );
@@ -77,6 +82,7 @@ export const selectQuestions = (questions, { mode = 'Mixed Quiz', topic, topics,
       selected = source.filter(question =>
         (!topicList.length || topicList.some(item => slugify(question.topic) === slugify(item))) &&
         (!level || question.level === level) &&
+        (!paper || question.paper === paper) &&
         (!difficultyList.length || difficultyList.includes(question.difficulty)) &&
         (!typeList.length || typeList.includes(question.type)));
       diagnostic = true;
@@ -147,10 +153,20 @@ export const analytics = session => {
     return groups;
   }, {})).map(([, value]) => ({ ...value, percentage: value.max ? Math.round(value.earned / value.max * 100) : 0 }));
   const topics = group('topic');
+  const skills = Object.values(review.reduce((groups, item) => {
+    (item.q.skills || []).forEach(skill => {
+      groups[skill] ||= { label: skill, earned: 0, max: 0, attempted: 0 };
+      groups[skill].earned += item.r.marks;
+      groups[skill].max += item.q.marks;
+      groups[skill].attempted += 1;
+    });
+    return groups;
+  }, {})).map(value => ({ ...value, percentage: value.max ? Math.round(value.earned / value.max * 100) : 0 }));
   return {
     percentage: session.maxMarks ? Math.round(session.marksEarned / session.maxMarks * 100) : 0,
     accuracy: review.length ? Math.round(review.filter(item => item.r.correct).length / review.length * 100) : 0,
     topics,
+    skills,
     difficulties: group('difficulty'),
     strongTopics: [...topics].sort((a, b) => b.percentage - a.percentage).slice(0, 2),
     weakTopics: [...topics].sort((a, b) => a.percentage - b.percentage).slice(0, 2)
@@ -219,7 +235,8 @@ function setupView(topics, resume, selection = {}) {
       </fieldset>
       <div class="quiz-toolbar">
         <label>Level <select data-quiz-level><option value="">SL + HL</option><option${selection.level === 'SL' ? ' selected' : ''}>SL</option><option${selection.level === 'HL' ? ' selected' : ''}>HL</option></select></label>
-        <label>Questions <select data-quiz-count><option value="">Use the mode length</option>${[5, 10, 15, 20].map(value => `<option value="${value}"${selection.count === value ? ' selected' : ''}>${value} questions</option>`).join('')}</select></label>
+        <label>Paper <select data-quiz-paper><option value="">Mixed papers</option>${['1A','1B','2'].map(value => `<option value="${value}"${selection.paper === value ? ' selected' : ''}>Paper ${value}</option>`).join('')}</select></label>
+        <label>Questions <select data-quiz-count><option value="">Use the mode length</option>${[5, 10, 15, 20, 25, 30, 40, 45].map(value => `<option value="${value}"${selection.count === value ? ' selected' : ''}>${value} questions</option>`).join('')}</select></label>
         <label class="quiz-timer-toggle"><input type="checkbox" data-quiz-timer${duration ? ' checked' : ''}> Timed</label>
         <label>Minutes <input type="number" data-quiz-minutes min="5" max="120" step="5" value="${Math.round(duration / 60) || 15}"></label>
       </div>
@@ -243,7 +260,7 @@ function sessionView(session) {
     <p aria-live="polite"><b>${session.durationSeconds ? `Remaining ${formatTime(session.remainingSeconds)}` : `Elapsed ${formatTime(session.elapsedSeconds)}`}</b>${session.durationSeconds ? ` · Elapsed ${formatTime(session.elapsedSeconds)}` : ''}</p>
     <progress value="${completed}" max="${session.questions.length}">${completed}/${session.questions.length}</progress><p>${completed} completed · ${session.questions.length - completed} remaining · ${session.maxMarks} marks available</p></header>
     <nav aria-label="Question navigator" class="quiz-navigator">${session.questions.map((item, index) => `<button type="button" data-jump="${index}" aria-label="Question ${index + 1}: ${questionStatus(session, index)}" aria-current="${index === session.currentIndex ? 'step' : 'false'}" class="${index === session.currentIndex ? 'active' : ''} ${questionStatus(session, index)}">${index + 1}</button>`).join('')}</nav>
-    <p class="tag">${escapeHTML(question.topic)} · ${escapeHTML(question.difficulty)} · ${question.marks} mark${question.marks === 1 ? '' : 's'}</p><h2>${escapeHTML(question.question)}</h2>${answerField}
+    <p class="tag">PAPER ${escapeHTML(question.paper)} · ${escapeHTML(question.topic)} · ${escapeHTML(question.difficulty)} · ${question.marks} mark${question.marks === 1 ? '' : 's'}</p><h2>${escapeHTML(question.question)}</h2>${answerField}
     <footer><button type="button" data-prev ${session.currentIndex === 0 ? 'disabled' : ''}>Previous</button><button type="button" data-flag>${session.flags.includes(question.id) ? 'Remove flag' : 'Flag for review'}</button><button type="button" data-next ${session.currentIndex === session.questions.length - 1 ? 'disabled' : ''}>Next</button><button type="button" data-review>Review flags (${session.flags.length})</button><button type="button" data-submit class="button">Submit quiz</button></footer></section>`;
 }
 
@@ -283,6 +300,7 @@ const feedbackPath = item => {
     <div class="feedback-path__actions">
       ${lesson ? `<a class="text-button" href="/lesson/${encodeURIComponent(lesson)}" data-route>Review the lesson →</a>` : ''}
       <a class="text-button" href="/quiz?mode=Topic%20Quiz&topic=${encodeURIComponent(item.q.topic)}" data-route>Retest this topic →</a>
+      <a class="text-button" href="/ask?q=${encodeURIComponent(`Explain this ${item.q.topic} question: ${item.q.question}`)}" data-route>Ask KIT to explain →</a>
     </div>
   </aside>`;
 };
@@ -311,7 +329,7 @@ function measuredWeakTopics() {
 
 export const resultView = report => `<section class="page"><p class="eyebrow">PRACTICE RESULTS</p><h1>${report.marksEarned}/${report.maxMarks} marks</h1><p class="page-lead">${report.analytics.percentage}% overall · ${report.analytics.accuracy}% question accuracy · ${formatTime(report.elapsedSeconds)} used</p>
   <p class="practice-note"><b>KINETIQ practice marking.</b> Marks are awarded by KINETIQ’s own deterministic marker against the recorded answer, tolerance and unit. This is study feedback, not an official IB mark or an IB mark scheme.</p>
-  <div class="card-grid"><article class="content-card"><h3>Strongest topics</h3><p>${report.analytics.strongTopics.map(topic => `${escapeHTML(topic.label)} (${topic.percentage}%)`).join('<br>') || 'Complete more questions to identify a strength.'}</p></article><article class="content-card"><h3>Review next</h3><p>${report.analytics.weakTopics.map(topic => `${escapeHTML(topic.label)} (${topic.percentage}%)`).join('<br>') || 'Complete more questions to identify a review target.'}</p></article></div>
+  <div class="card-grid"><article class="content-card"><h3>Strongest topics</h3><p>${report.analytics.strongTopics.map(topic => `${escapeHTML(topic.label)} (${topic.percentage}%)`).join('<br>') || 'Complete more questions to identify a strength.'}</p></article><article class="content-card"><h3>Review next</h3><p>${report.analytics.weakTopics.map(topic => `${escapeHTML(topic.label)} (${topic.percentage}%)`).join('<br>') || 'Complete more questions to identify a review target.'}</p></article><article class="content-card"><h3>Skills measured</h3><p>${(report.analytics.skills || []).sort((a,b)=>b.attempted-a.attempted).slice(0,5).map(skill => `${escapeHTML(skill.label)} (${skill.percentage}%)`).join('<br>') || 'This set did not contain skill metadata.'}</p></article></div>
   <section class="lesson-section"><h2>Question review</h2>${report.review.map((item, index) => `<article class="content-card question-feedback"><span class="tag">QUESTION ${index + 1} · ${escapeHTML(item.q.topic)} · ${item.r.marks}/${item.q.marks} MARKS</span><h3>${escapeHTML(item.q.question)}</h3><p><b>Your answer:</b> ${escapeHTML(item.a || 'No answer')}</p><p><b>Model answer:</b> ${escapeHTML(item.q.correct_answer)}</p><p>${escapeHTML(item.r.reason || '')}</p>${criteriaHTML(item.r)}${feedbackPath(item)}${item.q.solution ? `<details><summary>View worked solution</summary><p>${escapeHTML(item.q.solution)}</p></details>` : ''}</article>`).join('')}</section><a class="button" href="/quiz" data-route>Build another practice set</a></section>`;
 
 export function bindQuizSession(data, initialOptions = {}) {
@@ -383,6 +401,7 @@ export function bindQuizSession(data, initialOptions = {}) {
       difficulties: valuesOf('quiz-difficulty'),
       types: valuesOf('quiz-type'),
       level: root.querySelector('[data-quiz-level]')?.value || '',
+      paper: root.querySelector('[data-quiz-paper]')?.value || '',
       count: Number(root.querySelector('[data-quiz-count]')?.value) || MODES[selectedMode]?.count || 5,
       durationSeconds: timer ? minutes * 60 : 0
     };

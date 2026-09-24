@@ -9,7 +9,12 @@ function assignments(rows = []) {
   if (!rows.length) return '<p class="muted">No published assignments yet.</p>';
   return `<ul class="class-assignment-list">${rows.map(row => {
     const config = row.content || {};
-    const href = `/quiz?mode=Target+Test&topics=${encodeURIComponent(config.topic || 'all')}&count=${Number(config.questionCount || 10)}`;
+    const params = new URLSearchParams({ mode: 'Mixed Quiz', count: String(Number(config.questionCount || 10)) });
+    if (config.topic && config.topic !== 'all') params.append('topic', config.topic);
+    if (config.level) params.set('level', config.level);
+    if (config.paper) params.set('paper', config.paper);
+    if (config.difficulty) params.append('difficulty', config.difficulty);
+    const href = `/quiz?${params}`;
     return `<li><div><b>${escapeHTML(row.title)}</b><span>${escapeHTML(row.instructions || 'KINETIQ practice')} · Due ${escapeHTML(date(row.due_at))}</span></div><a class="outline" href="${href}" data-route>Open practice</a></li>`;
   }).join('')}</ul>`;
 }
@@ -31,6 +36,9 @@ function teacherCards(rows = []) {
     <details class="class-assignment-create"><summary>Create assignment</summary><form data-assignment-create data-class-id="${row.id}">
       <label>Title<input name="title" required maxlength="100" placeholder="Mechanics checkpoint"></label>
       <label>Topic<input name="topic" maxlength="80" placeholder="Kinematics or all"></label>
+      <label>Level<select name="level"><option value="">SL + HL</option><option>SL</option><option>HL</option></select></label>
+      <label>Paper<select name="paper"><option value="">Mixed</option><option value="1A">Paper 1A</option><option value="1B">Paper 1B</option><option value="2">Paper 2</option></select></label>
+      <label>Difficulty<select name="difficulty"><option value="">Mixed</option><option value="easy">Easy</option><option value="medium">Medium</option><option value="hard">Hard</option></select></label>
       <label>Questions<input name="questionCount" type="number" min="5" max="40" value="10"></label>
       <label>Due date<input name="dueAt" type="date"></label>
       <label class="class-wide">Instructions<textarea name="instructions" maxlength="500" rows="3"></textarea></label>

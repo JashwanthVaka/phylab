@@ -3,6 +3,7 @@ import './js/theme.js';
 import { indexContent } from './js/commandPalette.js';
 import { askPage, bindAsk } from './js/askUI.js';
 import { bindLessonAsk } from './js/lessonAsk.js';
+import { bindLessonHighlights } from './js/notebookUI.js';
 import { bindLessonProgress } from './js/studyInteractions.js';
 import { formulaSheetPage } from './js/formulaSheet.js';
 import { Router } from './js/router.js';
@@ -219,7 +220,7 @@ const router = new Router({
     return {
       view: renderLesson(lesson, index, state.completed),
       mount: () => {
-        const cleanups = [bindLessonAsk(), bindLessonProgress()].filter(Boolean);
+        const cleanups = [bindLessonAsk(), bindLessonProgress(), bindLessonHighlights()].filter(Boolean);
         return () => cleanups.forEach(cleanup => cleanup());
       }
     };
@@ -238,9 +239,10 @@ const router = new Router({
     const [data, quiz] = await Promise.all([loader.getIndex(), loadPageModule('./js/quizSession.js')]);
     return { view: quiz.quizPage(data), mount: () => quiz.bindQuizSession(data, { mode: 'Topic Quiz', topics: [slug] }) };
   }, 'Preparing topic quiz…'),
-  '/exam': () => transition(async () => {
+  '/exam': ({ search }) => transition(async () => {
     const [data, quiz] = await Promise.all([loader.getIndex(), loadPageModule('./js/quizSession.js')]);
-    return { view: quiz.quizPage(data), mount: () => quiz.bindQuizSession(data, { mode: 'Exam Practice', durationSeconds: 1800, autoStart: true }) };
+    const options = quiz.optionsFromSearch(search);
+    return { view: quiz.quizPage(data), mount: () => quiz.bindQuizSession(data, { ...options, mode: options.mode || 'Exam Practice' }) };
   }, 'Preparing exam practice…'),
   '/results/:id': ({ id }) => transition(async () => {
     await restorePractice(await loader.getIndex());
@@ -279,6 +281,10 @@ const router = new Router({
     const admin = await loadPageModule('./js/adminUI.js');
     return { view: await admin.adminPage(), mount: admin.bindAdmin };
   }, 'Loading admin…'),
+  '/admin/coverage': () => transition(async () => {
+    const [index, coverage] = await Promise.all([loader.getIndex(), loadPageModule('./js/coverageUI.js')]);
+    return { view: coverage.coveragePage(index) };
+  }, 'Auditing question coverage…'),
   '/classroom': () => transition(async () => {
     const classroom = await loadPageModule('./js/classroomUI.js');
     return { view: await classroom.classroomPage(), mount: () => classroom.bindClassroom(router) };
@@ -346,6 +352,10 @@ const router = new Router({
     return { view: await account.accountPage(profile, settings), mount: () => bindAccount(router) };
   }, 'Loading account…'),
   '/bookmarks': () => transition(async () => ({ view: bookmarkPage(await bookmarkService.list()) }), 'Loading bookmarks…'),
+  '/notebook': () => transition(async () => {
+    const notebook = await loadPageModule('./js/notebookUI.js');
+    return { view: notebook.notebookPage(), mount: notebook.bindNotebook };
+  }, 'Opening your notebook…'),
   '/revision': () => transition(async () => {
     const [index, planner, state, settings, cards] = await Promise.all([
       loader.getIndex(), loadPageModule('./js/revisionUI.js'), progressService.list(),
@@ -361,7 +371,7 @@ const router = new Router({
   '/revision/print': ({ search }) => transition(async () => {
     const pack = await loadPageModule('./js/revisionPack.js');
     return { view: pack.revisionPackPage(await loader.getIndex(), {
-      unit: search.get('unit') || '', level: search.get('level') || ''
+      unit: search.get('unit') || '', level: search.get('level') || '', paper: search.get('paper') || '', difficulty: search.get('difficulty') || ''
     }) };
   }, 'Building your printable revision pack…'),
   // Keep old bookmarks working, but send every Ask entry point into the same

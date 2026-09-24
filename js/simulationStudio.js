@@ -303,7 +303,7 @@ export const detail = slug => {
     <section class="content-card"><h2>Playback state</h2><div id="simState" aria-live="off"></div></section>
   </div>
   <section class="lesson-section" data-simulation-graph><h2>Graph panel</h2>${renderGraph(model.graph)}<p class="sim-note" data-sim-note>${escapeHTML(model.note)}</p></section>
-  <section class="lesson-section"><h2>Theory & exam connection</h2><p><b>Equation:</b> ${escapeHTML(sim.formula)}</p><p><b>Common mistake:</b> ${escapeHTML(sim.mistakes)}</p><p>IB tip: state your assumptions, work in SI units, and comment on the limits of the model.</p><a href="/lesson/${sim.lesson}" data-route>Open related lesson →</a></section></section>`;
+  <section class="lesson-section"><h2>Theory & exam connection</h2><p><b>Equation:</b> ${escapeHTML(sim.formula)}</p><p><b>Common mistake:</b> ${escapeHTML(sim.mistakes)}</p><p>IB tip: state your assumptions, work in SI units, and comment on the limits of the model.</p><div class="sim-buttons"><a class="outline" href="/lesson/${sim.lesson}" data-route>Open related lesson →</a><a class="button" href="/ask?q=${encodeURIComponent(`Explain ${sim.title} and ${sim.formula}`)}" data-route>Ask KIT about this model</a></div></section></section>`;
 };
 
 export function bindStudio() {

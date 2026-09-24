@@ -89,7 +89,12 @@ export const classroomService = {
       instructions: String(values.instructions || '').trim() || null,
       due_at: values.dueAt || null,
       status: 'published',
-      content: { type: 'kinetiq-practice', topic: values.topic || 'all', questionCount: Number(values.questionCount || 10) },
+      content: {
+        type: 'kinetiq-practice', topic: values.topic || 'all', questionCount: Number(values.questionCount || 10),
+        level: ['SL', 'HL'].includes(values.level) ? values.level : '',
+        paper: ['1A', '1B', '2'].includes(values.paper) ? values.paper : '',
+        difficulty: ['easy', 'medium', 'hard'].includes(values.difficulty) ? values.difficulty : ''
+      },
     };
     const { data, error } = await supabase.from('assignments').insert(row).select().single();
     if (error) fail(error);
@@ -102,4 +107,3 @@ export const classroomService = {
     if (error) fail(error);
   },
 };
-

@@ -38,6 +38,20 @@ function topicBreakdown(results) {
   return [...groups.values()].map(item => ({ ...item, percentage: item.max ? Math.round(item.earned / item.max * 100) : 0 })).sort((left, right) => right.percentage - left.percentage);
 }
 
+function skillBreakdown(results) {
+  const groups = new Map();
+  results.forEach(result => (result.analytics?.skills || []).forEach(skill => {
+    const current = groups.get(skill.label) || { label: skill.label, earned: 0, max: 0, attempted: 0 };
+    current.earned += skill.earned || 0;
+    current.max += skill.max || 0;
+    current.attempted += skill.attempted || 0;
+    groups.set(skill.label, current);
+  }));
+  return [...groups.values()]
+    .map(item => ({ ...item, percentage: item.max ? Math.round(item.earned / item.max * 100) : 0 }))
+    .sort((left, right) => right.attempted - left.attempted || right.percentage - left.percentage);
+}
+
 const statCard = (label, value, note) => `<article class="content-card stat-card"><span class="tag">${escapeHTML(label)}</span><h2>${escapeHTML(String(value))}</h2>${note ? `<p class="muted">${escapeHTML(note)}</p>` : ''}</article>`;
 const noData = text => `<div class="empty-state"><h3>Nothing recorded yet</h3><p>${escapeHTML(text)}</p></div>`;
 
@@ -53,6 +67,7 @@ export function dashboardView(summary, extra = {}) {
   const results = localResults();
   const accuracy = summary.guest ? percentageOf(results) : summary.quizAccuracy;
   const topics = summary.guest ? topicBreakdown(results) : [];
+  const skills = skillBreakdown(results);
   const measured = summary.guest ? topics.filter(topic => topic.attempted >= 10) : [];
   const developing = summary.guest ? topics.filter(topic => topic.attempted < 10) : [];
   const strong = summary.guest ? measured.filter(topic => topic.percentage >= 75).slice(0, 3) : summary.strongestTopics || [];
@@ -158,6 +173,12 @@ export function dashboardView(summary, extra = {}) {
       ${summary.guest ? '' : statCard('REVISION TASKS DUE', summary.revisionTasksDue || 0)}
       ${summary.guest ? '' : statCard('BOOKMARKS', summary.bookmarksCount || 0)}
     </div>
+
+    <section class="lesson-section">
+      <div class="section-title"><p class="eyebrow">SKILL MASTERY</p><h2>How you are solving, not only what.</h2></div>
+      <p class="muted">Each score comes from marks on questions tagged with that skill. A skill stays developing until at least five attempts exist.</p>
+      ${skills.length ? `<div class="card-grid">${skills.slice(0,8).map(skill => `<article class="content-card"><h3>${escapeHTML(skill.label.replaceAll('-', ' '))}</h3><div class="bar"><i style="width:${skill.percentage}%"></i></div><p>${skill.percentage}% · ${skill.attempted} attempt${skill.attempted === 1 ? '' : 's'} · ${skill.attempted >= 5 ? 'measured' : 'developing'}</p></article>`).join('')}</div>` : noData('Complete practice with the expanded question bank to begin measuring formula choice, data analysis, units and written reasoning.')}
+    </section>
 
     <section class="lesson-section">
       <div class="section-title">
