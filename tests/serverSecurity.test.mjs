@@ -44,4 +44,15 @@ test('the tutor rejects a forged image before it reaches an AI provider', async 
   assert.match(response.body, /genuine PNG, JPEG, WebP, or GIF/i);
 });
 
+test('a Vercel runtime OIDC header enables AI Gateway without exposing a browser key', async () => {
+  const response = await request('/api/ai/providers', {
+    headers: { 'x-vercel-oidc-token': 'short-lived-test-token' }
+  });
+  assert.equal(response.status, 200);
+  const status = JSON.parse(response.body);
+  assert.equal(status.active, 'gateway');
+  assert.equal(status.providers.find(provider => provider.id === 'gateway')?.configured, true);
+  assert.doesNotMatch(response.body, /short-lived-test-token/);
+});
+
 test.after(() => new Promise(resolve => server.close(resolve)));

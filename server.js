@@ -152,10 +152,11 @@ function tutorInstructions({ mode, context, sources }) {
 const PROVIDERS = {
   gateway: {
     label: 'Vercel AI Gateway', envKey: 'AI_GATEWAY_API_KEY', modelKey: 'AI_GATEWAY_MODEL', defaultModel: 'openai/gpt-5.6-sol',
-    configured: () => Boolean(process.env.AI_GATEWAY_API_KEY || process.env.VERCEL_OIDC_TOKEN),
-    build: ({ model, instructions, history, message, image }) => ({
+    configured: req => Boolean(process.env.AI_GATEWAY_API_KEY || process.env.VERCEL_OIDC_TOKEN || req?.headers?.['x-vercel-oidc-token']),
+    token: req => process.env.AI_GATEWAY_API_KEY || process.env.VERCEL_OIDC_TOKEN || req?.headers?.['x-vercel-oidc-token'],
+    build: ({ model, instructions, history, message, image, authToken }) => ({
       url: 'https://ai-gateway.vercel.sh/v1/chat/completions',
-      headers: { Authorization: `Bearer ${process.env.AI_GATEWAY_API_KEY || process.env.VERCEL_OIDC_TOKEN}` },
+      headers: { Authorization: `Bearer ${authToken}` },
       body: {
         model, stream: true,
         messages: [{ role: 'system', content: instructions }, ...history,
@@ -223,21 +224,21 @@ const PROVIDERS = {
   }
 };
 
-const providerConfigured = id => {
+const providerConfigured = (id, req) => {
   const provider = PROVIDERS[id];
-  return typeof provider.configured === 'function' ? provider.configured() : Boolean(process.env[provider.envKey]);
+  return typeof provider.configured === 'function' ? provider.configured(req) : Boolean(process.env[provider.envKey]);
 };
-const availableProviders = () => Object.keys(PROVIDERS).filter(providerConfigured);
-function providerCandidates(requested) {
-  const available = availableProviders();
+const availableProviders = req => Object.keys(PROVIDERS).filter(id => providerConfigured(id, req));
+function providerCandidates(requested, req) {
+  const available = availableProviders(req);
   const preferred = [requested, process.env.AI_PROVIDER]
     .map(value => String(value || '').toLowerCase())
-    .find(value => PROVIDERS[value] && providerConfigured(value));
+    .find(value => PROVIDERS[value] && providerConfigured(value, req));
   return preferred ? [preferred, ...available.filter(value => value !== preferred)] : available;
 }
 /** Honours an explicit request or AI_PROVIDER, then falls back to whichever key is present. */
-function resolveProvider(requested) {
-  return providerCandidates(requested)[0] || null;
+function resolveProvider(requested, req) {
+  return providerCandidates(requested, req)[0] || null;
 }
 
 function providerFailure(provider, event) {
@@ -285,7 +286,7 @@ async function tutor(req, res) {
     const message = cleanText(body.message);
     if (!message) return send(res, 400, { error: 'Please write a question for KIT.' });
     if (body.image && !validImage(body.image)) return send(res, 400, { error: 'Use a genuine PNG, JPEG, WebP, or GIF image smaller than 1.8 MB.' });
-    const candidates = providerCandidates(body.provider);
+    const candidates = providerCandidates(body.provider, req);
     if (!candidates.length) return send(res, 503, { error: 'KIT is ready, but no AI provider has been configured on the server. Vercel deployments can use AI Gateway automatically; elsewhere add an AI provider key to the server environment.' });
     const mode = MODES.has(body.mode) ? body.mode : 'Physics Teacher';
     const context = cleanContext(body.context);
@@ -298,7 +299,7 @@ async function tutor(req, res) {
     for (providerId of candidates) {
       const provider = PROVIDERS[providerId];
       const model = process.env[provider.modelKey] || provider.defaultModel;
-      const request = provider.build({ model, instructions: tutorInstructions({ mode, context, sources }), history, message, image });
+      const request = provider.build({ model, instructions: tutorInstructions({ mode, context, sources }), history, message, image, authToken: provider.token?.(req) });
       const response = await fetch(request.url, {
         method: 'POST', signal: controller.signal,
         headers: { 'Content-Type': 'application/json', 'X-Client-Request-Id': crypto.randomUUID(), ...request.headers },
@@ -382,10 +383,10 @@ async function handleRequest(req, res) {
     }, { 'Cache-Control': 'no-store' });
   }
 
-  if (req.method === 'GET' && pathname === '/api/health') return send(res, 200, { status: 'ok', tutorConfigured: availableProviders().length > 0, providers: availableProviders(), privateSources: privateSummary(), adminConfigured: adminConfigured() });
+  if (req.method === 'GET' && pathname === '/api/health') return send(res, 200, { status: 'ok', tutorConfigured: availableProviders(req).length > 0, providers: availableProviders(req), privateSources: privateSummary(), adminConfigured: adminConfigured() });
   if (req.method === 'GET' && pathname === '/api/ai/providers') return send(res, 200, {
-    active: resolveProvider(),
-    providers: Object.entries(PROVIDERS).map(([id, provider]) => ({ id, label: provider.label, configured: providerConfigured(id), envKey: provider.envKey, model: providerConfigured(id) ? process.env[provider.modelKey] || provider.defaultModel : null }))
+    active: resolveProvider(undefined, req),
+    providers: Object.entries(PROVIDERS).map(([id, provider]) => ({ id, label: provider.label, configured: providerConfigured(id, req), envKey: provider.envKey, model: providerConfigured(id, req) ? process.env[provider.modelKey] || provider.defaultModel : null }))
   });
   if (req.method === 'GET' && pathname === '/api/content/index') { try { return send(res, 200, await contentIndex(), { 'Cache-Control': 'public, max-age=300' }); } catch (error) { return send(res, 500, { error: `Content catalogue error: ${error.message}` }); } }
   const lessonMatch = pathname.match(/^\/api\/content\/lessons\/([a-z0-9-]+)$/); if (req.method === 'GET' && lessonMatch) { try { const files = await lessonFiles(); const file = files.find(candidate => slugify(path.basename(candidate, '.json')) === lessonMatch[1]); if (!file) return send(res, 404, { error: 'Lesson not found.' }); return send(res, 200, normalizeLesson(await readLesson(file), file, files), { 'Cache-Control': 'public, max-age=300' }); } catch (error) { return send(res, 500, { error: `Lesson error: ${error.message}` }); } }
