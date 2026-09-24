@@ -150,6 +150,20 @@ function tutorInstructions({ mode, context, sources }) {
  * Every key is read from the server environment and never reaches the browser.
  */
 const PROVIDERS = {
+  gateway: {
+    label: 'Vercel AI Gateway', envKey: 'AI_GATEWAY_API_KEY', modelKey: 'AI_GATEWAY_MODEL', defaultModel: 'openai/gpt-5.6-sol',
+    configured: () => Boolean(process.env.AI_GATEWAY_API_KEY || process.env.VERCEL_OIDC_TOKEN),
+    build: ({ model, instructions, history, message, image }) => ({
+      url: 'https://ai-gateway.vercel.sh/v1/chat/completions',
+      headers: { Authorization: `Bearer ${process.env.AI_GATEWAY_API_KEY || process.env.VERCEL_OIDC_TOKEN}` },
+      body: {
+        model, stream: true,
+        messages: [{ role: 'system', content: instructions }, ...history,
+          { role: 'user', content: image ? [{ type: 'text', text: message }, { type: 'image_url', image_url: { url: image } }] : message }]
+      }
+    }),
+    parse: event => event.choices?.[0]?.delta?.content || ''
+  },
   openai: {
     label: 'OpenAI', envKey: 'OPENAI_API_KEY', modelKey: 'OPENAI_MODEL', defaultModel: 'gpt-5.6-sol',
     build: ({ model, instructions, history, message, image }) => ({
@@ -209,12 +223,21 @@ const PROVIDERS = {
   }
 };
 
-const providerConfigured = id => Boolean(process.env[PROVIDERS[id].envKey]);
+const providerConfigured = id => {
+  const provider = PROVIDERS[id];
+  return typeof provider.configured === 'function' ? provider.configured() : Boolean(process.env[provider.envKey]);
+};
 const availableProviders = () => Object.keys(PROVIDERS).filter(providerConfigured);
+function providerCandidates(requested) {
+  const available = availableProviders();
+  const preferred = [requested, process.env.AI_PROVIDER]
+    .map(value => String(value || '').toLowerCase())
+    .find(value => PROVIDERS[value] && providerConfigured(value));
+  return preferred ? [preferred, ...available.filter(value => value !== preferred)] : available;
+}
 /** Honours an explicit request or AI_PROVIDER, then falls back to whichever key is present. */
 function resolveProvider(requested) {
-  const preferred = [requested, process.env.AI_PROVIDER].map(value => String(value || '').toLowerCase()).find(value => PROVIDERS[value] && providerConfigured(value));
-  return preferred || availableProviders()[0] || null;
+  return providerCandidates(requested)[0] || null;
 }
 
 function providerFailure(provider, event) {
@@ -262,40 +285,46 @@ async function tutor(req, res) {
     const message = cleanText(body.message);
     if (!message) return send(res, 400, { error: 'Please write a question for KIT.' });
     if (body.image && !validImage(body.image)) return send(res, 400, { error: 'Use a genuine PNG, JPEG, WebP, or GIF image smaller than 1.8 MB.' });
-    providerId = resolveProvider(body.provider);
-    if (!providerId) return send(res, 503, { error: 'KIT is ready, but no AI key has been configured on the server. Add GROQ_API_KEY, OPENAI_API_KEY, ANTHROPIC_API_KEY, or GEMINI_API_KEY to your environment.' });
-    const provider = PROVIDERS[providerId];
+    const candidates = providerCandidates(body.provider);
+    if (!candidates.length) return send(res, 503, { error: 'KIT is ready, but no AI provider has been configured on the server. Vercel deployments can use AI Gateway automatically; elsewhere add an AI provider key to the server environment.' });
     const mode = MODES.has(body.mode) ? body.mode : 'Physics Teacher';
     const context = cleanContext(body.context);
     const sources = await retrievalEngine.retrieve(message, context, 8);
     const history = Array.isArray(body.history) ? body.history.slice(-8).filter(item => item && ['user', 'assistant'].includes(item.role)).map(item => ({ role: item.role, content: cleanText(item.content, 3500) })).filter(item => item.content) : [];
     const image = body.image || null;
-    const model = process.env[provider.modelKey] || provider.defaultModel;
-    const request = provider.build({ model, instructions: tutorInstructions({ mode, context, sources }), history, message, image });
     const controller = new AbortController();
     req.on('aborted', () => controller.abort());
-    const response = await fetch(request.url, {
-      method: 'POST', signal: controller.signal,
-      headers: { 'Content-Type': 'application/json', 'X-Client-Request-Id': crypto.randomUUID(), ...request.headers },
-      body: JSON.stringify(request.body)
-    });
-    if (!response.ok) {
-      const data = await response.json().catch(() => ({}));
-      const detail = data?.error?.message || data?.error?.[0]?.message || data?.message;
-      // An auth failure means the key is wrong, revoked, or from another account.
-      // Say so plainly, because the generic upstream wording sends people hunting in the code.
-      if (response.status === 401 || response.status === 403) {
-        return send(res, response.status, {
-          error: `${provider.label} rejected the API key. It is present but not valid — most often it was deleted or regenerated on the provider's dashboard, or only part of it was pasted. Create a fresh key, put it in ${provider.envKey}, and restart KINETIQ.`
-        });
+    const failures = [];
+    for (providerId of candidates) {
+      const provider = PROVIDERS[providerId];
+      const model = process.env[provider.modelKey] || provider.defaultModel;
+      const request = provider.build({ model, instructions: tutorInstructions({ mode, context, sources }), history, message, image });
+      const response = await fetch(request.url, {
+        method: 'POST', signal: controller.signal,
+        headers: { 'Content-Type': 'application/json', 'X-Client-Request-Id': crypto.randomUUID(), ...request.headers },
+        body: JSON.stringify(request.body)
+      });
+      if (!response.ok) {
+        const data = await response.json().catch(() => ({}));
+        const detail = data?.error?.message || data?.error?.[0]?.message || data?.message || 'request failed';
+        const reason = response.status === 401 || response.status === 403
+          ? 'authentication was rejected'
+          : /credit|quota|billing/i.test(detail) || response.status === 402
+            ? 'no usage credit is available'
+            : response.status === 429
+              ? 'the current usage limit was reached'
+              : 'the request could not be completed';
+        failures.push(`${provider.label}: ${reason}`);
+        continue;
       }
-      return send(res, response.status, { error: `${provider.label}: ${detail || 'KIT could not complete that request.'}` });
+      res.writeHead(200, secureHeaders({ 'Content-Type': 'text/event-stream; charset=utf-8', 'Cache-Control': 'no-cache, no-transform', Connection: 'keep-alive', 'X-Accel-Buffering': 'no' }));
+      sse(res, 'sources', { sources: sources.map(({ type, title, href, metadata }) => ({ type, title, href, metadata })) });
+      sse(res, 'meta', { provider: providerId, providerLabel: provider.label, model });
+      await streamProvider(response, res, provider.parse, provider);
+      sse(res, 'done', {}); res.end();
+      return;
     }
-    res.writeHead(200, secureHeaders({ 'Content-Type': 'text/event-stream; charset=utf-8', 'Cache-Control': 'no-cache, no-transform', Connection: 'keep-alive', 'X-Accel-Buffering': 'no' }));
-    sse(res, 'sources', { sources: sources.map(({ type, title, href, metadata }) => ({ type, title, href, metadata })) });
-    sse(res, 'meta', { provider: providerId, providerLabel: provider.label, model });
-    await streamProvider(response, res, provider.parse, provider);
-    sse(res, 'done', {}); res.end();
+    return send(res, 503, { error: `KIT tried every configured generative provider, but none could answer (${failures.join('; ')}). The source-cited KINETIQ answer is still available.` });
   } catch (error) {
     if (error.name === 'AbortError') return;
     console.error('KIT request failed:', error.message);

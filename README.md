@@ -156,13 +156,16 @@ user's identity.
 
 ## Enable KIT AI
 
-KIT works with any one of four providers. Configure at least one; KINETIQ uses
-`AI_PROVIDER` when set and otherwise uses the first configured provider. The public Ask KIT
-page keeps the source-cited answer and generative tutor together, with automatic fallback
-to KINETIQ course material if the provider fails.
+KIT works through Vercel AI Gateway or four direct providers. A Vercel production
+deployment receives `VERCEL_OIDC_TOKEN` automatically, so Gateway authentication never
+needs to enter browser code. Elsewhere, configure at least one key. KINETIQ tries
+`AI_PROVIDER` first when set, then automatically tries the other configured providers.
+The public Ask KIT page keeps the source-cited answer and generative tutor together, with
+automatic fallback to KINETIQ course material if every provider fails.
 
 | Provider | Key | Default model | Override |
 | --- | --- | --- | --- |
+| Vercel AI Gateway | `AI_GATEWAY_API_KEY` or automatic Vercel OIDC | `openai/gpt-5.6-sol` | `AI_GATEWAY_MODEL` |
 | Groq | `GROQ_API_KEY` | `llama-3.3-70b-versatile` | `GROQ_MODEL` |
 | OpenAI | `OPENAI_API_KEY` | `gpt-5.6-sol` | `OPENAI_MODEL` |
 | Anthropic | `ANTHROPIC_API_KEY` | `claude-sonnet-5` | `ANTHROPIC_MODEL` |

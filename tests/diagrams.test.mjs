@@ -70,9 +70,13 @@ lessons.forEach(lesson => {
   const shapes = (markup.match(/<(line|path|circle|rect|polyline|text)\b/g) || []).length;
   assert.ok(shapes >= 6, `${lesson.title} has only ${shapes} shapes, which is too sparse to read`);
 
-  const caption = /<p>([^<]+)<\/p>/.exec(markup)?.[1];
+  const caption = /<figcaption[^>]*>[\s\S]*?<span>([^<]+)<\/span>[\s\S]*?<\/figcaption>/.exec(markup)?.[1];
   assert.ok(caption && caption.length > 30, `${lesson.title} needs a caption that explains the picture`);
-  assert.ok(/aria-label="/.test(markup), `${lesson.title} diagram needs an accessible label`);
+  assert.ok(/aria-labelledby="/.test(markup), `${lesson.title} diagram needs an accessible label`);
+  assert.equal((markup.match(/class="diagram__cues"/g) || []).length, 1,
+    `${lesson.title} needs a short visual-reading guide`);
+  assert.equal((markup.match(/<li>/g) || []).length, 2,
+    `${lesson.title} needs exactly two focused interpretation cues`);
 
   // Unbalanced tags would render as nothing at all.
   const opens = (markup.match(/<(?!\/)(?!.*\/>)[a-z]+/g) || []).length;

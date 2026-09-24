@@ -3153,7 +3153,218 @@ input, select, textarea, .stats, .facts {
     display: inline-flex;
     align-items: center;
   }
-  .toolkit-jump a { min-height: 46px; }
+}
+.toolkit-jump a { min-height: 46px; }
+
+/* Lesson concept models ----------------------------------------------------
+   These SVGs deliberately share one visual grammar. A model must stay
+   readable before it becomes decorative: fixed proportions, explicit
+   strokes, theme-safe labels, a short reading guide and restrained motion. */
+.diagram {
+  --diagram-accent: #0f766e;
+  --diagram-accent-soft: #e7f4f1;
+  --diagram-line: color-mix(in srgb, var(--ink) 82%, var(--diagram-accent));
+  --diagram-grid: color-mix(in srgb, var(--ink) 8%, transparent);
+  --diagram-stage: #f4f8f7;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--diagram-accent) 24%, var(--line));
+  border-radius: var(--r-xl);
+  background: var(--surface);
+  box-shadow: 0 18px 55px rgba(17, 24, 39, .08);
+}
+.diagram[data-diagram-group="waves"] { --diagram-accent: #a16207; --diagram-accent-soft: #f8f0dd; }
+.diagram[data-diagram-group="fields"] { --diagram-accent: #c2410c; --diagram-accent-soft: #fceee8; }
+.diagram[data-diagram-group="thermal"] { --diagram-accent: #15803d; --diagram-accent-soft: #e8f4eb; }
+.diagram[data-diagram-group="quantum"] { --diagram-accent: #9d174d; --diagram-accent-soft: #f8eaf0; }
+
+.diagram__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s4);
+  padding: 20px 22px 16px;
+  border-bottom: 1px solid var(--line);
+}
+.diagram__header h3 {
+  margin: 3px 0 0;
+  color: var(--ink);
+  font-size: clamp(21px, 2vw, 28px);
+  line-height: 1.12;
+  letter-spacing: -.035em;
+}
+.diagram__group {
+  color: var(--diagram-accent);
+  font: 700 12px/1 var(--font-mono);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.diagram__replay {
+  min-height: 44px;
+  padding: 9px 14px;
+  flex: 0 0 auto;
+  border: 1px solid color-mix(in srgb, var(--diagram-accent) 35%, var(--line));
+  border-radius: var(--r-sm);
+  background: var(--diagram-accent-soft);
+  color: var(--ink);
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease), background var(--t-fast) var(--ease);
+}
+.diagram__replay:hover { transform: translateY(-2px); border-color: var(--diagram-accent); }
+
+.diagram__stage {
+  position: relative;
+  min-height: 290px;
+  padding: 38px 32px 24px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background-color: var(--diagram-stage);
+  background-image:
+    linear-gradient(var(--diagram-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--diagram-grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+.diagram__stage::after {
+  content: "";
+  position: absolute;
+  width: 46%;
+  aspect-ratio: 1;
+  right: -18%;
+  bottom: -65%;
+  border-radius: 50%;
+  background: var(--diagram-accent);
+  opacity: .06;
+  filter: blur(24px);
+  pointer-events: none;
+}
+.diagram__scale {
+  position: absolute;
+  z-index: 1;
+  top: 14px;
+  right: 16px;
+  color: var(--muted);
+  font: 650 10px/1 var(--font-mono);
+  letter-spacing: .11em;
+}
+.diagram svg {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: min(100%, 680px);
+  height: auto;
+  max-height: 360px;
+  aspect-ratio: 360 / 190;
+  overflow: visible;
+  color: var(--diagram-line);
+}
+.diagram svg :is(line, path, polyline, circle, rect) { vector-effect: non-scaling-stroke; }
+.diagram svg :is(line, polyline, path) {
+  stroke: var(--diagram-line);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.diagram svg > path,
+.diagram svg > g > path { fill: none; }
+.diagram svg rect {
+  fill: var(--diagram-accent-soft);
+  stroke: var(--diagram-line);
+  stroke-width: 1.8;
+}
+.diagram svg circle {
+  fill: var(--diagram-accent);
+  stroke: var(--diagram-line);
+  stroke-width: 1.5;
+}
+.diagram svg [fill="none"] { fill: none; }
+.diagram svg marker path {
+  fill: var(--diagram-accent);
+  stroke: none;
+}
+.diagram svg text {
+  fill: var(--ink);
+  stroke: var(--diagram-stage);
+  stroke-width: 3px;
+  paint-order: stroke fill;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: -.01em;
+}
+.diagram figcaption {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: var(--s3);
+  padding: 18px 22px 10px;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.55;
+}
+.diagram figcaption b { color: var(--ink); }
+.diagram__cues {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 4px 22px 20px;
+}
+.diagram__cues li {
+  position: relative;
+  min-height: 44px;
+  padding: 11px 13px 11px 31px;
+  border-radius: var(--r-sm);
+  background: var(--diagram-accent-soft);
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.4;
+}
+.diagram__cues li::before {
+  content: "";
+  position: absolute;
+  left: 13px;
+  top: 18px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--diagram-accent);
+}
+
+.diagram.is-animating svg :is(line, path, polyline):not([stroke-dasharray]) {
+  stroke-dasharray: 700;
+  stroke-dashoffset: 700;
+  animation: diagram-draw 900ms var(--ease) forwards;
+}
+.diagram.is-animating svg :is(circle, rect) { animation: diagram-arrive 420ms var(--ease) both; }
+@keyframes diagram-draw { to { stroke-dashoffset: 0; } }
+@keyframes diagram-arrive { from { opacity: 0; transform: scale(.96); transform-origin: center; } }
+
+[data-theme="dark"] .diagram {
+  --diagram-accent-soft: rgba(255, 255, 255, .07);
+  --diagram-line: color-mix(in srgb, #f8fafc 84%, var(--diagram-accent));
+  --diagram-grid: rgba(255, 255, 255, .07);
+  --diagram-stage: #25211f;
+  box-shadow: 0 20px 58px rgba(0, 0, 0, .34);
+}
+
+@media (max-width: 620px) {
+  .diagram__header { align-items: flex-start; padding: 17px; }
+  .diagram__header h3 { font-size: 21px; }
+  .diagram__replay { padding-inline: 11px; }
+  .diagram__stage { min-height: 220px; padding: 34px 12px 16px; }
+  .diagram__scale { top: 11px; right: 12px; font-size: 9px; }
+  .diagram figcaption { grid-template-columns: 1fr; gap: 4px; padding: 16px 17px 9px; }
+  .diagram__cues { grid-template-columns: 1fr; padding: 4px 17px 17px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .diagram.is-animating svg :is(line, path, polyline, circle, rect) { animation: none; }
+  .diagram__replay:hover { transform: none; }
+}
+
+@media (pointer: coarse) {
   .brand, .nav-signin { min-height: 44px; }
   .theme-toggle, .nav-avatar, .nav-burger { min-width: 44px; min-height: 44px; }
   .nav-avatar { width: 44px; height: 44px; }

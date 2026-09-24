@@ -15,7 +15,52 @@ import { escapeHTML, slugify } from './utils.js';
  * by lesson slug, first match wins, and anything unmatched shows nothing.
  */
 
-const svg = (content, label) => `<div class="diagram" role="img" aria-label="${escapeHTML(label)}"><svg viewBox="0 0 360 190" aria-hidden="true">${content}</svg><p>${escapeHTML(label)}</p></div>`;
+const DIAGRAM_META = {
+  kinematics: ['Velocity through time', 'mechanics', ['Gradient gives acceleration', 'Area gives displacement']],
+  forces: ['Forces on one body', 'mechanics', ['Arrow direction shows the force direction', 'Balanced arrows give zero resultant force']],
+  'rigid-body-mechanics': ['Turning effect about a pivot', 'mechanics', ['Use the perpendicular distance', 'The force and lever arm set the torque']],
+  energy: ['Work transfers energy', 'mechanics', ['Only the force component along the motion does work', 'Displacement is measured along the path']],
+  'simple-harmonic-motion': ['Restoring motion', 'waves', ['Acceleration points towards equilibrium', 'Its magnitude grows with displacement']],
+  'the-wave-model': ['Anatomy of a wave', 'waves', ['Amplitude is measured from equilibrium', 'Wavelength joins matching points']],
+  'wave-phenomena': ['Diffraction at a gap', 'waves', ['Narrower gaps produce more spreading', 'Compare gap width with wavelength']],
+  'standing-waves': ['Nodes and antinodes', 'waves', ['Nodes remain at zero displacement', 'Antinodes oscillate with maximum amplitude']],
+  'doppler-effect': ['Moving wave source', 'waves', ['Wavefronts compress ahead', 'Observed frequency changes, wave speed does not']],
+  'electromagnetic-waves': ['Coupled electric and magnetic fields', 'waves', ['The fields are perpendicular', 'Both are perpendicular to the travel direction']],
+  gravitation: ['Mutual gravitational attraction', 'fields', ['The forces are equal and opposite', 'Strength falls with distance squared']],
+  'electric-fields': ['Field around a positive charge', 'fields', ['Arrows show the force on a positive test charge', 'Wider spacing means a weaker field']],
+  'magnetic-fields': ['Field around a current', 'fields', ['Field lines form concentric circles', 'Use the right-hand grip rule for direction']],
+  'motion-in-fields': ['Charged particle in a magnetic field', 'fields', ['Magnetic force stays perpendicular to velocity', 'The path curves without changing speed']],
+  'electromagnetic-induction': ['Changing flux through a coil', 'fields', ['Relative motion changes magnetic flux', 'The induced emf opposes the change']],
+  'current-and-circuits': ['Current in a complete circuit', 'fields', ['An ammeter is connected in series', 'Current requires a closed conducting path']],
+  'gas-laws': ['Microscopic origin of pressure', 'thermal', ['Particles transfer momentum in collisions', 'More frequent collisions increase pressure']],
+  'thermal-energy': ['Three thermal transfers', 'thermal', ['Conduction needs particle interactions', 'Convection moves matter; radiation does not']],
+  thermodynamics: ['Work from a thermodynamic cycle', 'thermal', ['The enclosed area is net work', 'Direction decides the sign of the work']],
+  'greenhouse-effect': ['Radiation through the atmosphere', 'thermal', ['Incoming and outgoing radiation have different wavelengths', 'Greenhouse gases absorb and re-emit infrared']],
+  'atomic-physics': ['Discrete atomic energy levels', 'quantum', ['Transitions use exact energy differences', 'A downward transition emits a photon']],
+  'quantum-physics': ['Photoelectric emission', 'quantum', ['One photon transfers energy to one electron', 'No emission occurs below threshold frequency']],
+  'nuclear-physics': ['Radioactive transformation', 'quantum', ['The daughter is a different nuclide', 'Charge and nucleon number remain conserved']],
+  'nuclear-fission': ['Neutron-induced fission', 'quantum', ['A heavy nucleus splits into fragments', 'Released neutrons can continue a chain reaction']],
+  'nuclear-fusion': ['Fusion of light nuclei', 'quantum', ['Products have greater binding energy per nucleon', 'The mass difference is released as energy']],
+  relativity: ['Light clock in two frames', 'quantum', ['Every observer measures the same light speed', 'A longer light path means a longer elapsed time']],
+};
+
+const svg = (key, content, label) => {
+  const [title, group, cues] = DIAGRAM_META[key] || [key.replace(/-/g, ' '), 'mechanics', []];
+  const titleId = `diagram-${key}-title`;
+  const captionId = `diagram-${key}-caption`;
+  return `<figure class="diagram" data-diagram="${escapeHTML(key)}" data-diagram-group="${escapeHTML(group)}" aria-labelledby="${titleId}" aria-describedby="${captionId}">
+    <header class="diagram__header">
+      <div><span class="diagram__group">${escapeHTML(group)}</span><h3 id="${titleId}">${escapeHTML(title)}</h3></div>
+      <button type="button" class="diagram__replay" data-diagram-replay aria-label="Replay ${escapeHTML(title)} drawing">Replay model</button>
+    </header>
+    <div class="diagram__stage">
+      <span class="diagram__scale">CONCEPT MODEL · NOT TO SCALE</span>
+      <svg viewBox="0 0 360 190" role="img" aria-labelledby="${titleId} ${captionId}" preserveAspectRatio="xMidYMid meet">${content}</svg>
+    </div>
+    <figcaption id="${captionId}"><b>What to notice</b><span>${escapeHTML(label)}</span></figcaption>
+    ${cues.length ? `<ul class="diagram__cues">${cues.map(cue => `<li>${escapeHTML(cue)}</li>`).join('')}</ul>` : ''}
+  </figure>`;
+};
 const arrow = (x1, y1, x2, y2, label = '') => `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" marker-end="url(#arrow)"/><text x="${(x1 + x2) / 2 + 5}" y="${(y1 + y2) / 2 - 5}">${label}</text>`;
 const defs = '<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z"/></marker></defs>';
 const axes = (label = '', unit = '') => `<line x1="46" y1="24" x2="46" y2="150"/><line x1="46" y1="150" x2="330" y2="150"/><text x="14" y="30">${label}</text><text x="316" y="170">${unit}</text>`;
@@ -156,5 +201,34 @@ export function diagramFor(lesson) {
   const entry = byKey.get(key);
   if (!entry) return '';
   const [draw, caption] = entry;
-  return svg(draw(), caption);
+  return svg(key, draw(), caption);
+}
+
+/** Adds one restrained draw-on reveal and lets a learner replay it. */
+export function bindDiagrams(root = document) {
+  const diagrams = [...root.querySelectorAll('[data-diagram]')];
+  if (!diagrams.length) return undefined;
+  const controller = new AbortController();
+  const replay = diagram => {
+    diagram.classList.remove('is-animating');
+    void diagram.offsetWidth;
+    diagram.classList.add('is-animating');
+  };
+
+  diagrams.forEach(diagram => {
+    diagram.querySelector('[data-diagram-replay]')?.addEventListener('click', () => replay(diagram), { signal: controller.signal });
+  });
+
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(entries => entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      replay(entry.target);
+      observer.unobserve(entry.target);
+    }), { threshold: 0.3 });
+    diagrams.forEach(diagram => observer.observe(diagram));
+    return () => { observer.disconnect(); controller.abort(); };
+  }
+
+  diagrams.forEach(replay);
+  return () => controller.abort();
 }

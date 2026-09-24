@@ -5,6 +5,7 @@ import { askPage, bindAsk } from './js/askUI.js';
 import { bindLessonAsk } from './js/lessonAsk.js';
 import { bindLessonHighlights } from './js/notebookUI.js';
 import { bindLessonProgress } from './js/studyInteractions.js';
+import { bindDiagrams } from './js/diagramEngine.js';
 import { formulaSheetPage } from './js/formulaSheet.js';
 import { Router } from './js/router.js';
 import {
@@ -220,7 +221,7 @@ const router = new Router({
     return {
       view: renderLesson(lesson, index, state.completed),
       mount: () => {
-        const cleanups = [bindLessonAsk(), bindLessonProgress(), bindLessonHighlights()].filter(Boolean);
+        const cleanups = [bindLessonAsk(), bindLessonProgress(), bindLessonHighlights(), bindDiagrams()].filter(Boolean);
         return () => cleanups.forEach(cleanup => cleanup());
       }
     };
