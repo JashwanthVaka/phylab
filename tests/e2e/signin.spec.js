@@ -159,7 +159,10 @@ test.describe('how fast the sign-in page arrives', () => {
   test('renders even when the Supabase CDN never answers', async ({ page }) => {
     await withProviders(page, { google: true, apple: true });
     await page.unroute('https://esm.sh/**');
-    await page.route('https://esm.sh/**', route => route.abort());
+    // A stalled request is more dangerous than a clean network failure: a
+    // dynamic import can otherwise remain pending forever and leave the whole
+    // course behind its loading overlay.
+    await page.route('https://esm.sh/**', () => new Promise(() => {}));
 
     await page.goto('/login', { waitUntil: 'domcontentloaded' });
 

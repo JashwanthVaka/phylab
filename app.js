@@ -38,6 +38,11 @@ let routeVersion = 0;
 let routerStarted = false;
 let lastFocusedElement = null;
 
+function afterWindowLoad(callback) {
+  if (document.readyState === 'complete') callback();
+  else window.addEventListener('load', callback, { once: true, signal: globalListeners.signal });
+}
+
 /** Lazily loads a page module and reuses the browser module cache thereafter. */
 function loadPageModule(path) {
   if (!moduleCache.has(path)) moduleCache.set(path, import(path));
@@ -408,12 +413,14 @@ async function boot() {
       // The account control reflects auth state, which can arrive after the
       // first paint via an OAuth redirect, so it initialises itself and then
       // listens rather than being rendered once here.
-      import("./js/accountMenu.js").then(m => m.initAccountMenu()).catch(() => {});
+      afterWindowLoad(() => {
+        import("./js/accountMenu.js").then(m => m.initAccountMenu()).catch(() => {});
+      });
       // Google returns to the site root, so the destination is decided here
       // once the session exists. Only a sign-in this tab actually started
       // leaves a stored return path, which is what keeps this from firing on
       // an ordinary page load that happens to restore a session.
-      import("./js/services/authService.js").then(({ authService }) => {
+      afterWindowLoad(() => import("./js/services/authService.js").then(({ authService }) => {
         if (!authService.enabled()) return;
         let authRedirectHandled = false;
         authService.onChange(async (event, session) => {
@@ -457,7 +464,7 @@ async function boot() {
           const target = destinationFor(session.user);
           if (target && target !== location.pathname) router.go(target);
         });
-      }).catch(() => {});
+      }).catch(() => {}));
       routerStarted = true;
     } else {
       await router.handle();

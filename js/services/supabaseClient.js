@@ -49,6 +49,12 @@ export function getSupabaseSettings() {
 
 export async function getSupabase() {
   if (clientPromise) return clientPromise;
+  // Public learning pages must finish loading without waiting for the remote
+  // authentication library. Account initialisation is scheduled after the
+  // window load event; direct user actions such as pressing a sign-in button
+  // also happen after that point. Returning null here is the existing guest
+  // contract used by every persistence service.
+  if (typeof document !== 'undefined' && document.readyState !== 'complete') return null;
   // Assign the promise before awaiting settings. Several account-aware views
   // can initialise together; without this guard they each passed the empty
   // check and created a GoTrue client with the same browser storage key.
