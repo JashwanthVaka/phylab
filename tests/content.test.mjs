@@ -73,6 +73,10 @@ toolkit.forEach(method => {
 });
 
 const cases = read('cases.json');
+assert.ok(
+  !/unpolarised by the environment/i.test(JSON.stringify(cases)),
+  'mobile-communications content must describe antenna polarisation accurately'
+);
 const caseSlugs = new Set();
 cases.forEach(item => {
   assert.ok(!caseSlugs.has(item.slug), `duplicate case slug ${item.slug}`);

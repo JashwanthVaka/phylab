@@ -795,7 +795,7 @@
       "Diffraction",
       "Inverse square law"
     ],
-    "context": "Mobile phones communicate using microwaves, typically between about 0.7 and 3.5 GHz. These travel at the speed of light and are unpolarised by the environment but can be polarised by antenna design. Lower frequencies diffract more around buildings and hills, so they give better coverage in built-up or rural terrain; higher frequencies carry more data but need many more base stations. Signal intensity falls with the inverse square of distance from the transmitter.",
+    "context": "Mobile phones communicate using microwaves, typically between about 0.7 and 3.5 GHz. These travel at the speed of light. Their polarisation is set by the transmitting antenna, while reflections, scattering and receiver orientation can change the signal received. Lower frequencies diffract more around buildings and hills, so they give better coverage in built-up or rural terrain; higher frequencies can support wider channels but usually need denser base-station coverage. In ideal free-space propagation, signal intensity follows an inverse-square relationship with distance from the transmitter.",
     "concepts": [
       "Electromagnetic spectrum",
       "Diffraction",
