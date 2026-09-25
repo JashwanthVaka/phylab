@@ -50,9 +50,14 @@ questions.forEach(item => {
   }
 });
 // The longest mode (Exam Practice) asks for 12, and Paper 1 practice needs MCQs.
-assert.ok(questions.length >= 12, 'the bank must cover the longest quiz mode');
+assert.ok(questions.length >= 500, 'the original question bank must contain at least 500 reviewed questions');
 assert.ok(questions.filter(item => item.options).length >= 5, 'Paper 1 practice needs multiple-choice questions');
 assert.ok(questions.filter(item => item.level === 'HL').length >= 5, 'HL extension practice needs HL questions');
+assert.equal(
+  questions.filter(item => /-data-(repeats|gradient)$/.test(item.id || '')).length,
+  0,
+  'generic data-handling templates must be replaced by topic-specific practice'
+);
 
 const units = read('units.json');
 const unitIds = new Set(units.map(unit => unit.id));

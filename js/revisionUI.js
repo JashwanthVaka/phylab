@@ -12,6 +12,7 @@ import { collectMistakes } from './mistakeBank.js';
 import { buildWeeklyPlan } from './studyPlan.js';
 import { getProgress } from './utils.js';
 import { learningStorage as localStorage } from './services/learningStorage.js';
+import { personalFlashcards } from './notebookUI.js';
 
 const CARD_KEY = 'phylab_flashcards_v1';
 const DAY = 86400000;
@@ -22,7 +23,7 @@ export function dailyQueue(cards, completed, previous = {}, day = dayKey()) {
   const today = previous.day === day ? previous : { day, ids: [], rated: [] };
   if (!today.ids.length) {
     today.ids = [...cards.filter(card => card.isDue).sort((a, b) => a.due - b.due),
-      ...cards.filter(card => !card.seen && completed.includes(card.lessonSlug))].slice(0, 20).map(card => card.id);
+      ...cards.filter(card => !card.seen && (card.personal || completed.includes(card.lessonSlug)))].slice(0, 20).map(card => card.id);
   }
   return today;
 }
@@ -56,6 +57,16 @@ export function scheduleFor(lessons, state = readCards(), now = Date.now()) {
         // queue and made the planner less truthful, not more useful.
         isDue: Boolean(record && record.due <= now)
       });
+    });
+  });
+  personalFlashcards().forEach(card => {
+    const record = state[card.id];
+    cards.push({
+      ...card,
+      interval: record?.interval ?? null,
+      due: record?.due ?? null,
+      seen: Boolean(record),
+      isDue: Boolean(record && record.due <= now),
     });
   });
   return cards;
@@ -121,7 +132,7 @@ export function revisionPage(index, lessons, completedSlugs = null, settings = n
   const mistakesDue = mistakes.filter(item => item.due).length;
   const completed = completedSlugs || getProgress().completedLessons || [];
   const weeklyHours = Number(settings?.study_plan?.weekly_hours);
-  const availableNew = unseen.filter(card => completed.includes(card.lessonSlug));
+  const availableNew = unseen.filter(card => card.personal || completed.includes(card.lessonSlug));
   const daily = dailyQueue(cards, completed, readDaily());
   try { localStorage.setItem(DAILY_KEY, JSON.stringify(daily)); } catch { /* In-memory session remains available. */ }
   const reviewQueue = daily.ids.filter(id => !daily.rated.includes(id)).map(id => cards.find(card => card.id === id)).filter(Boolean);
@@ -172,7 +183,7 @@ export function revisionPage(index, lessons, completedSlugs = null, settings = n
             <button type="button" class="outline" data-rev-rate="good">Good</button>
             <button type="button" class="button" data-rev-rate="easy">Easy</button>
           </span>
-          <a class="chip" href="/lesson/${escapeHTML(card.lessonSlug)}" data-route>Open lesson →</a>
+          ${card.personal ? '<a class="chip" href="/notebook" data-route>Open notebook →</a>' : `<a class="chip" href="/lesson/${escapeHTML(card.lessonSlug)}" data-route>Open lesson →</a>`}
         </footer>
       </article>`).join('')}</div>
       ${due.length > 20 ? `<p class="muted">The remaining due cards stay in your queue for another day.</p>` : ''}

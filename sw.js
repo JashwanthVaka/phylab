@@ -16,7 +16,7 @@
 // Bump for source deployments too. Vercel serves this file directly rather
 // than through build-static.mjs, so a literal __BUILD__ token would otherwise
 // keep old content caches alive across releases.
-const VERSION = 'kinetiq-b240924';
+const VERSION = 'kinetiq-b260925';
 const SHELL = `${VERSION}-shell`;
 const CONTENT = `${VERSION}-content`;
 
@@ -43,6 +43,18 @@ self.addEventListener('activate', event => {
       .then(keys => Promise.all(keys.filter(key => !key.startsWith(VERSION)).map(key => caches.delete(key))))
       .then(() => self.clients.claim())
   );
+});
+
+self.addEventListener('message', event => {
+  if (event.data?.type !== 'KINETIQ_CACHE_LESSONS') return;
+  const slugs = [...new Set((event.data.slugs || []).filter(slug => /^[a-z0-9-]+$/.test(slug)))];
+  event.waitUntil((async () => {
+    const cache = await caches.open(CONTENT);
+    const urls = slugs.flatMap(slug => [scoped(`api/content/lessons/${slug}`), scoped(`lesson/${slug}`)]);
+    const results = await Promise.allSettled(urls.map(url => cache.add(url)));
+    const saved = results.filter(result => result.status === 'fulfilled').length;
+    event.source?.postMessage?.({ type: 'KINETIQ_CACHE_COMPLETE', requested: urls.length, saved });
+  })());
 });
 
 self.addEventListener('fetch', event => {

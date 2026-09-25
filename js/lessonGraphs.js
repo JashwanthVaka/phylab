@@ -8,6 +8,7 @@
  */
 import { escapeHTML } from './utils.js';
 import { renderGraph, updateGraph, seekGraph } from './graphEngine.js';
+import { visualForLesson } from './visualRegistry.js';
 
 const C = 299792458;
 const H = 6.62607015e-34;
@@ -161,7 +162,7 @@ const MODELS = {
         graph: { id: 'decay', title: 'Undecayed nuclei against time', x: `Time (0 to ${round(span)} s)`, y: 'Undecayed nuclei', fn: u => v.N0 * Math.pow(0.5, (span * u / 100) / v.halfLife) },
         sweep: { label: 'Time', unit: 's', from: 0, to: span },
         at: t => [['Time', t, 's'], ['Half-lives', t / v.halfLife, ''], ['Remaining', v.N0 * Math.pow(0.5, t / v.halfLife), ''], ['Decayed', v.N0 - v.N0 * Math.pow(0.5, t / v.halfLife), ''], ['Activity', lambda * v.N0 * Math.pow(0.5, t / v.halfLife), 'Bq']],
-        meaning: `Each half-life of ${round(v.halfLife)} s halves the survivors, and ${round(span / v.halfLife, 3)} half-lives fit in the ${round(span)} s shown. so the curve never reaches zero. The decay constant is λ = ln2/T½ = ${round(lambda)} s⁻¹, and the gradient at any point equals −λN, which is the activity.`
+        meaning: `Each half-life of ${round(v.halfLife)} s halves the survivors, and ${round(span / v.halfLife, 3)} half-lives fit in the ${round(span)} s shown, so the curve never reaches zero. The decay constant is λ = ln2/T½ = ${round(lambda)} s⁻¹. The gradient is −λN; activity is its positive magnitude, A = λN.`
       };
     }
   },
@@ -200,9 +201,8 @@ const MODELS = {
 
 /** Picks the model whose pattern matches the lesson, or null when none does. */
 export function modelForLesson(lesson) {
-  const text = `${lesson.title || ''} ${lesson.topicLabel || ''}`.toLowerCase();
-  const entry = Object.entries(MODELS).find(([, model]) => model.match.test(text));
-  return entry ? { key: entry[0], ...entry[1] } : null;
+  const key = visualForLesson(lesson)?.interactiveGraph;
+  return key && MODELS[key] ? { key, ...MODELS[key] } : null;
 }
 
 /** Renders the interactive graph block, or nothing when a lesson has no model yet. */

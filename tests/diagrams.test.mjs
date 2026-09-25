@@ -12,6 +12,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { diagramFor, diagramKeyFor } from '../js/diagramEngine.js';
+import { COURSE_LESSON_SLUGS, visualForLesson } from '../js/visualRegistry.js';
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dir = path.join(ROOT, 'data', 'lessons');
@@ -26,6 +27,7 @@ const lessons = fs.readdirSync(dir).filter(name => name.endsWith('.json')).map(n
 });
 
 assert.equal(lessons.length, 26, 'expected the full course');
+assert.equal(COURSE_LESSON_SLUGS.length, 26, 'visual registry must cover the full course exactly once');
 
 // ── Every lesson gets a diagram, and each is distinct ────────────────
 const keys = new Map();
@@ -63,6 +65,7 @@ assert.notEqual(keyOf('Nuclear Fission'), keyOf('Nuclear Physics'),
 
 // ── Each rendered diagram is real SVG with a caption ─────────────────
 lessons.forEach(lesson => {
+  assert.ok(visualForLesson(lesson), `${lesson.title} is absent from the explicit visual registry`);
   const markup = diagramFor(lesson);
   assert.ok(markup.includes('<svg'), `${lesson.title} produced no SVG`);
   assert.ok(/viewBox="0 0 360 190"/.test(markup), `${lesson.title} has an unexpected viewBox`);
@@ -82,6 +85,10 @@ lessons.forEach(lesson => {
   const opens = (markup.match(/<(?!\/)(?!.*\/>)[a-z]+/g) || []).length;
   assert.ok(opens > 0);
 });
+
+for (const slug of ['electromagnetic-waves', 'gas-laws', 'fields', 'magnetic-fields', 'motion-in-fields', 'electromagnetic-induction']) {
+  assert.equal(visualForLesson({ slug }).depth, '3d', `${slug} should use a spatial concept model`);
+}
 
 // An unrecognised topic must show nothing rather than a wrong picture.
 assert.equal(diagramFor({ slug: 'basket-weaving', title: 'Z.9 Basket Weaving', topicLabel: 'Basket Weaving' }), '',

@@ -2492,6 +2492,17 @@ input, select, textarea, .stats, .facts {
   .library-tags li { min-height: 28px; display: inline-flex; align-items: center; }
 }
 
+.offline-packs {
+  margin-top: var(--s5);
+  padding: clamp(20px, 3vw, 30px);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: color-mix(in srgb, var(--pale) 58%, var(--surface));
+}
+.offline-packs h3 { margin: 0 0 6px; }
+.offline-packs__actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: var(--s4); }
+.offline-packs__actions button { min-height: 44px; }
+
 /* ── What KIT can see ────────────────────────────────────────────────
    Replaces a <pre> of raw JSON. Reads as a short list of the student's
    current place in the course, because that is what the data says. */
@@ -3293,6 +3304,27 @@ input, select, textarea, .stats, .facts {
   font-weight: 750;
   letter-spacing: -.01em;
 }
+.diagram[data-scene-depth="3d"] .diagram__stage {
+  background-image:
+    linear-gradient(145deg, color-mix(in srgb, var(--diagram-accent-soft) 72%, transparent), transparent 58%),
+    linear-gradient(var(--diagram-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--diagram-grid) 1px, transparent 1px);
+}
+.diagram[data-scene-depth="3d"] svg {
+  filter: drop-shadow(0 12px 14px color-mix(in srgb, var(--diagram-accent) 14%, transparent));
+}
+.diagram-depth-grid,
+.diagram-field-volume,
+.diagram-orbital-planes,
+.diagram-field-shells {
+  opacity: .72;
+}
+.diagram-field--electric { stroke: #c2410c !important; stroke-width: 2.7 !important; }
+.diagram-field--magnetic { stroke: #0f766e !important; stroke-width: 2.5 !important; }
+.diagram-helix { stroke: #9d174d !important; stroke-width: 3 !important; }
+.diagram-gas-particles circle:nth-child(3n + 1) { fill: #0f766e; }
+.diagram-gas-particles circle:nth-child(3n + 2) { fill: #c2410c; }
+.diagram-coil ellipse { stroke: #c2410c; }
 .diagram figcaption {
   display: grid;
   grid-template-columns: 130px 1fr;
@@ -3362,6 +3394,10 @@ input, select, textarea, .stats, .facts {
 @media (prefers-reduced-motion: reduce) {
   .diagram.is-animating svg :is(line, path, polyline, circle, rect) { animation: none; }
   .diagram__replay:hover { transform: none; }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .diagram[data-scene-depth="3d"] svg { filter: none; }
 }
 
 @media (pointer: coarse) {

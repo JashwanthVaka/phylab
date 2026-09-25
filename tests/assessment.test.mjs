@@ -18,6 +18,8 @@ assert.ok(full.correct);
 
 // Scientific notation is the same answer.
 assert.equal(assessment.mark(numeric, '1.12e4 m s⁻¹').marks, 3, 'scientific notation must be accepted');
+assert.equal(assessment.mark({ ...numeric, correct_answer: '6.6e-7', tolerance: 1e-9 }, '6.6 × 10⁻⁷ m/s').marks, 3,
+  'Unicode scientific notation and slash-form SI units must be accepted');
 
 // A value out by a clean power of ten is a conversion slip, and saying so is
 // more useful than "outside tolerance".

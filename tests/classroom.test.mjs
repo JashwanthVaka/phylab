@@ -4,7 +4,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
-const migration = fs.readFileSync(path.join(ROOT, 'supabase/migrations/20260921_teacher_privacy.sql'), 'utf8');
+const migration = fs.readFileSync(path.join(ROOT, 'supabase/migrations/202609210004_teacher_privacy.sql'), 'utf8');
 const productionTest = fs.readFileSync(path.join(ROOT, 'tests/rls/production-isolation.sql'), 'utf8');
 const app = fs.readFileSync(path.join(ROOT, 'app.js'), 'utf8');
 const ui = fs.readFileSync(path.join(ROOT, 'js/classroomUI.js'), 'utf8');
@@ -29,4 +29,3 @@ assert.match(ui, /Bookmarks, Ask KIT history and private revision notes stay pri
 assert.doesNotMatch(ui, /@[a-z0-9.-]+\.[a-z]{2,}/i, 'classroom code must not contain private email allowlists');
 
 console.log('classroom tests passed (invite-only joins, limited teacher evidence, immediate revocation)');
-

@@ -74,7 +74,7 @@
         "Δv": "change in velocity (m/s)",
         "Δt": "change in time (s)"
       },
-      "explanation": "Acceleration measures how quickly velocity changes. A positive value shows increasing velocity, while a negative value shows decreasing velocity."
+      "explanation": "Acceleration measures how quickly velocity changes. Its sign gives the acceleration direction relative to the chosen positive axis; a negative acceleration does not always mean the object is slowing down."
     },
     {
       "name": "First equation of motion",
@@ -136,7 +136,7 @@
       "explanation": "A velocity-time graph shows how velocity changes with time. The gradient represents acceleration.",
       "important_points": [
         "Positive gradient means positive acceleration.",
-        "Negative gradient means deceleration.",
+        "Negative gradient means negative acceleration; whether speed rises or falls also depends on the sign of velocity.",
         "Area under the graph gives displacement."
       ]
     },

@@ -23,7 +23,10 @@ function students(rows = []) {
   if (!rows.length) return '<p class="muted">No learners have joined. Share the code above.</p>';
   return rows.map(student => {
     const mastery = student.mastery == null ? 'No assessed mastery yet' : `${student.mastery}% assessed mastery`;
-    return `<div><span class="class-avatar" aria-hidden="true">${escapeHTML(student.name.charAt(0).toUpperCase())}</span><p><b>${escapeHTML(student.name)}</b><span>${student.lessonsCompleted} lessons complete · ${escapeHTML(mastery)}</span></p></div>`;
+    const quizzes = student.quizAttempts
+      ? `${student.quizAttempts} quiz${student.quizAttempts === 1 ? '' : 'zes'}, ${student.quizAwardedMarks}/${student.quizMaximumMarks} marks`
+      : 'No completed quizzes yet';
+    return `<div><span class="class-avatar" aria-hidden="true">${escapeHTML(student.name.charAt(0).toUpperCase())}</span><p><b>${escapeHTML(student.name)}</b><span>${student.lessonsCompleted} lessons complete · ${escapeHTML(mastery)} · ${escapeHTML(quizzes)}</span></p></div>`;
   }).join('');
 }
 

@@ -274,7 +274,7 @@
         "m": "mass (g)",
         "M": "molar mass (g mol⁻¹)"
       },
-      "explanation": "Molar mass in grams per mole is numerically the nucleon number."
+      "explanation": "For a specified isotope, its molar mass in grams per mole is approximately equal to its relative isotopic mass. For molecules, add the relative atomic masses of all constituent atoms."
     },
     {
       "name": "Number of Particles",

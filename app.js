@@ -318,7 +318,10 @@ const router = new Router({
     return { view: resources.resourcesPage(index), mount: () => resources.bindResources() };
   }, 'Loading the source library…'),
   '/progress': () => transition(async () => ({ view: dashboardView(...(await dashboardContext())), mount: () => bindProgressTransfer() }), 'Loading progress…'),
-  '/mastery': () => transition(async () => ({ view: masteryView(await dashboardService.summary()) }), 'Loading mastery…'),
+  '/mastery': () => transition(async () => {
+    const [summary, index] = await Promise.all([dashboardService.summary(), loader.getIndex()]);
+    return { view: masteryView(summary, index.lessonIndex || []) };
+  }, 'Loading mastery…'),
   '/activity': () => transition(async () => ({ view: dashboardView(...(await dashboardContext())) }), 'Loading activity…'),
   // Sign in with Google or Apple. There is no separate registration: the
   // first time a provider returns a learner, the account is created. /signup

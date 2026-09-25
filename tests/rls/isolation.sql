@@ -158,11 +158,15 @@ select 'student_sees_joined_class' as check,
        (select count(*) = 1 from public.teacher_classes
         where id = 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa') as passed;
 
--- Membership grants exactly the summary evidence promised in the UI.
+-- Membership grants only the aggregate RPC promised in the UI. Direct rows
+-- remain private even from the class teacher.
 select pg_temp.sign_in('11111111-1111-1111-1111-111111111111');
-select 'teacher_sees_joined_student_progress' as check,
-       (select count(*) = 1 from public.lesson_progress
+select 'teacher_cannot_directly_read_joined_student_progress' as check,
+       (select count(*) = 0 from public.lesson_progress
         where user_id = '22222222-2222-2222-2222-222222222222') as passed;
+select 'teacher_receives_joined_student_summary_rpc' as check,
+       (select count(*) = 1 from public.teacher_student_summaries(
+         'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa')) as passed;
 
 -- Private learning records are deliberately not shared with a teacher.
 select 'teacher_cannot_read_student_bookmarks' as check,
@@ -189,7 +193,7 @@ where class_id = 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'
   and user_id = '22222222-2222-2222-2222-222222222222';
 select pg_temp.sign_in('11111111-1111-1111-1111-111111111111');
 select 'teacher_access_ends_when_student_leaves' as check,
-       (select count(*) = 0 from public.lesson_progress
-        where user_id = '22222222-2222-2222-2222-222222222222') as passed;
+       (select count(*) = 0 from public.teacher_student_summaries(
+         'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa')) as passed;
 
 reset role;

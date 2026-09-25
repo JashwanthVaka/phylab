@@ -54,7 +54,7 @@
   "formulas": [
     {
       "name": "Doppler Shift for Light (v ≪ c)",
-      "formula": "Δf / f = Δλ / λ ≈ v / c",
+      "formula": "|Δf| / f = |Δλ| / λ ≈ |v| / c",
       "variables": {
         "Δf": "change in frequency (Hz)",
         "f": "emitted frequency (Hz)",
@@ -63,7 +63,7 @@
         "v": "relative speed (m s⁻¹)",
         "c": "speed of light (m s⁻¹)"
       },
-      "explanation": "Valid when the relative speed is far below the speed of light."
+      "explanation": "Valid when the relative speed is far below the speed of light. Frequency and wavelength shifts have opposite signs: approach raises frequency and shortens wavelength; recession lowers frequency and lengthens wavelength."
     },
     {
       "name": "Moving Source (Sound)",
@@ -155,5 +155,5 @@
       "answer": "Sound travels through a medium that defines a rest frame, so motion of the source through the air changes the emitted wavelength while motion of the observer changes the rate of meeting wavefronts. Light needs no medium and has no preferred frame, so only the relative velocity matters."
     }
   ],
-  "summary": "Relative motion between a source and an observer changes the observed frequency: approach raises it, recession lowers it. For light at low speeds the fractional shift in frequency and wavelength both equal v/c, and the redshift of distant galaxies is the primary evidence for an expanding universe. Sound requires separate equations for a moving source and a moving observer, because its medium provides a rest frame."
+  "summary": "Relative motion between a source and an observer changes the observed frequency: approach raises it, recession lowers it. For light at low speeds, the magnitudes of the fractional frequency and wavelength shifts are approximately |v|/c, while their signs are opposite. The redshift of distant galaxies is primary evidence for an expanding universe. Sound requires separate equations for a moving source and a moving observer because its medium provides a rest frame."
 }

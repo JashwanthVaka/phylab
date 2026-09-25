@@ -77,9 +77,6 @@ q -f "$HERE/supabase-shim.sql" >/dev/null || { echo "FAIL: the Supabase shim did
 for migration in "$ROOT"/supabase/migrations/*.sql; do
   q -f "$migration" >/dev/null 2>&1 || { echo "FAIL: migration did not apply: $(basename "$migration")"; exit 1; }
 done
-# Supabase grants these on project creation, so no migration does.
-q -c 'grant usage on schema public to anon, authenticated;
-      grant select, insert, update, delete on all tables in schema public to anon, authenticated;' >/dev/null
 
 output=$(psql -h "$SOCK" -U postgres -A -F' | ' -f "$HERE/isolation.sql" 2>&1)
 psql_status=$?
@@ -103,4 +100,26 @@ if [ "$failed" -gt 0 ] || [ "$total" -lt 9 ]; then
   echo "row-level security: FAILED ($failed of $total checks failed, expected at least 9 checks)"
   exit 1
 fi
-echo "row-level security: $total checks passed against a real Postgres"
+
+hardening_output=$(psql -h "$SOCK" -U postgres -A -F' | ' -f "$HERE/security-hardening.sql" 2>&1)
+hardening_status=$?
+hardening_results=$(echo "$hardening_output" | grep -E '^[a-z_]+ \| [tf]$|passed: [tf]' | sed 's/.*NOTICE: *check: //; s/ | passed: / | /')
+echo "$hardening_results"
+hardening_failed=$(echo "$hardening_results" | grep -c '| f$')
+hardening_total=$(echo "$hardening_results" | grep -c '|')
+
+if [ "$hardening_status" -ne 0 ]; then
+  echo "$hardening_output" | grep -E 'ERROR:|FATAL:' | tail -n 5
+  echo "security hardening RLS: FAILED (the SQL suite did not complete)"
+  exit 1
+fi
+if echo "$hardening_output" | grep -q 'FAIL:'; then
+  echo "$hardening_output" | grep 'FAIL:'
+  echo "security hardening RLS: FAILED"
+  exit 1
+fi
+if [ "$hardening_failed" -gt 0 ] || [ "$hardening_total" -lt 12 ]; then
+  echo "security hardening RLS: FAILED ($hardening_failed of $hardening_total checks failed, expected at least 12 checks)"
+  exit 1
+fi
+echo "row-level security: $((total + hardening_total)) checks passed against a real Postgres"

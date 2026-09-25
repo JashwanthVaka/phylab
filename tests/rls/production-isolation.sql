@@ -42,9 +42,12 @@ insert into pg_temp.rls_results values
 
 select pg_temp.sign_in('91111111-1111-1111-1111-111111111111');
 insert into pg_temp.rls_results values
-  ('teacher_sees_joined_student_progress',
-   (select count(*) = 1 from public.lesson_progress
+  ('teacher_cannot_directly_read_joined_progress',
+   (select count(*) = 0 from public.lesson_progress
     where user_id = '92222222-2222-2222-2222-222222222222')),
+  ('teacher_receives_restricted_summary',
+   (select count(*) = 1 from public.teacher_student_summaries(
+     '9aaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'))),
   ('teacher_cannot_read_private_bookmarks',
    (select count(*) = 0 from public.bookmarks
     where user_id = '92222222-2222-2222-2222-222222222222'));
@@ -55,14 +58,14 @@ where class_id = '9aaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa';
 select pg_temp.sign_in('91111111-1111-1111-1111-111111111111');
 insert into pg_temp.rls_results values
   ('teacher_access_ends_after_leave',
-   (select count(*) = 0 from public.lesson_progress
-    where user_id = '92222222-2222-2222-2222-222222222222'));
+   (select count(*) = 0 from public.teacher_student_summaries(
+     '9aaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa')));
 
 reset role;
 do $$
 begin
   if exists (select 1 from pg_temp.rls_results where not passed)
-     or (select count(*) from pg_temp.rls_results) <> 5 then
+     or (select count(*) from pg_temp.rls_results) <> 6 then
     raise exception 'KINETIQ production RLS isolation failed';
   end if;
 end

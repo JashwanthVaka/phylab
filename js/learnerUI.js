@@ -3,6 +3,7 @@ import { masteryService } from './services/masteryService.js';
 import { dueCount } from './flashcards.js';
 import { collectMistakes } from './mistakeBank.js';
 import { learningStorage as localStorage } from './services/learningStorage.js';
+import { completeTopicMastery } from './adaptiveLearning.js';
 
 const RESULTS_PREFIX = 'phylab_quiz_results:';
 
@@ -87,7 +88,7 @@ export function dashboardView(summary, extra = {}) {
     || simulations[0];
   const practiceHref = weakName
     ? `/quiz?mode=Weak%20Topic%20Quiz&topic=${encodeURIComponent(weakName)}&count=5`
-    : '/quiz?mode=Quick%205&count=5';
+    : '/quiz?mode=Diagnostic&count=10';
   const adaptivePath = [
     {
       number: '01', kind: 'Learn', title: next ? next.title : 'Course lessons complete',
@@ -116,7 +117,7 @@ export function dashboardView(summary, extra = {}) {
       detail: `${dueCards} flashcard${dueCards === 1 ? '' : 's'} and ${dueMistakes} mistake${dueMistakes === 1 ? '' : 's'}.`, href: '/revision'
     },
     next && { kind: 'Learn', title: next.title, detail: 'Your next lesson in syllabus order.', href: `/lesson/${next.slug}` },
-    { kind: 'Practise', title: weakName ? `Target ${weakName}` : 'Establish a practice baseline', detail: weakName ? 'Based on at least ten scored questions.' : 'A short set will create your first reliable evidence.', href: weakName ? `/quiz?mode=Topic%20Quiz&topic=${encodeURIComponent(weakName)}` : '/quiz?mode=Quick%205&count=5' }
+    { kind: 'Practise', title: weakName ? `Target ${weakName}` : 'Establish a practice baseline', detail: weakName ? 'Based on at least ten scored questions.' : 'A short set will create your first reliable evidence.', href: weakName ? `/quiz?mode=Adaptive%20Practice&topic=${encodeURIComponent(weakName)}` : '/quiz?mode=Diagnostic&count=10' }
   ].filter(Boolean).slice(0, 3);
 
   return `<section class="page progress-page">
@@ -264,11 +265,15 @@ export function dashboardView(summary, extra = {}) {
 const SIM_BY_UNIT = { A: { slug: 'projectile', label: 'Projectile motion. Vary the launch angle and watch the trajectory and flight time change.' }, B: { slug: 'gas-law', label: 'Ideal gas law. Sweep the volume and watch pressure follow the inverse relationship.' }, C: { slug: 'shm', label: 'Mass-spring SHM. See displacement, velocity and the energy exchange over two full periods.' }, D: { slug: 'radioactive-decay', label: 'Radioactive decay. Watch the exponential fall across five half-lives.' } };
 const recommendedSimulation = unit => SIM_BY_UNIT[unit] || SIM_BY_UNIT.A;
 
-export const masteryView = summary => `<section class="page">
-  <p class="eyebrow">MASTERY OVERVIEW</p><h1>Know what to strengthen.</h1>
-  <div class="card-grid">${[...(summary.strongestTopics || []), ...(summary.weakestTopics || [])].map(topic => `<article class="content-card"><h3>${escapeHTML(topic.topic_slug)}</h3><div class="bar"><i style="width:${topic.mastery_score || 0}%"></i></div><p>${topic.mastery_score || 0}% · ${escapeHTML(masteryService.level(topic.mastery_score || 0))}</p><a class="text-button" href="/quiz" data-route>Practise →</a></article>`).join('')
-    || '<div class="empty-state"><h3>No mastery data yet</h3><p>Mastery scores are recorded against a signed-in account as you complete questions and quizzes. Guest practice results appear on your progress page instead.</p><a class="button" href="/progress" data-route>Open progress</a></div>'}</div>
-</section>`;
+export const masteryView = (summary, lessons = []) => {
+  const guestRows = topicBreakdown(localResults());
+  const rows = completeTopicMastery(lessons.map(lesson => lesson.topicLabel || lesson.title), summary.guest ? guestRows : (summary.masteryTopics || []));
+  return `<section class="page">
+    <p class="eyebrow">MASTERY OVERVIEW</p><h1>Know what to strengthen.</h1>
+    <p class="page-lead">Every course topic stays visible. Scores appear only when KINETIQ has real marked evidence; unassessed topics are labelled clearly.</p>
+    <div class="card-grid mastery-grid">${rows.map(topic => `<article class="content-card"><span class="tag">${escapeHTML(topic.evidenceLabel)}</span><h3>${escapeHTML(topic.label)}</h3><div class="bar"><i style="width:${topic.score ?? 0}%"></i></div><p>${topic.score === null ? 'No score yet' : `${topic.score}% · ${escapeHTML(masteryService.level(topic.score))}`} · ${topic.attempted} attempt${topic.attempted === 1 ? '' : 's'}</p><a class="text-button" href="/quiz?mode=${topic.attempted ? 'Adaptive%20Practice' : 'Diagnostic'}&topic=${encodeURIComponent(topic.label)}" data-route>${topic.attempted ? 'Strengthen this topic' : 'Measure this topic'} →</a></article>`).join('')}</div>
+  </section>`;
+};
 
 /**
  * Wires saving and restoring progress.

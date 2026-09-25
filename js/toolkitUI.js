@@ -23,7 +23,8 @@ export function toolkitPage(index) {
       <h2>Put a method to work</h2>
       <div class="card-grid">
         <article class="content-card"><h3>Case practice</h3><p>Apply these methods to real-world physics contexts organised by unit.</p><a class="text-button" href="/cases" data-route>Open case practice →</a></article>
-        <article class="content-card"><h3>Question patterns</h3><p>See how each command term expects the method to be presented.</p><a class="text-button" href="/patterns" data-route>Open question patterns →</a></article>
+        <article class="content-card"><h3>Question patterns</h3><p>See how each command term expects the method to be presented.</p><a class="text-button" href="/patterns" data-route>Open question patterns →</a><br><a class="text-button" href="/quiz?mode=Command-term%20Drill" data-route>Practise command terms →</a></article>
+        <article class="content-card"><h3>Formula drill</h3><p>Choose the relationship, substitute in SI units and check the final unit.</p><a class="text-button" href="/quiz?mode=Formula%20Quiz" data-route>Start formula practice →</a></article>
       </div>
     </section>
   </section>`;

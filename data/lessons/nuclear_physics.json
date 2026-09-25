@@ -417,7 +417,7 @@
         "T½": "half-life (s)",
         "λ": "decay constant (s⁻¹)"
       },
-      "explanation": "A long half-life means a small decay constant and a weakly active source."
+      "explanation": "A long half-life means a small decay constant. For samples containing the same number of undecayed nuclei, the longer-half-life sample has the lower activity."
     }
   ]
 }

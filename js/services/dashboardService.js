@@ -27,6 +27,7 @@ export const dashboardService = {
       strongestTopics: measured.filter(row => row.mastery_score >= 75).sort((left, right) => right.mastery_score - left.mastery_score).slice(0, 3),
       weakestTopics: measured.filter(row => row.mastery_score < 60).sort((left, right) => left.mastery_score - right.mastery_score).slice(0, 3),
       developingTopics: mastery.filter(item => (item.attempt_count || 0) < 10),
+      masteryTopics: mastery,
       quizAccuracy: accuracy === null ? null : Math.round(accuracy * 100),
       quizCount: quizzes.length,
       recentQuizScores: quizzes.slice(-5),

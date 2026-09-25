@@ -1,6 +1,7 @@
 import { assessment } from './assessmentEngine.js';
 import { escapeHTML, slugify } from './utils.js';
 import { learningStorage as localStorage } from './services/learningStorage.js';
+import { evidenceFromReports, recoveryQuestion, selectAdaptiveQuestions, selectDiagnosticQuestions } from './adaptiveLearning.js';
 
 const KEY = 'phylab_quiz_session';
 const RESULTS = 'phylab_quiz_results';
@@ -10,7 +11,11 @@ const MODES = {
   'Topic Quiz': { count: 5, description: 'Practise one topic at your selected level.', time: '8–12 min' },
   'Mixed Quiz': { count: 8, description: 'Build confidence across the course.', time: '12–16 min' },
   'Formula Quiz': { count: 6, description: 'Equation selection, application, and units.', time: '10–15 min' },
+  'Command-term Drill': { count: 8, description: 'Practise the response shape required by state, explain, calculate and evaluate.', time: '10–15 min' },
   'Weak Topic Quiz': { count: 6, description: 'Target topics that need another pass.', time: '10–15 min' },
+  'Diagnostic': { count: 10, description: 'Build a broad starting point before KINETIQ recommends a path.', time: '12–18 min' },
+  'Adaptive Practice': { count: 8, description: 'Difficulty and topic mix respond to your scored evidence.', time: '12–18 min' },
+  'Recovery Practice': { count: 5, description: 'Repair a missed idea with a related question, then check it again.', time: '8–12 min' },
   'Timed Quiz': { count: 10, durationSeconds: 900, description: 'Practise calm thinking under time pressure.', time: '15 min' },
   'Exam Practice': { count: 20, durationSeconds: 5400, description: 'Build a timed Paper 1A, 1B or 2 practice paper.', time: 'Up to 2 h 30 min' }
 };
@@ -36,6 +41,7 @@ export const normalize = question => ({
   significantFigures: question.significantFigures,
   formulaReferences: question.formulaReferences || [],
   lessonReferences: question.lessonReferences || [],
+  sourceType: question.sourceType || 'original-kinetiq',
   tags: Array.isArray(question.tags) ? question.tags : [question.tags || '']
   ,paper: question.paper || ((question.options || []).length ? '1A' : '2')
   ,skills: question.skills || []
@@ -58,11 +64,12 @@ export function optionsFromSearch(search = new URLSearchParams()) {
     types: params.getAll('type').filter(value => ['mcq', 'numerical', 'short response'].includes(value)),
     paper: ['1A', '1B', '2'].includes(params.get('paper')) ? params.get('paper') : '',
     count: [5, 10, 15, 20, 25, 30, 40, 45].includes(Number(params.get('count'))) ? Number(params.get('count')) : undefined,
-    durationSeconds: Math.max(0, Math.min(7200, Number(params.get('minutes')) * 60 || 0))
+    durationSeconds: Math.max(0, Math.min(7200, Number(params.get('minutes')) * 60 || 0)),
+    recoveryOf: params.get('recoveryOf') || ''
   };
 }
 
-export const selectQuestions = (questions, { mode = 'Mixed Quiz', topic, topics, level, difficulty, difficulties, type, types, paper, count = 5, weakTopics = [] } = {}) => {
+export const selectQuestions = (questions, { mode = 'Mixed Quiz', topic, topics, level, difficulty, difficulties, type, types, paper, count = 5, weakTopics = [], evidence = {}, recoveryOf = '' } = {}) => {
   const source = questions.map(normalize);
   const topicList = list(topics?.length ? topics : topic);
   const difficultyList = list(difficulties?.length ? difficulties : difficulty);
@@ -75,6 +82,22 @@ export const selectQuestions = (questions, { mode = 'Mixed Quiz', topic, topics,
     (!typeList.length || typeList.includes(question.type))
   );
   let diagnostic = false;
+  if (mode === 'Diagnostic') {
+    const chosen = selectDiagnosticQuestions(selected, { count });
+    return { questions: chosen, available: selected.length, diagnostic: true };
+  }
+  if (mode === 'Adaptive Practice') {
+    const chosen = selectAdaptiveQuestions(selected, evidence, { count });
+    return { questions: chosen, available: selected.length, diagnostic: false };
+  }
+  if (mode === 'Recovery Practice' && recoveryOf) {
+    const mistaken = source.find(question => question.id === String(recoveryOf));
+    const first = recoveryQuestion(selected, mistaken);
+    const rest = selected.filter(question => question.id !== mistaken?.id && question.id !== first?.id
+      && (!mistaken || slugify(question.topic) === slugify(mistaken.topic)));
+    const chosen = [first, ...rest].filter(Boolean).slice(0, count);
+    return { questions: chosen, available: chosen.length, diagnostic: false, recovery: true };
+  }
   if (mode === 'Weak Topic Quiz') {
     selected = selected.filter(question => weakTopics.includes(question.topic));
     if (!selected.length) {
@@ -91,6 +114,10 @@ export const selectQuestions = (questions, { mode = 'Mixed Quiz', topic, topics,
   if (mode === 'Formula Quiz') {
     const formulaQuestions = selected.filter(question => /formula|calculation|numerical|equation/i.test(`${question.tags.join(' ')} ${question.type}`));
     selected = formulaQuestions.length ? formulaQuestions : selected;
+  }
+  if (mode === 'Command-term Drill') {
+    const commandQuestions = selected.filter(question => /^(state|define|describe|explain|calculate|determine|show|deduce|suggest|evaluate|discuss|compare|outline)\b/i.test(question.question));
+    selected = commandQuestions.length ? commandQuestions : selected;
   }
   // When several topics are selected, take one from each in turn instead of
   // exhausting the first topic in the JSON file before reaching the next.
@@ -299,28 +326,36 @@ const feedbackPath = item => {
     </ul>
     <div class="feedback-path__actions">
       ${lesson ? `<a class="text-button" href="/lesson/${encodeURIComponent(lesson)}" data-route>Review the lesson →</a>` : ''}
-      <a class="text-button" href="/quiz?mode=Topic%20Quiz&topic=${encodeURIComponent(item.q.topic)}" data-route>Retest this topic →</a>
+      <a class="text-button" href="/quiz?mode=Recovery%20Practice&topic=${encodeURIComponent(item.q.topic)}&recoveryOf=${encodeURIComponent(item.q.id)}&count=5" data-route>Start a recovery set →</a>
       <a class="text-button" href="/ask?q=${encodeURIComponent(`Explain this ${item.q.topic} question: ${item.q.question}`)}" data-route>Ask KIT to explain →</a>
     </div>
   </aside>`;
 };
 
-function measuredWeakTopics() {
-  const groups = new Map();
+function savedReports() {
+  const reports = [];
   for (let index = 0; index < localStorage.length; index += 1) {
     const key = localStorage.key(index);
     if (!key?.startsWith(`${RESULTS}:`)) continue;
     try {
       const report = JSON.parse(localStorage.getItem(key));
-      (report?.analytics?.topics || []).forEach(topic => {
+      if (report?.submitted) reports.push(report);
+    } catch { /* Ignore a corrupt local attempt. */ }
+  }
+  return reports;
+}
+
+function measuredWeakTopics() {
+  const groups = new Map();
+  savedReports().forEach(report => {
+      (report.analytics?.topics || []).forEach(topic => {
         const row = groups.get(topic.label) || { label: topic.label, earned: 0, max: 0, attempted: 0 };
         row.earned += topic.earned || 0;
         row.max += topic.max || 0;
         row.attempted += topic.attempted || 0;
         groups.set(topic.label, row);
       });
-    } catch { /* Ignore a corrupt local attempt. */ }
-  }
+  });
   return [...groups.values()].filter(row => row.attempted >= 10)
     .map(row => ({ ...row, percentage: row.max ? Math.round(row.earned / row.max * 100) : 0 }))
     .sort((left, right) => left.percentage - right.percentage)
@@ -367,6 +402,7 @@ export function bindQuizSession(data, initialOptions = {}) {
   const start = (mode, selection = {}) => {
     const settings = { ...MODES[mode], ...selection, mode };
     if (mode === 'Weak Topic Quiz' && !settings.weakTopics?.length) settings.weakTopics = measuredWeakTopics();
+    if (mode === 'Adaptive Practice') settings.evidence = evidenceFromReports(savedReports());
     const pick = selectQuestions(data.questions, settings);
     if (!pick.questions.length) { root.innerHTML = '<div class="empty-state"><h3>No questions match this selection</h3><p>Choose another topic or include both levels.</p></div>'; return; }
     session = create(pick.questions, settings);
@@ -403,7 +439,8 @@ export function bindQuizSession(data, initialOptions = {}) {
       level: root.querySelector('[data-quiz-level]')?.value || '',
       paper: root.querySelector('[data-quiz-paper]')?.value || '',
       count: Number(root.querySelector('[data-quiz-count]')?.value) || MODES[selectedMode]?.count || 5,
-      durationSeconds: timer ? minutes * 60 : 0
+      durationSeconds: timer ? minutes * 60 : 0,
+      recoveryOf: initialOptions.recoveryOf || ''
     };
   };
   const updateBuilderSummary = () => {

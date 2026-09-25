@@ -40,7 +40,7 @@
   "core_concepts": [
     {
       "heading": "Magnetic Flux",
-      "explanation": "Magnetic flux depends on magnetic field strength, surface area and the angle between the magnetic field and the surface. A change in any of these factors can produce induction."
+      "explanation": "Magnetic flux depends on magnetic field strength, surface area and the angle between the magnetic field and the normal to the surface. A change in any of these factors can produce induction."
     },
     {
       "heading": "Induced EMF",
@@ -63,7 +63,7 @@
         "Φ": "magnetic flux (Wb)",
         "B": "magnetic flux density (T)",
         "A": "area (m²)",
-        "θ": "angle between magnetic field and surface"
+        "θ": "angle between magnetic field and the normal to the surface"
       },
       "explanation": "Magnetic flux measures how much magnetic field passes through a surface. Maximum flux occurs when the field is perpendicular to the surface."
     },

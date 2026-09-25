@@ -1,4 +1,5 @@
-import { escapeHTML, slugify } from './utils.js';
+import { escapeHTML } from './utils.js';
+import { visualForLesson } from './visualRegistry.js';
 
 const configs = [
   { id: 'motion', title: 'Position–time', x: 'Time (s)', y: 'Position (m)', fn: x => 0.12 * x * x },
@@ -13,16 +14,15 @@ const graphRegistry = new Map();
 let graphSequence = 0;
 
 export function graphFor(lesson) {
-  const topic = slugify(`${lesson.title} ${lesson.topicLabel}`);
-  return configs.find(item =>
-    (item.id === 'shm' && /harmonic/.test(topic)) ||
-    (item.id === 'wave' && /wave/.test(topic)) ||
-    (item.id === 'field' && /electric|field/.test(topic)) ||
-    (item.id === 'thermal' && /thermal|gas|thermo/.test(topic)) ||
-    (item.id === 'decay' && /nuclear/.test(topic)) ||
-    (item.id === 'motion' && /kinematic|motion|force/.test(topic)) ||
-    item.id === 'motion'
-  );
+  const staticGraph = {
+    kinematics: 'motion',
+    'simple-harmonic-motion': 'shm',
+    'wave-properties': 'wave',
+    'thermal-physics': 'thermal',
+    'electric-fields': 'field',
+    'nuclear-physics': 'decay',
+  }[String(lesson?.slug || '').replace(/_/g, '-')];
+  return visualForLesson(lesson) && staticGraph ? configs.find(item => item.id === staticGraph) || null : null;
 }
 
 const PLOT = { left: 44, right: 314, top: 22, bottom: 168 };
@@ -89,9 +89,13 @@ function plot(config, scale = 1, pan = 0) {
   };
 }
 
-/** Kept for callers that only need the polyline string. */
-function graphPoints(config, scale = 1, pan = 0) {
-  return plot(config, scale, pan).points;
+function renderPlotParts(config, scale = 1, pan = 0) {
+  const calculated = plot(config, scale, pan);
+  return {
+    ...calculated,
+    grid: `${calculated.yTicks.map(t => `<line x1="${PLOT.left}" y1="${t.pos.toFixed(1)}" x2="${PLOT.right}" y2="${t.pos.toFixed(1)}"/>`).join('')}${calculated.xTicks.map(t => `<line x1="${t.pos.toFixed(1)}" y1="${PLOT.top}" x2="${t.pos.toFixed(1)}" y2="${PLOT.bottom}"/>`).join('')}`,
+    ticks: `${calculated.xTicks.map(t => `<text x="${t.pos.toFixed(1)}" y="${PLOT.bottom + 10}" text-anchor="middle">${escapeHTML(t.label)}</text>`).join('')}${calculated.yTicks.map(t => `<text x="${PLOT.left - 5}" y="${(t.pos + 2).toFixed(1)}" text-anchor="end">${escapeHTML(t.label)}</text>`).join('')}`,
+  };
 }
 
 function registerGraph(config) {
@@ -161,19 +165,17 @@ export function renderGraph(config) {
       </div>
     </div>
     ${(() => {
-      const { points, xTicks, yTicks } = plot(config);
+      const { points, grid, ticks } = renderPlotParts(config);
       return `<svg class="physics-graph" viewBox="0 0 330 205" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Interactive ${escapeHTML(config.title)} graph" tabindex="0">
       <g class="graph-grid">
-        ${yTicks.map(t => `<line x1="${PLOT.left}" y1="${t.pos.toFixed(1)}" x2="${PLOT.right}" y2="${t.pos.toFixed(1)}"/>`).join('')}
-        ${xTicks.map(t => `<line x1="${t.pos.toFixed(1)}" y1="${PLOT.top}" x2="${t.pos.toFixed(1)}" y2="${PLOT.bottom}"/>`).join('')}
+        ${grid}
       </g>
       <g class="graph-axis">
         <line x1="${PLOT.left}" y1="${PLOT.top}" x2="${PLOT.left}" y2="${PLOT.bottom}"/>
         <line x1="${PLOT.left}" y1="${PLOT.bottom}" x2="${PLOT.right}" y2="${PLOT.bottom}"/>
       </g>
       <g class="graph-ticks">
-        ${xTicks.map(t => `<text x="${t.pos.toFixed(1)}" y="${PLOT.bottom + 10}" text-anchor="middle">${escapeHTML(t.label)}</text>`).join('')}
-        ${yTicks.map(t => `<text x="${PLOT.left - 5}" y="${(t.pos + 2).toFixed(1)}" text-anchor="end">${escapeHTML(t.label)}</text>`).join('')}
+        ${ticks}
       </g>
       <polyline class="graph-line" points="${points}" stroke-linecap="round" stroke-linejoin="round"/>
       <circle class="graph-marker" r="3.4" aria-hidden="true"/>
@@ -303,7 +305,12 @@ export function bindGraphs() {
     };
     const redraw = () => {
       stop();
-      line.setAttribute('points', graphPoints(config, scale, pan));
+      const current = renderPlotParts(config, scale, pan);
+      line.setAttribute('points', current.points);
+      card.querySelector('.graph-grid').innerHTML = current.grid;
+      card.querySelector('.graph-ticks').innerHTML = current.ticks;
+      card.querySelectorAll('.graph-axis-title')[0].textContent = axisTitle(config.x);
+      card.querySelectorAll('.graph-axis-title')[1].textContent = axisTitle(config.y);
       line.style.strokeDasharray = 'none';
       line.style.strokeDashoffset = '0';
       animationElapsed = 0;

@@ -87,7 +87,7 @@ const adminUI = fs.readFileSync(path.join(ROOT, 'js/adminUI.js'), 'utf8');
 assert.match(adminUI, /user\.role === 'admin'[\s\S]*?>Owner</,
   'the owner must be labelled as Owner instead of falling back to the Student option');
 
-const adminMigration = fs.readFileSync(path.join(ROOT, 'supabase/migrations/20260921_admin_rpc.sql'), 'utf8');
+const adminMigration = fs.readFileSync(path.join(ROOT, 'supabase/migrations/202609210003_admin_rpc.sql'), 'utf8');
 assert.match(adminMigration, /Administrators can manage account roles and aggregate account metadata/i);
 assert.match(adminMigration, /u\.email::text/i,
   'admin account rows must match the RPC text return type');

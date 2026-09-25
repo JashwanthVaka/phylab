@@ -13,32 +13,22 @@ async function context() {
 }
 
 async function teacherClass(supabase, row) {
-  const [{ data: memberships, error: memberError }, { data: assignments, error: assignmentError }] = await Promise.all([
-    supabase.from('class_memberships').select('user_id,created_at').eq('class_id', row.id),
+  const [{ data: summaries, error: summaryError }, { data: assignments, error: assignmentError }] = await Promise.all([
+    supabase.rpc('teacher_student_summaries', { p_class_id: row.id }),
     supabase.from('assignments').select('*').eq('class_id', row.id).order('created_at', { ascending: false }),
   ]);
-  if (memberError) fail(memberError);
+  if (summaryError) fail(summaryError);
   if (assignmentError) fail(assignmentError);
-  const ids = (memberships || []).map(item => item.user_id);
-  if (!ids.length) return { ...row, students: [], assignments: assignments || [] };
-  const [{ data: profiles, error: profileError }, { data: progress, error: progressError }, { data: mastery, error: masteryError }] = await Promise.all([
-    supabase.from('profiles').select('id,display_name').in('id', ids),
-    supabase.from('lesson_progress').select('user_id,completion_percentage').in('user_id', ids),
-    supabase.from('topic_mastery').select('user_id,mastery_score,attempt_count').in('user_id', ids),
-  ]);
-  if (profileError) fail(profileError);
-  if (progressError) fail(progressError);
-  if (masteryError) fail(masteryError);
-  const students = ids.map(id => {
-    const lessons = (progress || []).filter(item => item.user_id === id);
-    const topics = (mastery || []).filter(item => item.user_id === id && Number(item.attempt_count) > 0);
-    return {
-      id,
-      name: profiles?.find(item => item.id === id)?.display_name || 'Learner',
-      lessonsCompleted: lessons.filter(item => Number(item.completion_percentage) >= 100).length,
-      mastery: topics.length ? Math.round(topics.reduce((sum, item) => sum + Number(item.mastery_score || 0), 0) / topics.length) : null,
-    };
-  });
+  const students = (summaries || []).map(item => ({
+    id: item.student_id,
+    name: item.display_name || 'Learner',
+    lessonsCompleted: Number(item.lessons_completed || 0),
+    mastery: item.assessed_mastery_average == null ? null : Math.round(Number(item.assessed_mastery_average)),
+    assessedTopics: Number(item.assessed_topic_count || 0),
+    quizAttempts: Number(item.quiz_attempt_count || 0),
+    quizAwardedMarks: Number(item.quiz_awarded_marks || 0),
+    quizMaximumMarks: Number(item.quiz_maximum_marks || 0),
+  }));
   return { ...row, students, assignments: assignments || [] };
 }
 

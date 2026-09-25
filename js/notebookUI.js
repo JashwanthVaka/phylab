@@ -13,6 +13,17 @@ export function saveNotebookItem(item) {
   return rows[0];
 }
 
+export function personalFlashcards() {
+  return read().filter(row => row.type === 'flashcard' && row.title && (row.back || row.body)).map(row => ({
+    id: `personal:${row.id}`,
+    front: row.title,
+    back: row.back || row.body,
+    lessonTitle: row.topic || 'Personal notebook',
+    lessonSlug: '',
+    personal: true,
+  }));
+}
+
 export function notebookPage() {
   const rows = read();
   return `<section class="page notebook-page">

@@ -91,7 +91,10 @@ Object.assign(physics, {
     if (!finite(f, vSource, vObserver, vSound) || f <= 0 || vSound <= 0) return null;
     if (vSource >= vSound) return null; // at or above the sound speed the model breaks down
     const observed = (f * (vSound + vObserver)) / (vSound - vSource);
-    return { observed, shift: observed - f, wavelength: vSound / observed };
+    // Source motion changes wavelength in the medium. Observer motion changes
+    // how frequently the already-spaced wavefronts are encountered, not their
+    // separation in the air.
+    return { observed, shift: observed - f, wavelength: (vSound - vSource) / f };
   },
 
   /** Circular orbit under gravity, and the escape speed from the same radius. */

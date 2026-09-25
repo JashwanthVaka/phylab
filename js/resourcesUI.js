@@ -76,6 +76,11 @@ export function resourcesPage(index) {
       <div class="resource-coverage__grid">${coverage.map(unit => `<a href="/library#unit-${escapeHTML(unit.id)}" data-route data-unit="${escapeHTML(unit.id)}">
         <span>Unit ${escapeHTML(unit.id)}</span><b>${escapeHTML(unit.title)}</b><small>${unit.lessons} lessons · ${unit.questions} questions</small>
       </a>`).join('')}</div>
+      <div class="offline-packs">
+        <div><h3>Offline lesson packs</h3><p class="muted">Save one unit’s original KINETIQ lessons to this browser. Account data and KIT answers are never placed in the shared offline cache.</p></div>
+        <div class="offline-packs__actions">${units.map(unit => `<button class="outline" type="button" data-offline-pack="${escapeHTML(unit.id)}" data-offline-lessons="${lessons.filter(lesson => lesson.unit === unit.id).map(lesson => escapeHTML(lesson.slug)).join(',')}">Save Unit ${escapeHTML(unit.id)}</button>`).join('')}</div>
+        <p class="muted" role="status" data-offline-status></p>
+      </div>
     </section>
 
     <div class="resource-filters" role="group" aria-label="Filter resources by source">
@@ -107,6 +112,30 @@ export function bindResources() {
   const cards = [...page.querySelectorAll('[data-resource-card]')];
   const status = page.querySelector('[data-resource-filter-status]');
   const controller = new AbortController();
+  const offlineStatus = page.querySelector('[data-offline-status]');
+  const onWorkerMessage = event => {
+    if (event.data?.type !== 'KINETIQ_CACHE_COMPLETE' || !offlineStatus) return;
+    offlineStatus.textContent = event.data.saved === event.data.requested
+      ? 'Offline pack saved on this device.'
+      : `Saved ${event.data.saved} of ${event.data.requested} pack files. Reconnect and try again to finish.`;
+  };
+  navigator.serviceWorker?.addEventListener('message', onWorkerMessage, { signal: controller.signal });
+  page.querySelectorAll('[data-offline-pack]').forEach(button => button.addEventListener('click', async () => {
+    if (!('serviceWorker' in navigator)) {
+      if (offlineStatus) offlineStatus.textContent = 'Offline packs are not supported by this browser.';
+      return;
+    }
+    const registration = await navigator.serviceWorker.ready.catch(() => null);
+    const worker = navigator.serviceWorker.controller || registration?.active;
+    if (!worker) {
+      if (offlineStatus) offlineStatus.textContent = 'Offline support is still starting. Try again in a moment.';
+      return;
+    }
+    button.disabled = true;
+    if (offlineStatus) offlineStatus.textContent = `Saving Unit ${button.dataset.offlinePack}…`;
+    worker.postMessage({ type: 'KINETIQ_CACHE_LESSONS', slugs: button.dataset.offlineLessons.split(',').filter(Boolean) });
+    window.setTimeout(() => { button.disabled = false; }, 1600);
+  }, { signal: controller.signal }));
   page.querySelectorAll('[data-resource-filter]').forEach(button => button.addEventListener('click', () => {
     const filter = button.dataset.resourceFilter;
     page.querySelectorAll('[data-resource-filter]').forEach(item => {

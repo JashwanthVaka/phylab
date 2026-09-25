@@ -7827,83 +7827,6 @@
     "lastReviewed": "2026-09-22"
   },
   {
-    "id": "kb-atomic-physics-data-repeats",
-    "topic": "Atomic Physics",
-    "subtopic": "The Alpha-Scattering Experiment: repeated measurements",
-    "level": "SL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "During an investigation of The Alpha-Scattering Experiment, a learner obtains three readings: 2.0, 2.1 and 1.9 in the recorded unit. Explain why repeated readings and their mean are preferable to using only the first reading.",
-    "answer": "Repeating readings helps identify variation and reduces random uncertainty; the mean is 2.0 in the recorded unit.",
-    "markScheme": [
-      "random uncertainty",
-      "mean"
-    ],
-    "solution": "Repeated measurements reveal the spread caused by random variation. Their arithmetic mean is (2.0 + 2.1 + 1.9) / 3 = 2.0, which is a more reliable estimate than one reading.",
-    "lessonReferences": [
-      "atomic-physics"
-    ],
-    "tags": [
-      "data-analysis",
-      "uncertainty",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "uncertainty-evaluation"
-    ],
-    "criteria": [
-      "random-uncertainty",
-      "mean-value"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
-    "id": "kb-atomic-physics-data-gradient",
-    "topic": "Atomic Physics",
-    "subtopic": "The Alpha-Scattering Experiment: graph interpretation",
-    "level": "SL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "A graph used to investigate The Alpha-Scattering Experiment contains the points (1.0, 2.0), (2.0, 4.0) and (3.0, 6.0). Calculate the gradient and state what the straight line through the origin shows about the two plotted quantities.",
-    "answer": "Gradient = 2.0; the plotted quantities are directly proportional.",
-    "markScheme": [
-      "2",
-      "directly proportional"
-    ],
-    "solution": "Gradient = change in y / change in x = (6.0 - 2.0) / (3.0 - 1.0) = 2.0. A straight line through the origin is evidence of direct proportionality over the measured range.",
-    "lessonReferences": [
-      "atomic-physics"
-    ],
-    "tags": [
-      "data-analysis",
-      "graphs",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "gradient",
-      "proportional-reasoning"
-    ],
-    "criteria": [
-      "gradient",
-      "relationship"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
     "id": "kb-current-and-circuits-definition-1",
     "topic": "Current and Circuits",
     "subtopic": "Electric Current",
@@ -8501,83 +8424,6 @@
     "lastReviewed": "2026-09-22"
   },
   {
-    "id": "kb-current-and-circuits-data-repeats",
-    "topic": "Current and Circuits",
-    "subtopic": "Charge Flow and Drift: repeated measurements",
-    "level": "SL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "During an investigation of Charge Flow and Drift, a learner obtains three readings: 2.0, 2.1 and 1.9 in the recorded unit. Explain why repeated readings and their mean are preferable to using only the first reading.",
-    "answer": "Repeating readings helps identify variation and reduces random uncertainty; the mean is 2.0 in the recorded unit.",
-    "markScheme": [
-      "random uncertainty",
-      "mean"
-    ],
-    "solution": "Repeated measurements reveal the spread caused by random variation. Their arithmetic mean is (2.0 + 2.1 + 1.9) / 3 = 2.0, which is a more reliable estimate than one reading.",
-    "lessonReferences": [
-      "current-and-circuits"
-    ],
-    "tags": [
-      "data-analysis",
-      "uncertainty",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "uncertainty-evaluation"
-    ],
-    "criteria": [
-      "random-uncertainty",
-      "mean-value"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
-    "id": "kb-current-and-circuits-data-gradient",
-    "topic": "Current and Circuits",
-    "subtopic": "Charge Flow and Drift: graph interpretation",
-    "level": "SL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "A graph used to investigate Charge Flow and Drift contains the points (1.0, 2.0), (2.0, 4.0) and (3.0, 6.0). Calculate the gradient and state what the straight line through the origin shows about the two plotted quantities.",
-    "answer": "Gradient = 2.0; the plotted quantities are directly proportional.",
-    "markScheme": [
-      "2",
-      "directly proportional"
-    ],
-    "solution": "Gradient = change in y / change in x = (6.0 - 2.0) / (3.0 - 1.0) = 2.0. A straight line through the origin is evidence of direct proportionality over the measured range.",
-    "lessonReferences": [
-      "current-and-circuits"
-    ],
-    "tags": [
-      "data-analysis",
-      "graphs",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "gradient",
-      "proportional-reasoning"
-    ],
-    "criteria": [
-      "gradient",
-      "relationship"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
     "id": "kb-doppler-effect-definition-1",
     "topic": "The Doppler Effect",
     "subtopic": "Doppler Effect",
@@ -8845,83 +8691,6 @@
     ],
     "criteria": [
       "selection"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
-    "id": "kb-doppler-effect-data-repeats",
-    "topic": "The Doppler Effect",
-    "subtopic": "The Wavefront Picture: repeated measurements",
-    "level": "SL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "During an investigation of The Wavefront Picture, a learner obtains three readings: 2.0, 2.1 and 1.9 in the recorded unit. Explain why repeated readings and their mean are preferable to using only the first reading.",
-    "answer": "Repeating readings helps identify variation and reduces random uncertainty; the mean is 2.0 in the recorded unit.",
-    "markScheme": [
-      "random uncertainty",
-      "mean"
-    ],
-    "solution": "Repeated measurements reveal the spread caused by random variation. Their arithmetic mean is (2.0 + 2.1 + 1.9) / 3 = 2.0, which is a more reliable estimate than one reading.",
-    "lessonReferences": [
-      "doppler-effect"
-    ],
-    "tags": [
-      "data-analysis",
-      "uncertainty",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "uncertainty-evaluation"
-    ],
-    "criteria": [
-      "random-uncertainty",
-      "mean-value"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
-    "id": "kb-doppler-effect-data-gradient",
-    "topic": "The Doppler Effect",
-    "subtopic": "The Wavefront Picture: graph interpretation",
-    "level": "SL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "A graph used to investigate The Wavefront Picture contains the points (1.0, 2.0), (2.0, 4.0) and (3.0, 6.0). Calculate the gradient and state what the straight line through the origin shows about the two plotted quantities.",
-    "answer": "Gradient = 2.0; the plotted quantities are directly proportional.",
-    "markScheme": [
-      "2",
-      "directly proportional"
-    ],
-    "solution": "Gradient = change in y / change in x = (6.0 - 2.0) / (3.0 - 1.0) = 2.0. A straight line through the origin is evidence of direct proportionality over the measured range.",
-    "lessonReferences": [
-      "doppler-effect"
-    ],
-    "tags": [
-      "data-analysis",
-      "graphs",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "gradient",
-      "proportional-reasoning"
-    ],
-    "criteria": [
-      "gradient",
-      "relationship"
     ],
     "sourceType": "original-kinetiq",
     "author": "KINETIQ Content Team",
@@ -9363,83 +9132,6 @@
     "lastReviewed": "2026-09-22"
   },
   {
-    "id": "kb-electric-fields-data-repeats",
-    "topic": "Electric Fields",
-    "subtopic": "Electric Field Interaction: repeated measurements",
-    "level": "SL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "During an investigation of Electric Field Interaction, a learner obtains three readings: 2.0, 2.1 and 1.9 in the recorded unit. Explain why repeated readings and their mean are preferable to using only the first reading.",
-    "answer": "Repeating readings helps identify variation and reduces random uncertainty; the mean is 2.0 in the recorded unit.",
-    "markScheme": [
-      "random uncertainty",
-      "mean"
-    ],
-    "solution": "Repeated measurements reveal the spread caused by random variation. Their arithmetic mean is (2.0 + 2.1 + 1.9) / 3 = 2.0, which is a more reliable estimate than one reading.",
-    "lessonReferences": [
-      "electric-fields"
-    ],
-    "tags": [
-      "data-analysis",
-      "uncertainty",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "uncertainty-evaluation"
-    ],
-    "criteria": [
-      "random-uncertainty",
-      "mean-value"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
-    "id": "kb-electric-fields-data-gradient",
-    "topic": "Electric Fields",
-    "subtopic": "Electric Field Interaction: graph interpretation",
-    "level": "SL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "A graph used to investigate Electric Field Interaction contains the points (1.0, 2.0), (2.0, 4.0) and (3.0, 6.0). Calculate the gradient and state what the straight line through the origin shows about the two plotted quantities.",
-    "answer": "Gradient = 2.0; the plotted quantities are directly proportional.",
-    "markScheme": [
-      "2",
-      "directly proportional"
-    ],
-    "solution": "Gradient = change in y / change in x = (6.0 - 2.0) / (3.0 - 1.0) = 2.0. A straight line through the origin is evidence of direct proportionality over the measured range.",
-    "lessonReferences": [
-      "electric-fields"
-    ],
-    "tags": [
-      "data-analysis",
-      "graphs",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "gradient",
-      "proportional-reasoning"
-    ],
-    "criteria": [
-      "gradient",
-      "relationship"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
     "id": "kb-electromagnetic-induction-definition-1",
     "topic": "Electromagnetic Induction",
     "subtopic": "Electromagnetic Induction",
@@ -9832,83 +9524,6 @@
     "lastReviewed": "2026-09-22"
   },
   {
-    "id": "kb-electromagnetic-induction-data-repeats",
-    "topic": "Electromagnetic Induction",
-    "subtopic": "Magnetic Flux: repeated measurements",
-    "level": "HL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "During an investigation of Magnetic Flux, a learner obtains three readings: 2.0, 2.1 and 1.9 in the recorded unit. Explain why repeated readings and their mean are preferable to using only the first reading.",
-    "answer": "Repeating readings helps identify variation and reduces random uncertainty; the mean is 2.0 in the recorded unit.",
-    "markScheme": [
-      "random uncertainty",
-      "mean"
-    ],
-    "solution": "Repeated measurements reveal the spread caused by random variation. Their arithmetic mean is (2.0 + 2.1 + 1.9) / 3 = 2.0, which is a more reliable estimate than one reading.",
-    "lessonReferences": [
-      "electromagnetic-induction"
-    ],
-    "tags": [
-      "data-analysis",
-      "uncertainty",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "uncertainty-evaluation"
-    ],
-    "criteria": [
-      "random-uncertainty",
-      "mean-value"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
-    "id": "kb-electromagnetic-induction-data-gradient",
-    "topic": "Electromagnetic Induction",
-    "subtopic": "Magnetic Flux: graph interpretation",
-    "level": "HL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "A graph used to investigate Magnetic Flux contains the points (1.0, 2.0), (2.0, 4.0) and (3.0, 6.0). Calculate the gradient and state what the straight line through the origin shows about the two plotted quantities.",
-    "answer": "Gradient = 2.0; the plotted quantities are directly proportional.",
-    "markScheme": [
-      "2",
-      "directly proportional"
-    ],
-    "solution": "Gradient = change in y / change in x = (6.0 - 2.0) / (3.0 - 1.0) = 2.0. A straight line through the origin is evidence of direct proportionality over the measured range.",
-    "lessonReferences": [
-      "electromagnetic-induction"
-    ],
-    "tags": [
-      "data-analysis",
-      "graphs",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "gradient",
-      "proportional-reasoning"
-    ],
-    "criteria": [
-      "gradient",
-      "relationship"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
     "id": "kb-electromagnetic-waves-definition-1",
     "topic": "Electromagnetic Waves",
     "subtopic": "Electromagnetic Wave",
@@ -10252,83 +9867,6 @@
     ],
     "criteria": [
       "selection"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
-    "id": "kb-electromagnetic-waves-data-repeats",
-    "topic": "Electromagnetic Waves",
-    "subtopic": "Nature of Electromagnetic Waves: repeated measurements",
-    "level": "SL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "During an investigation of Nature of Electromagnetic Waves, a learner obtains three readings: 2.0, 2.1 and 1.9 in the recorded unit. Explain why repeated readings and their mean are preferable to using only the first reading.",
-    "answer": "Repeating readings helps identify variation and reduces random uncertainty; the mean is 2.0 in the recorded unit.",
-    "markScheme": [
-      "random uncertainty",
-      "mean"
-    ],
-    "solution": "Repeated measurements reveal the spread caused by random variation. Their arithmetic mean is (2.0 + 2.1 + 1.9) / 3 = 2.0, which is a more reliable estimate than one reading.",
-    "lessonReferences": [
-      "electromagnetic-waves"
-    ],
-    "tags": [
-      "data-analysis",
-      "uncertainty",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "uncertainty-evaluation"
-    ],
-    "criteria": [
-      "random-uncertainty",
-      "mean-value"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
-    "id": "kb-electromagnetic-waves-data-gradient",
-    "topic": "Electromagnetic Waves",
-    "subtopic": "Nature of Electromagnetic Waves: graph interpretation",
-    "level": "SL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "A graph used to investigate Nature of Electromagnetic Waves contains the points (1.0, 2.0), (2.0, 4.0) and (3.0, 6.0). Calculate the gradient and state what the straight line through the origin shows about the two plotted quantities.",
-    "answer": "Gradient = 2.0; the plotted quantities are directly proportional.",
-    "markScheme": [
-      "2",
-      "directly proportional"
-    ],
-    "solution": "Gradient = change in y / change in x = (6.0 - 2.0) / (3.0 - 1.0) = 2.0. A straight line through the origin is evidence of direct proportionality over the measured range.",
-    "lessonReferences": [
-      "electromagnetic-waves"
-    ],
-    "tags": [
-      "data-analysis",
-      "graphs",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "gradient",
-      "proportional-reasoning"
-    ],
-    "criteria": [
-      "gradient",
-      "relationship"
     ],
     "sourceType": "original-kinetiq",
     "author": "KINETIQ Content Team",
@@ -10762,83 +10300,6 @@
     ],
     "criteria": [
       "selection"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
-    "id": "kb-energy-data-repeats",
-    "topic": "Work, Energy and Power",
-    "subtopic": "Energy Transfer: repeated measurements",
-    "level": "SL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "During an investigation of Energy Transfer, a learner obtains three readings: 2.0, 2.1 and 1.9 in the recorded unit. Explain why repeated readings and their mean are preferable to using only the first reading.",
-    "answer": "Repeating readings helps identify variation and reduces random uncertainty; the mean is 2.0 in the recorded unit.",
-    "markScheme": [
-      "random uncertainty",
-      "mean"
-    ],
-    "solution": "Repeated measurements reveal the spread caused by random variation. Their arithmetic mean is (2.0 + 2.1 + 1.9) / 3 = 2.0, which is a more reliable estimate than one reading.",
-    "lessonReferences": [
-      "energy"
-    ],
-    "tags": [
-      "data-analysis",
-      "uncertainty",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "uncertainty-evaluation"
-    ],
-    "criteria": [
-      "random-uncertainty",
-      "mean-value"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
-    "id": "kb-energy-data-gradient",
-    "topic": "Work, Energy and Power",
-    "subtopic": "Energy Transfer: graph interpretation",
-    "level": "SL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "A graph used to investigate Energy Transfer contains the points (1.0, 2.0), (2.0, 4.0) and (3.0, 6.0). Calculate the gradient and state what the straight line through the origin shows about the two plotted quantities.",
-    "answer": "Gradient = 2.0; the plotted quantities are directly proportional.",
-    "markScheme": [
-      "2",
-      "directly proportional"
-    ],
-    "solution": "Gradient = change in y / change in x = (6.0 - 2.0) / (3.0 - 1.0) = 2.0. A straight line through the origin is evidence of direct proportionality over the measured range.",
-    "lessonReferences": [
-      "energy"
-    ],
-    "tags": [
-      "data-analysis",
-      "graphs",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "gradient",
-      "proportional-reasoning"
-    ],
-    "criteria": [
-      "gradient",
-      "relationship"
     ],
     "sourceType": "original-kinetiq",
     "author": "KINETIQ Content Team",
@@ -11362,83 +10823,6 @@
     "lastReviewed": "2026-09-22"
   },
   {
-    "id": "kb-fields-data-repeats",
-    "topic": "Gravitation",
-    "subtopic": "Field Interactions: repeated measurements",
-    "level": "SL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "During an investigation of Field Interactions, a learner obtains three readings: 2.0, 2.1 and 1.9 in the recorded unit. Explain why repeated readings and their mean are preferable to using only the first reading.",
-    "answer": "Repeating readings helps identify variation and reduces random uncertainty; the mean is 2.0 in the recorded unit.",
-    "markScheme": [
-      "random uncertainty",
-      "mean"
-    ],
-    "solution": "Repeated measurements reveal the spread caused by random variation. Their arithmetic mean is (2.0 + 2.1 + 1.9) / 3 = 2.0, which is a more reliable estimate than one reading.",
-    "lessonReferences": [
-      "fields"
-    ],
-    "tags": [
-      "data-analysis",
-      "uncertainty",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "uncertainty-evaluation"
-    ],
-    "criteria": [
-      "random-uncertainty",
-      "mean-value"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
-    "id": "kb-fields-data-gradient",
-    "topic": "Gravitation",
-    "subtopic": "Field Interactions: graph interpretation",
-    "level": "SL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "A graph used to investigate Field Interactions contains the points (1.0, 2.0), (2.0, 4.0) and (3.0, 6.0). Calculate the gradient and state what the straight line through the origin shows about the two plotted quantities.",
-    "answer": "Gradient = 2.0; the plotted quantities are directly proportional.",
-    "markScheme": [
-      "2",
-      "directly proportional"
-    ],
-    "solution": "Gradient = change in y / change in x = (6.0 - 2.0) / (3.0 - 1.0) = 2.0. A straight line through the origin is evidence of direct proportionality over the measured range.",
-    "lessonReferences": [
-      "fields"
-    ],
-    "tags": [
-      "data-analysis",
-      "graphs",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "gradient",
-      "proportional-reasoning"
-    ],
-    "criteria": [
-      "gradient",
-      "relationship"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
     "id": "kb-forces-definition-1",
     "topic": "Forces and Momentum",
     "subtopic": "Force",
@@ -11823,83 +11207,6 @@
     ],
     "criteria": [
       "selection"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
-    "id": "kb-forces-data-repeats",
-    "topic": "Forces and Momentum",
-    "subtopic": "Newton's First Law: repeated measurements",
-    "level": "SL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "During an investigation of Newton's First Law, a learner obtains three readings: 2.0, 2.1 and 1.9 in the recorded unit. Explain why repeated readings and their mean are preferable to using only the first reading.",
-    "answer": "Repeating readings helps identify variation and reduces random uncertainty; the mean is 2.0 in the recorded unit.",
-    "markScheme": [
-      "random uncertainty",
-      "mean"
-    ],
-    "solution": "Repeated measurements reveal the spread caused by random variation. Their arithmetic mean is (2.0 + 2.1 + 1.9) / 3 = 2.0, which is a more reliable estimate than one reading.",
-    "lessonReferences": [
-      "forces"
-    ],
-    "tags": [
-      "data-analysis",
-      "uncertainty",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "uncertainty-evaluation"
-    ],
-    "criteria": [
-      "random-uncertainty",
-      "mean-value"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
-    "id": "kb-forces-data-gradient",
-    "topic": "Forces and Momentum",
-    "subtopic": "Newton's First Law: graph interpretation",
-    "level": "SL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "A graph used to investigate Newton's First Law contains the points (1.0, 2.0), (2.0, 4.0) and (3.0, 6.0). Calculate the gradient and state what the straight line through the origin shows about the two plotted quantities.",
-    "answer": "Gradient = 2.0; the plotted quantities are directly proportional.",
-    "markScheme": [
-      "2",
-      "directly proportional"
-    ],
-    "solution": "Gradient = change in y / change in x = (6.0 - 2.0) / (3.0 - 1.0) = 2.0. A straight line through the origin is evidence of direct proportionality over the measured range.",
-    "lessonReferences": [
-      "forces"
-    ],
-    "tags": [
-      "data-analysis",
-      "graphs",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "gradient",
-      "proportional-reasoning"
-    ],
-    "criteria": [
-      "gradient",
-      "relationship"
     ],
     "sourceType": "original-kinetiq",
     "author": "KINETIQ Content Team",
@@ -12382,83 +11689,6 @@
     "lastReviewed": "2026-09-22"
   },
   {
-    "id": "kb-gas-laws-data-repeats",
-    "topic": "Gas Laws",
-    "subtopic": "Kinetic Theory of Gases: repeated measurements",
-    "level": "SL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "During an investigation of Kinetic Theory of Gases, a learner obtains three readings: 2.0, 2.1 and 1.9 in the recorded unit. Explain why repeated readings and their mean are preferable to using only the first reading.",
-    "answer": "Repeating readings helps identify variation and reduces random uncertainty; the mean is 2.0 in the recorded unit.",
-    "markScheme": [
-      "random uncertainty",
-      "mean"
-    ],
-    "solution": "Repeated measurements reveal the spread caused by random variation. Their arithmetic mean is (2.0 + 2.1 + 1.9) / 3 = 2.0, which is a more reliable estimate than one reading.",
-    "lessonReferences": [
-      "gas-laws"
-    ],
-    "tags": [
-      "data-analysis",
-      "uncertainty",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "uncertainty-evaluation"
-    ],
-    "criteria": [
-      "random-uncertainty",
-      "mean-value"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
-    "id": "kb-gas-laws-data-gradient",
-    "topic": "Gas Laws",
-    "subtopic": "Kinetic Theory of Gases: graph interpretation",
-    "level": "SL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "A graph used to investigate Kinetic Theory of Gases contains the points (1.0, 2.0), (2.0, 4.0) and (3.0, 6.0). Calculate the gradient and state what the straight line through the origin shows about the two plotted quantities.",
-    "answer": "Gradient = 2.0; the plotted quantities are directly proportional.",
-    "markScheme": [
-      "2",
-      "directly proportional"
-    ],
-    "solution": "Gradient = change in y / change in x = (6.0 - 2.0) / (3.0 - 1.0) = 2.0. A straight line through the origin is evidence of direct proportionality over the measured range.",
-    "lessonReferences": [
-      "gas-laws"
-    ],
-    "tags": [
-      "data-analysis",
-      "graphs",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "gradient",
-      "proportional-reasoning"
-    ],
-    "criteria": [
-      "gradient",
-      "relationship"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
     "id": "kb-greenhouse-effect-definition-1",
     "topic": "Greenhouse Effect",
     "subtopic": "Greenhouse Effect",
@@ -12843,83 +12073,6 @@
     ],
     "criteria": [
       "selection"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
-    "id": "kb-greenhouse-effect-data-repeats",
-    "topic": "Greenhouse Effect",
-    "subtopic": "Energy Balance of Earth: repeated measurements",
-    "level": "SL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "During an investigation of Energy Balance of Earth, a learner obtains three readings: 2.0, 2.1 and 1.9 in the recorded unit. Explain why repeated readings and their mean are preferable to using only the first reading.",
-    "answer": "Repeating readings helps identify variation and reduces random uncertainty; the mean is 2.0 in the recorded unit.",
-    "markScheme": [
-      "random uncertainty",
-      "mean"
-    ],
-    "solution": "Repeated measurements reveal the spread caused by random variation. Their arithmetic mean is (2.0 + 2.1 + 1.9) / 3 = 2.0, which is a more reliable estimate than one reading.",
-    "lessonReferences": [
-      "greenhouse-effect"
-    ],
-    "tags": [
-      "data-analysis",
-      "uncertainty",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "uncertainty-evaluation"
-    ],
-    "criteria": [
-      "random-uncertainty",
-      "mean-value"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
-    "id": "kb-greenhouse-effect-data-gradient",
-    "topic": "Greenhouse Effect",
-    "subtopic": "Energy Balance of Earth: graph interpretation",
-    "level": "SL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "A graph used to investigate Energy Balance of Earth contains the points (1.0, 2.0), (2.0, 4.0) and (3.0, 6.0). Calculate the gradient and state what the straight line through the origin shows about the two plotted quantities.",
-    "answer": "Gradient = 2.0; the plotted quantities are directly proportional.",
-    "markScheme": [
-      "2",
-      "directly proportional"
-    ],
-    "solution": "Gradient = change in y / change in x = (6.0 - 2.0) / (3.0 - 1.0) = 2.0. A straight line through the origin is evidence of direct proportionality over the measured range.",
-    "lessonReferences": [
-      "greenhouse-effect"
-    ],
-    "tags": [
-      "data-analysis",
-      "graphs",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "gradient",
-      "proportional-reasoning"
-    ],
-    "criteria": [
-      "gradient",
-      "relationship"
     ],
     "sourceType": "original-kinetiq",
     "author": "KINETIQ Content Team",
@@ -13402,83 +12555,6 @@
     "lastReviewed": "2026-09-22"
   },
   {
-    "id": "kb-kinematics-data-repeats",
-    "topic": "Kinematics",
-    "subtopic": "Distance and Displacement: repeated measurements",
-    "level": "SL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "During an investigation of Distance and Displacement, a learner obtains three readings: 2.0, 2.1 and 1.9 in the recorded unit. Explain why repeated readings and their mean are preferable to using only the first reading.",
-    "answer": "Repeating readings helps identify variation and reduces random uncertainty; the mean is 2.0 in the recorded unit.",
-    "markScheme": [
-      "random uncertainty",
-      "mean"
-    ],
-    "solution": "Repeated measurements reveal the spread caused by random variation. Their arithmetic mean is (2.0 + 2.1 + 1.9) / 3 = 2.0, which is a more reliable estimate than one reading.",
-    "lessonReferences": [
-      "kinematics"
-    ],
-    "tags": [
-      "data-analysis",
-      "uncertainty",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "uncertainty-evaluation"
-    ],
-    "criteria": [
-      "random-uncertainty",
-      "mean-value"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
-    "id": "kb-kinematics-data-gradient",
-    "topic": "Kinematics",
-    "subtopic": "Distance and Displacement: graph interpretation",
-    "level": "SL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "A graph used to investigate Distance and Displacement contains the points (1.0, 2.0), (2.0, 4.0) and (3.0, 6.0). Calculate the gradient and state what the straight line through the origin shows about the two plotted quantities.",
-    "answer": "Gradient = 2.0; the plotted quantities are directly proportional.",
-    "markScheme": [
-      "2",
-      "directly proportional"
-    ],
-    "solution": "Gradient = change in y / change in x = (6.0 - 2.0) / (3.0 - 1.0) = 2.0. A straight line through the origin is evidence of direct proportionality over the measured range.",
-    "lessonReferences": [
-      "kinematics"
-    ],
-    "tags": [
-      "data-analysis",
-      "graphs",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "gradient",
-      "proportional-reasoning"
-    ],
-    "criteria": [
-      "gradient",
-      "relationship"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
     "id": "kb-magnetic-fields-definition-1",
     "topic": "Magnetic Fields",
     "subtopic": "Magnetic Field",
@@ -13822,83 +12898,6 @@
     ],
     "criteria": [
       "selection"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
-    "id": "kb-magnetic-fields-data-repeats",
-    "topic": "Magnetic Fields",
-    "subtopic": "Magnetic Field Sources: repeated measurements",
-    "level": "SL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "During an investigation of Magnetic Field Sources, a learner obtains three readings: 2.0, 2.1 and 1.9 in the recorded unit. Explain why repeated readings and their mean are preferable to using only the first reading.",
-    "answer": "Repeating readings helps identify variation and reduces random uncertainty; the mean is 2.0 in the recorded unit.",
-    "markScheme": [
-      "random uncertainty",
-      "mean"
-    ],
-    "solution": "Repeated measurements reveal the spread caused by random variation. Their arithmetic mean is (2.0 + 2.1 + 1.9) / 3 = 2.0, which is a more reliable estimate than one reading.",
-    "lessonReferences": [
-      "magnetic-fields"
-    ],
-    "tags": [
-      "data-analysis",
-      "uncertainty",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "uncertainty-evaluation"
-    ],
-    "criteria": [
-      "random-uncertainty",
-      "mean-value"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
-    "id": "kb-magnetic-fields-data-gradient",
-    "topic": "Magnetic Fields",
-    "subtopic": "Magnetic Field Sources: graph interpretation",
-    "level": "SL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "A graph used to investigate Magnetic Field Sources contains the points (1.0, 2.0), (2.0, 4.0) and (3.0, 6.0). Calculate the gradient and state what the straight line through the origin shows about the two plotted quantities.",
-    "answer": "Gradient = 2.0; the plotted quantities are directly proportional.",
-    "markScheme": [
-      "2",
-      "directly proportional"
-    ],
-    "solution": "Gradient = change in y / change in x = (6.0 - 2.0) / (3.0 - 1.0) = 2.0. A straight line through the origin is evidence of direct proportionality over the measured range.",
-    "lessonReferences": [
-      "magnetic-fields"
-    ],
-    "tags": [
-      "data-analysis",
-      "graphs",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "gradient",
-      "proportional-reasoning"
-    ],
-    "criteria": [
-      "gradient",
-      "relationship"
     ],
     "sourceType": "original-kinetiq",
     "author": "KINETIQ Content Team",
@@ -14305,83 +13304,6 @@
     "lastReviewed": "2026-09-22"
   },
   {
-    "id": "kb-motion-in-fields-data-repeats",
-    "topic": "Motion in Electric and Magnetic Fields",
-    "subtopic": "Uniform Electric Field: A Parabola: repeated measurements",
-    "level": "SL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "During an investigation of Uniform Electric Field: A Parabola, a learner obtains three readings: 2.0, 2.1 and 1.9 in the recorded unit. Explain why repeated readings and their mean are preferable to using only the first reading.",
-    "answer": "Repeating readings helps identify variation and reduces random uncertainty; the mean is 2.0 in the recorded unit.",
-    "markScheme": [
-      "random uncertainty",
-      "mean"
-    ],
-    "solution": "Repeated measurements reveal the spread caused by random variation. Their arithmetic mean is (2.0 + 2.1 + 1.9) / 3 = 2.0, which is a more reliable estimate than one reading.",
-    "lessonReferences": [
-      "motion-in-fields"
-    ],
-    "tags": [
-      "data-analysis",
-      "uncertainty",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "uncertainty-evaluation"
-    ],
-    "criteria": [
-      "random-uncertainty",
-      "mean-value"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
-    "id": "kb-motion-in-fields-data-gradient",
-    "topic": "Motion in Electric and Magnetic Fields",
-    "subtopic": "Uniform Electric Field: A Parabola: graph interpretation",
-    "level": "SL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "A graph used to investigate Uniform Electric Field: A Parabola contains the points (1.0, 2.0), (2.0, 4.0) and (3.0, 6.0). Calculate the gradient and state what the straight line through the origin shows about the two plotted quantities.",
-    "answer": "Gradient = 2.0; the plotted quantities are directly proportional.",
-    "markScheme": [
-      "2",
-      "directly proportional"
-    ],
-    "solution": "Gradient = change in y / change in x = (6.0 - 2.0) / (3.0 - 1.0) = 2.0. A straight line through the origin is evidence of direct proportionality over the measured range.",
-    "lessonReferences": [
-      "motion-in-fields"
-    ],
-    "tags": [
-      "data-analysis",
-      "graphs",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "gradient",
-      "proportional-reasoning"
-    ],
-    "criteria": [
-      "gradient",
-      "relationship"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
     "id": "kb-nuclear-fission-definition-1",
     "topic": "Nuclear Fission",
     "subtopic": "Nuclear Fission",
@@ -14725,83 +13647,6 @@
     ],
     "criteria": [
       "selection"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
-    "id": "kb-nuclear-fission-data-repeats",
-    "topic": "Nuclear Fission",
-    "subtopic": "Why Fission Releases Energy: repeated measurements",
-    "level": "SL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "During an investigation of Why Fission Releases Energy, a learner obtains three readings: 2.0, 2.1 and 1.9 in the recorded unit. Explain why repeated readings and their mean are preferable to using only the first reading.",
-    "answer": "Repeating readings helps identify variation and reduces random uncertainty; the mean is 2.0 in the recorded unit.",
-    "markScheme": [
-      "random uncertainty",
-      "mean"
-    ],
-    "solution": "Repeated measurements reveal the spread caused by random variation. Their arithmetic mean is (2.0 + 2.1 + 1.9) / 3 = 2.0, which is a more reliable estimate than one reading.",
-    "lessonReferences": [
-      "nuclear-fission"
-    ],
-    "tags": [
-      "data-analysis",
-      "uncertainty",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "uncertainty-evaluation"
-    ],
-    "criteria": [
-      "random-uncertainty",
-      "mean-value"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
-    "id": "kb-nuclear-fission-data-gradient",
-    "topic": "Nuclear Fission",
-    "subtopic": "Why Fission Releases Energy: graph interpretation",
-    "level": "SL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "A graph used to investigate Why Fission Releases Energy contains the points (1.0, 2.0), (2.0, 4.0) and (3.0, 6.0). Calculate the gradient and state what the straight line through the origin shows about the two plotted quantities.",
-    "answer": "Gradient = 2.0; the plotted quantities are directly proportional.",
-    "markScheme": [
-      "2",
-      "directly proportional"
-    ],
-    "solution": "Gradient = change in y / change in x = (6.0 - 2.0) / (3.0 - 1.0) = 2.0. A straight line through the origin is evidence of direct proportionality over the measured range.",
-    "lessonReferences": [
-      "nuclear-fission"
-    ],
-    "tags": [
-      "data-analysis",
-      "graphs",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "gradient",
-      "proportional-reasoning"
-    ],
-    "criteria": [
-      "gradient",
-      "relationship"
     ],
     "sourceType": "original-kinetiq",
     "author": "KINETIQ Content Team",
@@ -15194,83 +14039,6 @@
     ],
     "criteria": [
       "selection"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
-    "id": "kb-nuclear-fusion-and-stars-data-repeats",
-    "topic": "Nuclear Fusion and Stars",
-    "subtopic": "Why Fusion Releases Energy: repeated measurements",
-    "level": "SL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "During an investigation of Why Fusion Releases Energy, a learner obtains three readings: 2.0, 2.1 and 1.9 in the recorded unit. Explain why repeated readings and their mean are preferable to using only the first reading.",
-    "answer": "Repeating readings helps identify variation and reduces random uncertainty; the mean is 2.0 in the recorded unit.",
-    "markScheme": [
-      "random uncertainty",
-      "mean"
-    ],
-    "solution": "Repeated measurements reveal the spread caused by random variation. Their arithmetic mean is (2.0 + 2.1 + 1.9) / 3 = 2.0, which is a more reliable estimate than one reading.",
-    "lessonReferences": [
-      "nuclear-fusion-and-stars"
-    ],
-    "tags": [
-      "data-analysis",
-      "uncertainty",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "uncertainty-evaluation"
-    ],
-    "criteria": [
-      "random-uncertainty",
-      "mean-value"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
-    "id": "kb-nuclear-fusion-and-stars-data-gradient",
-    "topic": "Nuclear Fusion and Stars",
-    "subtopic": "Why Fusion Releases Energy: graph interpretation",
-    "level": "SL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "A graph used to investigate Why Fusion Releases Energy contains the points (1.0, 2.0), (2.0, 4.0) and (3.0, 6.0). Calculate the gradient and state what the straight line through the origin shows about the two plotted quantities.",
-    "answer": "Gradient = 2.0; the plotted quantities are directly proportional.",
-    "markScheme": [
-      "2",
-      "directly proportional"
-    ],
-    "solution": "Gradient = change in y / change in x = (6.0 - 2.0) / (3.0 - 1.0) = 2.0. A straight line through the origin is evidence of direct proportionality over the measured range.",
-    "lessonReferences": [
-      "nuclear-fusion-and-stars"
-    ],
-    "tags": [
-      "data-analysis",
-      "graphs",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "gradient",
-      "proportional-reasoning"
-    ],
-    "criteria": [
-      "gradient",
-      "relationship"
     ],
     "sourceType": "original-kinetiq",
     "author": "KINETIQ Content Team",
@@ -15791,83 +14559,6 @@
     "lastReviewed": "2026-09-22"
   },
   {
-    "id": "kb-nuclear-physics-data-repeats",
-    "topic": "Nuclear Physics",
-    "subtopic": "Atomic Nucleus: repeated measurements",
-    "level": "SL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "During an investigation of Atomic Nucleus, a learner obtains three readings: 2.0, 2.1 and 1.9 in the recorded unit. Explain why repeated readings and their mean are preferable to using only the first reading.",
-    "answer": "Repeating readings helps identify variation and reduces random uncertainty; the mean is 2.0 in the recorded unit.",
-    "markScheme": [
-      "random uncertainty",
-      "mean"
-    ],
-    "solution": "Repeated measurements reveal the spread caused by random variation. Their arithmetic mean is (2.0 + 2.1 + 1.9) / 3 = 2.0, which is a more reliable estimate than one reading.",
-    "lessonReferences": [
-      "nuclear-physics"
-    ],
-    "tags": [
-      "data-analysis",
-      "uncertainty",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "uncertainty-evaluation"
-    ],
-    "criteria": [
-      "random-uncertainty",
-      "mean-value"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
-    "id": "kb-nuclear-physics-data-gradient",
-    "topic": "Nuclear Physics",
-    "subtopic": "Atomic Nucleus: graph interpretation",
-    "level": "SL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "A graph used to investigate Atomic Nucleus contains the points (1.0, 2.0), (2.0, 4.0) and (3.0, 6.0). Calculate the gradient and state what the straight line through the origin shows about the two plotted quantities.",
-    "answer": "Gradient = 2.0; the plotted quantities are directly proportional.",
-    "markScheme": [
-      "2",
-      "directly proportional"
-    ],
-    "solution": "Gradient = change in y / change in x = (6.0 - 2.0) / (3.0 - 1.0) = 2.0. A straight line through the origin is evidence of direct proportionality over the measured range.",
-    "lessonReferences": [
-      "nuclear-physics"
-    ],
-    "tags": [
-      "data-analysis",
-      "graphs",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "gradient",
-      "proportional-reasoning"
-    ],
-    "criteria": [
-      "gradient",
-      "relationship"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
     "id": "kb-quantum-physics-definition-1",
     "topic": "Quantum Physics",
     "subtopic": "Quantum",
@@ -16252,83 +14943,6 @@
     ],
     "criteria": [
       "selection"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
-    "id": "kb-quantum-physics-data-repeats",
-    "topic": "Quantum Physics",
-    "subtopic": "Quantisation of Energy: repeated measurements",
-    "level": "HL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "During an investigation of Quantisation of Energy, a learner obtains three readings: 2.0, 2.1 and 1.9 in the recorded unit. Explain why repeated readings and their mean are preferable to using only the first reading.",
-    "answer": "Repeating readings helps identify variation and reduces random uncertainty; the mean is 2.0 in the recorded unit.",
-    "markScheme": [
-      "random uncertainty",
-      "mean"
-    ],
-    "solution": "Repeated measurements reveal the spread caused by random variation. Their arithmetic mean is (2.0 + 2.1 + 1.9) / 3 = 2.0, which is a more reliable estimate than one reading.",
-    "lessonReferences": [
-      "quantum-physics"
-    ],
-    "tags": [
-      "data-analysis",
-      "uncertainty",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "uncertainty-evaluation"
-    ],
-    "criteria": [
-      "random-uncertainty",
-      "mean-value"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
-    "id": "kb-quantum-physics-data-gradient",
-    "topic": "Quantum Physics",
-    "subtopic": "Quantisation of Energy: graph interpretation",
-    "level": "HL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "A graph used to investigate Quantisation of Energy contains the points (1.0, 2.0), (2.0, 4.0) and (3.0, 6.0). Calculate the gradient and state what the straight line through the origin shows about the two plotted quantities.",
-    "answer": "Gradient = 2.0; the plotted quantities are directly proportional.",
-    "markScheme": [
-      "2",
-      "directly proportional"
-    ],
-    "solution": "Gradient = change in y / change in x = (6.0 - 2.0) / (3.0 - 1.0) = 2.0. A straight line through the origin is evidence of direct proportionality over the measured range.",
-    "lessonReferences": [
-      "quantum-physics"
-    ],
-    "tags": [
-      "data-analysis",
-      "graphs",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "gradient",
-      "proportional-reasoning"
-    ],
-    "criteria": [
-      "gradient",
-      "relationship"
     ],
     "sourceType": "original-kinetiq",
     "author": "KINETIQ Content Team",
@@ -16762,83 +15376,6 @@
     ],
     "criteria": [
       "selection"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
-    "id": "kb-relativity-data-repeats",
-    "topic": "Relativity",
-    "subtopic": "Why Relativity is Needed: repeated measurements",
-    "level": "HL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "During an investigation of Why Relativity is Needed, a learner obtains three readings: 2.0, 2.1 and 1.9 in the recorded unit. Explain why repeated readings and their mean are preferable to using only the first reading.",
-    "answer": "Repeating readings helps identify variation and reduces random uncertainty; the mean is 2.0 in the recorded unit.",
-    "markScheme": [
-      "random uncertainty",
-      "mean"
-    ],
-    "solution": "Repeated measurements reveal the spread caused by random variation. Their arithmetic mean is (2.0 + 2.1 + 1.9) / 3 = 2.0, which is a more reliable estimate than one reading.",
-    "lessonReferences": [
-      "relativity"
-    ],
-    "tags": [
-      "data-analysis",
-      "uncertainty",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "uncertainty-evaluation"
-    ],
-    "criteria": [
-      "random-uncertainty",
-      "mean-value"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
-    "id": "kb-relativity-data-gradient",
-    "topic": "Relativity",
-    "subtopic": "Why Relativity is Needed: graph interpretation",
-    "level": "HL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "A graph used to investigate Why Relativity is Needed contains the points (1.0, 2.0), (2.0, 4.0) and (3.0, 6.0). Calculate the gradient and state what the straight line through the origin shows about the two plotted quantities.",
-    "answer": "Gradient = 2.0; the plotted quantities are directly proportional.",
-    "markScheme": [
-      "2",
-      "directly proportional"
-    ],
-    "solution": "Gradient = change in y / change in x = (6.0 - 2.0) / (3.0 - 1.0) = 2.0. A straight line through the origin is evidence of direct proportionality over the measured range.",
-    "lessonReferences": [
-      "relativity"
-    ],
-    "tags": [
-      "data-analysis",
-      "graphs",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "gradient",
-      "proportional-reasoning"
-    ],
-    "criteria": [
-      "gradient",
-      "relationship"
     ],
     "sourceType": "original-kinetiq",
     "author": "KINETIQ Content Team",
@@ -17403,83 +15940,6 @@
     "lastReviewed": "2026-09-22"
   },
   {
-    "id": "kb-rigid-body-mechanics-data-repeats",
-    "topic": "Rigid Body Mechanics",
-    "subtopic": "Rotational Motion: repeated measurements",
-    "level": "HL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "During an investigation of Rotational Motion, a learner obtains three readings: 2.0, 2.1 and 1.9 in the recorded unit. Explain why repeated readings and their mean are preferable to using only the first reading.",
-    "answer": "Repeating readings helps identify variation and reduces random uncertainty; the mean is 2.0 in the recorded unit.",
-    "markScheme": [
-      "random uncertainty",
-      "mean"
-    ],
-    "solution": "Repeated measurements reveal the spread caused by random variation. Their arithmetic mean is (2.0 + 2.1 + 1.9) / 3 = 2.0, which is a more reliable estimate than one reading.",
-    "lessonReferences": [
-      "rigid-body-mechanics"
-    ],
-    "tags": [
-      "data-analysis",
-      "uncertainty",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "uncertainty-evaluation"
-    ],
-    "criteria": [
-      "random-uncertainty",
-      "mean-value"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
-    "id": "kb-rigid-body-mechanics-data-gradient",
-    "topic": "Rigid Body Mechanics",
-    "subtopic": "Rotational Motion: graph interpretation",
-    "level": "HL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "A graph used to investigate Rotational Motion contains the points (1.0, 2.0), (2.0, 4.0) and (3.0, 6.0). Calculate the gradient and state what the straight line through the origin shows about the two plotted quantities.",
-    "answer": "Gradient = 2.0; the plotted quantities are directly proportional.",
-    "markScheme": [
-      "2",
-      "directly proportional"
-    ],
-    "solution": "Gradient = change in y / change in x = (6.0 - 2.0) / (3.0 - 1.0) = 2.0. A straight line through the origin is evidence of direct proportionality over the measured range.",
-    "lessonReferences": [
-      "rigid-body-mechanics"
-    ],
-    "tags": [
-      "data-analysis",
-      "graphs",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "gradient",
-      "proportional-reasoning"
-    ],
-    "criteria": [
-      "gradient",
-      "relationship"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
     "id": "kb-simple-harmonic-motion-definition-1",
     "topic": "Simple Harmonic Motion",
     "subtopic": "Periodic Motion",
@@ -17992,83 +16452,6 @@
     "lastReviewed": "2026-09-22"
   },
   {
-    "id": "kb-simple-harmonic-motion-data-repeats",
-    "topic": "Simple Harmonic Motion",
-    "subtopic": "Conditions for Simple Harmonic Motion: repeated measurements",
-    "level": "SL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "During an investigation of Conditions for Simple Harmonic Motion, a learner obtains three readings: 2.0, 2.1 and 1.9 in the recorded unit. Explain why repeated readings and their mean are preferable to using only the first reading.",
-    "answer": "Repeating readings helps identify variation and reduces random uncertainty; the mean is 2.0 in the recorded unit.",
-    "markScheme": [
-      "random uncertainty",
-      "mean"
-    ],
-    "solution": "Repeated measurements reveal the spread caused by random variation. Their arithmetic mean is (2.0 + 2.1 + 1.9) / 3 = 2.0, which is a more reliable estimate than one reading.",
-    "lessonReferences": [
-      "simple-harmonic-motion"
-    ],
-    "tags": [
-      "data-analysis",
-      "uncertainty",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "uncertainty-evaluation"
-    ],
-    "criteria": [
-      "random-uncertainty",
-      "mean-value"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
-    "id": "kb-simple-harmonic-motion-data-gradient",
-    "topic": "Simple Harmonic Motion",
-    "subtopic": "Conditions for Simple Harmonic Motion: graph interpretation",
-    "level": "SL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "A graph used to investigate Conditions for Simple Harmonic Motion contains the points (1.0, 2.0), (2.0, 4.0) and (3.0, 6.0). Calculate the gradient and state what the straight line through the origin shows about the two plotted quantities.",
-    "answer": "Gradient = 2.0; the plotted quantities are directly proportional.",
-    "markScheme": [
-      "2",
-      "directly proportional"
-    ],
-    "solution": "Gradient = change in y / change in x = (6.0 - 2.0) / (3.0 - 1.0) = 2.0. A straight line through the origin is evidence of direct proportionality over the measured range.",
-    "lessonReferences": [
-      "simple-harmonic-motion"
-    ],
-    "tags": [
-      "data-analysis",
-      "graphs",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "gradient",
-      "proportional-reasoning"
-    ],
-    "criteria": [
-      "gradient",
-      "relationship"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
     "id": "kb-standing-waves-and-resonance-definition-1",
     "topic": "Standing Waves and Resonance",
     "subtopic": "Standing Wave",
@@ -18453,83 +16836,6 @@
     ],
     "criteria": [
       "selection"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
-    "id": "kb-standing-waves-and-resonance-data-repeats",
-    "topic": "Standing Waves and Resonance",
-    "subtopic": "How a Standing Wave Forms: repeated measurements",
-    "level": "SL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "During an investigation of How a Standing Wave Forms, a learner obtains three readings: 2.0, 2.1 and 1.9 in the recorded unit. Explain why repeated readings and their mean are preferable to using only the first reading.",
-    "answer": "Repeating readings helps identify variation and reduces random uncertainty; the mean is 2.0 in the recorded unit.",
-    "markScheme": [
-      "random uncertainty",
-      "mean"
-    ],
-    "solution": "Repeated measurements reveal the spread caused by random variation. Their arithmetic mean is (2.0 + 2.1 + 1.9) / 3 = 2.0, which is a more reliable estimate than one reading.",
-    "lessonReferences": [
-      "standing-waves-and-resonance"
-    ],
-    "tags": [
-      "data-analysis",
-      "uncertainty",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "uncertainty-evaluation"
-    ],
-    "criteria": [
-      "random-uncertainty",
-      "mean-value"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
-    "id": "kb-standing-waves-and-resonance-data-gradient",
-    "topic": "Standing Waves and Resonance",
-    "subtopic": "How a Standing Wave Forms: graph interpretation",
-    "level": "SL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "A graph used to investigate How a Standing Wave Forms contains the points (1.0, 2.0), (2.0, 4.0) and (3.0, 6.0). Calculate the gradient and state what the straight line through the origin shows about the two plotted quantities.",
-    "answer": "Gradient = 2.0; the plotted quantities are directly proportional.",
-    "markScheme": [
-      "2",
-      "directly proportional"
-    ],
-    "solution": "Gradient = change in y / change in x = (6.0 - 2.0) / (3.0 - 1.0) = 2.0. A straight line through the origin is evidence of direct proportionality over the measured range.",
-    "lessonReferences": [
-      "standing-waves-and-resonance"
-    ],
-    "tags": [
-      "data-analysis",
-      "graphs",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "gradient",
-      "proportional-reasoning"
-    ],
-    "criteria": [
-      "gradient",
-      "relationship"
     ],
     "sourceType": "original-kinetiq",
     "author": "KINETIQ Content Team",
@@ -18971,83 +17277,6 @@
     "lastReviewed": "2026-09-22"
   },
   {
-    "id": "kb-thermal-physics-data-repeats",
-    "topic": "Thermal Energy Transfers",
-    "subtopic": "Particle Model of Matter: repeated measurements",
-    "level": "SL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "During an investigation of Particle Model of Matter, a learner obtains three readings: 2.0, 2.1 and 1.9 in the recorded unit. Explain why repeated readings and their mean are preferable to using only the first reading.",
-    "answer": "Repeating readings helps identify variation and reduces random uncertainty; the mean is 2.0 in the recorded unit.",
-    "markScheme": [
-      "random uncertainty",
-      "mean"
-    ],
-    "solution": "Repeated measurements reveal the spread caused by random variation. Their arithmetic mean is (2.0 + 2.1 + 1.9) / 3 = 2.0, which is a more reliable estimate than one reading.",
-    "lessonReferences": [
-      "thermal-physics"
-    ],
-    "tags": [
-      "data-analysis",
-      "uncertainty",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "uncertainty-evaluation"
-    ],
-    "criteria": [
-      "random-uncertainty",
-      "mean-value"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
-    "id": "kb-thermal-physics-data-gradient",
-    "topic": "Thermal Energy Transfers",
-    "subtopic": "Particle Model of Matter: graph interpretation",
-    "level": "SL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "A graph used to investigate Particle Model of Matter contains the points (1.0, 2.0), (2.0, 4.0) and (3.0, 6.0). Calculate the gradient and state what the straight line through the origin shows about the two plotted quantities.",
-    "answer": "Gradient = 2.0; the plotted quantities are directly proportional.",
-    "markScheme": [
-      "2",
-      "directly proportional"
-    ],
-    "solution": "Gradient = change in y / change in x = (6.0 - 2.0) / (3.0 - 1.0) = 2.0. A straight line through the origin is evidence of direct proportionality over the measured range.",
-    "lessonReferences": [
-      "thermal-physics"
-    ],
-    "tags": [
-      "data-analysis",
-      "graphs",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "gradient",
-      "proportional-reasoning"
-    ],
-    "criteria": [
-      "gradient",
-      "relationship"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
     "id": "kb-thermodynamics-definition-1",
     "topic": "Thermodynamics",
     "subtopic": "Thermodynamic System",
@@ -19478,83 +17707,6 @@
     "lastReviewed": "2026-09-22"
   },
   {
-    "id": "kb-thermodynamics-data-repeats",
-    "topic": "Thermodynamics",
-    "subtopic": "Thermodynamic Systems: repeated measurements",
-    "level": "HL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "During an investigation of Thermodynamic Systems, a learner obtains three readings: 2.0, 2.1 and 1.9 in the recorded unit. Explain why repeated readings and their mean are preferable to using only the first reading.",
-    "answer": "Repeating readings helps identify variation and reduces random uncertainty; the mean is 2.0 in the recorded unit.",
-    "markScheme": [
-      "random uncertainty",
-      "mean"
-    ],
-    "solution": "Repeated measurements reveal the spread caused by random variation. Their arithmetic mean is (2.0 + 2.1 + 1.9) / 3 = 2.0, which is a more reliable estimate than one reading.",
-    "lessonReferences": [
-      "thermodynamics"
-    ],
-    "tags": [
-      "data-analysis",
-      "uncertainty",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "uncertainty-evaluation"
-    ],
-    "criteria": [
-      "random-uncertainty",
-      "mean-value"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
-    "id": "kb-thermodynamics-data-gradient",
-    "topic": "Thermodynamics",
-    "subtopic": "Thermodynamic Systems: graph interpretation",
-    "level": "HL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "A graph used to investigate Thermodynamic Systems contains the points (1.0, 2.0), (2.0, 4.0) and (3.0, 6.0). Calculate the gradient and state what the straight line through the origin shows about the two plotted quantities.",
-    "answer": "Gradient = 2.0; the plotted quantities are directly proportional.",
-    "markScheme": [
-      "2",
-      "directly proportional"
-    ],
-    "solution": "Gradient = change in y / change in x = (6.0 - 2.0) / (3.0 - 1.0) = 2.0. A straight line through the origin is evidence of direct proportionality over the measured range.",
-    "lessonReferences": [
-      "thermodynamics"
-    ],
-    "tags": [
-      "data-analysis",
-      "graphs",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "gradient",
-      "proportional-reasoning"
-    ],
-    "criteria": [
-      "gradient",
-      "relationship"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
     "id": "kb-wave-phenomena-definition-1",
     "topic": "Wave Phenomena",
     "subtopic": "Reflection",
@@ -19898,83 +18050,6 @@
     ],
     "criteria": [
       "selection"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
-    "id": "kb-wave-phenomena-data-repeats",
-    "topic": "Wave Phenomena",
-    "subtopic": "Reflection: repeated measurements",
-    "level": "SL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "During an investigation of Reflection, a learner obtains three readings: 2.0, 2.1 and 1.9 in the recorded unit. Explain why repeated readings and their mean are preferable to using only the first reading.",
-    "answer": "Repeating readings helps identify variation and reduces random uncertainty; the mean is 2.0 in the recorded unit.",
-    "markScheme": [
-      "random uncertainty",
-      "mean"
-    ],
-    "solution": "Repeated measurements reveal the spread caused by random variation. Their arithmetic mean is (2.0 + 2.1 + 1.9) / 3 = 2.0, which is a more reliable estimate than one reading.",
-    "lessonReferences": [
-      "wave-phenomena"
-    ],
-    "tags": [
-      "data-analysis",
-      "uncertainty",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "uncertainty-evaluation"
-    ],
-    "criteria": [
-      "random-uncertainty",
-      "mean-value"
-    ],
-    "sourceType": "original-kinetiq",
-    "author": "KINETIQ Content Team",
-    "reviewer": "KINETIQ Physics Review",
-    "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
-  },
-  {
-    "id": "kb-wave-phenomena-data-gradient",
-    "topic": "Wave Phenomena",
-    "subtopic": "Reflection: graph interpretation",
-    "level": "SL",
-    "difficulty": "medium",
-    "marks": 2,
-    "question": "A graph used to investigate Reflection contains the points (1.0, 2.0), (2.0, 4.0) and (3.0, 6.0). Calculate the gradient and state what the straight line through the origin shows about the two plotted quantities.",
-    "answer": "Gradient = 2.0; the plotted quantities are directly proportional.",
-    "markScheme": [
-      "2",
-      "directly proportional"
-    ],
-    "solution": "Gradient = change in y / change in x = (6.0 - 2.0) / (3.0 - 1.0) = 2.0. A straight line through the origin is evidence of direct proportionality over the measured range.",
-    "lessonReferences": [
-      "wave-phenomena"
-    ],
-    "tags": [
-      "data-analysis",
-      "graphs",
-      "structured",
-      "generated-from-reviewed-lesson"
-    ],
-    "paper": "1B",
-    "skills": [
-      "data-analysis",
-      "gradient",
-      "proportional-reasoning"
-    ],
-    "criteria": [
-      "gradient",
-      "relationship"
     ],
     "sourceType": "original-kinetiq",
     "author": "KINETIQ Content Team",
@@ -20331,80 +18406,1053 @@
     "lastReviewed": "2026-09-22"
   },
   {
-    "id": "kb-wave-properties-data-repeats",
-    "topic": "The Wave Model",
-    "subtopic": "Energy Transfer by Waves: repeated measurements",
+    "id": "p1b-reviewed-force-gradient-mass",
+    "topic": "Forces and Momentum",
+    "subtopic": "Data analysis and modelling",
     "level": "SL",
     "difficulty": "medium",
-    "marks": 2,
-    "question": "During an investigation of Energy Transfer by Waves, a learner obtains three readings: 2.0, 2.1 and 1.9 in the recorded unit. Explain why repeated readings and their mean are preferable to using only the first reading.",
-    "answer": "Repeating readings helps identify variation and reduces random uncertainty; the mean is 2.0 in the recorded unit.",
+    "marks": 3,
+    "question": "A graph of acceleration against resultant force is a straight line through the origin. The points (2.0 N, 1.0 m s^-2) and (8.0 N, 4.0 m s^-2) lie on the line. Use the gradient to determine the mass of the object.",
+    "answer": "2.0 kg",
+    "unit": "kg",
+    "tolerance": 0.05,
     "markScheme": [
-      "random uncertainty",
-      "mean"
+      "correct physics relationship",
+      "substitution or data interpretation",
+      "answer with appropriate unit"
     ],
-    "solution": "Repeated measurements reveal the spread caused by random variation. Their arithmetic mean is (2.0 + 2.1 + 1.9) / 3 = 2.0, which is a more reliable estimate than one reading.",
+    "solution": "The gradient a/F is (4.0 - 1.0)/(8.0 - 2.0) = 0.50 kg^-1. Since a = F/m, the gradient is 1/m, so m = 1/0.50 = 2.0 kg.",
     "lessonReferences": [
-      "wave-properties"
+      "forces"
     ],
     "tags": [
       "data-analysis",
-      "uncertainty",
-      "structured",
-      "generated-from-reviewed-lesson"
+      "original-kinetiq",
+      "paper-1b"
     ],
     "paper": "1B",
     "skills": [
       "data-analysis",
-      "uncertainty-evaluation"
+      "quantitative-reasoning",
+      "units"
     ],
     "criteria": [
-      "random-uncertainty",
-      "mean-value"
+      "relationship",
+      "working",
+      "value-and-unit"
     ],
     "sourceType": "original-kinetiq",
     "author": "KINETIQ Content Team",
     "reviewer": "KINETIQ Physics Review",
     "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
+    "lastReviewed": "2026-09-25"
   },
   {
-    "id": "kb-wave-properties-data-gradient",
-    "topic": "The Wave Model",
-    "subtopic": "Energy Transfer by Waves: graph interpretation",
+    "id": "p1b-reviewed-energy-force-area",
+    "topic": "Work, Energy and Power",
+    "subtopic": "Data analysis and modelling",
     "level": "SL",
     "difficulty": "medium",
-    "marks": 2,
-    "question": "A graph used to investigate Energy Transfer by Waves contains the points (1.0, 2.0), (2.0, 4.0) and (3.0, 6.0). Calculate the gradient and state what the straight line through the origin shows about the two plotted quantities.",
-    "answer": "Gradient = 2.0; the plotted quantities are directly proportional.",
+    "marks": 3,
+    "question": "A force-displacement graph rises linearly from 0 N at 0 m to 40 N at 0.50 m. Calculate the work done over this interval from the graph.",
+    "answer": "10 J",
+    "unit": "J",
+    "tolerance": 0.2,
     "markScheme": [
-      "2",
-      "directly proportional"
+      "correct physics relationship",
+      "substitution or data interpretation",
+      "answer with appropriate unit"
     ],
-    "solution": "Gradient = change in y / change in x = (6.0 - 2.0) / (3.0 - 1.0) = 2.0. A straight line through the origin is evidence of direct proportionality over the measured range.",
+    "solution": "Work is the area under the force-displacement graph. The triangular area is 1/2 x 0.50 x 40 = 10 J.",
     "lessonReferences": [
-      "wave-properties"
+      "energy"
     ],
     "tags": [
       "data-analysis",
-      "graphs",
-      "structured",
-      "generated-from-reviewed-lesson"
+      "original-kinetiq",
+      "paper-1b"
     ],
     "paper": "1B",
     "skills": [
       "data-analysis",
-      "gradient",
-      "proportional-reasoning"
+      "quantitative-reasoning",
+      "units"
     ],
     "criteria": [
-      "gradient",
-      "relationship"
+      "relationship",
+      "working",
+      "value-and-unit"
     ],
     "sourceType": "original-kinetiq",
     "author": "KINETIQ Content Team",
     "reviewer": "KINETIQ Physics Review",
     "reviewStatus": "reviewed",
-    "lastReviewed": "2026-09-22"
+    "lastReviewed": "2026-09-25"
+  },
+  {
+    "id": "p1b-reviewed-torque-gradient-arm",
+    "topic": "Rigid Body Mechanics",
+    "subtopic": "Data analysis and modelling",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "A graph of torque against perpendicular force gives the points (10 N, 2.0 N m) and (30 N, 6.0 N m). Determine the perpendicular distance from the pivot.",
+    "answer": "0.20 m",
+    "unit": "m",
+    "tolerance": 0.01,
+    "markScheme": [
+      "correct physics relationship",
+      "substitution or data interpretation",
+      "answer with appropriate unit"
+    ],
+    "solution": "For torque = Fd, the gradient of torque against force is d. Gradient = (6.0 - 2.0)/(30 - 10) = 0.20 m.",
+    "lessonReferences": [
+      "rigid-body-mechanics"
+    ],
+    "tags": [
+      "data-analysis",
+      "original-kinetiq",
+      "paper-1b"
+    ],
+    "paper": "1B",
+    "skills": [
+      "data-analysis",
+      "quantitative-reasoning",
+      "units"
+    ],
+    "criteria": [
+      "relationship",
+      "working",
+      "value-and-unit"
+    ],
+    "sourceType": "original-kinetiq",
+    "author": "KINETIQ Content Team",
+    "reviewer": "KINETIQ Physics Review",
+    "reviewStatus": "reviewed",
+    "lastReviewed": "2026-09-25"
+  },
+  {
+    "id": "p1b-reviewed-relativity-time-data",
+    "topic": "Relativity",
+    "subtopic": "Data analysis and modelling",
+    "level": "HL",
+    "difficulty": "hard",
+    "marks": 4,
+    "question": "A clock measures a proper time of 2.00 microseconds. An observer measures 2.50 microseconds for the same interval. Determine the relative speed as a fraction of c.",
+    "answer": "0.60 c",
+    "unit": "c",
+    "tolerance": 0.02,
+    "markScheme": [
+      "correct physics relationship",
+      "substitution or data interpretation",
+      "answer with appropriate unit"
+    ],
+    "solution": "The Lorentz factor is gamma = 2.50/2.00 = 1.25. From gamma = 1/sqrt(1 - v^2/c^2), v/c = sqrt(1 - 1/1.25^2) = 0.60.",
+    "lessonReferences": [
+      "relativity"
+    ],
+    "tags": [
+      "data-analysis",
+      "original-kinetiq",
+      "paper-1b"
+    ],
+    "paper": "1B",
+    "skills": [
+      "data-analysis",
+      "quantitative-reasoning",
+      "units"
+    ],
+    "criteria": [
+      "relationship",
+      "working",
+      "value-and-unit"
+    ],
+    "sourceType": "original-kinetiq",
+    "author": "KINETIQ Content Team",
+    "reviewer": "KINETIQ Physics Review",
+    "reviewStatus": "reviewed",
+    "lastReviewed": "2026-09-25"
+  },
+  {
+    "id": "p1b-reviewed-thermal-capacity-gradient",
+    "topic": "Thermal Physics",
+    "subtopic": "Data analysis and modelling",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "For a 2.00 kg metal block, a graph of energy supplied Q against temperature rise has gradient 900 J K^-1. Determine the specific heat capacity of the metal.",
+    "answer": "450 J kg^-1 K^-1",
+    "unit": "J kg^-1 K^-1",
+    "tolerance": 10,
+    "markScheme": [
+      "correct physics relationship",
+      "substitution or data interpretation",
+      "answer with appropriate unit"
+    ],
+    "solution": "The gradient Q/delta T is the heat capacity mc. Therefore c = 900/2.00 = 450 J kg^-1 K^-1.",
+    "lessonReferences": [
+      "thermal-physics"
+    ],
+    "tags": [
+      "data-analysis",
+      "original-kinetiq",
+      "paper-1b"
+    ],
+    "paper": "1B",
+    "skills": [
+      "data-analysis",
+      "quantitative-reasoning",
+      "units"
+    ],
+    "criteria": [
+      "relationship",
+      "working",
+      "value-and-unit"
+    ],
+    "sourceType": "original-kinetiq",
+    "author": "KINETIQ Content Team",
+    "reviewer": "KINETIQ Physics Review",
+    "reviewStatus": "reviewed",
+    "lastReviewed": "2026-09-25"
+  },
+  {
+    "id": "p1b-reviewed-greenhouse-energy-balance",
+    "topic": "Greenhouse Effect",
+    "subtopic": "Data analysis and modelling",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "The mean solar power incident at the top of a planet atmosphere is 340 W m^-2 and the planetary albedo is 0.30. Calculate the mean solar power absorbed per square metre.",
+    "answer": "238 W m^-2",
+    "unit": "W m^-2",
+    "tolerance": 3,
+    "markScheme": [
+      "correct physics relationship",
+      "substitution or data interpretation",
+      "answer with appropriate unit"
+    ],
+    "solution": "The absorbed fraction is 1 - 0.30 = 0.70. Absorbed power = 0.70 x 340 = 238 W m^-2.",
+    "lessonReferences": [
+      "greenhouse-effect"
+    ],
+    "tags": [
+      "data-analysis",
+      "original-kinetiq",
+      "paper-1b"
+    ],
+    "paper": "1B",
+    "skills": [
+      "data-analysis",
+      "quantitative-reasoning",
+      "units"
+    ],
+    "criteria": [
+      "relationship",
+      "working",
+      "value-and-unit"
+    ],
+    "sourceType": "original-kinetiq",
+    "author": "KINETIQ Content Team",
+    "reviewer": "KINETIQ Physics Review",
+    "reviewStatus": "reviewed",
+    "lastReviewed": "2026-09-25"
+  },
+  {
+    "id": "p1b-reviewed-gas-inverse-data",
+    "topic": "Gas Laws",
+    "subtopic": "Data analysis and modelling",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "At constant temperature a gas has pressure 100 kPa when its volume is 2.0 x 10^-3 m^3. Use the inverse relationship to predict the pressure at 5.0 x 10^-3 m^3.",
+    "answer": "40 kPa",
+    "unit": "kPa",
+    "tolerance": 1,
+    "markScheme": [
+      "correct physics relationship",
+      "substitution or data interpretation",
+      "answer with appropriate unit"
+    ],
+    "solution": "At constant temperature pV is constant. p2 = 100 x (2.0/5.0) = 40 kPa.",
+    "lessonReferences": [
+      "gas-laws"
+    ],
+    "tags": [
+      "data-analysis",
+      "original-kinetiq",
+      "paper-1b"
+    ],
+    "paper": "1B",
+    "skills": [
+      "data-analysis",
+      "quantitative-reasoning",
+      "units"
+    ],
+    "criteria": [
+      "relationship",
+      "working",
+      "value-and-unit"
+    ],
+    "sourceType": "original-kinetiq",
+    "author": "KINETIQ Content Team",
+    "reviewer": "KINETIQ Physics Review",
+    "reviewStatus": "reviewed",
+    "lastReviewed": "2026-09-25"
+  },
+  {
+    "id": "p1b-reviewed-thermo-cycle-area",
+    "topic": "Thermodynamics",
+    "subtopic": "Data analysis and modelling",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "A rectangular clockwise cycle on a pressure-volume graph spans 100 kPa to 300 kPa and 2.0 x 10^-3 m^3 to 5.0 x 10^-3 m^3. Calculate the net work done by the gas per cycle.",
+    "answer": "600 J",
+    "unit": "J",
+    "tolerance": 10,
+    "markScheme": [
+      "correct physics relationship",
+      "substitution or data interpretation",
+      "answer with appropriate unit"
+    ],
+    "solution": "The net work is the enclosed area: (300000 - 100000) x (0.0050 - 0.0020) = 600 J. Clockwise means work is done by the gas.",
+    "lessonReferences": [
+      "thermodynamics"
+    ],
+    "tags": [
+      "data-analysis",
+      "original-kinetiq",
+      "paper-1b"
+    ],
+    "paper": "1B",
+    "skills": [
+      "data-analysis",
+      "quantitative-reasoning",
+      "units"
+    ],
+    "criteria": [
+      "relationship",
+      "working",
+      "value-and-unit"
+    ],
+    "sourceType": "original-kinetiq",
+    "author": "KINETIQ Content Team",
+    "reviewer": "KINETIQ Physics Review",
+    "reviewStatus": "reviewed",
+    "lastReviewed": "2026-09-25"
+  },
+  {
+    "id": "p1b-reviewed-shm-period-data",
+    "topic": "Simple Harmonic Motion",
+    "subtopic": "Data analysis and modelling",
+    "level": "SL",
+    "difficulty": "hard",
+    "marks": 4,
+    "question": "A 0.250 kg mass on a spring has a measured period of 1.00 s. Use T = 2 pi sqrt(m/k) to determine the spring constant.",
+    "answer": "9.87 N m^-1",
+    "unit": "N m^-1",
+    "tolerance": 0.2,
+    "markScheme": [
+      "correct physics relationship",
+      "substitution or data interpretation",
+      "answer with appropriate unit"
+    ],
+    "solution": "Rearranging gives k = 4 pi^2 m/T^2 = 4 pi^2 x 0.250/(1.00)^2 = 9.87 N m^-1.",
+    "lessonReferences": [
+      "simple-harmonic-motion"
+    ],
+    "tags": [
+      "data-analysis",
+      "original-kinetiq",
+      "paper-1b"
+    ],
+    "paper": "1B",
+    "skills": [
+      "data-analysis",
+      "quantitative-reasoning",
+      "units"
+    ],
+    "criteria": [
+      "relationship",
+      "working",
+      "value-and-unit"
+    ],
+    "sourceType": "original-kinetiq",
+    "author": "KINETIQ Content Team",
+    "reviewer": "KINETIQ Physics Review",
+    "reviewStatus": "reviewed",
+    "lastReviewed": "2026-09-25"
+  },
+  {
+    "id": "p1b-reviewed-wave-speed-data",
+    "topic": "Wave Properties",
+    "subtopic": "Data analysis and modelling",
+    "level": "SL",
+    "difficulty": "easy",
+    "marks": 2,
+    "question": "A displacement-distance graph gives a wavelength of 0.750 m. The source frequency is 400 Hz. Determine the wave speed.",
+    "answer": "300 m s^-1",
+    "unit": "m s^-1",
+    "tolerance": 5,
+    "markScheme": [
+      "correct physics relationship",
+      "substitution or data interpretation",
+      "answer with appropriate unit"
+    ],
+    "solution": "Use v = f lambda = 400 x 0.750 = 300 m s^-1.",
+    "lessonReferences": [
+      "wave-properties"
+    ],
+    "tags": [
+      "data-analysis",
+      "original-kinetiq",
+      "paper-1b"
+    ],
+    "paper": "1B",
+    "skills": [
+      "data-analysis",
+      "quantitative-reasoning",
+      "units"
+    ],
+    "criteria": [
+      "relationship",
+      "working",
+      "value-and-unit"
+    ],
+    "sourceType": "original-kinetiq",
+    "author": "KINETIQ Content Team",
+    "reviewer": "KINETIQ Physics Review",
+    "reviewStatus": "reviewed",
+    "lastReviewed": "2026-09-25"
+  },
+  {
+    "id": "p1b-reviewed-em-wave-speed-data",
+    "topic": "Electromagnetic Waves",
+    "subtopic": "Data analysis and modelling",
+    "level": "SL",
+    "difficulty": "easy",
+    "marks": 2,
+    "question": "Radiation has frequency 6.0 x 10^14 Hz and wavelength 5.0 x 10^-7 m. Use the data to calculate its speed.",
+    "answer": "3.0e8 m s^-1",
+    "unit": "m s^-1",
+    "tolerance": 10000000,
+    "markScheme": [
+      "correct physics relationship",
+      "substitution or data interpretation",
+      "answer with appropriate unit"
+    ],
+    "solution": "The speed is f lambda = (6.0 x 10^14)(5.0 x 10^-7) = 3.0 x 10^8 m s^-1.",
+    "lessonReferences": [
+      "electromagnetic-waves"
+    ],
+    "tags": [
+      "data-analysis",
+      "original-kinetiq",
+      "paper-1b"
+    ],
+    "paper": "1B",
+    "skills": [
+      "data-analysis",
+      "quantitative-reasoning",
+      "units"
+    ],
+    "criteria": [
+      "relationship",
+      "working",
+      "value-and-unit"
+    ],
+    "sourceType": "original-kinetiq",
+    "author": "KINETIQ Content Team",
+    "reviewer": "KINETIQ Physics Review",
+    "reviewStatus": "reviewed",
+    "lastReviewed": "2026-09-25"
+  },
+  {
+    "id": "p1b-reviewed-interference-gradient-wavelength",
+    "topic": "Wave Phenomena",
+    "subtopic": "Data analysis and modelling",
+    "level": "SL",
+    "difficulty": "hard",
+    "marks": 4,
+    "question": "In a double-slit experiment, fringe spacing is 1.20 mm when the screen distance is 1.00 m. The slit separation is 0.500 mm. Determine the wavelength.",
+    "answer": "6.00e-7 m",
+    "unit": "m",
+    "tolerance": 2e-8,
+    "markScheme": [
+      "correct physics relationship",
+      "substitution or data interpretation",
+      "answer with appropriate unit"
+    ],
+    "solution": "Using x = lambda D/d, lambda = xd/D = (1.20 x 10^-3)(0.500 x 10^-3)/1.00 = 6.00 x 10^-7 m.",
+    "lessonReferences": [
+      "wave-phenomena"
+    ],
+    "tags": [
+      "data-analysis",
+      "original-kinetiq",
+      "paper-1b"
+    ],
+    "paper": "1B",
+    "skills": [
+      "data-analysis",
+      "quantitative-reasoning",
+      "units"
+    ],
+    "criteria": [
+      "relationship",
+      "working",
+      "value-and-unit"
+    ],
+    "sourceType": "original-kinetiq",
+    "author": "KINETIQ Content Team",
+    "reviewer": "KINETIQ Physics Review",
+    "reviewStatus": "reviewed",
+    "lastReviewed": "2026-09-25"
+  },
+  {
+    "id": "p1b-reviewed-standing-resonance-spacing",
+    "topic": "Standing Waves and Resonance",
+    "subtopic": "Data analysis and modelling",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "Successive resonance lengths in an air column differ by 0.180 m. Determine the wavelength of the sound.",
+    "answer": "0.360 m",
+    "unit": "m",
+    "tolerance": 0.01,
+    "markScheme": [
+      "correct physics relationship",
+      "substitution or data interpretation",
+      "answer with appropriate unit"
+    ],
+    "solution": "Successive resonances are separated by half a wavelength. Therefore lambda = 2 x 0.180 = 0.360 m.",
+    "lessonReferences": [
+      "standing-waves-and-resonance"
+    ],
+    "tags": [
+      "data-analysis",
+      "original-kinetiq",
+      "paper-1b"
+    ],
+    "paper": "1B",
+    "skills": [
+      "data-analysis",
+      "quantitative-reasoning",
+      "units"
+    ],
+    "criteria": [
+      "relationship",
+      "working",
+      "value-and-unit"
+    ],
+    "sourceType": "original-kinetiq",
+    "author": "KINETIQ Content Team",
+    "reviewer": "KINETIQ Physics Review",
+    "reviewStatus": "reviewed",
+    "lastReviewed": "2026-09-25"
+  },
+  {
+    "id": "p1b-reviewed-doppler-frequency-data",
+    "topic": "The Doppler Effect",
+    "subtopic": "Data analysis and modelling",
+    "level": "HL",
+    "difficulty": "hard",
+    "marks": 4,
+    "question": "A source emitting 680 Hz approaches a stationary observer at 20 m s^-1. The speed of sound is 340 m s^-1. Calculate the observed frequency.",
+    "answer": "723 Hz",
+    "unit": "Hz",
+    "tolerance": 3,
+    "markScheme": [
+      "correct physics relationship",
+      "substitution or data interpretation",
+      "answer with appropriate unit"
+    ],
+    "solution": "For an approaching source, f observed = f v/(v - vs) = 680 x 340/(340 - 20) = 722.5 Hz, which rounds to 723 Hz.",
+    "lessonReferences": [
+      "doppler-effect"
+    ],
+    "tags": [
+      "data-analysis",
+      "original-kinetiq",
+      "paper-1b"
+    ],
+    "paper": "1B",
+    "skills": [
+      "data-analysis",
+      "quantitative-reasoning",
+      "units"
+    ],
+    "criteria": [
+      "relationship",
+      "working",
+      "value-and-unit"
+    ],
+    "sourceType": "original-kinetiq",
+    "author": "KINETIQ Content Team",
+    "reviewer": "KINETIQ Physics Review",
+    "reviewStatus": "reviewed",
+    "lastReviewed": "2026-09-25"
+  },
+  {
+    "id": "p1b-reviewed-gravity-inverse-square",
+    "topic": "Gravitation",
+    "subtopic": "Data analysis and modelling",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "The gravitational field strength at the surface of a spherical planet is 9.81 N kg^-1. Determine the field strength at a distance of two planetary radii from its centre.",
+    "answer": "2.45 N kg^-1",
+    "unit": "N kg^-1",
+    "tolerance": 0.05,
+    "markScheme": [
+      "correct physics relationship",
+      "substitution or data interpretation",
+      "answer with appropriate unit"
+    ],
+    "solution": "Field strength follows 1/r^2. Doubling the distance from the centre reduces the field to one quarter: 9.81/4 = 2.45 N kg^-1.",
+    "lessonReferences": [
+      "fields"
+    ],
+    "tags": [
+      "data-analysis",
+      "original-kinetiq",
+      "paper-1b"
+    ],
+    "paper": "1B",
+    "skills": [
+      "data-analysis",
+      "quantitative-reasoning",
+      "units"
+    ],
+    "criteria": [
+      "relationship",
+      "working",
+      "value-and-unit"
+    ],
+    "sourceType": "original-kinetiq",
+    "author": "KINETIQ Content Team",
+    "reviewer": "KINETIQ Physics Review",
+    "reviewStatus": "reviewed",
+    "lastReviewed": "2026-09-25"
+  },
+  {
+    "id": "p1b-reviewed-electric-field-scaling",
+    "topic": "Electric Fields",
+    "subtopic": "Data analysis and modelling",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "The electric field strength due to a point charge is 900 N C^-1 at 0.20 m. Determine the field strength at 0.30 m.",
+    "answer": "400 N C^-1",
+    "unit": "N C^-1",
+    "tolerance": 10,
+    "markScheme": [
+      "correct physics relationship",
+      "substitution or data interpretation",
+      "answer with appropriate unit"
+    ],
+    "solution": "For a point charge E is proportional to 1/r^2. E2 = 900(0.20/0.30)^2 = 400 N C^-1.",
+    "lessonReferences": [
+      "electric-fields"
+    ],
+    "tags": [
+      "data-analysis",
+      "original-kinetiq",
+      "paper-1b"
+    ],
+    "paper": "1B",
+    "skills": [
+      "data-analysis",
+      "quantitative-reasoning",
+      "units"
+    ],
+    "criteria": [
+      "relationship",
+      "working",
+      "value-and-unit"
+    ],
+    "sourceType": "original-kinetiq",
+    "author": "KINETIQ Content Team",
+    "reviewer": "KINETIQ Physics Review",
+    "reviewStatus": "reviewed",
+    "lastReviewed": "2026-09-25"
+  },
+  {
+    "id": "p1b-reviewed-magnetic-force-gradient",
+    "topic": "Magnetic Fields",
+    "subtopic": "Data analysis and modelling",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "A graph of magnetic force against current for a 0.300 m wire perpendicular to a field has gradient 0.120 N A^-1. Determine the magnetic flux density.",
+    "answer": "0.400 T",
+    "unit": "T",
+    "tolerance": 0.01,
+    "markScheme": [
+      "correct physics relationship",
+      "substitution or data interpretation",
+      "answer with appropriate unit"
+    ],
+    "solution": "From F = BIL, the graph gradient F/I is BL. Therefore B = 0.120/0.300 = 0.400 T.",
+    "lessonReferences": [
+      "magnetic-fields"
+    ],
+    "tags": [
+      "data-analysis",
+      "original-kinetiq",
+      "paper-1b"
+    ],
+    "paper": "1B",
+    "skills": [
+      "data-analysis",
+      "quantitative-reasoning",
+      "units"
+    ],
+    "criteria": [
+      "relationship",
+      "working",
+      "value-and-unit"
+    ],
+    "sourceType": "original-kinetiq",
+    "author": "KINETIQ Content Team",
+    "reviewer": "KINETIQ Physics Review",
+    "reviewStatus": "reviewed",
+    "lastReviewed": "2026-09-25"
+  },
+  {
+    "id": "p1b-reviewed-charged-path-gradient",
+    "topic": "Motion in Fields",
+    "subtopic": "Data analysis and modelling",
+    "level": "HL",
+    "difficulty": "hard",
+    "marks": 4,
+    "question": "For a charged particle in a 0.500 T magnetic field, a graph of orbit radius against speed has gradient 2.00 x 10^-7 s. Determine the particle mass-to-charge ratio.",
+    "answer": "1.00e-7 kg C^-1",
+    "unit": "kg C^-1",
+    "tolerance": 3e-9,
+    "markScheme": [
+      "correct physics relationship",
+      "substitution or data interpretation",
+      "answer with appropriate unit"
+    ],
+    "solution": "Since r = mv/(|q|B), the gradient r/v is m/(|q|B). Thus m/|q| = gradient x B = 2.00 x 10^-7 x 0.500 = 1.00 x 10^-7 kg C^-1.",
+    "lessonReferences": [
+      "motion-in-fields"
+    ],
+    "tags": [
+      "data-analysis",
+      "original-kinetiq",
+      "paper-1b"
+    ],
+    "paper": "1B",
+    "skills": [
+      "data-analysis",
+      "quantitative-reasoning",
+      "units"
+    ],
+    "criteria": [
+      "relationship",
+      "working",
+      "value-and-unit"
+    ],
+    "sourceType": "original-kinetiq",
+    "author": "KINETIQ Content Team",
+    "reviewer": "KINETIQ Physics Review",
+    "reviewStatus": "reviewed",
+    "lastReviewed": "2026-09-25"
+  },
+  {
+    "id": "p1b-reviewed-induction-flux-rate",
+    "topic": "Electromagnetic Induction",
+    "subtopic": "Data analysis and modelling",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "The magnetic flux through each turn of a 200-turn coil falls uniformly by 6.0 x 10^-4 Wb in 0.030 s. Calculate the magnitude of the induced emf.",
+    "answer": "4.0 V",
+    "unit": "V",
+    "tolerance": 0.1,
+    "markScheme": [
+      "correct physics relationship",
+      "substitution or data interpretation",
+      "answer with appropriate unit"
+    ],
+    "solution": "Faraday law gives emf magnitude = N delta flux/delta t = 200(6.0 x 10^-4)/0.030 = 4.0 V.",
+    "lessonReferences": [
+      "electromagnetic-induction"
+    ],
+    "tags": [
+      "data-analysis",
+      "original-kinetiq",
+      "paper-1b"
+    ],
+    "paper": "1B",
+    "skills": [
+      "data-analysis",
+      "quantitative-reasoning",
+      "units"
+    ],
+    "criteria": [
+      "relationship",
+      "working",
+      "value-and-unit"
+    ],
+    "sourceType": "original-kinetiq",
+    "author": "KINETIQ Content Team",
+    "reviewer": "KINETIQ Physics Review",
+    "reviewStatus": "reviewed",
+    "lastReviewed": "2026-09-25"
+  },
+  {
+    "id": "p1b-reviewed-circuit-vi-gradient",
+    "topic": "Current and Circuits",
+    "subtopic": "Data analysis and modelling",
+    "level": "SL",
+    "difficulty": "easy",
+    "marks": 2,
+    "question": "A potential-difference against current graph is a straight line through (0.20 A, 1.2 V) and (0.80 A, 4.8 V). Determine the resistance.",
+    "answer": "6.0 ohm",
+    "unit": "ohm",
+    "tolerance": 0.2,
+    "markScheme": [
+      "correct physics relationship",
+      "substitution or data interpretation",
+      "answer with appropriate unit"
+    ],
+    "solution": "For an ohmic conductor the gradient V/I is resistance. R = (4.8 - 1.2)/(0.80 - 0.20) = 6.0 ohm.",
+    "lessonReferences": [
+      "current-and-circuits"
+    ],
+    "tags": [
+      "data-analysis",
+      "original-kinetiq",
+      "paper-1b"
+    ],
+    "paper": "1B",
+    "skills": [
+      "data-analysis",
+      "quantitative-reasoning",
+      "units"
+    ],
+    "criteria": [
+      "relationship",
+      "working",
+      "value-and-unit"
+    ],
+    "sourceType": "original-kinetiq",
+    "author": "KINETIQ Content Team",
+    "reviewer": "KINETIQ Physics Review",
+    "reviewStatus": "reviewed",
+    "lastReviewed": "2026-09-25"
+  },
+  {
+    "id": "p1b-reviewed-atomic-transition-data",
+    "topic": "Atomic Physics",
+    "subtopic": "Data analysis and modelling",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "An electron falls from an energy level at -3.40 eV to the ground state at -13.60 eV. Determine the photon energy emitted.",
+    "answer": "10.20 eV",
+    "unit": "eV",
+    "tolerance": 0.1,
+    "markScheme": [
+      "correct physics relationship",
+      "substitution or data interpretation",
+      "answer with appropriate unit"
+    ],
+    "solution": "The emitted photon energy is the magnitude of the level difference: -3.40 - (-13.60) = 10.20 eV.",
+    "lessonReferences": [
+      "atomic-physics"
+    ],
+    "tags": [
+      "data-analysis",
+      "original-kinetiq",
+      "paper-1b"
+    ],
+    "paper": "1B",
+    "skills": [
+      "data-analysis",
+      "quantitative-reasoning",
+      "units"
+    ],
+    "criteria": [
+      "relationship",
+      "working",
+      "value-and-unit"
+    ],
+    "sourceType": "original-kinetiq",
+    "author": "KINETIQ Content Team",
+    "reviewer": "KINETIQ Physics Review",
+    "reviewStatus": "reviewed",
+    "lastReviewed": "2026-09-25"
+  },
+  {
+    "id": "p1b-reviewed-photoelectric-gradient-h",
+    "topic": "Quantum Physics",
+    "subtopic": "Data analysis and modelling",
+    "level": "HL",
+    "difficulty": "hard",
+    "marks": 4,
+    "question": "A graph of stopping potential against frequency has gradient 4.14 x 10^-15 V s. Use e = 1.60 x 10^-19 C to determine Planck constant.",
+    "answer": "6.62e-34 J s",
+    "unit": "J s",
+    "tolerance": 2e-35,
+    "markScheme": [
+      "correct physics relationship",
+      "substitution or data interpretation",
+      "answer with appropriate unit"
+    ],
+    "solution": "From eVs = hf - phi, the gradient of stopping potential against frequency is h/e. Therefore h = e x gradient = (1.60 x 10^-19)(4.14 x 10^-15) = 6.62 x 10^-34 J s.",
+    "lessonReferences": [
+      "quantum-physics"
+    ],
+    "tags": [
+      "data-analysis",
+      "original-kinetiq",
+      "paper-1b"
+    ],
+    "paper": "1B",
+    "skills": [
+      "data-analysis",
+      "quantitative-reasoning",
+      "units"
+    ],
+    "criteria": [
+      "relationship",
+      "working",
+      "value-and-unit"
+    ],
+    "sourceType": "original-kinetiq",
+    "author": "KINETIQ Content Team",
+    "reviewer": "KINETIQ Physics Review",
+    "reviewStatus": "reviewed",
+    "lastReviewed": "2026-09-25"
+  },
+  {
+    "id": "p1b-reviewed-decay-half-life-data",
+    "topic": "Nuclear Physics",
+    "subtopic": "Data analysis and modelling",
+    "level": "SL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "A corrected count rate is 800 counts per minute initially and 100 counts per minute after 24 days. Determine the half-life.",
+    "answer": "8.0 days",
+    "unit": "days",
+    "tolerance": 0.2,
+    "markScheme": [
+      "correct physics relationship",
+      "substitution or data interpretation",
+      "answer with appropriate unit"
+    ],
+    "solution": "The count falls 800 to 400 to 200 to 100, which is three half-lives in 24 days. The half-life is 24/3 = 8.0 days.",
+    "lessonReferences": [
+      "nuclear-physics"
+    ],
+    "tags": [
+      "data-analysis",
+      "original-kinetiq",
+      "paper-1b"
+    ],
+    "paper": "1B",
+    "skills": [
+      "data-analysis",
+      "quantitative-reasoning",
+      "units"
+    ],
+    "criteria": [
+      "relationship",
+      "working",
+      "value-and-unit"
+    ],
+    "sourceType": "original-kinetiq",
+    "author": "KINETIQ Content Team",
+    "reviewer": "KINETIQ Physics Review",
+    "reviewStatus": "reviewed",
+    "lastReviewed": "2026-09-25"
+  },
+  {
+    "id": "p1b-reviewed-fission-mass-defect",
+    "topic": "Nuclear Fission",
+    "subtopic": "Data analysis and modelling",
+    "level": "HL",
+    "difficulty": "medium",
+    "marks": 3,
+    "question": "A fission event has a mass defect of 0.200 u. Use 1 u c^2 = 931.5 MeV to determine the released energy.",
+    "answer": "186 MeV",
+    "unit": "MeV",
+    "tolerance": 3,
+    "markScheme": [
+      "correct physics relationship",
+      "substitution or data interpretation",
+      "answer with appropriate unit"
+    ],
+    "solution": "Released energy = 0.200 x 931.5 = 186.3 MeV, which is 186 MeV to three significant figures.",
+    "lessonReferences": [
+      "nuclear-fission"
+    ],
+    "tags": [
+      "data-analysis",
+      "original-kinetiq",
+      "paper-1b"
+    ],
+    "paper": "1B",
+    "skills": [
+      "data-analysis",
+      "quantitative-reasoning",
+      "units"
+    ],
+    "criteria": [
+      "relationship",
+      "working",
+      "value-and-unit"
+    ],
+    "sourceType": "original-kinetiq",
+    "author": "KINETIQ Content Team",
+    "reviewer": "KINETIQ Physics Review",
+    "reviewStatus": "reviewed",
+    "lastReviewed": "2026-09-25"
+  },
+  {
+    "id": "p1b-reviewed-fusion-solar-mass",
+    "topic": "Fusion and Stars",
+    "subtopic": "Data analysis and modelling",
+    "level": "HL",
+    "difficulty": "hard",
+    "marks": 4,
+    "question": "A star radiates 3.8 x 10^26 W for 10 s. If fusion converts 0.70% of the reacting mass to energy, estimate the reacting mass. Use c = 3.0 x 10^8 m s^-1.",
+    "answer": "6.0e12 kg",
+    "unit": "kg",
+    "tolerance": 300000000000,
+    "markScheme": [
+      "correct physics relationship",
+      "substitution or data interpretation",
+      "answer with appropriate unit"
+    ],
+    "solution": "The radiated energy is 3.8 x 10^27 J. Since E = 0.007mc^2, m = 3.8 x 10^27/[0.007(3.0 x 10^8)^2] = 6.0 x 10^12 kg.",
+    "lessonReferences": [
+      "nuclear-fusion-and-stars"
+    ],
+    "tags": [
+      "data-analysis",
+      "original-kinetiq",
+      "paper-1b"
+    ],
+    "paper": "1B",
+    "skills": [
+      "data-analysis",
+      "quantitative-reasoning",
+      "units"
+    ],
+    "criteria": [
+      "relationship",
+      "working",
+      "value-and-unit"
+    ],
+    "sourceType": "original-kinetiq",
+    "author": "KINETIQ Content Team",
+    "reviewer": "KINETIQ Physics Review",
+    "reviewStatus": "reviewed",
+    "lastReviewed": "2026-09-25"
   }
 ]

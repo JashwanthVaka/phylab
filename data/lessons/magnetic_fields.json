@@ -228,7 +228,7 @@
       "factors_affecting_flux": [
         "Increasing magnetic field strength increases flux.",
         "Increasing surface area increases flux.",
-        "Changing the angle between field and surface changes flux."
+        "Changing the angle between the field and the normal to the surface changes flux."
       ]
     }
   ],

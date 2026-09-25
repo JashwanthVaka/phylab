@@ -1,4 +1,5 @@
-import { escapeHTML, slugify } from './utils.js';
+import { escapeHTML } from './utils.js';
+import { visualForLesson } from './visualRegistry.js';
 
 /**
  * One diagram per lesson, drawn for that lesson's physics.
@@ -44,21 +45,25 @@ const DIAGRAM_META = {
   relativity: ['Light clock in two frames', 'quantum', ['Every observer measures the same light speed', 'A longer light path means a longer elapsed time']],
 };
 
-const svg = (key, content, label) => {
+const svg = (key, content, label, depth = '2d') => {
   const [title, group, cues] = DIAGRAM_META[key] || [key.replace(/-/g, ' '), 'mechanics', []];
   const titleId = `diagram-${key}-title`;
   const captionId = `diagram-${key}-caption`;
-  return `<figure class="diagram" data-diagram="${escapeHTML(key)}" data-diagram-group="${escapeHTML(group)}" aria-labelledby="${titleId}" aria-describedby="${captionId}">
+  const svgTitleId = `diagram-${key}-svg-title`;
+  const svgDescId = `diagram-${key}-svg-desc`;
+  const stateId = `diagram-${key}-state`;
+  return `<figure class="diagram" data-diagram="${escapeHTML(key)}" data-diagram-group="${escapeHTML(group)}" data-scene-depth="${escapeHTML(depth)}" aria-labelledby="${titleId}" aria-describedby="${captionId} ${stateId}">
     <header class="diagram__header">
       <div><span class="diagram__group">${escapeHTML(group)}</span><h3 id="${titleId}">${escapeHTML(title)}</h3></div>
       <button type="button" class="diagram__replay" data-diagram-replay aria-label="Replay ${escapeHTML(title)} drawing">Replay model</button>
     </header>
     <div class="diagram__stage">
       <span class="diagram__scale">CONCEPT MODEL · NOT TO SCALE</span>
-      <svg viewBox="0 0 360 190" role="img" aria-labelledby="${titleId} ${captionId}" preserveAspectRatio="xMidYMid meet">${content}</svg>
+      <svg viewBox="0 0 360 190" role="img" aria-labelledby="${svgTitleId}" aria-describedby="${svgDescId}" preserveAspectRatio="xMidYMid meet"><title id="${svgTitleId}">${escapeHTML(title)}</title><desc id="${svgDescId}">${escapeHTML(label)} ${cues.map(cue => escapeHTML(cue)).join('. ')}.</desc>${content}</svg>
     </div>
     <figcaption id="${captionId}"><b>What to notice</b><span>${escapeHTML(label)}</span></figcaption>
     ${cues.length ? `<ul class="diagram__cues">${cues.map(cue => `<li>${escapeHTML(cue)}</li>`).join('')}</ul>` : ''}
+    <p class="visually-hidden" id="${stateId}" data-diagram-state aria-live="polite">Model ready. All relationships are visible.</p>
   </figure>`;
 };
 const arrow = (x1, y1, x2, y2, label = '') => `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" marker-end="url(#arrow)"/><text x="${(x1 + x2) / 2 + 5}" y="${(y1 + y2) / 2 - 5}">${label}</text>`;
@@ -97,28 +102,28 @@ const DIAGRAMS = [
   ['doppler-effect', () => `${defs}<circle cx="150" cy="95" r="7"/>${arrow(160, 95, 214, 95, 'v')}<circle cx="150" cy="95" r="30" fill="none"/><circle cx="140" cy="95" r="52" fill="none"/><circle cx="128" cy="95" r="76" fill="none"/><text x="228" y="60">compressed</text><text x="228" y="76">higher f</text><text x="20" y="60">stretched</text><text x="20" y="76">lower f</text>`,
     'A moving source crowds wavefronts ahead of it and stretches those behind.'],
 
-  ['electromagnetic-waves', () => `${defs}<line x1="30" y1="95" x2="330" y2="95"/><path d="M40 95 C64 45 88 45 112 95 S160 145 184 95 S232 45 256 95 S304 145 320 95" fill="none"/><text x="44" y="36">E</text><path d="M40 95 C64 122 88 122 112 95 S160 68 184 95 S232 122 256 95 S304 68 320 95" fill="none" stroke-dasharray="4 4"/><text x="44" y="150">B</text>${arrow(300, 95, 344, 95, 'c')}`,
+  ['electromagnetic-waves', () => `${defs}<g class="diagram-depth-grid"><path d="M42 148 L320 55 M42 148 L42 38 M42 148 L132 176"/><path d="M92 132 L92 55 M142 115 L142 38 M192 98 L192 25 M242 82 L242 18" stroke-dasharray="3 5"/></g><path class="diagram-field diagram-field--electric" d="M42 148 C65 72 88 70 111 125 S157 174 180 102 S226 35 249 78 S295 130 320 55" fill="none"/><path class="diagram-field diagram-field--magnetic" d="M42 148 C65 170 88 173 111 125 S157 73 180 102 S226 130 249 78 S295 31 320 55" fill="none" stroke-dasharray="5 4"/><text x="70" y="48">electric field E</text><text x="216" y="155">magnetic field B</text>${arrow(278, 69, 332, 51, 'c')}<text x="18" y="177">mutually perpendicular axes</text>`,
     'Electromagnetic wave: electric and magnetic fields oscillating at right angles.'],
 
-  ['gravitation', () => `${defs}<circle cx="80" cy="95" r="26"/><text x="70" y="100">M</text><circle cx="280" cy="95" r="13"/><text x="274" y="100">m</text><line x1="80" y1="132" x2="280" y2="132" stroke-dasharray="4 4"/><text x="172" y="152">r</text>${arrow(254, 95, 116, 95, 'F')}${arrow(106, 95, 244, 95, 'F')}<text x="120" y="42">F ∝ 1/r²</text>`,
+  ['gravitation', () => `${defs}<g class="diagram-orbital-planes"><ellipse cx="180" cy="96" rx="132" ry="45" transform="rotate(-12 180 96)" fill="none"/><ellipse cx="180" cy="96" rx="118" ry="34" transform="rotate(28 180 96)" fill="none" stroke-dasharray="5 4"/><line x1="46" y1="124" x2="314" y2="67" stroke-dasharray="3 5"/></g><circle cx="180" cy="96" r="25"/><text x="170" y="101">M</text><circle cx="289" cy="60" r="9"/><text x="302" y="59">m</text>${arrow(280, 64, 210, 87, 'F')}<text x="42" y="32">two possible orbital planes</text><text x="118" y="174">gravity acts towards the centre</text>`,
     'Two masses attract each other equally and oppositely, falling off as the inverse square of separation.'],
 
   ['electric-fields', () => `${defs}<circle cx="180" cy="95" r="22"/><text x="173" y="102">+</text>${arrow(155, 95, 65, 95, '')}${arrow(205, 95, 295, 95, 'E')}${arrow(180, 70, 180, 20, '')}${arrow(180, 120, 180, 170, '')}${arrow(163, 78, 108, 40, '')}${arrow(197, 112, 252, 150, '')}`,
     'Field lines point away from a positive charge, and the field weakens with distance.'],
 
-  ['magnetic-fields', () => `${defs}<line x1="180" y1="18" x2="180" y2="172"/><circle cx="180" cy="95" r="30" fill="none"/><circle cx="180" cy="95" r="55" fill="none"/><circle cx="180" cy="95" r="80" fill="none"/><text x="188" y="34">I</text>${arrow(210, 95, 236, 95, 'B')}<text x="236" y="150">concentric circles</text>`,
+  ['magnetic-fields', () => `${defs}<line x1="180" y1="18" x2="180" y2="172"/><path d="M174 34 L180 18 L186 34"/><text x="190" y="28">current I</text><g class="diagram-field-shells"><ellipse cx="180" cy="95" rx="42" ry="15" fill="none"/><ellipse cx="180" cy="95" rx="78" ry="29" fill="none"/><ellipse cx="180" cy="95" rx="118" ry="44" fill="none"/></g>${arrow(217, 83, 231, 88, 'B')}<path d="M62 95 Q180 139 298 95" fill="none" stroke-dasharray="4 5"/><text x="226" y="157">circular field planes</text>`,
     'Magnetic field around a straight current-carrying wire: circles, weakening with distance.'],
 
-  ['motion-in-fields', () => `${defs}<path d="M60 150 A70 70 0 0 1 200 150" fill="none"/><circle cx="60" cy="150" r="5"/><circle cx="200" cy="150" r="5"/>${arrow(60, 150, 60, 92, 'v')}<text x="112" y="66">r = mv/qB</text><g>${[80, 130, 180, 230, 280].map(x => [40, 90].map(y => `<circle cx="${x}" cy="${y}" r="2"/>`).join('')).join('')}</g><text x="292" y="40">B out</text>`,
+  ['motion-in-fields', () => `${defs}<g class="diagram-field-volume">${[55, 115, 175, 235, 295].map(x => `<line x1="${x}" y1="32" x2="${x}" y2="160" stroke-dasharray="3 6"/>`).join('')}</g>${arrow(42, 156, 318, 48, 'B')}<path class="diagram-helix" d="M52 145 C70 95 88 95 106 124 C124 153 142 153 160 105 C178 57 196 57 214 86 C232 115 250 115 268 67 C280 35 296 35 314 54" fill="none"/><circle cx="52" cy="145" r="5"/><circle cx="314" cy="54" r="5"/>${arrow(55, 142, 87, 119, 'v')}<text x="64" y="34">helical path when v has parallel and perpendicular components</text><text x="213" y="176">pitch from v∥, radius from v⊥</text>`,
     'A charged particle moving through a magnetic field follows a circular path.'],
 
-  ['electromagnetic-induction', () => `${defs}<rect x="120" y="52" width="90" height="86" rx="6" fill="none"/><path d="M120 68 h90 M120 86 h90 M120 104 h90 M120 122 h90" stroke-dasharray="3 3"/><rect x="250" y="76" width="34" height="40" rx="3"/><text x="256" y="102">N</text>${arrow(248, 96, 218, 96, 'v')}<text x="120" y="164">changing flux induces an emf</text>`,
+  ['electromagnetic-induction', () => `${defs}<g class="diagram-coil">${[84, 96, 108, 120, 132].map(x => `<ellipse cx="${x}" cy="96" rx="17" ry="57" fill="none"/>`).join('')}</g><path d="M132 39 C174 48 174 144 132 153 M132 52 C158 61 158 131 132 140" fill="none" stroke-dasharray="4 5"/><path d="M132 96 L236 96" stroke-dasharray="3 5"/><rect x="236" y="66" width="70" height="60" rx="4"/><line x1="271" y1="66" x2="271" y2="126"/><text x="247" y="101">N</text><text x="282" y="101">S</text>${arrow(232, 96, 188, 96, 'v')}<text x="42" y="27">coil loops</text><text x="171" y="174">changing flux through the coil</text>`,
     'Moving a magnet changes the flux through the coil, which induces an emf.'],
 
   ['current-and-circuits', () => `${defs}<rect x="60" y="50" width="240" height="94" rx="4" fill="none"/><line x1="60" y1="82" x2="60" y2="90"/><line x1="52" y1="90" x2="68" y2="90"/><line x1="56" y1="98" x2="64" y2="98"/><line x1="52" y1="106" x2="68" y2="106"/><text x="20" y="100">ε</text><rect x="150" y="38" width="56" height="24" rx="2"/><text x="164" y="30">R</text><circle cx="180" cy="144" r="14" fill="none"/><text x="174" y="149">A</text>${arrow(230, 50, 270, 50, 'I')}`,
     'A simple circuit: a cell drives current through a resistor, measured by an ammeter in series.'],
 
-  ['gas-laws', () => `${defs}<rect x="70" y="46" width="150" height="98" rx="3" fill="none"/><rect x="220" y="46" width="16" height="98" fill="none"/>${arrow(252, 95, 214, 95, 'F')}<g>${[[100, 70], [140, 96], [180, 62], [116, 118], [196, 122], [160, 132], [124, 82]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="4"/>`).join('')}</g><text x="76" y="168">pV = nRT</text>`,
+  ['gas-laws', () => `${defs}<path d="M66 54 L224 54 L264 82 L106 82 Z M66 54 L66 145 L106 170 L106 82 M106 170 L264 170 L264 82 M224 54 L224 145 L264 170" fill="none"/><g class="diagram-gas-particles">${[[94,75,3],[137,67,2],[188,72,4],[225,91,3],[128,112,4],[176,102,3],[224,126,4],[151,145,3],[79,119,3],[198,151,2]].map(([x,y,r]) => `<circle cx="${x}" cy="${y}" r="${r}"/>`).join('')}</g>${arrow(235, 107, 258, 99, '')}${arrow(118, 126, 99, 137, '')}${arrow(170, 93, 184, 80, '')}<text x="270" y="87">wall collision</text><text x="42" y="184">particle momentum transfer produces pressure</text>`,
     'Gas in a cylinder: particles colliding with the walls create the pressure.'],
 
   ['thermal-energy', () => `${defs}<rect x="40" y="66" width="80" height="56" rx="3"/><text x="52" y="150">conduction</text><path d="M140 118 q14 -22 28 0 q14 22 28 0" fill="none"/><path d="M140 96 q14 -22 28 0 q14 22 28 0" fill="none"/><text x="140" y="150">convection</text>${arrow(228, 94, 300, 94, '')}${arrow(228, 78, 300, 78, '')}${arrow(228, 110, 300, 110, '')}<text x="230" y="150">radiation</text>`,
@@ -149,43 +154,11 @@ const DIAGRAMS = [
     'A light clock: light travels further per tick in a moving frame, so time runs slower.'],
 ];
 
-/** Slug fragments that identify a lesson, mapped to the diagram key above. */
-const MATCHERS = [
-  [/kinematic/, 'kinematics'],
-  [/rigid-body/, 'rigid-body-mechanics'],
-  [/force|momentum/, 'forces'],
-  [/work|energy-and-power|^energy/, 'energy'],
-  [/harmonic/, 'simple-harmonic-motion'],
-  [/standing-wave|resonance/, 'standing-waves'],
-  [/wave-phenomena|diffraction|interference/, 'wave-phenomena'],
-  [/electromagnetic-wave/, 'electromagnetic-waves'],
-  [/wave-model|wave-properties/, 'the-wave-model'],
-  [/doppler/, 'doppler-effect'],
-  [/gravitation|gravitational/, 'gravitation'],
-  [/electromagnetic-induction|induction/, 'electromagnetic-induction'],
-  [/motion-in/, 'motion-in-fields'],
-  [/magnetic/, 'magnetic-fields'],
-  [/electric-field/, 'electric-fields'],
-  [/current|circuit/, 'current-and-circuits'],
-  [/gas-law|ideal-gas/, 'gas-laws'],
-  [/thermodynamic/, 'thermodynamics'],
-  [/thermal/, 'thermal-energy'],
-  [/greenhouse/, 'greenhouse-effect'],
-  [/atomic/, 'atomic-physics'],
-  [/quantum/, 'quantum-physics'],
-  [/fission/, 'nuclear-fission'],
-  [/fusion|stars/, 'nuclear-fusion'],
-  [/nuclear/, 'nuclear-physics'],
-  [/relativity/, 'relativity'],
-];
-
 const byKey = new Map(DIAGRAMS.map(([key, draw, caption]) => [key, [draw, caption]]));
 
 /** Returns the diagram key a lesson should use, or null when none fits. */
 export function diagramKeyFor(lesson) {
-  const slug = slugify(`${lesson.slug || ''} ${lesson.title || ''} ${lesson.topicLabel || ''}`);
-  const match = MATCHERS.find(([pattern]) => pattern.test(slug));
-  return match ? match[1] : null;
+  return visualForLesson(lesson)?.diagram || null;
 }
 
 /**
@@ -196,12 +169,13 @@ export function diagramKeyFor(lesson) {
  * wrong picture.
  */
 export function diagramFor(lesson) {
-  const key = diagramKeyFor(lesson);
+  const visual = visualForLesson(lesson);
+  const key = visual?.diagram;
   if (!key) return '';
   const entry = byKey.get(key);
   if (!entry) return '';
   const [draw, caption] = entry;
-  return svg(key, draw(), caption);
+  return svg(key, draw(), caption, visual.depth);
 }
 
 /** Adds one restrained draw-on reveal and lets a learner replay it. */
@@ -209,17 +183,34 @@ export function bindDiagrams(root = document) {
   const diagrams = [...root.querySelectorAll('[data-diagram]')];
   if (!diagrams.length) return undefined;
   const controller = new AbortController();
+  const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
   const replay = diagram => {
     diagram.classList.remove('is-animating');
+    const state = diagram.querySelector('[data-diagram-state]');
+    const button = diagram.querySelector('[data-diagram-replay]');
+    if (reducedMotion) {
+      if (state) state.textContent = 'Complete concept model shown. Motion is disabled by your reduced-motion setting.';
+      if (button) button.textContent = 'Model shown';
+      return;
+    }
     void diagram.offsetWidth;
     diagram.classList.add('is-animating');
+    if (state) state.textContent = 'Replaying the concept model drawing.';
+    if (button) {
+      button.textContent = 'Replaying…';
+      window.setTimeout(() => {
+        if (!button.isConnected) return;
+        button.textContent = 'Replay model';
+        if (state) state.textContent = 'Model complete. Use the two reading cues below to interpret it.';
+      }, 950);
+    }
   };
 
   diagrams.forEach(diagram => {
     diagram.querySelector('[data-diagram-replay]')?.addEventListener('click', () => replay(diagram), { signal: controller.signal });
   });
 
-  if ('IntersectionObserver' in window) {
+  if (!reducedMotion && 'IntersectionObserver' in window) {
     const observer = new IntersectionObserver(entries => entries.forEach(entry => {
       if (!entry.isIntersecting) return;
       replay(entry.target);

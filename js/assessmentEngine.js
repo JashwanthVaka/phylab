@@ -1,11 +1,22 @@
 const normalize = value => String(value ?? '').trim().toLowerCase().replace(/\s+/g, ' ');
-const numericValue = value => Number(String(value ?? '').match(/[-+]?\d*\.?\d+(?:e[-+]?\d+)?/i)?.[0]);
+const SUPER = { '⁰': '0', '¹': '1', '²': '2', '³': '3', '⁴': '4', '⁵': '5', '⁶': '6', '⁷': '7', '⁸': '8', '⁹': '9', '⁻': '-' };
+const plainPowers = value => String(value ?? '').replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹⁻]+/g, run => [...run].map(char => SUPER[char]).join(''));
+const scientificText = value => plainPowers(value).replace(/[×x·]\s*10\s*\^?\s*([-+]?\d+)/gi, 'e$1').replace(/\s+e(?=[-+]?\d)/gi, 'e').replace(/−/g, '-');
+const numericValue = value => Number(scientificText(value).match(/[-+]?\d*\.?\d+(?:e[-+]?\d+)?/i)?.[0]);
+
+const compactUnit = value => plainPowers(value).toLowerCase().replace(/−/g, '-').replace(/[·⋅]/g, ' ').replace(/\s+/g, '').replace(/\^/g, '');
+const unitAliases = unit => {
+  const compact = compactUnit(unit);
+  const aliases = new Set([compact]);
+  const denominator = compact.match(/^([a-zω]+)([a-zω]+)-1$/i);
+  if (denominator) aliases.add(`${denominator[1]}/${denominator[2]}`);
+  return aliases;
+};
 
 function hasRequiredUnit(response, unit) {
   if (!unit) return true;
-  const normalisedResponse = normalize(response).replaceAll(' ', '');
-  const normalisedUnit = normalize(unit).replaceAll(' ', '');
-  return normalisedResponse.includes(normalisedUnit);
+  const normalisedResponse = compactUnit(response);
+  return [...unitAliases(unit)].some(alias => normalisedResponse.includes(alias));
 }
 
 /**
@@ -17,7 +28,7 @@ function hasRequiredUnit(response, unit) {
  * penalises when the notation is genuinely ambiguous.
  */
 function significantFigures(text) {
-  const match = String(text ?? '').match(/[-+]?\d*\.?\d+(?:e[-+]?\d+)?/i);
+  const match = scientificText(text).match(/[-+]?\d*\.?\d+(?:e[-+]?\d+)?/i);
   if (!match) return null;
   let digits = match[0].toLowerCase().split('e')[0].replace(/[-+]/g, '');
   if (!/\d/.test(digits)) return null;
