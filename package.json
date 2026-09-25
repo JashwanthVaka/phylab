@@ -11,6 +11,7 @@
     "build:netlify": "KINETIQ_TARGET=netlify node tools/build-static.mjs",
     "setup:accounts": "node tools/setup-accounts.mjs",
     "test:e2e": "playwright test",
+    "test:load": "node tools/load-test.mjs",
     "test:all": "npm test && npm run test:rls && npm run test:e2e",
     "test:rls": "bash tests/rls/run.sh"
   },

@@ -55,12 +55,10 @@ book, since `private/` never leaves your machine.
 npm test
 ```
 
-Sixteen suites: the physics engine against known cases, guest conversations, the
-retrieval engine, the uncertainty maths against hand-worked results, practice marking
-(partial credit and slip diagnosis), the weekly study plan, content cross-references,
-the answer engine, progress export and import, the database schema (row-level security
-and the locked role column), the admin endpoint's refusals, the whoami endpoint,
-privacy boundaries, and the account path against a stand-in for Supabase.
+The unit and integration suites cover physics calculations, retrieval, uncertainty,
+assessment, adaptive learning, content cross-references, progress transfer, revision,
+account isolation, row-level security, admin access, privacy boundaries and server
+security.
 
 ```bash
 npm run test:rls
@@ -76,8 +74,21 @@ check proves.
 npm run test:e2e
 ```
 
-Seventy-nine browser tests across six viewports, four of them desktop. Playwright
-is a dev-only dependency; the shipped app has no runtime dependencies.
+The browser suite checks the main journeys across desktop and mobile viewports,
+including navigation, lessons, practice, simulations, Ask KIT and account pages.
+Playwright is a dev-only dependency; the shipped app has no runtime dependencies.
+
+For a read-only capacity probe against the core public routes:
+
+```bash
+npm run test:load -- --base=http://127.0.0.1:3000 --requests=2000 --concurrency=1000
+```
+
+The probe reports status codes, throughput and p50/p95/p99 latency per route. Public
+Vercel probes are capped at 50 concurrent requests to protect the live service. This
+test does not measure signed-in database operations or paid AI-provider capacity; run
+those against a dedicated staging project with test accounts before making a production
+capacity claim.
 
 `npm run test:all` runs all three.
 
