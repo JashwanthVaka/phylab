@@ -1,5 +1,6 @@
 import { escapeHTML } from './utils.js';
 import { learningStorage as localStorage } from './services/learningStorage.js';
+import { notebookService } from './services/notebookService.js';
 
 const KEY = 'kinetiq_notebook_v1';
 const read = () => { try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch { return []; } };
@@ -10,6 +11,7 @@ export function saveNotebookItem(item) {
   const rows = read();
   rows.unshift({ id: id(), createdAt: new Date().toISOString(), type: 'note', topic: '', title: '', body: '', back: '', ...item });
   write(rows);
+  void notebookService.save(rows[0]);
   return rows[0];
 }
 
@@ -24,11 +26,11 @@ export function personalFlashcards() {
   }));
 }
 
-export function notebookPage() {
-  const rows = read();
+export function notebookPage(rows = read(), syncError = '') {
   return `<section class="page notebook-page">
     <p class="eyebrow">PERSONAL NOTEBOOK</p><h1>Keep the physics you want to remember.</h1>
-    <p class="page-lead">Notes, lesson highlights and your own flashcards stay inside your personal KINETIQ workspace. They are never visible to teachers or other learners.</p>
+    <p class="page-lead">Notes, lesson highlights and your own flashcards stay inside your personal KINETIQ workspace. Signed-in learners can use them across devices. They are never visible to teachers or other learners.</p>
+    ${syncError ? `<div class="notice" role="status"><b>Using this device copy.</b> Cloud sync could not be reached just now. Your notebook remains safe here and will retry later.</div>` : ''}
     <form class="content-card notebook-form" data-notebook-form>
       <label>Type<select name="type"><option value="note">Note</option><option value="highlight">Highlight</option><option value="flashcard">Personal flashcard</option></select></label>
       <label>Topic<input name="topic" maxlength="100" placeholder="For example: Kinematics"></label>
@@ -58,6 +60,7 @@ export function bindNotebook() {
     if (!button) return;
     const note = button.closest('[data-note]');
     write(read().filter(row => row.id !== note.dataset.note));
+    void notebookService.remove(note.dataset.note);
     note.remove();
   });
 }

@@ -131,23 +131,28 @@ export async function initAccountMenu() {
         // Anything still on the device belongs in the account first. Only
         // once it is safely there is it taken off the machine, so the next
         // person to sign in does not inherit the last person's lessons.
-        const [{ progressService }, { quizService }, { flashcardService }] = await Promise.all([
-          import('./services/progressService.js'), import('./services/quizService.js'), import('./services/flashcardService.js')
+        const [{ progressService }, { quizService }, { flashcardService }, { notebookService }] = await Promise.all([
+          import('./services/progressService.js'), import('./services/quizService.js'), import('./services/flashcardService.js'),
+          import('./services/notebookService.js')
         ]);
         let moved;
         let quizzes;
         let flashcards;
+        let notebook;
         try {
           moved = await progressService.migrateLocal();
           quizzes = await quizService.migrateLocal();
           flashcards = await flashcardService.migrateLocal();
+          notebook = await notebookService.migrateLocal();
         } catch {
           moved = { cleared: false };
           quizzes = { failed: ['unknown'] };
           flashcards = { cleared: false };
+          notebook = { cleared: false };
         }
         if (!quizzes.failed?.length) quizService.forgetDevice();
         if (flashcards?.cleared) flashcardService.forgetDevice();
+        if (notebook?.cleared) notebookService.forgetDevice();
         await authService.signOut();
         const { clearLocalProfile } = await import('./localProfile.js');
         clearLocalProfile();
@@ -161,6 +166,9 @@ export async function initAccountMenu() {
         }
         if (flashcards?.cleared === false) {
           window.alert('Some flashcard reviews could not be saved to your account, so they remain on this browser. Sign in again on this device when you are back online.');
+        }
+        if (notebook?.cleared === false) {
+          window.alert('Some notebook items could not be saved to your account, so they remain on this browser. Sign in again on this device when you are back online.');
         }
       }
       await paint();

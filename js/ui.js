@@ -124,6 +124,10 @@ function renderFormulaPage(selected) {
     </div>
     ${showGraph ? renderGraph(graph) : ''}
     ${showCalculator ? renderCalculator() : ''}
+    <div class="lesson-actions formula-actions">
+      <a class="button" href="/ask?q=${encodeURIComponent(`Explain ${selected.name}: ${selected.formula}`)}" data-route>Ask KIT about this formula</a>
+      <a class="outline" href="/quiz?mode=Formula%20Quiz" data-route>Practise formula recall</a>
+    </div>
     <section class="lesson-section">
       <p class="eyebrow">EXAM TECHNIQUE</p>
       <div class="card-grid">

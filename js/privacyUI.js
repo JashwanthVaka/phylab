@@ -27,6 +27,7 @@ export function privacyPage() {
       <ul>
         <li>You can use every part of KINETIQ without an account. Your progress then stays in your own browser.</li>
         <li>Source-cited Ask KIT answers use KINETIQ's own course material. The optional generative tutor sends a question and any attached image to the configured AI provider.</li>
+        <li>Signed-in notebook notes, highlights and personal flashcards are stored in the same owner-only account store as bookmarks so they can follow you across devices. Teachers cannot read them.</li>
         <li>There is no advertising, no analytics and no tracking.</li>
       </ul>
     </div>

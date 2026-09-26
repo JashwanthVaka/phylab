@@ -1,6 +1,7 @@
 import { physics } from './physicsEngine.js';
 import { escapeHTML } from './utils.js';
 import { renderGraph, bindGraphs, updateGraph, seekGraph } from './graphEngine.js';
+import { studySessionService } from './services/studySessionService.js';
 
 const C = 299792458;
 const H = 6.62607015e-34;
@@ -322,6 +323,10 @@ export function bindStudio() {
   let frame = 0;
   let startedAt = 0;
   let offset = 0;
+  const studySession = studySessionService.start({
+    kind: 'Simulation', slug: form.dataset.sim, title: sim.title,
+    href: `/simulations/${form.dataset.sim}`
+  });
 
   const readValues = () => Object.fromEntries(sim.fields.map(([key]) => [key, Number(form.querySelector(`[data-number="${key}"]`).value)]));
   const problems = () => sim.fields.reduce((list, [key, label, unit, , min, max]) => {
@@ -352,6 +357,7 @@ export function bindStudio() {
   };
 
   const update = ({ animateGraph = true } = {}) => {
+    studySessionService.touch(studySession);
     const issues = problems();
     validation.hidden = issues.length === 0;
     validation.textContent = issues.join(' ');
@@ -432,5 +438,9 @@ export function bindStudio() {
   });
 
   update({ animateGraph: false });
-  return () => { stopPlayback(); cleanupGraphs?.(); };
+  return () => {
+    stopPlayback();
+    cleanupGraphs?.();
+    void studySessionService.end(studySession);
+  };
 }

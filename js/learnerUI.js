@@ -89,6 +89,16 @@ export function dashboardView(summary, extra = {}) {
   const practiceHref = weakName
     ? `/quiz?mode=Weak%20Topic%20Quiz&topic=${encodeURIComponent(weakName)}&count=5`
     : '/quiz?mode=Diagnostic&count=10';
+  const lessonNames = new Map(lessons.map(lesson => [lesson.slug, lesson.title]));
+  const recentActivity = summary.guest
+    ? results.slice(0, 12).map(result => ({
+      kind: result.mode || 'Practice', title: `${result.marksEarned}/${result.maxMarks} marks`,
+      detail: 'Completed practice set', href: `/results/${result.id}`, at: result.startedAt
+    }))
+    : (summary.recentActivity || []).map(item => ({
+      ...item,
+      title: item.kind === 'Lesson' ? (lessonNames.get(item.title) || item.title) : item.title
+    }));
   const adaptivePath = [
     {
       number: '01', kind: 'Learn', title: next ? next.title : 'Course lessons complete',
@@ -229,9 +239,10 @@ export function dashboardView(summary, extra = {}) {
 
     <section class="lesson-section">
       <div class="section-title"><p class="eyebrow">RECENT ACTIVITY</p><h2>What you have done</h2></div>
-      ${results.length
-        ? `<div class="activity-list">${results.slice(0, 8).map(result => `<article class="activity-row"><span class="tag">${escapeHTML(result.mode || 'Practice')}</span><b>${result.marksEarned}/${result.maxMarks} marks</b><span class="muted">${new Date(result.startedAt || Date.now()).toLocaleString()}</span><a class="text-button" href="/results/${escapeHTML(result.id)}" data-route>View →</a></article>`).join('')}</div>`
-        : noData('Completed practice sessions will be listed here with their marks.')}
+      <p class="muted">Lessons, simulations, practice, revision, saved work and KIT questions appear together in time order.</p>
+      ${recentActivity.length
+        ? `<div class="activity-list">${recentActivity.map(item => `<article class="activity-row"><span class="tag">${escapeHTML(item.kind || 'Study')}</span><b>${escapeHTML(item.title || 'Learning activity')}</b><span>${escapeHTML(item.detail || '')}</span><span class="muted">${new Date(item.at || Date.now()).toLocaleString()}</span><a class="text-button" href="${escapeHTML(item.href || '/progress')}" data-route>Open →</a></article>`).join('')}</div>`
+        : noData('Complete a lesson, simulation, practice set or review and it will appear here.')}
     </section>
 
     <section class="lesson-section">

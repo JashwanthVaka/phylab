@@ -16,7 +16,7 @@
 // Bump for source deployments too. Vercel serves this file directly rather
 // than through build-static.mjs, so a literal __BUILD__ token would otherwise
 // keep old content caches alive across releases.
-const VERSION = 'kinetiq-b260926';
+const VERSION = 'kinetiq-b260927';
 const SHELL = `${VERSION}-shell`;
 const CONTENT = `${VERSION}-content`;
 

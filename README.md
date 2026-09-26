@@ -36,6 +36,11 @@ and ES modules on a dependency-free Node server.
   automatically and rescheduled at 1, 3, 7, 16 and 35 days.
 - **Revision planner** (`/revision`) — a week's plan built only from real state: elapsed
   flashcards, banked mistakes and unstarted lessons, ordered by what costs most to leave.
+- **Personal notebook** (`/notebook`) — notes, lesson highlights and personal flashcards.
+  Signed-in notebooks sync through the existing owner-only account store and remain hidden
+  from teachers and other learners.
+- **Connected activity** (`/activity`) — lessons, simulations, practice, revision, saved
+  work and Ask KIT conversations in one chronological account timeline.
 - **Case practice** (`/cases`), **question patterns** (`/patterns`), **active toolkit**
   (`/toolkit`), **exam preparation hub** (`/exam-prep`), **source library** (`/resources`),
   **formula centre** (`/formulas`), a **quiz engine** with deterministic marking, and
@@ -251,6 +256,10 @@ local-only for the same reason.
 
 ## Next
 
-- Supabase is fully wired but unconfigured, so progress is stored per browser. Filling in
-  `public-env.js` with a project URL and anon key enables cross-device sync.
+- Supabase and Google sign-in are configured on the live Vercel deployment. Local copies
+  need their own ignored `.env` values. Apple sign-in remains intentionally deferred.
+- Read-only production traffic has passed a 1,000-request test, but 1,000 simultaneous
+  signed-in learners have not been certified by an authenticated load test.
+- Source-cited Ask KIT works without a paid model. Generative answers remain dependent on
+  whichever optional provider has free or paid quota available.
 - Applied cases are uneven by unit: A has five, B and C four each, D and E three.

@@ -363,13 +363,16 @@ const router = new Router({
   '/bookmarks': () => transition(async () => ({ view: bookmarkPage(await bookmarkService.list()) }), 'Loading bookmarks…'),
   '/notebook': () => transition(async () => {
     const notebook = await loadPageModule('./js/notebookUI.js');
-    return { view: notebook.notebookPage(), mount: notebook.bindNotebook };
+    const { notebookService } = await loadPageModule('./js/services/notebookService.js');
+    const state = await notebookService.restore();
+    return { view: notebook.notebookPage(state.rows, state.error), mount: notebook.bindNotebook };
   }, 'Opening your notebook…'),
   '/revision': () => transition(async () => {
     const [index, planner, state, settings, cards] = await Promise.all([
       loader.getIndex(), loadPageModule('./js/revisionUI.js'), progressService.list(),
       profileService.getSettings().catch(() => null),
-      import('./js/services/flashcardService.js').then(({ flashcardService }) => flashcardService.list()).catch(() => null)
+      import('./js/services/flashcardService.js').then(({ flashcardService }) => flashcardService.list()).catch(() => null),
+      import('./js/services/notebookService.js').then(({ notebookService }) => notebookService.restore()).catch(() => null)
     ]);
     const lessons = await Promise.all(index.lessonIndex.map(item => loader.getLesson(item.slug)));
     await restorePractice(index);
@@ -459,6 +462,12 @@ async function boot() {
             await quizService.migrateLocal();
           } catch (error) {
             console.warn('KINETIQ could not move guest practice into the account.', error);
+          }
+          try {
+            const { notebookService } = await import('./js/services/notebookService.js');
+            await notebookService.migrateLocal();
+          } catch (error) {
+            console.warn('KINETIQ could not move the guest notebook into the account.', error);
           }
           const { destinationFor } = await import("./js/authFlow.js");
           const target = destinationFor(session.user);
