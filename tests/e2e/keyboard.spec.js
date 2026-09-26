@@ -8,7 +8,7 @@
  */
 import { test, expect } from '@playwright/test';
 
-const ROUTES = ['/', '/library', '/ai', '/ask', '/progress', '/exam-prep', '/login'];
+const ROUTES = ['/', '/library', '/ai', '/ask', '/progress', '/exam-prep', '/studio', '/login'];
 
 test.describe('keyboard traversal', () => {
   test.use({ viewport: { width: 1280, height: 900 } });

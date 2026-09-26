@@ -191,9 +191,9 @@ export function bindDiagrams(root = document) {
   const controller = new AbortController();
   const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
   const views = [
-    { key: 'front', label: 'Front' },
-    { key: 'left', label: 'Left' },
-    { key: 'right', label: 'Right' },
+    { key: 'front', label: 'Front', guidance: 'Read the quantities, arrows and equation in their undistorted teaching view.' },
+    { key: 'left', label: 'Relationship', guidance: 'Use the left angle to separate the spatial layers and follow what causes the change.' },
+    { key: 'right', label: 'Outcome', guidance: 'Use the right angle to inspect the direction, path or field produced by the model.' },
   ];
 
   const changeView = diagram => {
@@ -206,7 +206,7 @@ export function bindDiagrams(root = document) {
       button.textContent = `3D view · ${next.label}`;
       button.setAttribute('aria-label', `Change 3D viewing angle. Current view: ${next.label.toLowerCase()}`);
     }
-    if (state) state.textContent = `${next.label} viewing angle selected. The physics relationships and labels are unchanged.`;
+    if (state) state.textContent = `${next.label} viewing angle selected. ${next.guidance}`;
   };
   const replay = diagram => {
     diagram.classList.remove('is-animating');

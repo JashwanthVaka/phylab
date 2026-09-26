@@ -77,6 +77,7 @@ export class Router {
           search
         });
         revealHash();
+        window.dispatchEvent(new CustomEvent('kinetiq:route', { detail: { path } }));
         return result;
       }
     }

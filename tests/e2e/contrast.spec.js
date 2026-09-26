@@ -66,7 +66,7 @@ for (const theme of ['light', 'dark']) {
     // lightens it so links read on a dark page, and white button text on that
     // lighter orange fails. Every control and text role is measured here.
     for (const route of ['/', '/library', '/lesson/kinematics', '/simulations/projectile',
-      '/cases', '/ask', '/ai', '/exam-prep', '/progress', '/revision', '/formulas', '/login']) {
+      '/cases', '/ask', '/ai', '/exam-prep', '/progress', '/revision', '/formulas', '/studio', '/login']) {
       test(`controls and text on ${route} clear AA`, async ({ page }) => {
         await page.goto(route, { waitUntil: 'domcontentloaded' });
         await page.locator('#app h1').first().waitFor({ timeout: 15000 });

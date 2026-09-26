@@ -61,10 +61,12 @@ test('the three-angle model viewer is keyboard operable and preserves its labels
   await view.focus();
   await page.keyboard.press('Enter');
   await expect(diagram).toHaveAttribute('data-view-angle', 'left');
-  await expect(view).toHaveText('3D view · Left');
+  await expect(view).toHaveText('3D view · Relationship');
+  await expect(diagram.locator('[data-diagram-state]')).toContainText('separate the spatial layers');
   await expect(diagram.locator('.diagram__cues li').filter({ hasText: 'Gradient gives acceleration' })).toBeVisible();
 
   await page.keyboard.press('Space');
   await expect(diagram).toHaveAttribute('data-view-angle', 'right');
-  await expect(view).toHaveAttribute('aria-label', /current view: right/i);
+  await expect(view).toHaveAttribute('aria-label', /current view: outcome/i);
+  await expect(diagram.locator('[data-diagram-state]')).toContainText('path or field');
 });

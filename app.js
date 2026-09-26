@@ -27,6 +27,7 @@ import { bookmarkService } from './js/services/bookmarkService.js';
 import { offlineSyncService } from './js/services/offlineSyncService.js';
 import { dashboardService } from './js/services/dashboardService.js';
 import { dashboardView, masteryView , bindProgressTransfer } from './js/learnerUI.js';
+import { initStudyEnhancements } from './js/studyEnhancements.js';
 
 const app = document.querySelector('#app');
 const loader = new ContentLoader();
@@ -170,7 +171,11 @@ async function transition(work, message = 'Loading page…') {
   try {
     const page = await work();
     if (version !== routeVersion) return;
-    render(page.view);
+    const paint = () => render(page.view);
+    const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    if (hasRenderedOnce && document.startViewTransition && !reduceMotion) {
+      await document.startViewTransition(paint).updateCallbackDone;
+    } else paint();
     const cleanup = await page.mount?.();
     if (version === routeVersion) registerPageCleanup(cleanup);
   } catch (error) {
@@ -322,6 +327,11 @@ const router = new Router({
     const [index, resources] = await Promise.all([loader.getIndex(), loadPageModule('./js/resourcesUI.js')]);
     return { view: resources.resourcesPage(index), mount: () => resources.bindResources() };
   }, 'Loading the source library…'),
+  '/studio': () => transition(async () => {
+    const [index, studio] = await Promise.all([loader.getIndex(), loadPageModule('./js/studyStudio.js')]);
+    const lessons = await Promise.all(index.lessonIndex.map(item => loader.getLesson(item.slug)));
+    return { view: studio.studyStudioPage(index, lessons), mount: () => studio.bindStudyStudio(index, lessons) };
+  }, 'Opening the Study Studio…'),
   '/progress': () => transition(async () => ({ view: dashboardView(...(await dashboardContext())), mount: () => bindProgressTransfer() }), 'Loading progress…'),
   '/mastery': () => transition(async () => {
     const [summary, index] = await Promise.all([dashboardService.summary(), loader.getIndex()]);
@@ -409,6 +419,7 @@ async function boot() {
     ]);
     searchIndex = new SearchIndex(index);
     indexContent(index);
+    initStudyEnhancements();
     // Resolve identity before reading any private browser study cache.
     await import('./js/services/learningStorage.js').then(m => m.initialiseLearningStorage());
     if (!routerStarted) {

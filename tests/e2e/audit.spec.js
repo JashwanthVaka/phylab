@@ -22,7 +22,7 @@ test.beforeEach(async ({ page }) => {
 const ROUTES = [
   '/', '/library', '/simulations', '/cases', '/ask', '/exam-prep', '/progress',
   '/ai', '/toolkit', '/data', '/ia', '/mistakes', '/revision', '/formulas',
-  '/patterns', '/resources', '/login', '/privacy', '/terms'
+  '/patterns', '/resources', '/studio', '/login', '/privacy', '/terms'
 ];
 // hasTouch matters: the touch-target rules are written against
 // `@media (pointer: coarse)`, so without it the browser reports a fine pointer
@@ -70,6 +70,13 @@ for (const size of SIZES) {
             const box = el.getBoundingClientRect();
             if (!box.width || !box.height) continue;
             if (getComputedStyle(el).visibility === 'hidden') continue;
+            // A checkbox or radio inside a label is activated by the label's
+            // full box. Measure that real target instead of only the native
+            // 18px glyph painted inside it.
+            if (el.matches('input[type="checkbox"], input[type="radio"]')) {
+              const labelBox = el.closest('label')?.getBoundingClientRect();
+              if (labelBox && labelBox.width >= min && labelBox.height >= min) continue;
+            }
             // WCAG 2.5.5 exempts a link sitting inline inside a sentence:
             // it cannot be padded out without breaking the line it lives in.
             // A stretched link: the element paints a ::after over its whole

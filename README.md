@@ -41,6 +41,10 @@ and ES modules on a dependency-free Node server.
   from teachers and other learners.
 - **Connected activity** (`/activity`) — lessons, simulations, practice, revision, saved
   work and Ask KIT conversations in one chronological account timeline.
+- **Study Studio** (`/studio`) — derivation steps, graph prediction, simulation comparison,
+  unit conversion, practical planning, explanation practice, a scratchpad, focus timer,
+  honest study calendar and collections. Reading controls, read-aloud support and a
+  contextual mobile study dock are available across the learning journey.
 - **Case practice** (`/cases`), **question patterns** (`/patterns`), **active toolkit**
   (`/toolkit`), **exam preparation hub** (`/exam-prep`), **source library** (`/resources`),
   **formula centre** (`/formulas`), a **quiz engine** with deterministic marking, and

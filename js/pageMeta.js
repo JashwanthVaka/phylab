@@ -52,6 +52,7 @@ const STATIC = {
   '/reset': ['No password needed', 'KINETIQ has no password of its own. Sign in with Google or a secure email link.'],
   '/signup': ['Create your account', 'Signing in with Google or a secure email link creates your KINETIQ account.'],
   '/activity': ['Activity', 'What you have studied recently.'],
+  '/studio': ['Study Studio', 'Interactive derivations, graph predictions, comparison tools, study planning and accessible reading controls.'],
 };
 
 const titleTag = value => (value === SITE ? SITE : `${value} | ${SITE}`);

@@ -25,6 +25,7 @@ const PAGES = [
   ['Formula centre', '/formulas', 'Page'],
   ['Question patterns', '/patterns', 'Page'],
   ['Source library', '/resources', 'Page'],
+  ['Study Studio', '/studio', 'Page'],
   ['Progress', '/progress', 'Page'],
   ['Ask KIT', '/ask', 'Page'],
 ];
