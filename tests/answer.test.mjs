@@ -59,6 +59,7 @@ const expectations = [
   ['photoelectric effect', /photoelectric|quantum|photon/i],
   ['half life decay constant', /half|decay/i],
   ['deduce command term', /deduce/i],
+  ['What is acceleration?', /^Acceleration$/i],
 ];
 
 for (const [question, expected] of expectations) {

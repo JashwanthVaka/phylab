@@ -35,6 +35,23 @@ const wantsDefinition = query => /\b(what is|what are|define|definition|meaning|
 const wantsFormula = query => /\b(formula|equation|expression|calculate|work out|find)\b/i.test(query);
 const wantsMistake = query => /\b(mistake|wrong|error|trap|careful|watch out)\b/i.test(query);
 
+const normalise = value => String(value || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+const queriedSubject = query => normalise(query)
+  .replace(/^(what is|what are|define|definition of|meaning of|give the formula for|formula for|equation for)\s+/, '')
+  .replace(/\s+(mean|means)$/, '')
+  .trim();
+
+/** Prefer an exact named concept when the question explicitly asks for it. */
+function intendedLead(query, hits) {
+  const subject = queriedSubject(query);
+  if (!subject) return hits[0];
+  const exact = hits.filter(hit => normalise(hit.title) === subject);
+  if (!exact.length) return hits[0];
+  if (wantsDefinition(query)) return exact.find(hit => ['Definition', 'Glossary', 'Concept'].includes(hit.type)) || exact[0];
+  if (wantsFormula(query)) return exact.find(hit => hit.type === 'Formula') || exact[0];
+  return exact[0];
+}
+
 /**
  * @param {string} query        the learner's question
  * @param {Array}  hits         scored records from the retrieval engine
@@ -53,8 +70,9 @@ function composeAnswer(query, hits) {
     };
   }
 
-  const best = hits[0];
-  const topScore = Number(best.score) || 1;
+  const scoreLeader = hits[0];
+  const best = intendedLead(query, hits);
+  const topScore = Number(scoreLeader.score) || 1;
 
   // Passages far below the best match are usually a coincidental word overlap
   // rather than the subject. Keeping them produced answers that opened on the
@@ -130,7 +148,7 @@ function composeAnswer(query, hits) {
 
   // Confidence is a plain statement about match strength, not a guess dressed
   // up as a number. A weak top score means the reader should check the source.
-  const top = Number(best.score) || 0;
+  const top = Number(scoreLeader.score) || 0;
   const confidence = top >= 24 ? 'strong' : top >= 12 ? 'partial' : 'weak';
 
   // Strong neighbouring matches that did not make it into the answer are the
