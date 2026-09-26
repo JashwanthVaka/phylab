@@ -14,6 +14,7 @@ and ES modules on a dependency-free Node server.
 | Applied cases | 19 real-world contexts |
 | Command terms | 15, with method and model answers |
 | Simulations | 26 labs, one per lesson, driven by the real equations |
+| Visual models | 26 lesson-specific, labelled 3D viewers with front, left and right angles |
 | Formulae | 131, each with variables and meaning |
 
 - **Course library** (`/library`) — all 26 lessons grouped into the five units
@@ -22,6 +23,9 @@ and ES modules on a dependency-free Node server.
   with search, unit filters, per-lesson completion and an overall progress ring.
 - **Simulation studio** (`/simulations`) — 26 labs with sliders and number inputs, live
   answers in SI units, an animated marker that advances physical time, and play/pause/reset.
+- **Lesson visual models** — every lesson has its own labelled SVG concept model inside a
+  keyboard-operable three-angle viewer. The front angle preserves undistorted graphs and
+  equations, while left and right angles expose the spatial layers without changing the physics.
 - **Data lab** (`/data`) — paste practical measurements, pick one of six linearisations, and
   get a scatter plot with error bars, a least-squares fit, and the gradient with its
   uncertainty from the steepest and shallowest lines. Judges whether an accepted value falls

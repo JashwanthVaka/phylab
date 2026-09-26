@@ -3210,7 +3210,14 @@ input, select, textarea, .stats, .facts {
   letter-spacing: .12em;
   text-transform: uppercase;
 }
-.diagram__replay {
+.diagram__controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.diagram__replay,
+.diagram__view {
   min-height: 44px;
   padding: 9px 14px;
   flex: 0 0 auto;
@@ -3222,7 +3229,9 @@ input, select, textarea, .stats, .facts {
   cursor: pointer;
   transition: transform var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease), background var(--t-fast) var(--ease);
 }
-.diagram__replay:hover { transform: translateY(-2px); border-color: var(--diagram-accent); }
+.diagram__view { background: var(--surface); }
+.diagram__replay:hover,
+.diagram__view:hover { transform: translateY(-2px); border-color: var(--diagram-accent); }
 
 .diagram__stage {
   position: relative;
@@ -3231,6 +3240,7 @@ input, select, textarea, .stats, .facts {
   display: grid;
   place-items: center;
   overflow: hidden;
+  perspective: 980px;
   background-color: var(--diagram-stage);
   background-image:
     linear-gradient(var(--diagram-grid) 1px, transparent 1px),
@@ -3259,16 +3269,46 @@ input, select, textarea, .stats, .facts {
   font: 650 10px/1 var(--font-mono);
   letter-spacing: .11em;
 }
+.diagram__world {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 660px);
+  transform-style: preserve-3d;
+  transform: translateZ(0);
+  transition: transform 320ms var(--ease);
+  will-change: transform;
+}
+.diagram__backplane {
+  position: absolute;
+  z-index: 0;
+  inset: 8% 5%;
+  border: 1px solid color-mix(in srgb, var(--diagram-accent) 20%, transparent);
+  border-radius: 18px;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--diagram-accent-soft) 60%, transparent), transparent 64%);
+  box-shadow: 14px 18px 32px color-mix(in srgb, var(--diagram-accent) 11%, transparent);
+  transform: translate3d(0, 8px, -34px) scale(.96);
+  pointer-events: none;
+}
+.diagram[data-view-angle="left"] .diagram__world {
+  transform: rotateX(2.5deg) rotateY(-7deg) translateX(-1%);
+}
+.diagram[data-view-angle="right"] .diagram__world {
+  transform: rotateX(2.5deg) rotateY(7deg) translateX(1%);
+}
 .diagram svg {
   position: relative;
   z-index: 1;
   display: block;
-  width: min(100%, 680px);
+  width: 100%;
+  max-width: 660px;
   height: auto;
   max-height: 360px;
   aspect-ratio: 360 / 190;
   overflow: visible;
   color: var(--diagram-line);
+  transform: translateZ(16px);
+  backface-visibility: hidden;
 }
 .diagram svg :is(line, path, polyline, circle, rect) { vector-effect: non-scaling-stroke; }
 .diagram svg :is(line, polyline, path) {
@@ -3382,9 +3422,10 @@ input, select, textarea, .stats, .facts {
 }
 
 @media (max-width: 620px) {
-  .diagram__header { align-items: flex-start; padding: 17px; }
+  .diagram__header { align-items: flex-start; padding: 17px; flex-direction: column; }
   .diagram__header h3 { font-size: 21px; }
-  .diagram__replay { padding-inline: 11px; }
+  .diagram__controls { width: 100%; justify-content: stretch; }
+  .diagram__replay, .diagram__view { flex: 1 1 140px; padding-inline: 11px; }
   .diagram__stage { min-height: 220px; padding: 34px 12px 16px; }
   .diagram__scale { top: 11px; right: 12px; font-size: 9px; }
   .diagram figcaption { grid-template-columns: 1fr; gap: 4px; padding: 16px 17px 9px; }
@@ -3393,7 +3434,8 @@ input, select, textarea, .stats, .facts {
 
 @media (prefers-reduced-motion: reduce) {
   .diagram.is-animating svg :is(line, path, polyline, circle, rect) { animation: none; }
-  .diagram__replay:hover { transform: none; }
+  .diagram__replay:hover, .diagram__view:hover { transform: none; }
+  .diagram__world { transition: none; }
 }
 
 @media (prefers-reduced-transparency: reduce) {

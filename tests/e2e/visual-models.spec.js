@@ -13,6 +13,8 @@ test('every lesson has a bounded, labelled and readable concept model', async ({
     await expect(diagram, `${lesson.title} has a concept model`).toBeVisible();
     await expect(diagram.locator('.diagram__header h3')).not.toBeEmpty();
     await expect(diagram.locator('.diagram__cues li')).toHaveCount(2);
+    await expect(diagram).toHaveAttribute('data-scene-depth', '3d');
+    await expect(diagram.getByRole('button', { name: /Change 3D viewing angle/ })).toBeVisible();
 
     const visual = await diagram.evaluate(element => {
       const svg = element.querySelector('svg');
@@ -49,4 +51,20 @@ test('the concept model stays readable in dark mode and can replay', async ({ pa
 
   await page.getByRole('button', { name: /Replay .* drawing/ }).click();
   await expect(diagram).toHaveClass(/is-animating/);
+});
+
+test('the three-angle model viewer is keyboard operable and preserves its labels', async ({ page }) => {
+  await page.goto('/lesson/kinematics');
+  const diagram = page.locator('[data-diagram]');
+  const view = diagram.getByRole('button', { name: /Change 3D viewing angle/ });
+
+  await view.focus();
+  await page.keyboard.press('Enter');
+  await expect(diagram).toHaveAttribute('data-view-angle', 'left');
+  await expect(view).toHaveText('3D view · Left');
+  await expect(diagram.locator('.diagram__cues li').filter({ hasText: 'Gradient gives acceleration' })).toBeVisible();
+
+  await page.keyboard.press('Space');
+  await expect(diagram).toHaveAttribute('data-view-angle', 'right');
+  await expect(view).toHaveAttribute('aria-label', /current view: right/i);
 });

@@ -52,14 +52,20 @@ const svg = (key, content, label, depth = '2d') => {
   const svgTitleId = `diagram-${key}-svg-title`;
   const svgDescId = `diagram-${key}-svg-desc`;
   const stateId = `diagram-${key}-state`;
-  return `<figure class="diagram" data-diagram="${escapeHTML(key)}" data-diagram-group="${escapeHTML(group)}" data-scene-depth="${escapeHTML(depth)}" aria-labelledby="${titleId}" aria-describedby="${captionId} ${stateId}">
+  return `<figure class="diagram" data-diagram="${escapeHTML(key)}" data-diagram-group="${escapeHTML(group)}" data-scene-depth="${escapeHTML(depth)}" data-view-angle="front" aria-labelledby="${titleId}" aria-describedby="${captionId} ${stateId}">
     <header class="diagram__header">
       <div><span class="diagram__group">${escapeHTML(group)}</span><h3 id="${titleId}">${escapeHTML(title)}</h3></div>
-      <button type="button" class="diagram__replay" data-diagram-replay aria-label="Replay ${escapeHTML(title)} drawing">Replay model</button>
+      <div class="diagram__controls" role="group" aria-label="Model controls">
+        <button type="button" class="diagram__view" data-diagram-view aria-label="Change 3D viewing angle. Current view: front">3D view · Front</button>
+        <button type="button" class="diagram__replay" data-diagram-replay aria-label="Replay ${escapeHTML(title)} drawing">Replay model</button>
+      </div>
     </header>
     <div class="diagram__stage">
-      <span class="diagram__scale">CONCEPT MODEL · NOT TO SCALE</span>
-      <svg viewBox="0 0 360 190" role="img" aria-labelledby="${svgTitleId}" aria-describedby="${svgDescId}" preserveAspectRatio="xMidYMid meet"><title id="${svgTitleId}">${escapeHTML(title)}</title><desc id="${svgDescId}">${escapeHTML(label)} ${cues.map(cue => escapeHTML(cue)).join('. ')}.</desc>${content}</svg>
+      <span class="diagram__scale">INTERACTIVE 3D CONCEPT MODEL · NOT TO SCALE</span>
+      <div class="diagram__world" data-diagram-world>
+        <span class="diagram__backplane" aria-hidden="true"></span>
+        <svg viewBox="0 0 360 190" role="img" aria-labelledby="${svgTitleId}" aria-describedby="${svgDescId}" preserveAspectRatio="xMidYMid meet"><title id="${svgTitleId}">${escapeHTML(title)}</title><desc id="${svgDescId}">${escapeHTML(label)} ${cues.map(cue => escapeHTML(cue)).join('. ')}.</desc>${content}</svg>
+      </div>
     </div>
     <figcaption id="${captionId}"><b>What to notice</b><span>${escapeHTML(label)}</span></figcaption>
     ${cues.length ? `<ul class="diagram__cues">${cues.map(cue => `<li>${escapeHTML(cue)}</li>`).join('')}</ul>` : ''}
@@ -184,6 +190,24 @@ export function bindDiagrams(root = document) {
   if (!diagrams.length) return undefined;
   const controller = new AbortController();
   const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  const views = [
+    { key: 'front', label: 'Front' },
+    { key: 'left', label: 'Left' },
+    { key: 'right', label: 'Right' },
+  ];
+
+  const changeView = diagram => {
+    const current = views.findIndex(view => view.key === diagram.dataset.viewAngle);
+    const next = views[(current + 1) % views.length];
+    const button = diagram.querySelector('[data-diagram-view]');
+    const state = diagram.querySelector('[data-diagram-state]');
+    diagram.dataset.viewAngle = next.key;
+    if (button) {
+      button.textContent = `3D view · ${next.label}`;
+      button.setAttribute('aria-label', `Change 3D viewing angle. Current view: ${next.label.toLowerCase()}`);
+    }
+    if (state) state.textContent = `${next.label} viewing angle selected. The physics relationships and labels are unchanged.`;
+  };
   const replay = diagram => {
     diagram.classList.remove('is-animating');
     const state = diagram.querySelector('[data-diagram-state]');
@@ -208,6 +232,7 @@ export function bindDiagrams(root = document) {
 
   diagrams.forEach(diagram => {
     diagram.querySelector('[data-diagram-replay]')?.addEventListener('click', () => replay(diagram), { signal: controller.signal });
+    diagram.querySelector('[data-diagram-view]')?.addEventListener('click', () => changeView(diagram), { signal: controller.signal });
   });
 
   if (!reducedMotion && 'IntersectionObserver' in window) {

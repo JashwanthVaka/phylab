@@ -86,8 +86,8 @@ lessons.forEach(lesson => {
   assert.ok(opens > 0);
 });
 
-for (const slug of ['electromagnetic-waves', 'gas-laws', 'fields', 'magnetic-fields', 'motion-in-fields', 'electromagnetic-induction']) {
-  assert.equal(visualForLesson({ slug }).depth, '3d', `${slug} should use a spatial concept model`);
+for (const slug of COURSE_LESSON_SLUGS) {
+  assert.equal(visualForLesson({ slug }).depth, '3d', `${slug} should use the shared three-angle spatial viewer`);
 }
 
 // An unrecognised topic must show nothing rather than a wrong picture.
