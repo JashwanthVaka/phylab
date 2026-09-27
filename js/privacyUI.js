@@ -8,7 +8,7 @@
  * When the behaviour changes, this page has to change with it.
  */
 
-const UPDATED = '25 September 2026';
+const UPDATED = '27 September 2026';
 const REPO = 'https://github.com/JashwanthVaka/phylab';
 
 const section = (title, body) => `<section class="lesson-section privacy-section">
@@ -28,6 +28,7 @@ export function privacyPage() {
         <li>You can use every part of KINETIQ without an account. Your progress then stays in your own browser.</li>
         <li>Source-cited Ask KIT answers use KINETIQ's own course material. The optional generative tutor sends a question and any attached image to the configured AI provider.</li>
         <li>Signed-in notebook notes, highlights and personal flashcards are stored in the same owner-only account store as bookmarks so they can follow you across devices. Teachers cannot read them.</li>
+        <li>Scheduled reminders are optional. If you enable them, KINETIQ stores a private device subscription and sends only the number of due flashcards and revision tasks.</li>
         <li>There is no advertising, no analytics and no tracking.</li>
       </ul>
     </div>
@@ -54,6 +55,10 @@ export function privacyPage() {
       <p>Your account then stores your profile, lesson progress, practice results, saved KIT conversations and bookmarks, using the database service Supabase. Other students cannot see your work.</p>
       <p>The site owner's administration page can see a list of accounts showing each email address, how it signed in, when it joined and when it last signed in. It cannot open your private study records. As the database operator, the owner can still access stored data through Supabase when needed to operate, secure or recover the service. The owner cannot see your password, because there is none.</p>
       <p>If you join a teacher's class, that teacher can see your display name and aggregate summaries: completed lesson count, assessed topic count and average mastery, and completed quiz count and marks. Teachers cannot directly open your profile or underlying lesson, topic or quiz records. They also cannot see your bookmarks, Ask KIT history, uploaded images or private revision notes. You can leave a class at any time, which immediately removes the teacher's access to these summaries.</p>`)}
+
+    ${section('Scheduled revision reminders', `
+      <p>You can choose to receive one browser notification on a day when signed-in flashcards or revision tasks are due. Enabling this stores a private push endpoint, two browser-generated encryption keys and your time-zone name. Students, teachers and browser code cannot read that store.</p>
+      <p>The notification contains due counts only. It does not include your email address, lesson names, answers or notes. No reminder is sent when nothing is due. You can disable reminders in Study Studio, revoke permission in your browser, or sign out to detach that browser.</p>`)}
 
     ${section('Services the site loads', `
       <ul>

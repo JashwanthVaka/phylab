@@ -51,7 +51,7 @@ const features = [
   ['study timer', /data-timer-toggle/.test(studio)],
   ['session goals', /data-goal-form/.test(studio)],
   ['study calendar', /calendarHTML\(state/.test(studio)],
-  ['honest notifications', /Background scheduling is not enabled/.test(studio)],
+  ['scheduled notifications', /pushService\.enable/.test(studio) && /No reminder is sent when nothing is due/.test(studio)],
   ['custom collections', /data-collection-form/.test(studio)],
   ['reading controls', /data-reading-size/.test(enhancements)],
   ['read aloud', /SpeechSynthesisUtterance/.test(enhancements)],

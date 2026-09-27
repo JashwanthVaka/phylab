@@ -1,6 +1,7 @@
 import { escapeHTML } from './utils.js';
 import { physics } from './physicsEngine.js';
 import { learningStorage as storage } from './services/learningStorage.js';
+import { pushService } from './services/pushService.js';
 
 const STATE_KEY = 'kinetiq_study_studio_v1';
 const readState = () => {
@@ -147,7 +148,7 @@ export function studyStudioPage(index = {}, lessons = []) {
       <div class="section-title"><p class="eyebrow">ORGANISE</p><h2>Keep useful work easy to find.</h2></div>
       <div class="studio-grid studio-grid--compact">
         <article class="studio-tool"><span class="studio-tool__number">13</span><h3>Study calendar</h3><div class="study-calendar" data-calendar></div></article>
-        <article class="studio-tool"><span class="studio-tool__number">14</span><h3>Revision reminders</h3><p>Ask this browser to notify you. KINETIQ never enables notifications without your choice.</p><button class="button" type="button" data-enable-reminders>Enable reminders</button><p class="studio-feedback" role="status" data-reminder-status></p></article>
+        <article class="studio-tool"><span class="studio-tool__number">14</span><h3>Revision reminders</h3><p>Receive one private daily reminder when signed-in flashcards or revision tasks are genuinely due. No reminder is sent when nothing is due.</p><button class="button" type="button" data-enable-reminders>Check reminder status</button><p class="studio-feedback" role="status" data-reminder-status>Requires a signed-in account and browser permission.</p></article>
         <article class="studio-tool"><span class="studio-tool__number">15</span><h3>Custom collections</h3><form data-collection-form><label>Collection name<input name="name" required maxlength="80" placeholder="Mock exam 1"></label><label>Link<input name="href" value="${escapeHTML(location.pathname)}" required></label><button class="button" type="submit">Save current page</button></form><ul class="collection-list" data-collection-list>${collections.map(item => `<li><a href="${escapeHTML(item.href)}" data-route>${escapeHTML(item.name)}</a></li>`).join('')}</ul></article>
         <article class="studio-tool"><span class="studio-tool__number">16</span><h3>Progress report</h3><p>Create a clean printable report from the progress and activity already recorded in KINETIQ.</p><div class="studio-actions"><a class="outline" href="/progress" data-route>Review evidence</a><button class="button" type="button" data-print-report>Print report</button></div></article>
       </div>
@@ -367,14 +368,39 @@ export function bindStudyStudio(index = {}, lessons = []) {
   root.querySelector('[data-scratchpad]')?.addEventListener('input', event => { state.scratchpad = event.target.value; saveState(state); }, { signal });
   root.querySelector('[data-calendar]').innerHTML = calendarHTML(state);
 
-  root.querySelector('[data-enable-reminders]')?.addEventListener('click', async () => {
-    const status = root.querySelector('[data-reminder-status]');
-    if (!('Notification' in window)) { status.textContent = 'Notifications are not supported by this browser.'; return; }
-    const permission = await Notification.requestPermission();
-    if (permission === 'granted') {
-      new Notification('KINETIQ notifications enabled', { body: 'Due work can be surfaced while KINETIQ is open.' });
-      status.textContent = 'Notifications enabled for active KINETIQ sessions. Background scheduling is not enabled.';
-    } else status.textContent = 'Notifications remain off.';
+  const reminderButton = root.querySelector('[data-enable-reminders]');
+  const reminderStatus = root.querySelector('[data-reminder-status]');
+  let reminderEnabled = false;
+  const paintReminder = result => {
+    reminderEnabled = Boolean(result?.subscribed);
+    reminderButton.textContent = reminderEnabled ? 'Disable daily reminders' : 'Enable daily reminders';
+    if (!result?.supported) reminderStatus.textContent = 'This browser does not support scheduled Web Push reminders.';
+    else if (reminderEnabled) reminderStatus.textContent = 'Daily reminders are active on this device. KINETIQ sends only when signed-in review work is due.';
+    else if (result?.permission === 'denied') reminderStatus.textContent = 'Notifications are blocked in this browser’s site settings.';
+  };
+  pushService.status().then(paintReminder).catch(() => {
+    reminderButton.textContent = 'Enable daily reminders';
+  });
+  reminderButton?.addEventListener('click', async () => {
+    reminderButton.disabled = true;
+    reminderStatus.textContent = reminderEnabled ? 'Disabling reminders…' : 'Connecting this device…';
+    try {
+      if (reminderEnabled) {
+        await pushService.disable();
+        paintReminder({ supported: true, subscribed: false, permission: Notification.permission });
+        reminderStatus.textContent = 'Daily reminders are off on this device.';
+      } else {
+        const result = await pushService.enable();
+        paintReminder({ supported: true, subscribed: true, permission: Notification.permission });
+        reminderStatus.textContent = result.testDelivered
+          ? 'Daily reminders are active. A confirmation notification was sent to this device.'
+          : 'Daily reminders are active. The first due-review reminder will confirm delivery.';
+      }
+    } catch (error) {
+      reminderStatus.textContent = error.message;
+    } finally {
+      reminderButton.disabled = false;
+    }
   }, { signal });
 
   root.querySelector('[data-collection-form]')?.addEventListener('submit', event => {

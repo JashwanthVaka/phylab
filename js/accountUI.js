@@ -110,6 +110,10 @@ export function bindAccount(router) {
       if (!quizzes.failed?.length) quizService.forgetDevice();
     } catch { /* Kept on the device. */ }
     try { await flashcardService.migrateLocal(); } catch { /* Kept on the device. */ }
+    try {
+      const { pushService } = await import('./services/pushService.js');
+      await pushService.disable();
+    } catch { /* Signing out must still complete if notification cleanup is offline. */ }
     await authService.signOut();
     const { clearLocalProfile } = await import('./localProfile.js');
     clearLocalProfile();

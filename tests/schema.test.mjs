@@ -34,7 +34,10 @@ const covered = new Set([...explicitPolicies, ...loopedTables]);
 
 tables.forEach(table => {
   assert.ok(rlsEnabled.has(table), `table ${table} does not enable row level security`);
-  assert.ok(covered.has(table), `table ${table} has row level security but no policy, so it denies everything`);
+  const serverOnly = new RegExp(`revoke all on public\\.${table} from anon, authenticated`, 'i').test(sql)
+    && new RegExp(`grant [^;]+ on public\\.${table} to service_role`, 'i').test(sql);
+  assert.ok(covered.has(table) || serverOnly,
+    `table ${table} has neither an RLS policy nor an explicit service-role-only boundary`);
 });
 
 // ── The role column must not be self-writable ────────────────────────

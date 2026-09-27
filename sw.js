@@ -16,7 +16,7 @@
 // Bump for source deployments too. Vercel serves this file directly rather
 // than through build-static.mjs, so a literal __BUILD__ token would otherwise
 // keep old content caches alive across releases.
-const VERSION = 'kinetiq-b260929';
+const VERSION = 'kinetiq-b260930';
 const SHELL = `${VERSION}-shell`;
 const CONTENT = `${VERSION}-content`;
 
@@ -54,6 +54,37 @@ self.addEventListener('message', event => {
     const results = await Promise.allSettled(urls.map(url => cache.add(url)));
     const saved = results.filter(result => result.status === 'fulfilled').length;
     event.source?.postMessage?.({ type: 'KINETIQ_CACHE_COMPLETE', requested: urls.length, saved });
+  })());
+});
+
+self.addEventListener('push', event => {
+  let payload = {};
+  try { payload = event.data?.json() || {}; } catch { payload = { body: event.data?.text() || '' }; }
+  const title = String(payload.title || 'KINETIQ review reminder').slice(0, 120);
+  const body = String(payload.body || 'Your next physics review is ready.').slice(0, 240);
+  const target = String(payload.url || '/revision');
+  const safeTarget = target.startsWith('/') && !target.startsWith('//') ? target : '/revision';
+  event.waitUntil(self.registration.showNotification(title, {
+    body,
+    icon: scoped('icons/momentum-192.png'),
+    badge: scoped('icons/momentum-180.png'),
+    tag: String(payload.tag || 'kinetiq-review').slice(0, 120),
+    renotify: false,
+    data: { url: safeTarget },
+  }));
+});
+
+self.addEventListener('notificationclick', event => {
+  event.notification.close();
+  const target = new URL(event.notification.data?.url || '/revision', self.registration.scope).toString();
+  event.waitUntil((async () => {
+    const windows = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+    const existing = windows.find(client => new URL(client.url).origin === new URL(target).origin);
+    if (existing) {
+      await existing.navigate(target);
+      return existing.focus();
+    }
+    return self.clients.openWindow(target);
   })());
 });
 

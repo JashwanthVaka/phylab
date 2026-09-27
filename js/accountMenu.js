@@ -153,6 +153,10 @@ export async function initAccountMenu() {
         if (!quizzes.failed?.length) quizService.forgetDevice();
         if (flashcards?.cleared) flashcardService.forgetDevice();
         if (notebook?.cleared) notebookService.forgetDevice();
+        try {
+          const { pushService } = await import('./services/pushService.js');
+          await pushService.disable();
+        } catch { /* A stale server record expires after the browser detaches. */ }
         await authService.signOut();
         const { clearLocalProfile } = await import('./localProfile.js');
         clearLocalProfile();

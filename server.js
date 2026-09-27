@@ -7,6 +7,7 @@ const { createRetrievalEngine } = require('./server/retrievalEngine.cjs');
 const { composeAnswer } = require('./server/answerEngine.cjs');
 const { loadPrivateRecords, privateSummary } = require('./server/privateLibrary.cjs');
 const { adminStatsHandler, adminWhoamiHandler, adminSetRoleHandler, isConfigured: adminConfigured } = require('./server/adminStats.cjs');
+const { configured: pushConfigured, subscribeHandler, unsubscribeHandler, cronHandler } = require('./server/pushNotifications.cjs');
 
 const ROOT = __dirname;
 
@@ -380,10 +381,12 @@ async function handleRequest(req, res) {
     return send(res, 200, {
       supabaseUrl: process.env.SUPABASE_URL || '',
       supabaseAnonKey: process.env.SUPABASE_ANON_KEY || '',
+      vapidPublicKey: process.env.VAPID_PUBLIC_KEY || '',
+      pushConfigured: pushConfigured(),
     }, { 'Cache-Control': 'no-store' });
   }
 
-  if (req.method === 'GET' && pathname === '/api/health') return send(res, 200, { status: 'ok', tutorConfigured: availableProviders(req).length > 0, providers: availableProviders(req), privateSources: privateSummary(), adminConfigured: adminConfigured() });
+  if (req.method === 'GET' && pathname === '/api/health') return send(res, 200, { status: 'ok', tutorConfigured: availableProviders(req).length > 0, providers: availableProviders(req), privateSources: privateSummary(), adminConfigured: adminConfigured(), pushConfigured: pushConfigured() });
   if (req.method === 'GET' && pathname === '/api/ai/providers') return send(res, 200, {
     active: resolveProvider(undefined, req),
     providers: Object.entries(PROVIDERS).map(([id, provider]) => ({ id, label: provider.label, configured: providerConfigured(id, req), envKey: provider.envKey, model: providerConfigured(id, req) ? process.env[provider.modelKey] || provider.defaultModel : null }))
@@ -399,6 +402,15 @@ async function handleRequest(req, res) {
     try { return adminSetRoleHandler(req, res, send, adminRoleMatch[1], await readJSON(req)); }
     catch (error) { return send(res, 400, { error: error.message }); }
   }
+  if (req.method === 'POST' && pathname === '/api/push/subscribe') {
+    try { return subscribeHandler(req, res, send, await readJSON(req)); }
+    catch (error) { return send(res, 400, { error: error.message }); }
+  }
+  if (req.method === 'POST' && pathname === '/api/push/unsubscribe') {
+    try { return unsubscribeHandler(req, res, send, await readJSON(req)); }
+    catch (error) { return send(res, 400, { error: error.message }); }
+  }
+  if (req.method === 'GET' && pathname === '/api/cron/reminders') return cronHandler(req, res, send);
   if (req.method === 'POST' && pathname === '/api/chat') return tutor(req, res);
   if (!['GET', 'HEAD'].includes(req.method)) return send(res, 405, { error: 'Method not allowed' });
   return serveAsset(res, pathname, req.method === 'HEAD');
