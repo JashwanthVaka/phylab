@@ -53,6 +53,7 @@ export function privacyPage() {
       <p>Accounts are optional, and signing in is not required for anything on the site.</p>
       <p>You can sign in with Google or request a password-free link to an email address you control. KINETIQ does not see or store a password. It receives your email address and, where the sign-in provider supplies one, your name.</p>
       <p>Your account then stores your profile, lesson progress, practice results, saved KIT conversations and bookmarks, using the database service Supabase. Other students cannot see your work.</p>
+      <p>Your account page lets you download an archive of your own cloud records, sign out every connected device, and permanently delete the account. Deleting the account also deletes its linked cloud study records. KINETIQ never includes private notification encryption keys in an export.</p>
       <p>The site owner's administration page can see a list of accounts showing each email address, how it signed in, when it joined and when it last signed in. It cannot open your private study records. As the database operator, the owner can still access stored data through Supabase when needed to operate, secure or recover the service. The owner cannot see your password, because there is none.</p>
       <p>If you join a teacher's class, that teacher can see your display name and aggregate summaries: completed lesson count, assessed topic count and average mastery, and completed quiz count and marks. Teachers cannot directly open your profile or underlying lesson, topic or quiz records. They also cannot see your bookmarks, Ask KIT history, uploaded images or private revision notes. You can leave a class at any time, which immediately removes the teacher's access to these summaries.</p>`)}
 
@@ -68,6 +69,6 @@ export function privacyPage() {
       </ul>`)}
 
     ${section('Questions about your data', `
-      <p>You can raise a question about this page or your data on the <a href="${REPO}/issues" rel="noopener noreferrer" target="_blank">project's public issue tracker</a>. Please do not post personal details there, since it is public.</p>`)}
+      <p>Signed-in learners can use the private <a href="/feedback" data-route>report form</a> for a content correction, accessibility problem or product suggestion. You can also raise a question on the <a href="${REPO}/issues" rel="noopener noreferrer" target="_blank">project's public issue tracker</a>. Please do not post personal details there, since it is public.</p>`)}
   </section>`;
 }

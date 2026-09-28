@@ -8,6 +8,7 @@ const { composeAnswer } = require('./server/answerEngine.cjs');
 const { loadPrivateRecords, privateSummary } = require('./server/privateLibrary.cjs');
 const { adminStatsHandler, adminWhoamiHandler, adminSetRoleHandler, isConfigured: adminConfigured } = require('./server/adminStats.cjs');
 const { configured: pushConfigured, subscribeHandler, unsubscribeHandler, cronHandler } = require('./server/pushNotifications.cjs');
+const { exportHandler: accountExportHandler, deleteHandler: accountDeleteHandler } = require('./server/accountControls.cjs');
 
 const ROOT = __dirname;
 
@@ -84,18 +85,19 @@ async function lessonFiles() {
   }).map(item => item.file);
 }
 async function readLesson(file) { return validateLesson(JSON.parse(await fs.readFile(path.join(ROOT, 'data', 'lessons', file), 'utf8')), file); }
-function normalizeLesson(raw, file, all) {
+async function readPrerequisites() { return readData('prerequisites.json'); }
+function normalizeLesson(raw, file, all, prerequisites = {}) {
   const slug = slugify(path.basename(file, '.json'));
   const topicLabel = raw.title.replace(/^[A-E]\.\d+\s*/, '');
   const studyMinutes = raw.estimatedStudyTime || Math.max(20, Math.min(75, 12 + (raw.definitions?.length || 0) * 3 + (raw.worked_examples?.length || 0) * 8));
-  return { ...raw, slug, topicLabel, difficulty: raw.difficulty || (String(raw.level).includes('HL') ? 'SL + HL' : 'SL'), estimatedStudyTime: studyMinutes, prerequisites: raw.prerequisites || [], constants: raw.constants || [], derivations: raw.derivations || [], practical_experiment: raw.practical_experiment || '', ia_connection: raw.ia_connection || '', tok_connection: raw.tok_connection || '', relatedTopics: raw.relatedTopics || all.filter(item => item !== file).slice(0, 3).map(item => ({ slug: slugify(path.basename(item, '.json')), title: path.basename(item, '.json').replace(/_/g, ' ') })), formulas: raw.formulas || [], summary: raw.summary || '' };
+  return { ...raw, slug, topicLabel, difficulty: raw.difficulty || (String(raw.level).includes('HL') ? 'SL + HL' : 'SL'), estimatedStudyTime: studyMinutes, prerequisites: raw.prerequisites || prerequisites[slug] || [], constants: raw.constants || [], derivations: raw.derivations || [], practical_experiment: raw.practical_experiment || '', ia_connection: raw.ia_connection || '', tok_connection: raw.tok_connection || '', relatedTopics: raw.relatedTopics || all.filter(item => item !== file).slice(0, 3).map(item => ({ slug: slugify(path.basename(item, '.json')), title: path.basename(item, '.json').replace(/_/g, ' ') })), formulas: raw.formulas || [], summary: raw.summary || '' };
 }
 const INDEX_FILES = ['topics.json', 'formulas.json', 'questions.json', 'glossary.json', 'simulations.json', 'examples.json', 'lessons.json', 'units.json', 'toolkit.json', 'cases.json', 'questionPatterns.json', 'resources.json'];
 const INDEX_NAMES = ['topics', 'formulas', 'questions', 'glossary', 'simulations', 'examples', 'legacy lessons', 'units', 'toolkit', 'cases', 'question patterns', 'resources'];
 
 async function contentIndex({ includeLessons = false } = {}) {
-  const [topics, formulas, questions, glossary, simulations, examples, legacyLessons, units, toolkit, cases, questionPatterns, resources, files] = await Promise.all(INDEX_FILES.map(readData).concat(lessonFiles()));
-  const records = await Promise.all(files.map(async file => normalizeLesson(await readLesson(file), file, files)));
+  const [topics, formulas, questions, glossary, simulations, examples, legacyLessons, units, toolkit, cases, questionPatterns, resources, files, prerequisites] = await Promise.all(INDEX_FILES.map(readData).concat(lessonFiles(), readPrerequisites()));
+  const records = await Promise.all(files.map(async file => normalizeLesson(await readLesson(file), file, files, prerequisites)));
   [topics, formulas, questions, glossary, simulations, examples, legacyLessons, units, toolkit, cases, questionPatterns, resources].forEach((value, index) => validateCollection(value, INDEX_NAMES[index]));
   cases.forEach(item => { if (!item.slug || !item.unit || !item.title) throw new Error('Each case needs a slug, unit and title.'); });
   questionPatterns.forEach(item => { if (!item.slug || !item.command) throw new Error('Each question pattern needs a slug and command term.'); });
@@ -107,8 +109,8 @@ async function contentIndex({ includeLessons = false } = {}) {
   ]);
   return {
     topics, formulas: allFormulas, questions, glossary, simulations, examples, legacyLessons, units, toolkit, cases, questionPatterns, resources, searchIndex,
-    lessonIndex: records.map(({ slug, title, topicLabel, level, summary, learning_objectives, estimatedStudyTime, difficulty, definitions, formulas: lessonFormulas }) => ({
-      slug, title, topicLabel, level, summary, learning_objectives, estimatedStudyTime, difficulty,
+    lessonIndex: records.map(({ slug, title, topicLabel, level, summary, learning_objectives, estimatedStudyTime, difficulty, prerequisites: lessonPrerequisites, definitions, formulas: lessonFormulas }) => ({
+      slug, title, topicLabel, level, summary, learning_objectives, estimatedStudyTime, difficulty, prerequisites: lessonPrerequisites,
       definitionCount: (definitions || []).length,
       formulaCount: (lessonFormulas || []).length,
       unit: (String(title).match(/^\s*([A-Z])\./) || [])[1] || '',
@@ -392,7 +394,7 @@ async function handleRequest(req, res) {
     providers: Object.entries(PROVIDERS).map(([id, provider]) => ({ id, label: provider.label, configured: providerConfigured(id, req), envKey: provider.envKey, model: providerConfigured(id, req) ? process.env[provider.modelKey] || provider.defaultModel : null }))
   });
   if (req.method === 'GET' && pathname === '/api/content/index') { try { return send(res, 200, await contentIndex(), { 'Cache-Control': 'public, max-age=300' }); } catch (error) { return send(res, 500, { error: `Content catalogue error: ${error.message}` }); } }
-  const lessonMatch = pathname.match(/^\/api\/content\/lessons\/([a-z0-9-]+)$/); if (req.method === 'GET' && lessonMatch) { try { const files = await lessonFiles(); const file = files.find(candidate => slugify(path.basename(candidate, '.json')) === lessonMatch[1]); if (!file) return send(res, 404, { error: 'Lesson not found.' }); return send(res, 200, normalizeLesson(await readLesson(file), file, files), { 'Cache-Control': 'public, max-age=300' }); } catch (error) { return send(res, 500, { error: `Lesson error: ${error.message}` }); } }
+  const lessonMatch = pathname.match(/^\/api\/content\/lessons\/([a-z0-9-]+)$/); if (req.method === 'GET' && lessonMatch) { try { const [files, prerequisites] = await Promise.all([lessonFiles(), readPrerequisites()]); const file = files.find(candidate => slugify(path.basename(candidate, '.json')) === lessonMatch[1]); if (!file) return send(res, 404, { error: 'Lesson not found.' }); return send(res, 200, normalizeLesson(await readLesson(file), file, files, prerequisites), { 'Cache-Control': 'public, max-age=300' }); } catch (error) { return send(res, 500, { error: `Lesson error: ${error.message}` }); } }
   // Owner-only. Supabase verifies both the signed-in token and the database
   // administrator role before any account information is returned.
   if (req.method === 'GET' && pathname === '/api/admin/stats') return adminStatsHandler(req, res, send);
@@ -411,6 +413,11 @@ async function handleRequest(req, res) {
     catch (error) { return send(res, 400, { error: error.message }); }
   }
   if (req.method === 'GET' && pathname === '/api/cron/reminders') return cronHandler(req, res, send);
+  if (req.method === 'GET' && pathname === '/api/account/export') return accountExportHandler(req, res, send);
+  if (req.method === 'POST' && pathname === '/api/account/delete') {
+    try { return accountDeleteHandler(req, res, send, await readJSON(req)); }
+    catch (error) { return send(res, 400, { error: error.message }); }
+  }
   if (req.method === 'POST' && pathname === '/api/chat') return tutor(req, res);
   if (!['GET', 'HEAD'].includes(req.method)) return send(res, 405, { error: 'Method not allowed' });
   return serveAsset(res, pathname, req.method === 'HEAD');

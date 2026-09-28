@@ -9,6 +9,7 @@ const read = name => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', name), '
 const slugify = value => String(value || '').trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
 const lessonSlugs = new Set(fs.readdirSync(path.join(ROOT, 'data', 'lessons')).filter(file => file.endsWith('.json')).map(file => slugify(path.basename(file, '.json'))));
+const prerequisites = read('prerequisites.json');
 const simulationSlugs = new Set(
   fs.readFileSync(path.join(ROOT, 'js', 'simulationStudio.js'), 'utf8')
     .split('const presets')[0]
@@ -120,6 +121,14 @@ resources.forEach(group => {
 
 // Every lesson must fall into one of the declared units so the library never silently drops one.
 const lessons = fs.readdirSync(path.join(ROOT, 'data', 'lessons')).filter(file => file.endsWith('.json'));
+const lessonTitles = new Set(lessons.map(file => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'lessons', file), 'utf8')).title));
+assert.deepEqual(new Set(Object.keys(prerequisites)), lessonSlugs, 'every lesson must have an explicit prerequisite entry');
+Object.entries(prerequisites).forEach(([slug, required]) => {
+  assert.ok(Array.isArray(required), `prerequisites for ${slug} must be an array`);
+  required.forEach(title => assert.ok(lessonTitles.has(title), `${slug} references missing prerequisite ${title}`));
+});
+assert.equal(Object.values(prerequisites).filter(required => required.length).length, lessons.length - 1,
+  'only the first lesson should have no formal prerequisite');
 lessons.forEach(file => {
   const lesson = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'lessons', file), 'utf8'));
   const unit = (String(lesson.title).match(/^\s*([A-Z])\./) || [])[1];

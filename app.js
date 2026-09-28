@@ -364,6 +364,10 @@ const router = new Router({
     const terms = await loadPageModule('./js/termsUI.js');
     return { view: terms.termsPage() };
   }, 'Opening terms…'),
+  '/feedback': ({ search }) => transition(async () => {
+    const feedback = await loadPageModule('./js/feedbackUI.js');
+    return { view: await feedback.feedbackPage(search), mount: feedback.bindFeedback };
+  }, 'Opening feedback…'),
   '/account': () => transition(async () => {
     const [profile, settings, account] = await Promise.all([
       profileService.get(), profileService.getSettings().catch(() => null), loadPageModule('./js/accountPage.js')

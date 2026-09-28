@@ -41,8 +41,12 @@ and ES modules on a dependency-free Node server.
   from teachers and other learners.
 - **Connected activity** (`/activity`) — lessons, simulations, practice, revision, saved
   work and Ask KIT conversations in one chronological account timeline.
+- **Private account controls** (`/account`) — download a complete account archive, revoke
+  sessions on every device, or permanently delete the signed-in account after typed
+  confirmation. `/feedback` stores specific content and accessibility reports under the
+  reporting learner's account for owner review.
 - **Study Studio** (`/studio`) — derivation steps, graph prediction, simulation comparison,
-  a capped daily review session and optional private Web Push reminders for due work
+  a capped daily review session and optional private Web Push reminders for due work,
   unit conversion, practical planning, explanation practice, a scratchpad, focus timer,
   honest study calendar and collections. Reading controls, read-aloud support and a
   contextual mobile study dock are available across the learning journey.
@@ -165,6 +169,10 @@ Then two things happen outside this machine:
    | `SUPABASE_URL` | the same project URL |
    | `SUPABASE_ANON_KEY` | the same anon key |
 
+   To enable account archive downloads and self-service deletion, also add the project's
+   server-only `SUPABASE_SECRET_KEY`. This value is never returned by `/api/config` and
+   must never be placed in `public-env.js` or any browser file.
+
 3. Turn on Google: in Supabase open **Authentication → Providers → Google**, enable
    it, and paste in a client ID and secret from
    [console.cloud.google.com](https://console.cloud.google.com). In the Google
@@ -175,9 +183,10 @@ Then two things happen outside this machine:
    from the Supabase SQL editor. Redeploy. `GET /api/health` reports
    `adminConfigured`, and `/admin` remains inaccessible to every non-admin account.
 
-KINETIQ does not require an elevated database key in its deployment environment.
-Role checks run inside restricted database functions and still respect the signed-in
-user's identity.
+Admin role checks run inside restricted database functions and respect the signed-in
+user's identity. The server-only Supabase secret is used only for a learner's own verified
+archive/delete request and private push delivery. Every request first resolves the bearer
+token to the matching Supabase user; the browser never receives the secret.
 
 ## Enable KIT AI
 

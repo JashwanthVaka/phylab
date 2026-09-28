@@ -33,7 +33,7 @@ const when = value => (value
 export async function accountPage(profile, settings = null) {
   if (!authService.enabled()) {
     return shell(`<div class="empty-state">
-      <h3>Accounts are not switched on yet</h3>
+      <h2>Accounts are not switched on yet</h2>
       <p>KINETIQ is running without its account service. Everything works without one, and your progress is saved in this browser.</p>
       <p><a class="button" href="/progress" data-route>Save a copy of your progress →</a></p>
     </div>`);
@@ -104,6 +104,38 @@ export async function accountPage(profile, settings = null) {
         <button type="button" data-logout class="text-button account-signout">Sign out</button>
       </div>
     </form>
+
+    <section class="account-controls" aria-labelledby="account-data-title">
+      <div>
+        <p class="eyebrow">DATA AND PRIVACY</p>
+        <h2 id="account-data-title">Control your account.</h2>
+        <p>Your archive contains only your own account records. Notification endpoints and server credentials are never included.</p>
+      </div>
+      <div class="account-control-grid">
+        <article>
+          <h3>Download my data</h3>
+          <p>Save a JSON archive of your profile, progress, practice, notebook, revision and class records.</p>
+          <button class="outline" type="button" data-account-export>Download archive</button>
+        </article>
+        <article>
+          <h3>Other signed-in devices</h3>
+          <p>Revoke the account session on every device. You will need to sign in again here too.</p>
+          <button class="outline" type="button" data-account-signout-all>Sign out everywhere</button>
+        </article>
+        <article>
+          <h3>Revision reminders</h3>
+          <p>Manage this browser’s private daily reminder subscription.</p>
+          <a class="outline" href="/studio" data-route>Open reminder settings</a>
+        </article>
+      </div>
+      <p class="account-control-status" role="status" data-account-control-status></p>
+      <details class="account-danger">
+        <summary>Delete my KINETIQ account</summary>
+        <p>This permanently deletes the cloud account and its study records, then clears KINETIQ study data from this browser. It cannot be undone.</p>
+        <label>Type DELETE to confirm<input data-account-delete-confirm autocomplete="off" spellcheck="false"></label>
+        <button class="outline" type="button" data-account-delete disabled>Delete account permanently</button>
+      </details>
+    </section>
 
     <p class="muted account-note">Your course level and timezone only change what KINETIQ suggests. They never change how anything is marked.</p>
   `);

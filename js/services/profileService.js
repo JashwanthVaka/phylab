@@ -20,6 +20,16 @@ function profileValues(values = {}) {
   return Object.fromEntries(Object.entries(values).filter(([key]) => PROFILE_FIELDS.has(key)));
 }
 
+const mergeSettings = (current = {}, incoming = {}) => Object.fromEntries(
+  [...new Set([...Object.keys(current || {}), ...Object.keys(incoming || {})])].map(key => {
+    const oldValue = current?.[key];
+    const newValue = incoming?.[key];
+    const mergeable = oldValue && newValue && typeof oldValue === 'object' && typeof newValue === 'object'
+      && !Array.isArray(oldValue) && !Array.isArray(newValue);
+    return [key, mergeable ? { ...oldValue, ...newValue } : (newValue === undefined ? oldValue : newValue)];
+  })
+);
+
 export const profileService = {
   async get() {
     const supabase = await getSupabase();
@@ -50,8 +60,13 @@ export const profileService = {
 
   async settings(values) {
     const { supabase, user } = await signedInClient();
-    const { data, error } = await supabase.from('user_settings').upsert({ user_id: user.id, settings: values });
+    const { data: existing, error: readError } = await supabase.from('user_settings').select('settings').eq('user_id', user.id).maybeSingle();
+    if (readError) throw readableError(readError);
+    const settings = mergeSettings(existing?.settings || {}, values || {});
+    const { data, error } = await supabase.from('user_settings').upsert({ user_id: user.id, settings });
     if (error) throw readableError(error);
     return data;
   }
 };
+
+export { mergeSettings };

@@ -56,6 +56,20 @@ function skillBreakdown(results) {
 const statCard = (label, value, note) => `<article class="content-card stat-card"><span class="tag">${escapeHTML(label)}</span><h2>${escapeHTML(String(value))}</h2>${note ? `<p class="muted">${escapeHTML(note)}</p>` : ''}</article>`;
 const noData = text => `<div class="empty-state"><h3>Nothing recorded yet</h3><p>${escapeHTML(text)}</p></div>`;
 
+/** A calm weekly rhythm, not a punitive streak. Multiple actions on one day count once. */
+export function studyRhythm(activity = [], now = Date.now()) {
+  const today = new Date(now);
+  today.setHours(0, 0, 0, 0);
+  const firstDay = today.getTime() - 6 * 86400000;
+  const active = new Set(activity.map(item => {
+    const date = new Date(item.at);
+    if (!Number.isFinite(date.getTime())) return null;
+    date.setHours(0, 0, 0, 0);
+    return date.getTime() >= firstDay && date.getTime() <= today.getTime() ? date.toISOString().slice(0, 10) : null;
+  }).filter(Boolean));
+  return { activeDays: active.size, restDays: 7 - active.size };
+}
+
 /**
  * Progress dashboard built only from data KINETIQ has actually stored —
  * lesson completion, saved practice results and, when signed in, cloud mastery.
@@ -99,6 +113,12 @@ export function dashboardView(summary, extra = {}) {
       ...item,
       title: item.kind === 'Lesson' ? (lessonNames.get(item.title) || item.title) : item.title
     }));
+  const rhythm = studyRhythm(recentActivity);
+  const lessonForTopic = label => {
+    const normalized = String(label || '').toLowerCase().replace(/^[a-e]\.\d+\s*/, '').replaceAll('-', ' ').trim();
+    return lessons.find(lesson => [lesson.topicLabel, lesson.title, lesson.slug]
+      .some(value => String(value || '').toLowerCase().replace(/^[a-e]\.\d+\s*/, '').replaceAll('-', ' ').trim() === normalized));
+  };
   const adaptivePath = [
     {
       number: '01', kind: 'Learn', title: next ? next.title : 'Course lessons complete',
@@ -183,6 +203,7 @@ export function dashboardView(summary, extra = {}) {
       ${summary.guest ? '' : statCard('FLASHCARDS DUE', summary.flashcardsDue || 0)}
       ${summary.guest ? '' : statCard('REVISION TASKS DUE', summary.revisionTasksDue || 0)}
       ${summary.guest ? '' : statCard('BOOKMARKS', summary.bookmarksCount || 0)}
+      ${statCard('ACTIVE DAYS, LAST 7', rhythm.activeDays, `${rhythm.restDays} rest day${rhythm.restDays === 1 ? '' : 's'} included`)}
     </div>
 
     <section class="lesson-section">
@@ -233,7 +254,13 @@ export function dashboardView(summary, extra = {}) {
     <section class="lesson-section">
       <div class="section-title"><p class="eyebrow">WHERE TO FOCUS</p><h2>Weak topics</h2></div>
       ${weak.length
-        ? `<div class="card-grid">${weak.map(topic => { const label = topic.label || topic.topic_slug || ''; return `<article class="content-card"><h3>${escapeHTML(label)}</h3><div class="bar"><i style="width:${topic.percentage ?? topic.mastery_score ?? 0}%"></i></div><p>${topic.percentage ?? topic.mastery_score ?? 0}% · ${topic.attempted ?? topic.attempt_count ?? 0} questions</p><a class="text-button" href="/quiz?mode=Topic%20Quiz&topic=${encodeURIComponent(label)}" data-route>Practise this topic →</a></article>`; }).join('')}</div>`
+        ? `<div class="card-grid">${weak.map(topic => {
+          const label = topic.label || topic.topic_slug || '';
+          const lesson = lessonForTopic(label);
+          const prerequisites = lesson?.prerequisites || [];
+          const firstPrerequisite = prerequisites.length ? lessons.find(item => item.title === prerequisites[0]) : null;
+          return `<article class="content-card"><h3>${escapeHTML(label)}</h3><div class="bar"><i style="width:${topic.percentage ?? topic.mastery_score ?? 0}%"></i></div><p>${topic.percentage ?? topic.mastery_score ?? 0}% · ${topic.attempted ?? topic.attempt_count ?? 0} questions</p>${prerequisites.length ? `<p class="prerequisite-note"><b>Build first:</b> ${escapeHTML(prerequisites.join(' · '))}</p>` : ''}<div class="content-card__actions">${firstPrerequisite ? `<a class="text-button" href="/lesson/${escapeHTML(firstPrerequisite.slug)}" data-route>Review foundation →</a>` : ''}<a class="text-button" href="/quiz?mode=Topic%20Quiz&topic=${encodeURIComponent(label)}" data-route>Practise this topic →</a></div></article>`;
+        }).join('')}</div>`
         : noData(developing.length ? `${developing.length} topic${developing.length === 1 ? ' has' : 's have'} early results, but not enough evidence yet. Reach ten answers in a topic to unlock a strength score.` : 'Once you have enough practice results, the topics needing another pass appear here.')}
     </section>
 

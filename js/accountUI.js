@@ -119,4 +119,46 @@ export function bindAccount(router) {
     clearLocalProfile();
     router.go('/');
   });
+
+  const controlStatus = document.querySelector('[data-account-control-status]');
+  const report = (message, tone = '') => {
+    if (!controlStatus) return;
+    controlStatus.textContent = message;
+    controlStatus.dataset.tone = tone;
+  };
+  document.querySelector('[data-account-export]')?.addEventListener('click', async event => {
+    const button = event.currentTarget; button.disabled = true; report('Preparing your private archive…');
+    try {
+      const { accountDataService } = await import('./services/accountDataService.js');
+      await accountDataService.export();
+      report('Your account archive has been downloaded.', 'ok');
+    } catch (error) { report(error.message, 'bad'); }
+    finally { button.disabled = false; }
+  });
+  document.querySelector('[data-account-signout-all]')?.addEventListener('click', async event => {
+    if (!confirm('Sign out every device connected to this KINETIQ account?')) return;
+    const button = event.currentTarget; button.disabled = true; report('Revoking signed-in devices…');
+    try {
+      const { pushService } = await import('./services/pushService.js');
+      await pushService.disable().catch(() => {});
+      const { accountDataService } = await import('./services/accountDataService.js');
+      await accountDataService.signOutEverywhere();
+      router.go('/login');
+    } catch (error) { report(error.message, 'bad'); button.disabled = false; }
+  });
+  const confirmation = document.querySelector('[data-account-delete-confirm]');
+  const deleteButton = document.querySelector('[data-account-delete]');
+  confirmation?.addEventListener('input', () => { deleteButton.disabled = confirmation.value !== 'DELETE'; });
+  deleteButton?.addEventListener('click', async () => {
+    if (confirmation?.value !== 'DELETE') return;
+    if (!confirm('Permanently delete this account and all of its cloud study data?')) return;
+    deleteButton.disabled = true; report('Deleting your account…');
+    try {
+      const { pushService } = await import('./services/pushService.js');
+      await pushService.disable().catch(() => {});
+      const { accountDataService } = await import('./services/accountDataService.js');
+      await accountDataService.deleteAccount();
+      location.assign('/');
+    } catch (error) { report(error.message, 'bad'); deleteButton.disabled = false; }
+  });
 }

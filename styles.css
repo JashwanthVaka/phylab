@@ -4128,6 +4128,10 @@ body > footer { font-size: 14px; }
     display: inline-flex;
     align-items: center;
   }
+  .flashcard-face .review-actions button {
+    min-width: 56px;
+    min-height: 44px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -4391,6 +4395,28 @@ table { font-size: 17.5px; }
 .ask-engine button b { font-size: 17px; }
 .ask-engine button span { font-size: 15px; }
 body > footer { font-size: 16px; }
+
+/* Account ownership and feedback controls stay solid and readable. Glass is
+   reserved for navigation and transient controls, not destructive actions. */
+.account-controls{margin-top:32px;padding:clamp(22px,4vw,40px);border:1px solid var(--line);border-radius:var(--r-lg);background:var(--surface)}
+.account-controls h2{margin:4px 0 12px}.account-control-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:24px}
+.account-control-grid article{padding:20px;border:1px solid var(--line);border-radius:var(--r-md);background:var(--surface-alt)}
+.account-control-grid h3{margin:0 0 8px}.account-control-grid p{color:var(--muted);min-height:72px}
+.account-control-status{min-height:24px;margin:18px 0 0}.account-danger{margin-top:22px;padding:18px;border:1px solid color-mix(in srgb,var(--danger) 45%,var(--line));border-radius:var(--r-md)}
+.account-danger summary{cursor:pointer;font-weight:750}.account-danger label{display:block;max-width:420px;margin:16px 0}.account-danger input{width:100%;margin-top:7px}
+.feedback-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;max-width:900px}.feedback-form__wide{grid-column:1/-1}.feedback-form textarea{width:100%;resize:vertical}
+.feedback-history{margin-top:48px}.feedback-list,.admin-feedback-list{display:grid;gap:12px}.feedback-list article,.admin-feedback-list article{padding:20px;border:1px solid var(--line);border-radius:var(--r-md);background:var(--surface)}
+.feedback-list article>div,.admin-feedback-list article>div{display:flex;justify-content:space-between;align-items:center;gap:12px}.feedback-list h3,.admin-feedback-list h3{margin:10px 0 6px}.feedback-list p,.admin-feedback-list p{margin:0 0 12px;color:var(--muted)}
+.feedback-status-badge{padding:5px 9px;border:1px solid var(--line);border-radius:var(--r-sm);font-size:var(--type-label);font-weight:700;text-transform:capitalize}.feedback-status-badge[data-status="resolved"]{border-color:#15803d;color:#166534;background:#f0fdf4}
+.admin-feedback-list{grid-template-columns:repeat(2,minmax(0,1fr))}.admin-feedback-list label{display:flex;align-items:center;justify-content:space-between;gap:12px}.admin-feedback-list select{min-height:44px}
+.class-insights{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:18px 0}
+.class-insights>div{padding:15px;border:1px solid var(--line);border-radius:var(--r-md);background:var(--surface-alt)}.class-insights b,.class-insights span{display:block}.class-insights span{color:var(--muted);font-size:.88rem;margin-top:4px}
+@media(max-width:760px){.account-control-grid,.feedback-form,.class-insights,.admin-feedback-list{grid-template-columns:1fr}.feedback-form__wide{grid-column:auto}.account-control-grid p{min-height:0}}
+
+/* Measured prerequisite guidance in the learner dashboard. */
+.prerequisite-note{margin:14px 0 0;padding:12px 14px;border:1px solid color-mix(in srgb,var(--blue) 22%,var(--line));border-radius:var(--r-sm);background:var(--pale);color:var(--muted)}
+.prerequisite-note b{color:var(--ink)}
+.content-card__actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;margin-top:14px}
 .brand { font-size: 20px; }
 
 @media (max-width: 620px) {

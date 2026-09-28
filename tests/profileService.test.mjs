@@ -26,7 +26,10 @@ const fakeSupabase = {
           : { data: record, error: null };
       },
       select() {
-        return { eq: () => ({ single: async () => ({ data: null, error: null }) }) };
+        return { eq: () => ({
+          single: async () => ({ data: null, error: null }),
+          maybeSingle: async () => ({ data: { settings: { notifications: { reminders: true }, study_plan: { exam_date: '2027-05-01' } } }, error: null })
+        }) };
       }
     };
   }
@@ -69,7 +72,10 @@ test('onboarding settings are written to the settings record', async () => {
   await profileService.settings({ study_plan: { target_score: '6' } });
   assert.deepEqual(writes, [{
     table: 'user_settings',
-    record: { user_id: 'learner-1', settings: { study_plan: { target_score: '6' } } }
+    record: { user_id: 'learner-1', settings: {
+      notifications: { reminders: true },
+      study_plan: { exam_date: '2027-05-01', target_score: '6' }
+    } }
   }]);
 });
 

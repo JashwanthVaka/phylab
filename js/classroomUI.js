@@ -32,8 +32,18 @@ function students(rows = []) {
 
 function teacherCards(rows = []) {
   if (!rows.length) return '<div class="empty-state"><h3>No classes yet</h3><p>Create your first class above. Only accounts explicitly approved as teachers can do this.</p></div>';
-  return rows.map(row => `<article class="class-card">
+  return rows.map(row => {
+    const measured = row.students.filter(student => student.mastery != null);
+    const lessons = row.students.length ? Math.round(row.students.reduce((sum, student) => sum + student.lessonsCompleted, 0) / row.students.length) : 0;
+    const mastery = measured.length ? Math.round(measured.reduce((sum, student) => sum + student.mastery, 0) / measured.length) : null;
+    const attempts = row.students.reduce((sum, student) => sum + student.quizAttempts, 0);
+    return `<article class="class-card">
     <header><div><span class="tag">${row.students.length} learner${row.students.length === 1 ? '' : 's'}</span><h2>${escapeHTML(row.name)}</h2></div><button class="outline" type="button" data-copy-code="${escapeHTML(row.join_code)}">Copy code ${escapeHTML(row.join_code)}</button></header>
+    <div class="class-insights" aria-label="Anonymous class summary">
+      <div><b>${lessons}</b><span>average lessons complete</span></div>
+      <div><b>${mastery == null ? 'Not measured' : `${mastery}%`}</b><span>average assessed mastery</span></div>
+      <div><b>${attempts}</b><span>completed quiz attempts</span></div>
+    </div>
     <div class="class-students">${students(row.students)}</div>
     <section class="class-assignments"><h3>Assignments</h3>${assignments(row.assignments)}</section>
     <details class="class-assignment-create"><summary>Create assignment</summary><form data-assignment-create data-class-id="${row.id}">
@@ -47,7 +57,8 @@ function teacherCards(rows = []) {
       <label class="class-wide">Instructions<textarea name="instructions" maxlength="500" rows="3"></textarea></label>
       <button class="button">Publish assignment</button><p role="status" data-assignment-status></p>
     </form></details>
-  </article>`).join('');
+  </article>`;
+  }).join('');
 }
 
 function studentCards(rows = []) {
@@ -74,7 +85,7 @@ function studentView(data) {
 }
 
 export async function classroomPage() {
-  if (!authService.enabled()) return shell('<div class="empty-state"><h3>Accounts are required</h3><p>Classes use signed-in accounts so every learner keeps separate progress.</p><a class="button" href="/login" data-route>Sign in</a></div>');
+  if (!authService.enabled()) return shell('<div class="empty-state"><h2>Accounts are required</h2><p>Classes use signed-in accounts so every learner keeps separate progress.</p><a class="button" href="/login" data-route>Sign in</a></div>');
   try {
     const data = await classroomService.overview();
     return ['teacher', 'admin'].includes(data.role) ? teacherView(data) : studentView(data);

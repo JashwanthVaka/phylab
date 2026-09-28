@@ -128,11 +128,11 @@
     {
       "question": "Light with wavelength 600 nm passes through a double slit with separation 0.2 mm. The screen is 2 m away. Calculate fringe spacing.",
       "solution": [
-        "Use λ = sx/D",
+        "Use s = λD/d, where s is fringe spacing and d is slit separation",
         "Convert units into metres.",
-        "x = λD/s",
-        "x = (600 × 10⁻⁹ × 2)/(0.2 × 10⁻³)",
-        "x = 0.006 m"
+        "s = λD/d",
+        "s = (600 × 10⁻⁹ × 2)/(0.2 × 10⁻³)",
+        "s = 0.006 m"
       ],
       "answer": "0.006 m"
     },

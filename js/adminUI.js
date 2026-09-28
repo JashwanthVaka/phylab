@@ -113,6 +113,20 @@ function recentTable(recent) {
   </div>`;
 }
 
+function feedbackInbox(reports = []) {
+  return `<div class="admin-panel">
+    <div class="admin-panel__head"><h2>Content and product reports</h2><span class="admin-panel__note">Newest ${reports.length}</span></div>
+    ${reports.length ? `<div class="admin-feedback-list">${reports.map(report => `<article>
+      <div><span class="tag">${escapeHTML(report.category)}</span><time>${escapeHTML(when(report.created_at))}</time></div>
+      <h3>${escapeHTML(report.content_ref || report.page_path)}</h3>
+      <p>${escapeHTML(report.message)}</p>
+      <label>Review status<select data-admin-feedback="${escapeHTML(report.id)}" data-previous="${escapeHTML(report.status)}">
+        ${['new', 'reviewing', 'resolved', 'declined'].map(status => `<option value="${status}"${report.status === status ? ' selected' : ''}>${status}</option>`).join('')}
+      </select></label>
+    </article>`).join('')}</div>` : '<div class="empty-state"><h3>No reports waiting</h3><p>Signed-in learner corrections and suggestions will appear here.</p></div>'}
+  </div>`;
+}
+
 function dashboard(data) {
   const { totals } = data;
   return shell(`
@@ -128,6 +142,7 @@ function dashboard(data) {
     ${trendChart(data.trend || [])}
     ${providerTable(data.byProvider || {}, totals.users)}
     ${recentTable(data.recent || [])}
+    ${feedbackInbox(data.feedback || [])}
     <p class="muted admin-generated">Read at ${escapeHTML(new Date(data.generatedAt).toLocaleString())}.</p>
   `);
 }
@@ -175,7 +190,11 @@ export async function adminPage() {
     return notice('Could not read the user list', escapeHTML(body.error || `The server returned ${response.status}.`));
   }
 
-  return dashboard(await response.json());
+  const data = await response.json();
+  const { data: feedback } = await supabase.from('content_feedback')
+    .select('id,user_id,category,page_path,content_ref,message,status,created_at')
+    .order('created_at', { ascending: false }).limit(100);
+  return dashboard({ ...data, feedback: feedback || [] });
 }
 
 export function bindAdmin() {
@@ -196,6 +215,19 @@ export function bindAdmin() {
     } catch (error) {
       select.value = previous;
       window.alert(error.message);
+    } finally { select.disabled = false; }
+  }));
+  document.querySelectorAll('[data-admin-feedback]').forEach(select => select.addEventListener('change', async () => {
+    const previous = select.dataset.previous;
+    select.disabled = true;
+    try {
+      const supabase = await getSupabase();
+      const { error } = await supabase.from('content_feedback').update({ status: select.value }).eq('id', select.dataset.adminFeedback);
+      if (error) throw error;
+      select.dataset.previous = select.value;
+    } catch (error) {
+      select.value = previous;
+      window.alert(error.message || 'The report status could not be updated.');
     } finally { select.disabled = false; }
   }));
 }

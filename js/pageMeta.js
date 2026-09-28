@@ -43,6 +43,7 @@ const STATIC = {
   '/mastery': ['Mastery', 'Where you are strong and where the marks are still going missing.'],
   '/privacy': ['Privacy', 'What KINETIQ does with your information, including what is sent to AI providers when you ask KIT.'],
   '/terms': ['Terms', 'Rules for using KINETIQ, including accounts, original learning material, acceptable use and educational disclaimers.'],
+  '/feedback': ['Report an issue', 'Send a specific physics correction, question problem, accessibility report or product suggestion to KINETIQ.'],
   '/account': ['Your account', 'Your KINETIQ account, how you signed in, and your study settings.'],
   '/admin': ['Admin', 'Account statistics for the site owner.'],
   '/classroom': ['Classes', 'Private KINETIQ classes, original practice assignments and consent-based learner progress sharing.'],
