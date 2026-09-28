@@ -25,6 +25,15 @@ assert.doesNotMatch(allLessonText, /Paper 3/, 'the first-assessment-2025 course 
 assert.match(allLessonText, /6\.63 × 10⁻³⁴ J s/, 'course material should carry the rounded IB Planck constant');
 assert.match(allLessonText, /3\.00 × 10⁸ m/, 'course material should carry the rounded exact speed of light');
 
+const physicsEngine = fs.readFileSync(path.join(root, 'js/physicsEngine.js'), 'utf8');
+const lessonGraphs = fs.readFileSync(path.join(root, 'js/lessonGraphs.js'), 'utf8');
+for (const source of [physicsEngine, lessonGraphs]) {
+  assert.match(source, /299792458/, 'calculations must use the exact speed of light in vacuum');
+  assert.match(source, /6\.62607015e-34/, 'calculations must use the exact Planck constant');
+}
+assert.match(physicsEngine, /1\.602176634e-19/, 'calculations must use the exact elementary charge');
+assert.match(physicsEngine, /6\.6743e-11/, 'gravity calculations must use the 2022 CODATA gravitational constant');
+
 const questions = JSON.parse(fs.readFileSync(path.join(root, 'data/questions.json'), 'utf8'));
 questions.forEach(question => {
   assert.ok(question.solution.length >= 20, `${question.id} needs an explanatory solution`);

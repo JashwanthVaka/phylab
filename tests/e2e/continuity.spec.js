@@ -12,8 +12,10 @@ test('a guest notebook item survives its save reload and remains private to this
 
 test('a formula opens the unified source-cited KIT with its context', async ({ page }) => {
   await page.goto('/formulas');
-  await page.locator('.formula-block').first().click();
-  const formulaName = await page.locator('main h1').textContent();
+  const firstFormula = page.locator('.formula-block').first();
+  const formulaName = await firstFormula.locator('h3').textContent();
+  await firstFormula.click();
+  await expect(page).toHaveURL(/\/formulas\//);
   await page.getByRole('link', { name: 'Ask KIT about this formula' }).click();
   await expect(page).toHaveURL(/\/ask\?q=/);
   await expect(page.locator('#askInput')).toHaveValue(new RegExp(formulaName.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i'));

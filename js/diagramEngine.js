@@ -30,7 +30,7 @@ const DIAGRAM_META = {
   gravitation: ['Mutual gravitational attraction', 'fields', ['The forces are equal and opposite', 'Strength falls with distance squared']],
   'electric-fields': ['Field around a positive charge', 'fields', ['Arrows show the force on a positive test charge', 'Wider spacing means a weaker field']],
   'magnetic-fields': ['Field around a current', 'fields', ['Field lines form concentric circles', 'Use the right-hand grip rule for direction']],
-  'motion-in-fields': ['Charged particle in a magnetic field', 'fields', ['Magnetic force stays perpendicular to velocity', 'The path curves without changing speed']],
+  'motion-in-fields': ['Charged particle in a magnetic field', 'fields', ['The perpendicular velocity component produces circular motion', 'A parallel component carries the circle forward into a helix']],
   'electromagnetic-induction': ['Changing flux through a coil', 'fields', ['Relative motion changes magnetic flux', 'The induced emf opposes the change']],
   'current-and-circuits': ['Current in a complete circuit', 'fields', ['An ammeter is connected in series', 'Current requires a closed conducting path']],
   'gas-laws': ['Microscopic origin of pressure', 'thermal', ['Particles transfer momentum in collisions', 'More frequent collisions increase pressure']],
@@ -120,8 +120,8 @@ const DIAGRAMS = [
   ['magnetic-fields', () => `${defs}<line x1="180" y1="18" x2="180" y2="172"/><path d="M174 34 L180 18 L186 34"/><text x="190" y="28">current I</text><g class="diagram-field-shells"><ellipse cx="180" cy="95" rx="42" ry="15" fill="none"/><ellipse cx="180" cy="95" rx="78" ry="29" fill="none"/><ellipse cx="180" cy="95" rx="118" ry="44" fill="none"/></g>${arrow(217, 83, 231, 88, 'B')}<path d="M62 95 Q180 139 298 95" fill="none" stroke-dasharray="4 5"/><text x="226" y="157">circular field planes</text>`,
     'Magnetic field around a straight current-carrying wire: circles, weakening with distance.'],
 
-  ['motion-in-fields', () => `${defs}<g class="diagram-field-volume">${[55, 115, 175, 235, 295].map(x => `<line x1="${x}" y1="32" x2="${x}" y2="160" stroke-dasharray="3 6"/>`).join('')}</g>${arrow(42, 156, 318, 48, 'B')}<path class="diagram-helix" d="M52 145 C70 95 88 95 106 124 C124 153 142 153 160 105 C178 57 196 57 214 86 C232 115 250 115 268 67 C280 35 296 35 314 54" fill="none"/><circle cx="52" cy="145" r="5"/><circle cx="314" cy="54" r="5"/>${arrow(55, 142, 87, 119, 'v')}<text x="64" y="34">helical path when v has parallel and perpendicular components</text><text x="213" y="176">pitch from v∥, radius from v⊥</text>`,
-    'A charged particle moving through a magnetic field follows a circular path.'],
+  ['motion-in-fields', () => `${defs}<g class="diagram-field-volume">${[55, 115, 175, 235, 295].map(x => `<line x1="${x}" y1="32" x2="${x}" y2="160" stroke-dasharray="3 6"/>`).join('')}</g>${arrow(42, 156, 318, 48, 'B')}<path class="diagram-helix" d="M52 145 C70 95 88 95 106 124 C124 153 142 153 160 105 C178 57 196 57 214 86 C232 115 250 115 268 67 C280 35 296 35 314 54" fill="none"/><circle cx="52" cy="145" r="5"/><circle cx="314" cy="54" r="5"/>${arrow(55, 142, 87, 119, 'v')}<text x="64" y="34">helix when v has parallel and perpendicular components</text><text x="213" y="176">pitch from v∥, radius from v⊥</text>`,
+    'A perpendicular velocity produces a circular path; adding velocity parallel to the magnetic field produces the helix shown.'],
 
   ['electromagnetic-induction', () => `${defs}<g class="diagram-coil">${[84, 96, 108, 120, 132].map(x => `<ellipse cx="${x}" cy="96" rx="17" ry="57" fill="none"/>`).join('')}</g><path d="M132 39 C174 48 174 144 132 153 M132 52 C158 61 158 131 132 140" fill="none" stroke-dasharray="4 5"/><path d="M132 96 L236 96" stroke-dasharray="3 5"/><rect x="236" y="66" width="70" height="60" rx="4"/><line x1="271" y1="66" x2="271" y2="126"/><text x="247" y="101">N</text><text x="282" y="101">S</text>${arrow(232, 96, 188, 96, 'v')}<text x="42" y="27">coil loops</text><text x="171" y="174">changing flux through the coil</text>`,
     'Moving a magnet changes the flux through the coil, which induces an emf.'],
@@ -138,8 +138,8 @@ const DIAGRAMS = [
   ['thermodynamics', () => `${defs}${axes('p', 'V')}<path d="M80 46 L250 46 L250 120 L80 120 Z" fill="none"/>${arrow(150, 46, 190, 46, 'Q in')}${arrow(250, 80, 250, 104, '')}${arrow(190, 120, 150, 120, 'Q out')}<text x="264" y="86">W</text><text x="96" y="140">cycle</text>`,
     'A closed cycle on a pressure-volume diagram: the enclosed area is the net work done.'],
 
-  ['greenhouse-effect', () => `${defs}<path d="M20 150 Q180 118 340 150" fill="none"/><path d="M20 108 Q180 76 340 108" fill="none" stroke-dasharray="5 4"/><text x="24" y="70">atmosphere</text>${arrow(70, 24, 108, 128, '')}<text x="60" y="24">sunlight in</text>${arrow(200, 140, 200, 92, '')}${arrow(214, 92, 236, 132, '')}<text x="244" y="86">re-radiated back</text>`,
-    'Shorter-wavelength sunlight passes through; longer-wavelength radiation from the surface is absorbed and re-emitted downwards.'],
+  ['greenhouse-effect', () => `${defs}<path d="M20 150 Q180 118 340 150" fill="none"/><path d="M20 108 Q180 76 340 108" fill="none" stroke-dasharray="5 4"/><text x="24" y="70">atmosphere</text>${arrow(70, 24, 108, 128, '')}<text x="60" y="24">sunlight in</text>${arrow(200, 140, 200, 92, '')}${arrow(214, 92, 236, 132, '')}${arrow(207, 89, 226, 48, '')}<text x="234" y="43">infrared out</text><text x="244" y="108">infrared back</text>`,
+    'The surface emits longer-wavelength infrared. Greenhouse gases absorb it and re-emit it in all directions, including back towards the surface.'],
 
   ['atomic-physics', () => `${defs}<line x1="70" y1="40" x2="240" y2="40"/><text x="250" y="45">n = 4</text><line x1="70" y1="70" x2="240" y2="70"/><text x="250" y="75">n = 3</text><line x1="70" y1="110" x2="240" y2="110"/><text x="250" y="115">n = 2</text><line x1="70" y1="164" x2="240" y2="164"/><text x="250" y="169">n = 1</text>${arrow(120, 70, 120, 106, '')}${arrow(180, 110, 180, 160, 'hf')}<text x="26" y="102">E</text>`,
     'Discrete energy levels: a photon is emitted with exactly the energy between two levels.'],
@@ -226,7 +226,7 @@ export function bindDiagrams(root = document) {
         if (!button.isConnected) return;
         button.textContent = 'Replay model';
         if (state) state.textContent = 'Model complete. Use the two reading cues below to interpret it.';
-      }, 950);
+      }, 1120);
     }
   };
 

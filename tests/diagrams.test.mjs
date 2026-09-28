@@ -63,6 +63,17 @@ assert.equal(keyOf('Nuclear Fission'), 'nuclear-fission');
 assert.notEqual(keyOf('Nuclear Fission'), keyOf('Nuclear Physics'),
   'fission and decay are different processes and need different pictures');
 
+const motionDiagram = diagramFor(lessons.find(item => item.slug === 'motion-in-fields'));
+assert.match(motionDiagram, /perpendicular velocity produces a circular path/i,
+  'charged-particle visual must state the condition for circular motion');
+assert.match(motionDiagram, /parallel to the magnetic field produces the helix/i,
+  'charged-particle visual must explain when the path is helical');
+
+const greenhouseDiagram = diagramFor(lessons.find(item => item.slug === 'greenhouse-effect'));
+assert.match(greenhouseDiagram, /re-emit it in all directions/i,
+  'greenhouse visual must not imply infrared is emitted only downwards');
+assert.doesNotMatch(greenhouseDiagram, /re-emitted downwards/i);
+
 // ── Each rendered diagram is real SVG with a caption ─────────────────
 lessons.forEach(lesson => {
   assert.ok(visualForLesson(lesson), `${lesson.title} is absent from the explicit visual registry`);

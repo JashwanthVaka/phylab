@@ -28,6 +28,7 @@ import { offlineSyncService } from './js/services/offlineSyncService.js';
 import { dashboardService } from './js/services/dashboardService.js';
 import { dashboardView, masteryView , bindProgressTransfer } from './js/learnerUI.js';
 import { initStudyEnhancements } from './js/studyEnhancements.js';
+import { bindMotion } from './js/motionSystem.js';
 
 const app = document.querySelector('#app');
 const loader = new ContentLoader();
@@ -154,6 +155,7 @@ function render(view) {
   hasRenderedOnce = true;
   bindUI({ loader, router, searchIndex, render });
   bindAccount(router);
+  registerPageCleanup(bindMotion(app));
 }
 
 function renderRouteError(error) {

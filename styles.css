@@ -3290,6 +3290,7 @@ input, select, textarea, .stats, .facts {
   border-radius: var(--r-xl);
   background: var(--surface);
   box-shadow: 0 18px 55px rgba(17, 24, 39, .08);
+  scroll-margin-top: 120px;
 }
 .diagram[data-diagram-group="waves"] { --diagram-accent: #a16207; --diagram-accent-soft: #f8f0dd; }
 .diagram[data-diagram-group="fields"] { --diagram-accent: #c2410c; --diagram-accent-soft: #fceee8; }
@@ -3353,6 +3354,21 @@ input, select, textarea, .stats, .facts {
     linear-gradient(var(--diagram-grid) 1px, transparent 1px),
     linear-gradient(90deg, var(--diagram-grid) 1px, transparent 1px);
   background-size: 24px 24px;
+}
+.diagram__stage::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  width: min(72%, 470px);
+  aspect-ratio: 2.25;
+  border: 1px solid color-mix(in srgb, var(--diagram-accent) 18%, transparent);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 26px color-mix(in srgb, var(--diagram-accent) 5%, transparent),
+    0 0 0 54px color-mix(in srgb, var(--diagram-accent) 3%, transparent);
+  opacity: .72;
+  transform: rotate(-8deg) translateZ(-50px);
+  pointer-events: none;
 }
 .diagram__stage::after {
   content: "";
@@ -3516,9 +3532,17 @@ input, select, textarea, .stats, .facts {
   stroke-dashoffset: 700;
   animation: diagram-draw 900ms var(--ease) forwards;
 }
-.diagram.is-animating svg :is(circle, rect) { animation: diagram-arrive 420ms var(--ease) both; }
+.diagram.is-animating svg :is(line, path, polyline):nth-of-type(2n) { animation-delay: 70ms; }
+.diagram.is-animating svg :is(line, path, polyline):nth-of-type(3n) { animation-delay: 140ms; }
+.diagram.is-animating svg :is(circle, rect) { animation: diagram-arrive 480ms var(--ease) both; }
+.diagram.is-animating svg :is(circle, rect):nth-of-type(2n) { animation-delay: 100ms; }
+.diagram.is-animating .diagram__stage::before { animation: diagram-orbit 950ms var(--ease) both; }
 @keyframes diagram-draw { to { stroke-dashoffset: 0; } }
 @keyframes diagram-arrive { from { opacity: 0; transform: scale(.96); transform-origin: center; } }
+@keyframes diagram-orbit {
+  from { opacity: 0; transform: rotate(-14deg) scale(.92) translateZ(-50px); }
+  to { opacity: .72; transform: rotate(-8deg) scale(1) translateZ(-50px); }
+}
 
 [data-theme="dark"] .diagram {
   --diagram-accent-soft: rgba(255, 255, 255, .07);
@@ -4086,28 +4110,66 @@ body > footer { font-size: 14px; }
 .brand { font-size: 18px; letter-spacing: -.025em; }
 .brand small { font-size: 10px; letter-spacing: .13em; }
 
-/* Page entrance and interaction feedback. Each animation is composited and
-   completes in under half a second, so the interface feels alive, not busy. */
+/* Viewport-aware page motion. Sections reveal only when the learner reaches
+   them; the old whole-page entrance played below the fold before it was seen. */
 @media (prefers-reduced-motion: no-preference) {
-  .page > * { animation: kinetiq-rise 420ms var(--ease) both; }
-  .page > :nth-child(2) { animation-delay: 35ms; }
-  .page > :nth-child(3) { animation-delay: 70ms; }
-  .page > :nth-child(4) { animation-delay: 105ms; }
-  .page > :nth-child(5) { animation-delay: 140ms; }
-  .page > :nth-child(n+6) { animation-delay: 175ms; }
+  .motion-reveal {
+    opacity: 0;
+    transform: translateY(16px) scale(.992);
+    filter: blur(2px);
+    transition:
+      opacity 380ms var(--ease),
+      transform 520ms var(--ease),
+      filter 420ms var(--ease);
+    transition-delay: calc(var(--motion-order, 0) * 34ms);
+  }
+  .motion-reveal.is-revealed {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
   .library-card, .module-card, .content-card, .resource-card,
   .today-item, .rev-card, .simulation-card, .practice-path__steps > a,
   .adaptive-path a { will-change: transform; }
   .button:active, .btn:active, .outline:active,
   button:not(:disabled):active { transform: scale(.975); }
   .graph-live-dot { animation: kinetiq-live 1.8s ease-in-out infinite; }
-  @keyframes kinetiq-rise {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
   @keyframes kinetiq-live {
     50% { box-shadow: 0 0 0 7px color-mix(in srgb, var(--blue) 12%, transparent); }
   }
+}
+
+/* A restrained edge highlight gives dense learning cards tactile depth. It is
+   only enabled for precise pointers, so touch users never pay for hover work. */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  :is(.library-card, .module-card, .content-card, .resource-card,
+      .today-item, .rev-card, .simulation-card, .case-card) {
+    position: relative;
+    isolation: isolate;
+  }
+  :is(.library-card, .module-card, .content-card, .resource-card,
+      .today-item, .rev-card, .simulation-card, .case-card)::after {
+    content: "";
+    position: absolute;
+    z-index: 2;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(115deg, transparent 28%, color-mix(in srgb, var(--blue) 32%, white) 50%, transparent 72%);
+    background-size: 240% 100%;
+    opacity: 0;
+    pointer-events: none;
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    transition: opacity 180ms var(--ease);
+  }
+  :is(.library-card, .module-card, .content-card, .resource-card,
+      .today-item, .rev-card, .simulation-card, .case-card):hover::after {
+    opacity: 1;
+    animation: kinetiq-edge-light 720ms var(--ease) both;
+  }
+  @keyframes kinetiq-edge-light { from { background-position: 100% 0; } to { background-position: -100% 0; } }
 }
 
 @media (max-width: 620px) {
@@ -4132,12 +4194,20 @@ body > footer { font-size: 14px; }
     min-width: 56px;
     min-height: 44px;
   }
+  /* Fractional layout pixels can make a declared 44px control measure just
+     under 44px. Keep a one-pixel safety margin on every touch control. */
+  .page :is(button, input, select, textarea) {
+    min-width: 45px;
+    min-height: 45px;
+  }
+  .page a { min-width: 44px; min-height: 45px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .brand-emblem, .brand-emblem::after { transition: none; }
   .brand:hover .brand-emblem, .brand:focus-visible .brand-emblem { transform: none; }
-  .page > * { animation: none; }
+  .motion-reveal,
+  .motion-reveal.is-revealed { opacity: 1; transform: none; filter: none; transition: none; }
 }
 
 /* ── Readability floor ──────────────────────────────────────────────
@@ -4531,4 +4601,18 @@ body > footer { font-size: 16px; }
 
   .library-card__foot { grid-template-columns: 1fr; align-items: start; }
   .library-card__actions { justify-content: flex-start; }
+}
+
+/* Final touch-size guard. Several late feature styles set a precise 44px
+   height, which can resolve to 43.99px after mobile pixel scaling. */
+@media (pointer: coarse) {
+  .page :is(button, input, select, textarea) {
+    min-width: 46px !important;
+    min-height: 46px !important;
+  }
+  .case-card h3 a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 46px;
+  }
 }
